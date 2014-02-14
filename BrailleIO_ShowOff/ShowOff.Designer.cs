@@ -17,6 +17,7 @@
             {
                 components.Dispose();
             }
+            _dispose();
             base.Dispose(disposing);
         }
 
@@ -28,7 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel_MatrixPanel = new System.Windows.Forms.Panel();
             this.button_KEY_RIGHT_ROCKER_SWITCH_UP = new System.Windows.Forms.Button();
             this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN = new System.Windows.Forms.Button();
             this.button_KEY_DOT1 = new System.Windows.Forms.Button();
@@ -82,15 +83,15 @@
             // 
             // panel1
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Location = new System.Drawing.Point(94, 78);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(721, 363);
-            this.panel1.TabIndex = 0;
-            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
-            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
-            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
+            this.panel_MatrixPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_MatrixPanel.Location = new System.Drawing.Point(94, 78);
+            this.panel_MatrixPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.panel_MatrixPanel.Name = "panel1";
+            this.panel_MatrixPanel.Size = new System.Drawing.Size(721, 363);
+            this.panel_MatrixPanel.TabIndex = 0;
+            this.panel_MatrixPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
+            this.panel_MatrixPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
+            this.panel_MatrixPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
             // 
             // button_KEY_RIGHT_ROCKER_SWITCH_UP
             // 
@@ -591,7 +592,7 @@
             this.Controls.Add(this.button_KEY_DOT1);
             this.Controls.Add(this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN);
             this.Controls.Add(this.button_KEY_RIGHT_ROCKER_SWITCH_UP);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panel_MatrixPanel);
             this.Controls.Add(this.shapeContainer1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximumSize = new System.Drawing.Size(935, 569);
@@ -607,7 +608,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel_MatrixPanel;
         private System.Windows.Forms.Button button_KEY_RIGHT_ROCKER_SWITCH_UP;
         private System.Windows.Forms.Button button_KEY_RIGHT_ROCKER_SWITCH_DOWN;
         private System.Windows.Forms.Button button_KEY_DOT1;

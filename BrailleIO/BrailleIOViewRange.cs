@@ -22,7 +22,6 @@ namespace BrailleIO
         private bool[,] matrix;
         private Bitmap image;
         private String text;
-        BrailleIO_Lang lang = new BrailleIO_Lang();
 
         // zoom multiplicator
         private double zoom = 1.0;
