@@ -82,6 +82,7 @@ namespace BraillIOExample
                 ) { interpretGenericButtons(sender, e.raw); }
         }
 
+        const String BS_MAIN_NAME = "Mainscreen";
         private void interpretGenericButtons(object sender, System.Collections.Specialized.OrderedDictionary orderedDictionary)
         {
             //var adapter = sender as BrailleIOAdapter_BrailleDisNet;
@@ -90,18 +91,18 @@ namespace BraillIOExample
                 var keys = orderedDictionary["allPressedKeys"] as List<String>;
                 if (keys != null)
                 {
-                    if (keys.Contains("nsrr")) { moveHorizontal("foo", "center", -25); }
-                    if (keys.Contains("nsr")) { moveHorizontal("foo", "center", -5); }
-                    if (keys.Contains("nsll")) { moveHorizontal("foo", "center", 25); }
-                    if (keys.Contains("nsl")) { moveHorizontal("foo", "center", 5); }
-                    if (keys.Contains("nsuu")) { moveVertical("foo", "center", 25); }
-                    if (keys.Contains("nsu")) { moveVertical("foo", "center", 5); }
-                    if (keys.Contains("nsdd")) { moveVertical("foo", "center", -25); }
-                    if (keys.Contains("nsd")) { moveVertical("foo", "center", -5); }
+                    if (keys.Contains("nsrr")) { moveHorizontal(BS_MAIN_NAME, "center", -25); }
+                    if (keys.Contains("nsr")) { moveHorizontal(BS_MAIN_NAME, "center", -5); }
+                    if (keys.Contains("nsll")) { moveHorizontal(BS_MAIN_NAME, "center", 25); }
+                    if (keys.Contains("nsl")) { moveHorizontal(BS_MAIN_NAME, "center", 5); }
+                    if (keys.Contains("nsuu")) { moveVertical(BS_MAIN_NAME, "center", 25); }
+                    if (keys.Contains("nsu")) { moveVertical(BS_MAIN_NAME, "center", 5); }
+                    if (keys.Contains("nsdd")) { moveVertical(BS_MAIN_NAME, "center", -25); }
+                    if (keys.Contains("nsd")) { moveVertical(BS_MAIN_NAME, "center", -5); }
 
                     if (keys.Contains("crc")) { zoomToRealSize(sender); }
-                    if (keys.Contains("rsru")) { updateContrast("foo", "center", 10); }
-                    if (keys.Contains("rsrd")) { updateContrast("foo", "center", -10); }
+                    if (keys.Contains("rsru")) { updateContrast(BS_MAIN_NAME, "center", 10); }
+                    if (keys.Contains("rsrd")) { updateContrast(BS_MAIN_NAME, "center", -10); }
                 }
             }
 
@@ -130,14 +131,14 @@ namespace BraillIOExample
 
                 float zoom = adapterRes / (float)Math.Max(screenRes, 0.0000001);
                 zoom = 0.10561666418313964f;
-                zoomTo("foo", "center", zoom);
+                zoomTo(BS_MAIN_NAME, "center", zoom);
 
             }
         }
 
         void _bda_touchValuesChanged(object sender, BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs e)
         {
-            if (monitor != null) monitor.SetTouchMatrix(e.touches);
+            if (monitor != null) monitor.PaintTouchMatrix(e.touches);
             //throw new NotImplementedException();
         }
 
@@ -148,10 +149,10 @@ namespace BraillIOExample
         {
             if (states != BrailleIO_DeviceButtonStates.None)
             {
-                if ((states & BrailleIO_DeviceButtonStates.AbortDown) == BrailleIO_DeviceButtonStates.AbortDown) { invertImage("foo", "center"); }
+                if ((states & BrailleIO_DeviceButtonStates.AbortDown) == BrailleIO_DeviceButtonStates.AbortDown) { invertImage(BS_MAIN_NAME, "center"); }
                 else if ((states & BrailleIO_DeviceButtonStates.AbortUp) == BrailleIO_DeviceButtonStates.AbortUp) { }
 
-                if ((states & BrailleIO_DeviceButtonStates.DownDown) == BrailleIO_DeviceButtonStates.DownDown) { moveVertical("foo", "center", -5); }
+                if ((states & BrailleIO_DeviceButtonStates.DownDown) == BrailleIO_DeviceButtonStates.DownDown) { moveVertical(BS_MAIN_NAME, "center", -5); }
                 else if ((states & BrailleIO_DeviceButtonStates.DownUp) == BrailleIO_DeviceButtonStates.DownUp) { }
 
                 if ((states & BrailleIO_DeviceButtonStates.EnterDown) == BrailleIO_DeviceButtonStates.EnterDown) { }
@@ -160,26 +161,26 @@ namespace BraillIOExample
                 if ((states & BrailleIO_DeviceButtonStates.GestureDown) == BrailleIO_DeviceButtonStates.GestureDown) { /*if (io != null) { io.AllPinsDown(); }*/ }
                 else if ((states & BrailleIO_DeviceButtonStates.GestureUp) == BrailleIO_DeviceButtonStates.GestureUp) { /*if (io != null) { io.RestoreLastRendering(); }*/ }
 
-                if ((states & BrailleIO_DeviceButtonStates.LeftDown) == BrailleIO_DeviceButtonStates.LeftDown) { moveHorizontal("foo", "center", 5); }
+                if ((states & BrailleIO_DeviceButtonStates.LeftDown) == BrailleIO_DeviceButtonStates.LeftDown) { moveHorizontal(BS_MAIN_NAME, "center", 5); }
                 else if ((states & BrailleIO_DeviceButtonStates.LeftUp) == BrailleIO_DeviceButtonStates.LeftUp) { }
 
-                if ((states & BrailleIO_DeviceButtonStates.RightDown) == BrailleIO_DeviceButtonStates.RightDown) { moveHorizontal("foo", "center", -5); }
+                if ((states & BrailleIO_DeviceButtonStates.RightDown) == BrailleIO_DeviceButtonStates.RightDown) { moveHorizontal(BS_MAIN_NAME, "center", -5); }
                 else if ((states & BrailleIO_DeviceButtonStates.RightUp) == BrailleIO_DeviceButtonStates.RightUp) { }
 
-                if ((states & BrailleIO_DeviceButtonStates.UpDown) == BrailleIO_DeviceButtonStates.UpDown) { moveVertical("foo", "center", 5); }
+                if ((states & BrailleIO_DeviceButtonStates.UpDown) == BrailleIO_DeviceButtonStates.UpDown) { moveVertical(BS_MAIN_NAME, "center", 5); }
                 else if ((states & BrailleIO_DeviceButtonStates.UpUp) == BrailleIO_DeviceButtonStates.UpUp) { }
 
                 if ((states & BrailleIO_DeviceButtonStates.ZoomInDown) == BrailleIO_DeviceButtonStates.ZoomInDown)
                 {
-                    zoom("foo", "center", 1.3);
-                    //zoomPlus("foo", "center", 0.00005); 
+                    zoom(BS_MAIN_NAME, "center", 1.3);
+                    //zoomPlus(BS_MAIN_NAME, "center", 0.00005); 
                 }
                 else if ((states & BrailleIO_DeviceButtonStates.ZoomInUp) == BrailleIO_DeviceButtonStates.ZoomInUp) { }
 
                 if ((states & BrailleIO_DeviceButtonStates.ZoomOutDown) == BrailleIO_DeviceButtonStates.ZoomOutDown)
                 {
-                    //zoomPlus("foo", "center", -0.00005);
-                    zoom("foo", "center", 0.6);
+                    //zoomPlus(BS_MAIN_NAME, "center", -0.00005);
+                    zoom(BS_MAIN_NAME, "center", 0.6);
                 }
                 else if ((states & BrailleIO_DeviceButtonStates.ZoomOutUp) == BrailleIO_DeviceButtonStates.ZoomOutUp) { }
             }
@@ -400,8 +401,8 @@ namespace BraillIOExample
             s.addViewRange("bottom", bottom);
             #endregion
 
-            io.AddView("foo", s);
-            io.ShowView("foo");
+            io.AddView(BS_MAIN_NAME, s);
+            io.ShowView(BS_MAIN_NAME);
             io.SendToDevice();
 
         }
@@ -422,7 +423,7 @@ namespace BraillIOExample
         {
             if (io != null)
             {
-                var v = io.GetView("foo") as BrailleIOScreen;
+                var v = io.GetView(BS_MAIN_NAME) as BrailleIOScreen;
                 if (v != null)
                 {
                     var cs = v.getViewRange("center");

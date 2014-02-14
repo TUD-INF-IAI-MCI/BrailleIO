@@ -58,13 +58,11 @@ namespace BrailleIO
             return false;
         }
 
-        //private void sendAttached(
-        //    HyperBraille.HBBrailleDis.BrailleDisNet b,
-        //    HyperBraille.HBBrailleDis.DeviceInformation_T d)
-        //{
-        //    //TODO : wrap information
-        //    fireInitialized(new BrailleIO_Initialized_EventArgs());
-        //}
+        protected void sendAttached(BrailleIODevice device)
+        {
+            //TODO : wrap information
+            //fireInitialized(new BrailleIO_Initialized_EventArgs(device));
+        }
 
         //private void driver_inputChangedEvent(
         //    bool touchInputAvailable,

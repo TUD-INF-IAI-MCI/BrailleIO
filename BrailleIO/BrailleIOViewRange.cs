@@ -28,7 +28,9 @@ namespace BrailleIO
 
         public const double MAX_ZOOM_LEVEL = 5;
 
-        public bool InvertImage{get; set;}
+        public bool InvertImage { get; set; }
+
+        public String Name { get; set; }
 
         #endregion
 

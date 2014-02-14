@@ -10,9 +10,11 @@ namespace BrailleIO
         private OrderedDictionary view_ranges = new OrderedDictionary();
         private bool is_active = false;
         private bool has_border = false;
+        public string Name { get; private set; }
         #endregion
 
         public BrailleIOScreen() { }
+        public BrailleIOScreen(String name) { Name = name; }
 
         /// <summary>
         /// add ViewRange to screen
@@ -25,7 +27,11 @@ namespace BrailleIO
         /// </param>
         public void addViewRange(String name, BrailleIOViewRange _view_range)
         {
-            this.view_ranges.Add(name, _view_range);
+            if (_view_range != null)
+            {
+                _view_range.Name = name;
+                this.view_ranges.Add(name, _view_range);
+            }
         }
 
         /// <summary>
