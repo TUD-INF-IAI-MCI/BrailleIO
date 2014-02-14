@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BrailleIO
 {
-    public class BrailleIODevice
+    public abstract class BrailleIODevice
     {
         public readonly int screensize_x;
         public readonly int screensize_y;
@@ -21,8 +21,7 @@ namespace BrailleIO
             this.device_name = device_name;
             this.has_keys = has_keys;
             this.has_touch = has_touch;
-            this.hertz = hertz;
-        
+            this.hertz = hertz;        
         }
     }
 }

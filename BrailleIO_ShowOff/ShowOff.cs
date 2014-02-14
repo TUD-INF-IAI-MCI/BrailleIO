@@ -25,9 +25,11 @@ namespace BrailleIO
 
         #endregion
 
-        public static void initForm()
+        /// <summary>
+        /// Important function! Call this if you don't rum the ShowOffAdapter out of an windows form application.
+        /// </summary>
+        public static void InitForm()
         {
-            //FIXME: test
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
         }
@@ -66,7 +68,7 @@ namespace BrailleIO
 
         #region Public Functions
 
-        public void SetTouchMatrix(double[,] touchMatrix) { this.touchMatrix = touchMatrix; this.paint(m); }
+        public void PaintTouchMatrix(double[,] touchMatrix) { this.touchMatrix = touchMatrix; this.paint(m); }
 
         #endregion
 

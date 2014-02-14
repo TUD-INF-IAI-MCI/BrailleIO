@@ -58,6 +58,7 @@ namespace BrailleIO.Interface
     public class BrailleIO_Initialized_EventArgs : System.EventArgs
     {
         public readonly BrailleIODevice device;
+        public BrailleIO_Initialized_EventArgs(BrailleIODevice device) { this.device = device; }
     }
 
     public class BrailleIO_TouchValuesChanged_EventArgs : System.EventArgs
@@ -112,7 +113,7 @@ namespace BrailleIO.Interface
     public interface IBrailleIOAdapter
     {
         #region Properties
-        
+
         int DeviceSizeX { get; set; }
         int DeviceSizeY { get; set; }
         int RefreshRate { get; set; }
@@ -120,7 +121,7 @@ namespace BrailleIO.Interface
 
         float DpiX { get; }
         float DpiY { get; }
-        
+
         #endregion
 
         bool Connect();
