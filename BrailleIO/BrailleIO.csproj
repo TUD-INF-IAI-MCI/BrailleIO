@@ -72,7 +72,6 @@
     <Compile Include="BrailleIOScreen.cs" />
     <Compile Include="BrailleIOTouchPoint.cs" />
     <Compile Include="BrailleIOViewRange.cs" />
-    <Compile Include="BrailleIO_Lang.cs" />
     <Compile Include="Interface\IBrailleIOAdapter.cs" />
     <Compile Include="Interface\IBrailleIOMatrixRenderer.cs" />
     <Compile Include="Interface\BrailleIOInterfaces.cs" />
