@@ -27,18 +27,13 @@ namespace BrailleIO
 
         public static void initForm()
         {
-
             //FIXME: test
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
         }
 
-
         public ShowOff()
         {
-            
-
-
             InitializeComponent();
             this.Activate();
             this.Show();
