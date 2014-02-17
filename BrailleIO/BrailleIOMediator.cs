@@ -143,11 +143,11 @@ namespace BrailleIO
                     int th = (vr is IContrastThreshold) ? ((IContrastThreshold)vr).getContrastThreshold() : -1;
                     if (th > 0)
                     {
-                        cm = BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.renderImage(vr.getImage(), vr, vr as IPannable, vr.InvertImage, vr.getZoom(), th);
+                        cm = vr.ImageRenderer.renderImage(vr.getImage(), vr, vr as IPannable, vr.InvertImage, vr.getZoom(), th);
                     }
                     else
                     {
-                        cm = BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.renderImage(vr.getImage(), vr, vr as IPannable, vr.InvertImage, vr.getZoom(), true);
+                        cm = vr.ImageRenderer.renderImage(vr.getImage(), vr, vr as IPannable, vr.InvertImage, vr.getZoom(), true);
                     }
                 }
             }
