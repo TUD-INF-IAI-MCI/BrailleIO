@@ -17,37 +17,38 @@ namespace BrailleIO.Renderer
         /// A low threshold leads darker pins to stay lowered.
         /// Have to be between 0 and 255.
         /// </summary>
-        private static float Threshold = 130;
-        public static bool[,] renderImage(Bitmap img, IViewBoxModel view, double zoom, float threshold) { return renderImage(img, view, null, zoom, threshold); }
-        public static bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, double zoom, float threshold)
+        private float Threshold = 130;
+        
+        public bool[,] renderImage(Bitmap img, IViewBoxModel view, double zoom, float threshold) { return renderImage(img, view, null, zoom, threshold); }
+        public bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, double zoom, float threshold)
         {
             Threshold = threshold;
             return renderImage(img, view, offset, zoom);
         }
-        public static bool[,] renderImage(Bitmap img, IViewBoxModel view, double zoom, bool autoThreshold) { return renderImage(img, view, null, zoom, autoThreshold); }
-        public static bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, double zoom, bool autoThreshold)
+        public bool[,] renderImage(Bitmap img, IViewBoxModel view, double zoom, bool autoThreshold) { return renderImage(img, view, null, zoom, autoThreshold); }
+        public bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, double zoom, bool autoThreshold)
         {
             var vr = view.ContentBox;
-            return renderImage(img, view, offset, zoom, GraphicUtils.getAverageColor(vr.Width, vr.Height, new Bitmap(img, new Size((int)Math.Round(img.Width * zoom), (int)Math.Round(img.Height * zoom)))));
+            return renderImage(img, view, offset, zoom, GraphicUtils.getAverageGrayscale(vr.Width, vr.Height, new Bitmap(img, new Size((int)Math.Round(img.Width * zoom), (int)Math.Round(img.Height * zoom)))));
         }
-        public static bool[,] renderImage(Bitmap img, IViewBoxModel view, double zoom) { return renderImage(img, view, null, zoom); }
-        public static bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, double zoom) { return renderImage(img, view, offset, false, zoom); }
+        public bool[,] renderImage(Bitmap img, IViewBoxModel view, double zoom) { return renderImage(img, view, null, zoom); }
+        public bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, double zoom) { return renderImage(img, view, offset, false, zoom); }
 
         //possible invert
-        public static bool[,] renderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom, float threshold) { return renderImage(img, view, null, invert, zoom, threshold); }
-        public static bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom, float threshold)
+        public bool[,] renderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom, float threshold) { return renderImage(img, view, null, invert, zoom, threshold); }
+        public bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom, float threshold)
         {
             Threshold = threshold;
             return renderImage(img, view, offset, invert, zoom);
         }
-        public static bool[,] renderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom, bool autoThreshold) { return renderImage(img, view, null, invert, zoom, autoThreshold); }
-        public static bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom, bool autoThreshold)
+        public bool[,] renderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom, bool autoThreshold) { return renderImage(img, view, null, invert, zoom, autoThreshold); }
+        public bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom, bool autoThreshold)
         {
             var vr = view.ContentBox;
-            return renderImage(img, view, offset, invert, zoom, GraphicUtils.getAverageColor(vr.Width, vr.Height, new Bitmap(img, new Size((int)Math.Round(img.Width * zoom), (int)Math.Round(img.Height * zoom)))));
+            return renderImage(img, view, offset, invert, zoom, GraphicUtils.getAverageGrayscale(vr.Width, vr.Height, new Bitmap(img, new Size((int)Math.Round(img.Width * zoom), (int)Math.Round(img.Height * zoom)))));
         }
-        public static bool[,] renderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom) { return renderImage(img, view, null, invert, zoom); }
-        public static bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom)
+        public bool[,] renderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom) { return renderImage(img, view, null, invert, zoom); }
+        public bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom)
         {
             //TODO: bring in threshold here
             //TODO: check how to get the threshold 
@@ -109,7 +110,7 @@ namespace BrailleIO.Renderer
                         if (x < rescaled.Width && y < rescaled.Height)
                         {
                             Color c = rescaled.GetPixel(x, y);
-                            var l = GraphicUtils.getLighness(c);
+                            var l = GraphicUtils.getLightness(c);
                             m[cY, cX] = (l > Threshold) ? invert ? true : false : invert ? false : true;
                         }
                     }
@@ -122,14 +123,26 @@ namespace BrailleIO.Renderer
 
     public static class GraphicUtils
     {
+        /// <summary>
+        /// Returns if color A the is lighter than color B.
+        /// </summary>
+        /// <param name="a">the first color.</param>
+        /// <param name="b">the second color.</param>
+        /// <returns></returns>
         public static bool ColorIsLighterThan(Color a, Color b)
         {
-            var ba = getLighness(a);
-            var bb = getLighness(b);
+            var ba = getLightness(a);
+            var bb = getLightness(b);
             return ba - bb > 0;
         }
 
-        public static float getLighness(Color c)
+        /// <summary>
+        /// Gets the lightness of a color. Keeping respect to the alpha value of a background of white.
+        /// R * 0.3 + B * 0.11 + G * 0.59
+        /// </summary>
+        /// <param name="c">The color.</param>
+        /// <returns>a float value between 0 and 255</returns>
+        public static float getLightness(Color c)
         {
             float aw, ar, ab, ag;
             aw = (255F * (1F - ((float)c.A / 255F)));
@@ -140,7 +153,14 @@ namespace BrailleIO.Renderer
             return b;
         }
 
-        public static float getAverageColor(int m_w, int m_h, Bitmap rescaled)
+        /// <summary>
+        /// Gets the average gray scale of an Image.
+        /// </summary>
+        /// <param name="m_w">The M_W.</param>
+        /// <param name="m_h">The M_H.</param>
+        /// <param name="rescaled">The rescaled.</param>
+        /// <returns></returns>
+        public static float getAverageGrayscale(int m_w, int m_h, Bitmap rescaled)
         {
             // get average
             double r = 0;

@@ -32,6 +32,13 @@ namespace BrailleIO
 
         public String Name { get; set; }
 
+        #region Renderers
+        private BrailleIO.Renderer.BrailleIOImageToMatrixRenderer _ir;
+        public BrailleIO.Renderer.BrailleIOImageToMatrixRenderer ImageRenderer { get { if (_ir == null) _ir = new Renderer.BrailleIOImageToMatrixRenderer(); return _ir; } }
+        #endregion
+
+
+
         #endregion
 
         #region Constructors
@@ -240,6 +247,6 @@ namespace BrailleIO
         /// Have to be between 0 and 255.
         /// </summary>
         /// <returns></returns>
-        public int getContrastThreshold(){ return threshold;}
+        public int getContrastThreshold() { return threshold; }
     }
 }

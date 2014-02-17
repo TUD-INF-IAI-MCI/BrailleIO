@@ -8,7 +8,8 @@ namespace BrailleIO
 {
     public partial class ShowOff : Form
     {
-        #region buttons
+        #region buttons              
+
 
         private void button_KEY_RIGHT_ROCKER_SWITCH_UP_Click(object sender, EventArgs e)
         {
@@ -34,8 +35,7 @@ namespace BrailleIO
         {
             if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.RightDown, new List<string>() { "clr" }, null, (int)DateTime.UtcNow.Ticks); }
         }
-
-
+        
         private void button_KEY_LEFT_CURSORS_DOWN_Click(object sender, EventArgs e)
         {
             if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.DownDown, new List<string>() { "cld" }, null, (int)DateTime.UtcNow.Ticks); }
