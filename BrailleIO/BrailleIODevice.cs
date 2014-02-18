@@ -5,23 +5,23 @@ using System.Text;
 
 namespace BrailleIO
 {
-    public abstract class BrailleIODevice
+    public class BrailleIODevice
     {
-        public readonly int screensize_x;
-        public readonly int screensize_y;
-        public readonly String device_name;
+        public readonly int DeviceSizeX;
+        public readonly int DeviceSizeY;
+        public readonly String Name;
         public readonly bool has_keys;
         public readonly bool has_touch;
-        public readonly int hertz;
+        public readonly int RefreshRate;
 
         public BrailleIODevice(int size_x, int size_y, String device_name, bool has_keys, bool has_touch, int hertz)
         {
-            this.screensize_x = size_x;
-            this.screensize_y = size_y;
-            this.device_name = device_name;
+            this.DeviceSizeX = size_x;
+            this.DeviceSizeY = size_y;
+            this.Name = device_name;
             this.has_keys = has_keys;
             this.has_touch = has_touch;
-            this.hertz = hertz;        
+            this.RefreshRate = hertz;        
         }
     }
 }

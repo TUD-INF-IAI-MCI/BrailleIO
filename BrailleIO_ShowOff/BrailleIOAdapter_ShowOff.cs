@@ -27,10 +27,10 @@ namespace BrailleIO
         public BrailleIOAdapter_ShowOff(ref AbstractBrailleIOAdapterManagerBase manager)
             : base(ref manager)
         {
-            this.RefreshRate = 30;
-            this.DeviceSizeX = 120;
-            this.DeviceSizeY = 60;
             this.manager = manager;
+            this.Device = new BrailleIODevice(120, 60, "ShowOFF_" + this.GetHashCode(), true, false, 30);
+
+
             Connect();
         }
 
@@ -44,6 +44,8 @@ namespace BrailleIO
             if (base.Connect())
             {
                 //driver.setMatrix(new bool[,] { { true, false, true, false, true, false, true, false, true, false, true, true }, { true, false, true, false, true, false, true, false, true, false, true, true } });
+                Connected = true;
+                fireInitialized(new BrailleIO_Initialized_EventArgs(Device));
                 return true;
             }
             return false;
