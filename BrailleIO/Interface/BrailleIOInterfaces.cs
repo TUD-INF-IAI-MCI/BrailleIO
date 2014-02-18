@@ -5,32 +5,68 @@ using System;
 namespace BrailleIO.Interface
 {
     #region Interfaces
+    
     public interface IViewBorder
     {
         bool HasBorder { get; set; }
+        /// <summary>
+        /// Gets or sets the border.
+        /// </summary>
+        /// <value>The border.</value>
         BoxModel Border { get; set; }
     }
 
     public interface IViewPadding
     {
         bool HasPadding { get; set; }
+        /// <summary>
+        /// Gets or sets the padding. The padding is the inner space between the border and the content.
+        /// </summary>
+        /// <value>The padding.</value>
         BoxModel Padding { get; set; }
     }
 
     public interface IViewMargin
     {
         bool HasMargin { get; set; }
+        /// <summary>
+        /// Gets or sets the margin. The margin is the outer space around an area. Space between the objects and the border.
+        /// </summary>
+        /// <value>The margin.</value>
         BoxModel Margin { get; set; }
     }
 
     public interface IViewBoxModel
     {
+        /// <summary>
+        /// Gets or sets the view box. The viewBox defines the viewBox in size and offset to the content
+        /// </summary>
+        /// <value>The view box.</value>
         Rectangle ViewBox { get; set; }
+        /// <summary>
+        /// Gets or sets the content box. The real view box. 
+        /// The space that can be used to show content. It can maximum be the Size of the ViewBox.
+        /// Normally it is less. The Size of the ContentBox depends on the size of the ViewBox with respect of margin, border and padding.
+        /// </summary>
+        /// <value>The content box.</value>
         Rectangle ContentBox { get; set; }
+        /// <summary>
+        /// Gets or sets the width of the content. 
+        /// This is used to show the Scrollbars and to estimate the ratio between the content box and the hidden content.
+        /// </summary>
+        /// <value>The width of the whole content.</value>
+        int ContentWidth { get; set; }
+        /// <summary>
+        /// Gets or sets the height of the content. 
+        /// This is used to show the Scrollbars and to estimate the ratio between the content box and the hidden content.
+        /// </summary>
+        /// <value>The height of the whole content.</value>
+        int ContentHeight { get; set; }
     }
 
     public interface IPannable
     {
+        bool ShowScrollbars { get; set; }
         int GetXOffset();
         void SetXOffset(int x);
         int GetYOffset();
@@ -64,6 +100,7 @@ namespace BrailleIO.Interface
     #endregion
 
     #region Abstract Implementations
+    
     public abstract class AbstractViewBorderBase : AbstractViewPaddingBase, IViewBorder
     {
         public void SetBorder(BoxModel box)
@@ -117,6 +154,7 @@ namespace BrailleIO.Interface
 
     public abstract class AbstractViewBoxModelBase : AbstractViewBorderBase, IViewBoxModel, IPosition, IPannable
     {
+        #region IViewBoxModel Member
         private readonly object _viewLock = new object();
         private Rectangle _viewBox = new Rectangle();
         /// <summary>
@@ -165,6 +203,32 @@ namespace BrailleIO.Interface
 
             return ViewBox;
         }
+
+        int _cw = 0;
+        /// <summary>
+        /// Gets or sets the width of the content.
+        /// This is used to show the Scrollbars and to estimate the ratio between the content box and the hidden content.
+        /// </summary>
+        /// <value>The width of the whole content.</value>
+        public virtual int ContentWidth
+        {
+            get { return _cw; }
+            set { _cw = Math.Max(0, value); }
+        }
+
+        int _ch = 0;
+        /// <summary>
+        /// Gets or sets the height of the content.
+        /// This is used to show the Scrollbars and to estimate the ratio between the content box and the hidden content.
+        /// </summary>
+        /// <value>The height of the whole content.</value>
+        public virtual int ContentHeight
+        {
+            get { return _ch; }
+            set { _ch = Math.Max(0, value); }
+        }
+
+        #endregion
 
         #region IPosition Member
 
@@ -259,6 +323,7 @@ namespace BrailleIO.Interface
 
         #region IPannable Member
         public Point OffsetPosition = new Point();
+        public bool ShowScrollbars { get; set; }
         public int GetXOffset() { return OffsetPosition.X; }
 
         public void SetXOffset(int x) { OffsetPosition.X = x; }
@@ -266,6 +331,7 @@ namespace BrailleIO.Interface
         public int GetYOffset() { return OffsetPosition.Y; }
 
         public void SetYOffset(int y) { OffsetPosition.Y = y; }
+
         #endregion
 
         /// <summary>
@@ -300,5 +366,6 @@ namespace BrailleIO.Interface
             return OffsetPosition;
         }
     }
+
     #endregion
 }

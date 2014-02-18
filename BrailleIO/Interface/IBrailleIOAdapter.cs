@@ -114,13 +114,15 @@ namespace BrailleIO.Interface
     {
         #region Properties
 
-        int DeviceSizeX { get; set; }
-        int DeviceSizeY { get; set; }
-        int RefreshRate { get; set; }
+        //int DeviceSizeX { get; set; }
+        //int DeviceSizeY { get; set; }
+        //int RefreshRate { get; set; }
         bool Connected { get; }
 
         float DpiX { get; }
         float DpiY { get; }
+
+        BrailleIODevice Device { get; }
 
         #endregion
 

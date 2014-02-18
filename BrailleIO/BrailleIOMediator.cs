@@ -41,7 +41,7 @@ namespace BrailleIO
                     if (_matrix == null)
                     {
                         if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
-                            _matrix = new bool[AdapterManager.ActiveAdapter.DeviceSizeY, AdapterManager.ActiveAdapter.DeviceSizeX];
+                            _matrix = new bool[AdapterManager.ActiveAdapter.Device.DeviceSizeX, AdapterManager.ActiveAdapter.Device.DeviceSizeX];
                         else
                             _matrix = new bool[0, 0];
                     }
@@ -95,8 +95,8 @@ namespace BrailleIO
             {
                 if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
                 {
-                    if (instance.device_update_timer.Interval != AdapterManager.ActiveAdapter.RefreshRate * 10)
-                        instance.device_update_timer.Interval = AdapterManager.ActiveAdapter.RefreshRate * 10;
+                    if (instance.device_update_timer.Interval != AdapterManager.ActiveAdapter.Device.RefreshRate * 10)
+                        instance.device_update_timer.Interval = AdapterManager.ActiveAdapter.Device.RefreshRate * 10;
                     SendToDevice();
                 }
                 else RefreshDisplay();
@@ -111,8 +111,8 @@ namespace BrailleIO
         {
             if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
             {
-                if (instance.device_update_timer.Interval != AdapterManager.ActiveAdapter.RefreshRate * 10)
-                    instance.device_update_timer.Interval = AdapterManager.ActiveAdapter.RefreshRate * 10;
+                if (instance.device_update_timer.Interval != AdapterManager.ActiveAdapter.Device.RefreshRate * 10)
+                    instance.device_update_timer.Interval = AdapterManager.ActiveAdapter.Device.RefreshRate * 10;
                 AdapterManager.Synchronize(this.Matrix);
             }
         }
@@ -242,8 +242,8 @@ namespace BrailleIO
             {
                 this.HideView(key);
             }
-            for (int i = 0; i < AdapterManager.ActiveAdapter.DeviceSizeX; i++)
-                for (int j = 0; j < AdapterManager.ActiveAdapter.DeviceSizeY; j++)
+            for (int i = 0; i < AdapterManager.ActiveAdapter.Device.DeviceSizeX; i++)
+                for (int j = 0; j < AdapterManager.ActiveAdapter.Device.DeviceSizeY; j++)
                     this.Matrix[j, i] = true;
             if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
                 AdapterManager.Synchronize(this.Matrix);
@@ -273,7 +273,7 @@ namespace BrailleIO
         /// <returns>int Width of device</returns>
         public int GetDeviceSizeX()
         {
-            return AdapterManager.ActiveAdapter.DeviceSizeX;
+            return AdapterManager.ActiveAdapter.Device.DeviceSizeX;
         }
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace BrailleIO
         /// <returns>int Height of device</returns>
         public int GetDeviceSizeY()
         {
-            return AdapterManager.ActiveAdapter.DeviceSizeY;
+            return AdapterManager.ActiveAdapter.Device.DeviceSizeY;
         }
 
         /// <summary>

@@ -22,34 +22,53 @@ namespace BrailleIO
             set;
         }
 
-        /// <summary>
-        /// Gets or sets the horizontal dimension of the pin matrix for this device.
-        /// </summary>
-        /// <value>The device size X.</value>
-        public int DeviceSizeX
+        ///// <summary>
+        ///// Gets the UID of the device.
+        ///// </summary>
+        ///// <value>The UID.</value>
+        //public string UID { get; protected set;}
+
+        ///// <summary>
+        ///// Gets or sets the horizontal dimension of the pin matrix for this device.
+        ///// </summary>
+        ///// <value>The device size X.</value>
+        //public int DeviceSizeX
+        //{
+        //    get;
+        //    set;
+        //}
+        ///// <summary>
+        ///// Gets or sets the vertical dimension of the pin matrix for this device.
+        ///// </summary>
+        ///// <value>The device size Y.</value>
+        //public int DeviceSizeY
+        //{
+        //    get;
+        //    set;
+        //}
+
+        ///// <summary>
+        ///// Gets or sets the maximal refresh rate for the device.
+        ///// </summary>
+        ///// <value>The refresh rate in milliseconds.</value>
+        //public int RefreshRate
+        //{
+        //    get;
+        //    set;
+        //}
+        BrailleIODevice _device;
+        public BrailleIODevice Device
         {
-            get;
-            set;
-        }
-        /// <summary>
-        /// Gets or sets the vertical dimension of the pin matrix for this device.
-        /// </summary>
-        /// <value>The device size Y.</value>
-        public int DeviceSizeY
-        {
-            get;
-            set;
+            get { if (_device == null) _device = createDevice(); return _device; }
+            protected set { _device = value; }
         }
 
-        /// <summary>
-        /// Gets or sets the maximal refresh rate for the device.
-        /// </summary>
-        /// <value>The refresh rate in milliseconds.</value>
-        public int RefreshRate
+        protected virtual BrailleIODevice createDevice()
         {
-            get;
-            set;
+            return new BrailleIODevice(120, 60, "UNKNOWN", true, true, 10);
         }
+
+
 
         private float _dpiX = 10;
         /// <summary>
@@ -84,6 +103,7 @@ namespace BrailleIO
                 if (!_connected) _connected = this.Connect();
                 return _connected;
             }
+            protected set { _connected = value; }
         }
 
         AbstractBrailleIOAdapterManagerBase manager = null;
@@ -200,6 +220,9 @@ namespace BrailleIO
             if (errorOccured != null)
                 errorOccured(this, new BrailleIO_ErrorOccured_EventArgs(errorCode, ref raw));
         }
+
+
+
     }
 
 
