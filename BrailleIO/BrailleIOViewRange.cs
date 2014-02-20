@@ -102,7 +102,7 @@ namespace BrailleIO
         /// <summary>
         /// Sets the bitmap that should be rendered.
         /// </summary>
-        /// <param name="img">The imgage.</param>
+        /// <param name="_img">The imgage.</param>
         public void setBitmap(Bitmap img)
         {
             this.image = img;
@@ -112,7 +112,7 @@ namespace BrailleIO
         /// <summary>
         /// Sets the bitmap that should be rendered.
         /// </summary>
-        /// <param name="img">The imgage.</param>
+        /// <param name="_img">The imgage.</param>
         public void setBitmap(Image img)
         {
             try

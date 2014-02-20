@@ -10,7 +10,6 @@ namespace BrailleIO.Renderer
 {
     public class BrailleIOImageToMatrixRenderer
     {
-
         /// <summary>
         /// If lightness of a color is lower than this threshold, the pin will be lowered. 
         /// A higher threshold leads lighter points to raise pins. 
@@ -18,7 +17,12 @@ namespace BrailleIO.Renderer
         /// Have to be between 0 and 255.
         /// </summary>
         private float Threshold = 130;
-        
+        /// <summary>
+        /// Resets the threshold.
+        /// </summary>
+        /// <returns>the new threshold</returns>
+        public float ResetThreshold() { return this.Threshold = 130; }
+
         public bool[,] renderImage(Bitmap img, IViewBoxModel view, double zoom, float threshold) { return renderImage(img, view, null, zoom, threshold); }
         public bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, double zoom, float threshold)
         {
@@ -65,55 +69,54 @@ namespace BrailleIO.Renderer
                 oY = offset.GetYOffset();
             }
 
-            Bitmap rescaled = new Bitmap((Int32)Math.Max(Math.Round(img.Width * zoom), 1),
-                                    (Int32)Math.Max(Math.Round(img.Height * zoom), 1));
-            try
+            using (Bitmap _img = img.Clone() as Bitmap)
             {
-                //rescaled = new Bitmap(img,
-                //                new Size(
-                //                    (Int32)Math.Max(Math.Round(img.Width * zoom), 1),
-                //                    (Int32)Math.Max(Math.Round(img.Height * zoom), 1)
-                //                    ));
-
-
-                using (Graphics g2 = Graphics.FromImage(rescaled))
+                using (Bitmap rescaled = new Bitmap((Int32)Math.Max(Math.Round(_img.Width * zoom), 1),
+                                (Int32)Math.Max(Math.Round(_img.Height * zoom), 1)))
                 {
-                    g2.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-                    g2.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-                    g2.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
-                    g2.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-
-                    g2.DrawImage(img, new Rectangle(0, 0, rescaled.Width, rescaled.Height), new Rectangle(0, 0, img.Width, img.Height), GraphicsUnit.Pixel);
-                    g2.Flush();
                     try
                     {
-                        rescaled.Save("C:\\Users\\Admin\\Desktop\\tmp\\test_" + vr.GetHashCode() + ".bmp"); //FIXME: only for fixing
-                    }
-                    catch (System.Exception) { }
-                }
-
-
-            }
-            catch (ArgumentException) { }
-            catch (InvalidOperationException) { if (rescaled != null) rescaled.Dispose(); return renderImage(img, view, offset, invert, zoom); }
-
-            if (rescaled != null)
-            {
-                for (int x = 0; x + oX < m_w; x++)
-                {
-                    int cX = x + oX;
-                    if (cX < 0) continue;
-                    for (int y = 0; oY + y < m_h; y++)
-                    {
-                        int cY = oY + y;
-                        if (cY < 0) continue;
-                        if (x < rescaled.Width && y < rescaled.Height)
+                        using (Graphics g2 = Graphics.FromImage(rescaled))
                         {
-                            Color c = rescaled.GetPixel(x, y);
-                            var l = GraphicUtils.getLightness(c);
-                            m[cY, cX] = (l > Threshold) ? invert ? true : false : invert ? false : true;
+                            g2.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
+                            g2.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                            g2.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
+                            g2.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+
+                            g2.DrawImage(_img, new Rectangle(0, 0, rescaled.Width, rescaled.Height), new Rectangle(0, 0, _img.Width, _img.Height), GraphicsUnit.Pixel);
+                            g2.Flush();
+                            try
+                            {
+                                rescaled.Save("C:\\Users\\Admin\\Desktop\\tmp\\test_" + vr.GetHashCode() + ".bmp"); //FIXME: only for fixing
+                            }
+                            catch (System.Exception) { }
+                        }
+
+
+                    }
+                    catch (ArgumentException) { }
+                    catch (InvalidOperationException) { if (rescaled != null) rescaled.Dispose(); return renderImage(_img, view, offset, invert, zoom); }
+
+                    if (rescaled != null)
+                    {
+                        for (int x = 0; x + oX < m_w; x++)
+                        {
+                            int cX = x + oX;
+                            if (cX < 0) continue;
+                            for (int y = 0; oY + y < m_h; y++)
+                            {
+                                int cY = oY + y;
+                                if (cY < 0) continue;
+                                if (x < rescaled.Width && y < rescaled.Height)
+                                {
+                                    Color c = rescaled.GetPixel(x, y);
+                                    var l = GraphicUtils.getLightness(c);
+                                    m[cY, cX] = (l > Threshold) ? invert ? true : false : invert ? false : true;
+                                }
+                            }
                         }
                     }
+
                 }
             }
             return m;
