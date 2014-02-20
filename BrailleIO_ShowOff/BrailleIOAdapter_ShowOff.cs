@@ -25,7 +25,7 @@ namespace BrailleIO
             : base(ref manager)
         {
             this.manager = manager;
-            this.Device = new BrailleIODevice(120, 60, "ShowOFF_" + this.GetHashCode(), true, false, 30, this.GetType().ToString());
+            this.Device = new BrailleIODevice(120, 60, "ShowOFF_" + this.GetHashCode(), true, false, 30, this);
             Connect();
         }
 
@@ -56,8 +56,7 @@ namespace BrailleIO
 
         protected void sendAttached(BrailleIODevice device)
         {
-            //TODO : wrap information
-            //fireInitialized(new BrailleIO_Initialized_EventArgs(device));
+            fireInitialized(new BrailleIO_Initialized_EventArgs(device));
         }
 
         //private void driver_inputChangedEvent(
