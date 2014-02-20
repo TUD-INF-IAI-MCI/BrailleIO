@@ -296,7 +296,7 @@ namespace BrailleIO
         {
             if (views[name] is IViewable)
             {
-                ((IViewable)views[name])._setState(true);
+                ((IViewable)views[name]).SetVisibility(true);
             }
 
             if (!this.visible_views.Contains(name))
@@ -314,7 +314,7 @@ namespace BrailleIO
         {
             if (views[name] is IViewable)
             {
-                ((IViewable)views[name])._setState(false);
+                ((IViewable)views[name]).SetVisibility(false);
             }
 
             if (this.visible_views.Contains(name))

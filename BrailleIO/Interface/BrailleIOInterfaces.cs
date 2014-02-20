@@ -88,7 +88,7 @@ namespace BrailleIO.Interface
 
     public interface IViewable
     {
-        void _setState(bool _state);
+        void SetVisibility(bool visible);
     }
 
     public interface IContrastThreshold
