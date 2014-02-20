@@ -31,7 +31,7 @@ namespace BrailleIO
 
         protected virtual BrailleIODevice createDevice()
         {
-            return new BrailleIODevice(120, 60, "UNKNOWN", true, true, 10);
+            return new BrailleIODevice(120, 60, "UNKNOWN", true, true, 10, this.GetType().ToString());
         }
 
 
