@@ -25,7 +25,7 @@ namespace BrailleIO
             : base(ref manager)
         {
             this.manager = manager;
-            this.Device = new BrailleIODevice(120, 60, "ShowOFF_" + this.GetHashCode(), true, false, 30);
+            this.Device = new BrailleIODevice(120, 60, "ShowOFF_" + this.GetHashCode(), true, false, 30, this.GetType().ToString());
             Connect();
         }
 
