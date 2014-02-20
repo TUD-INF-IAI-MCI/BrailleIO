@@ -103,6 +103,7 @@
             this.button_KEY_RIGHT_ROCKER_SWITCH_UP.Text = "+";
             this.button_KEY_RIGHT_ROCKER_SWITCH_UP.UseVisualStyleBackColor = true;
             this.button_KEY_RIGHT_ROCKER_SWITCH_UP.Click += new System.EventHandler(this.button_KEY_RIGHT_ROCKER_SWITCH_UP_Click);
+            
             // 
             // button_KEY_RIGHT_ROCKER_SWITCH_DOWN
             // 
