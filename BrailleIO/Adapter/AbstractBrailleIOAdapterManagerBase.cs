@@ -100,4 +100,6 @@ namespace BrailleIO
 
 
     }
+
+    public class BasicBrailleIOAdapterManager : AbstractBrailleIOAdapterManagerBase { }
 }

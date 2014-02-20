@@ -31,6 +31,35 @@ namespace BrailleIO.Interface
         ZoomOutUp = 131072,
         ZoomOutDown = 262144
     }
+
+    //[Flags]
+    //public enum BrailleIO_DeviceButtonStatesDOWN : int
+    //{
+    //    Enter= 4,
+    //    Abort= 16,
+    //    Gesture= 64,
+    //    Left= 256,
+    //    Right= 1024,
+    //    Up= 4096,
+    //    Down= 16384,
+    //    ZoomIn= 65536,
+    //    ZoomOut= 262144
+    //}
+
+    //[Flags]
+    //public enum BrailleIO_DeviceButtonStatesUP : int
+    //{
+    //    Enter= 2,
+    //    Abort= 8,
+    //    Gesture= 32,
+    //    Left= 128,
+    //    Right= 512,
+    //    Up= 2048,
+    //    Down= 8192,
+    //    ZoomIn= 32768,
+    //    ZoomOut= 131072,
+    //}
+
     #endregion
 
     #region EvetClasses
@@ -114,9 +143,6 @@ namespace BrailleIO.Interface
     {
         #region Properties
 
-        //int DeviceSizeX { get; set; }
-        //int DeviceSizeY { get; set; }
-        //int RefreshRate { get; set; }
         bool Connected { get; }
 
         float DpiX { get; }

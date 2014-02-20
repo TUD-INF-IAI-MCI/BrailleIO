@@ -22,40 +22,6 @@ namespace BrailleIO
             set;
         }
 
-        ///// <summary>
-        ///// Gets the UID of the device.
-        ///// </summary>
-        ///// <value>The UID.</value>
-        //public string UID { get; protected set;}
-
-        ///// <summary>
-        ///// Gets or sets the horizontal dimension of the pin matrix for this device.
-        ///// </summary>
-        ///// <value>The device size X.</value>
-        //public int DeviceSizeX
-        //{
-        //    get;
-        //    set;
-        //}
-        ///// <summary>
-        ///// Gets or sets the vertical dimension of the pin matrix for this device.
-        ///// </summary>
-        ///// <value>The device size Y.</value>
-        //public int DeviceSizeY
-        //{
-        //    get;
-        //    set;
-        //}
-
-        ///// <summary>
-        ///// Gets or sets the maximal refresh rate for the device.
-        ///// </summary>
-        ///// <value>The refresh rate in milliseconds.</value>
-        //public int RefreshRate
-        //{
-        //    get;
-        //    set;
-        //}
         BrailleIODevice _device;
         public BrailleIODevice Device
         {

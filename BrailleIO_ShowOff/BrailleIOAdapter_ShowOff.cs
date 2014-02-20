@@ -9,14 +9,11 @@ namespace BrailleIO
     class MockDriver
     {
         ShowOff form = ShowOff.ActiveForm as ShowOff;
-        public MockDriver()
-        {
-        }
-
+        public MockDriver() { }
         public void setMatrix(bool[,] m)
         {
-           if(form != null && m != null) 
-               form.paint(m);
+            if (form != null && m != null)
+                form.paint(m);
         }
     }
 
@@ -29,8 +26,6 @@ namespace BrailleIO
         {
             this.manager = manager;
             this.Device = new BrailleIODevice(120, 60, "ShowOFF_" + this.GetHashCode(), true, false, 30);
-
-
             Connect();
         }
 
@@ -43,8 +38,7 @@ namespace BrailleIO
         {
             if (base.Connect())
             {
-                //driver.setMatrix(new bool[,] { { true, false, true, false, true, false, true, false, true, false, true, true }, { true, false, true, false, true, false, true, false, true, false, true, true } });
-                Connected = true;
+                this.Connected = true;
                 fireInitialized(new BrailleIO_Initialized_EventArgs(Device));
                 return true;
             }
@@ -93,7 +87,7 @@ namespace BrailleIO
             raw.Add("pressedKeys", pressedKeys);
             raw.Add("releasedKeys", releasedKeys);
             raw.Add("timeStampTickCount", timeStampTickCount);
-            fireKeyStateChanged(states, ref raw); 
+            fireKeyStateChanged(states, ref raw);
         }
 
         //private void driver_pinStateChangedEvent(HyperBraille.HBBrailleDis.BrailleDisPinState[] changedPins)
@@ -117,7 +111,7 @@ namespace BrailleIO
 
         public void startTouch()
         {
-
+            //TODO: do touches
         }
     }
 }
