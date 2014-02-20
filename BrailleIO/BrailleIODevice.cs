@@ -25,5 +25,38 @@ namespace BrailleIO
             this.RefreshRate = hertz;
             this.AdapterType = adapterType;
         }
+
+        public BrailleIODevice(int size_x, int size_y, String device_name, bool has_keys, bool has_touch, int hertz, object adapter)
+        {
+        this.DeviceSizeX = size_x;
+        this.DeviceSizeY = size_y;
+        this.Name = device_name;
+        this.HasKeys = has_keys;
+        this.HasTouch = has_touch;
+        this.RefreshRate = hertz;
+        this.AdapterType = adapter.GetType().ToString();
+        }
+
+        public BrailleIODevice(int size_x, int size_y, String device_name, bool has_keys, bool has_touch, int hertz, Type adapterType)
+        {
+            this.DeviceSizeX = size_x;
+            this.DeviceSizeY = size_y;
+            this.Name = device_name;
+            this.HasKeys = has_keys;
+            this.HasTouch = has_touch;
+            this.RefreshRate = hertz;
+            this.AdapterType = adapterType.ToString();
+        }
+
+        public BrailleIODevice(int size_x, int size_y, String device_name, bool has_keys, bool has_touch, int hertz)
+        {
+            this.DeviceSizeX = size_x;
+            this.DeviceSizeY = size_y;
+            this.Name = device_name;
+            this.HasKeys = has_keys;
+            this.HasTouch = has_touch;
+            this.RefreshRate = hertz;
+            this.AdapterType = typeof(Object).ToString();
+        }
     }
 }
