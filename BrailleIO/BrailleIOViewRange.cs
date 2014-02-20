@@ -11,7 +11,7 @@ namespace BrailleIO
         private int threshold = 130;
 
         // is visible?
-        private bool is_active = false;
+        private bool is_visible = false;
 
         // type of?
         private bool is_matrix = false;
@@ -134,12 +134,12 @@ namespace BrailleIO
         /// <summary>
         /// set Visibility of ViewRange
         /// </summary>
-        /// <param name="which">
+        /// <param name="visible">
         /// bool desired visibility
         /// </param>
-        public void _setState(bool which)
+        public void SetVisibility(bool visible)
         {
-            this.is_active = which;
+            this.is_visible = visible;
         }
 
         /// <summary>

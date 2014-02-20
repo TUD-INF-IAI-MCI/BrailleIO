@@ -8,7 +8,7 @@ namespace BrailleIO
     {
         #region Members
         private OrderedDictionary view_ranges = new OrderedDictionary();
-        private bool is_active = false;
+        private bool is_visible = false;
         private bool has_border = false;
         public string Name { get; private set; }
         #endregion
@@ -56,7 +56,6 @@ namespace BrailleIO
         /// </param>
         public void renameViewRange(String from, String to)
         {
-
             this.view_ranges.Add(to, this.view_ranges[from]);
             this.view_ranges.Remove(from);
         }
@@ -131,11 +130,11 @@ namespace BrailleIO
         /// <param name="which">
         /// bool desired visibility
         /// </param>
-        public void _setState(bool which)
+        public void SetVisibility(bool visible)
         {
-            this.is_active = which;
-            foreach (BrailleIOViewRange r in this.view_ranges.Values)
-                r._setState(which);
+            this.is_visible = visible;
+            //foreach (BrailleIOViewRange r in this.view_ranges.Values)
+            //    r.SetVisibility(visible);
         }
 
     }
