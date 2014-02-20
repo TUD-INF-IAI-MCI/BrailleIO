@@ -25,25 +25,25 @@ namespace BrailleIO
         private void button_KEY_LEFT_CURSORS_UP_Click(object sender, EventArgs e)
         {
             if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.UpDown, new List<string>() { "clu" }, null, (int)DateTime.UtcNow.Ticks); }
-            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.UpDown, null, new List<string>() { "clu" }, (int)DateTime.UtcNow.Ticks); }
+            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.UpUp, null, new List<string>() { "clu" }, (int)DateTime.UtcNow.Ticks); }
         }
 
         private void button_KEY_LEFT_CURSORS_LEFT_Click(object sender, EventArgs e)
         {
             if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.LeftDown, new List<string>() { "cll" }, null, (int)DateTime.UtcNow.Ticks); }
-            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.LeftDown, null, new List<string>() { "cll" }, (int)DateTime.UtcNow.Ticks); }
+            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.LeftUp, null, new List<string>() { "cll" }, (int)DateTime.UtcNow.Ticks); }
         }
 
         private void button_KEY_LEFT_CURSORS_RIGHT_Click(object sender, EventArgs e)
         {
             if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.RightDown, new List<string>() { "clr" }, null, (int)DateTime.UtcNow.Ticks); }
-            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.RightDown, null, new List<string>() { "clr" }, (int)DateTime.UtcNow.Ticks); }
+            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.RightUp, null, new List<string>() { "clr" }, (int)DateTime.UtcNow.Ticks); }
         }
 
         private void button_KEY_LEFT_CURSORS_DOWN_Click(object sender, EventArgs e)
         {
             if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.DownDown, new List<string>() { "cld" }, null, (int)DateTime.UtcNow.Ticks); }
-            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.DownDown, null, new List<string>() { "cld" }, (int)DateTime.UtcNow.Ticks); }
+            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.DownUp, null, new List<string>() { "cld" }, (int)DateTime.UtcNow.Ticks); }
         }
 
         private void button_KEY_RIGHT_CURSORS_UP_Click(object sender, EventArgs e)
@@ -73,25 +73,25 @@ namespace BrailleIO
         private void button_KEY_LEFT_ROCKER_SWITCH_UP_Click(object sender, EventArgs e)
         {
             if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.ZoomInDown, new List<string>() { "nsdd" }, null, (int)DateTime.UtcNow.Ticks); }
-            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.ZoomInDown, null, new List<string>() { "nsdd" }, (int)DateTime.UtcNow.Ticks); }
+            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.ZoomInUp, null, new List<string>() { "nsdd" }, (int)DateTime.UtcNow.Ticks); }
         }
 
         private void button_KEY_LEFT_ROCKER_SWITCH_DOWN_Click(object sender, EventArgs e)
         {
             if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.ZoomOutDown, new List<string>() { "rsld" }, null, (int)DateTime.UtcNow.Ticks); }
-            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.ZoomOutDown, null, new List<string>() { "rsld" }, (int)DateTime.UtcNow.Ticks); }
+            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.ZoomOutUp, null, new List<string>() { "rsld" }, (int)DateTime.UtcNow.Ticks); }
         }
 
         private void button_KEY_LEFT_CURSORS_CENTER_Click(object sender, EventArgs e)
         {
             if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.EnterDown, new List<string>() { "clc" }, null, (int)DateTime.UtcNow.Ticks); }
-            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.EnterDown, null, new List<string>() { "clc" }, (int)DateTime.UtcNow.Ticks); }
+            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.EnterUp, null, new List<string>() { "clc" }, (int)DateTime.UtcNow.Ticks); }
         }
 
         private void button_KEY_HYPERBRAILLE_KEY_RIGHT_Click(object sender, EventArgs e)
         {
             if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.AbortDown, new List<string>() { "hbr" }, null, (int)DateTime.UtcNow.Ticks); }
-            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.AbortDown, null, new List<string>() { "hbr" }, (int)DateTime.UtcNow.Ticks); }
+            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.AbortUp, null, new List<string>() { "hbr" }, (int)DateTime.UtcNow.Ticks); }
         }
 
         private void button_KEY_DOT7_Click(object sender, EventArgs e)
@@ -223,7 +223,7 @@ namespace BrailleIO
         private void button_KEY_HYPERBRAILLE_KEY_LEFT_Click_1(object sender, EventArgs e)
         {
             if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.GestureDown, new List<string>() { "hbl" }, null, (int)DateTime.UtcNow.Ticks); }
-            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.GestureDown, null, new List<string>() { "hbl" }, (int)DateTime.UtcNow.Ticks); }
+            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.GestureUp, null, new List<string>() { "hbl" }, (int)DateTime.UtcNow.Ticks); }
         }
 
         #endregion
