@@ -123,7 +123,7 @@ namespace BrailleIO
         /// <param name="vr">ViewRange</param>
         private void drawViewRange(BrailleIOViewRange vr)
         {
-            if (vr == null || vr.ViewBox == null || Matrix == null) return;
+            if (vr == null || vr.ViewBox == null || Matrix == null || !vr.IsVisible()) return;
             bool[,] m = new bool[vr.ViewBox.Height, vr.ViewBox.Width];
 
             // View Range bounds

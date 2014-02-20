@@ -11,7 +11,7 @@ namespace BrailleIO
         private int threshold = 130;
 
         // is visible?
-        private bool is_visible = false;
+        private bool is_visible = true;
 
         // type of?
         private bool is_matrix = false;
@@ -141,6 +141,8 @@ namespace BrailleIO
         {
             this.is_visible = visible;
         }
+
+        public bool IsVisible() { return this.is_visible; }
 
         /// <summary>
         /// Determines whether this instance should render a matrix.
