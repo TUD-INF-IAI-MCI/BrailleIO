@@ -8,7 +8,7 @@ namespace BrailleIO
     {
         #region Members
         private OrderedDictionary view_ranges = new OrderedDictionary();
-        private bool is_visible = false;
+        private bool is_visible = true;
         private bool has_border = false;
         public string Name { get; private set; }
         #endregion
@@ -136,6 +136,8 @@ namespace BrailleIO
             //foreach (BrailleIOViewRange r in this.view_ranges.Values)
             //    r.SetVisibility(visible);
         }
+
+        public bool IsVisible() { return this.is_visible; }
 
     }
 }
