@@ -35,13 +35,15 @@ namespace BrailleIO.Structs
             return (obj is BoxModel) && (Top == ((BoxModel)obj).Top) && (Right == ((BoxModel)obj).Right) && (Bottom == ((BoxModel)obj).Bottom) && (Left == ((BoxModel)obj).Left);
         }
 
+        public override int GetHashCode() { return base.GetHashCode(); }
+
         public BoxModel(uint top, uint right, uint bottom, uint left)
         {
             Top = top; Right = right; Bottom = bottom; Left = left;
         }
-        public BoxModel(uint top, uint horizontal, uint bottom) : this(top, horizontal, bottom, horizontal){}
-        public BoxModel(uint vertical, uint horizontal) : this(vertical, horizontal, vertical){}
-        public BoxModel(uint width): this(width, width){}
+        public BoxModel(uint top, uint horizontal, uint bottom) : this(top, horizontal, bottom, horizontal) { }
+        public BoxModel(uint vertical, uint horizontal) : this(vertical, horizontal, vertical) { }
+        public BoxModel(uint width) : this(width, width) { }
 
         public void Clear() { Top = Right = Bottom = Left = 0; }
         public bool HasBox() { return (Top > 0) || (Right > 0) || (Bottom > 0) || (Left > 0); }
