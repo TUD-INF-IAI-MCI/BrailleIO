@@ -9,6 +9,7 @@ using System.Drawing.Imaging;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using BrailleIO.Interface;
+using System.Collections.Concurrent;
 
 namespace BrailleIO
 {
@@ -24,8 +25,26 @@ namespace BrailleIO
 
         // views are either Screens (combined ViewRanges) or simply ViewRanges
         // Screens should be more comfortable to use for the developer
-        private OrderedDictionary views = new OrderedDictionary();
-        private OrderedDictionary visible_views = new OrderedDictionary();
+        private ConcurrentDictionary<String, Object> views = new ConcurrentDictionary<String, Object>();
+        private readonly object vvLock = new object();
+        private ConcurrentDictionary<String, Object> _visibleViews = new ConcurrentDictionary<String, Object>();
+        private ConcurrentDictionary<String, Object> VisibleViews
+        {
+            get
+            {
+                lock (vvLock)
+                {
+                    return _visibleViews;
+                }
+            }
+            set
+            {
+                lock (vvLock)
+                {
+                    _visibleViews = value;
+                }
+            }
+        }
 
         private bool pins_locked = false;
 
@@ -90,7 +109,8 @@ namespace BrailleIO
             BrailleIOMediator.Instance.RefreshDisplay();
         }
 
-        public void RefreshDisplay(bool rerender) {
+        public void RefreshDisplay(bool rerender)
+        {
             if (rerender)
             {
                 if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
@@ -101,7 +121,7 @@ namespace BrailleIO
                 }
                 else RefreshDisplay();
             }
-                
+
         }
 
         /// <summary>
@@ -183,7 +203,9 @@ namespace BrailleIO
         {
             if (AdapterManager == null || AdapterManager.ActiveAdapter == null) return;
 
-            foreach (String key in this.visible_views.Keys)
+
+
+            foreach (String key in this.VisibleViews.Keys)
             {
                 if (this.views[key] is BrailleIOViewRange)
                 {
@@ -298,9 +320,19 @@ namespace BrailleIO
             {
                 ((IViewable)views[name]).SetVisibility(true);
             }
+            if (views[name] is BrailleIOScreen)
+            {
+                foreach (var item in views.Keys)
+                {
+                    if (!item.Equals(name) && views[item] is BrailleIOScreen)
+                    {
+                        HideView(item.ToString());
+                    }
+                }
+            }
 
-            if (!this.visible_views.Contains(name))
-                this.visible_views.Add(name, true);
+            if (!this.VisibleViews.ContainsKey(name))
+                this.VisibleViews.TryAdd(name, true);
         }
 
         /// <summary>
@@ -317,8 +349,9 @@ namespace BrailleIO
                 ((IViewable)views[name]).SetVisibility(false);
             }
 
-            if (this.visible_views.Contains(name))
-                this.visible_views.Remove(name);
+            object trash;
+            if (this.VisibleViews.ContainsKey(name))
+                this.VisibleViews.TryRemove(name, out trash);
         }
 
         /// <summary>
@@ -337,8 +370,7 @@ namespace BrailleIO
         {
             if (view is BrailleIOViewRange || view is BrailleIOScreen)
             {
-                this.views.Add(name, view);
-                return true;
+                return this.views.TryAdd(name, view);
             }
             return false;
         }
@@ -349,9 +381,10 @@ namespace BrailleIO
         /// <param name="name">
         /// name of view
         /// </param>
-        public void RemoveView(String name)
+        public bool RemoveView(String name)
         {
-            this.views.Remove(name);
+            object trash;
+            return this.views.TryRemove(name, out trash);
         }
 
         /// <summary>
@@ -365,8 +398,9 @@ namespace BrailleIO
         /// </param>
         public void RenameView(String from, String to)
         {
-            this.views.Add(to, this.views[from]);
-            this.views.Remove(from);
+            this.views.TryAdd(to, this.views[from]);
+            object trash;
+            this.views.TryRemove(from, out trash);
         }
 
         /// <summary>
@@ -380,7 +414,7 @@ namespace BrailleIO
         /// </returns>
         public bool ContainsView(String name)
         {
-            return this.views.Contains(name);
+            return this.views.ContainsKey(name);
         }
 
         /// <summary>
