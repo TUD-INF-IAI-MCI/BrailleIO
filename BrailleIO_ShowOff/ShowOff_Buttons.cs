@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace BrailleIO
 {
@@ -224,6 +225,126 @@ namespace BrailleIO
         {
             if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.GestureDown, new List<string>() { "hbl" }, null, (int)DateTime.UtcNow.Ticks); }
             if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.GestureUp, null, new List<string>() { "hbl" }, (int)DateTime.UtcNow.Ticks); }
+        }
+
+        #endregion
+
+        private readonly Color NormalButtonBgColor = Color.FromArgb(0, Color.Gray);
+        private readonly Color MarkedButtonBgColor = Color.FromArgb(100, Color.DarkOrange);
+        private readonly Color ReleasingButtonBgColor = Color.FromArgb(100, Color.ForestGreen);
+
+        #region Button marking
+
+        public void MarkButtonAsPressed(List<String> pressedButtons)
+        {
+            if (pressedButtons != null && pressedButtons.Count > 0)
+                foreach (var buttonName in pressedButtons)
+                {
+                    Control button = getButtonFromGenericName(buttonName.ToString().Trim());
+                    if (button != null)
+                    {
+                        button.BackColor = MarkedButtonBgColor;
+                    }
+                }
+        }
+
+        public void UnmarkButtons(List<String> releasedButtons)
+        {
+            if (releasedButtons != null && releasedButtons.Count > 0)
+                foreach (var buttonName in releasedButtons)
+                {
+                    Control button = getButtonFromGenericName(buttonName.ToString().Trim());
+                    if (button != null)
+                    {
+                        button.BackColor = ReleasingButtonBgColor;
+                        System.Threading.Thread.Sleep(100);
+                        button.BackColor = NormalButtonBgColor;
+                    }
+                }
+        }
+
+        private Control getButtonFromGenericName(String name)
+        {
+            switch (name)
+            {
+                case "hbl":
+                    return this.button_KEY_HYPERBRAILLE_KEY_LEFT;
+                case "rslu":
+                    return this.button_KEY_LEFT_ROCKER_SWITCH_UP;
+                case "rsld":
+                    return this.button_KEY_LEFT_ROCKER_SWITCH_DOWN;
+                case "clu":
+                    return this.button_KEY_LEFT_CURSORS_UP;
+                case "cll":
+                    return this.button_KEY_LEFT_CURSORS_LEFT;
+                case "clc":
+                    return this.button_KEY_LEFT_CURSORS_CENTER;
+                case "cld":
+                    return this.button_KEY_LEFT_CURSORS_DOWN;
+                case "clr":
+                    return this.button_KEY_LEFT_CURSORS_RIGHT;
+                case "nsll":
+                    return this.button_KEY_NAV_LEFT_2;
+                case "nsl":
+                    return this.button_KEY_NAV_LEFT;
+                case "nsuu":
+                    return this.button_KEY_NAV_UP_2;
+                case "nsu":
+                    return this.button_KEY_NAV_UP;
+                case "nsdd":
+                    return this.button_KEY_NAV_DOWN_2;
+                case "nsd":
+                    return this.button_KEY_NAV_DOWN;
+                case "nsr":
+                    return this.button_KEY_NAV_RIGHT;
+                case "nsrr":
+                    return this.button_KEY_NAV_RIGHT_2;
+                case "crl":
+                    return this.button_KEY_RIGHT_CURSORS_LEFT;
+                case "crd":
+                    return this.button_KEY_RIGHT_CURSORS_DOWN;
+                case "crc":
+                    return this.button_KEY_RIGHT_CURSORS_CENTER;
+                case "crr":
+                    return this.button_KEY_RIGHT_CURSORS_RIGHT;
+                case "cru":
+                    return this.button_KEY_RIGHT_CURSORS_UP;
+                case "rsrd":
+                    return this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN;
+                case "rsru":
+                    return this.button_KEY_RIGHT_ROCKER_SWITCH_UP;
+                case "hbr":
+                    return this.button_KEY_HYPERBRAILLE_KEY_RIGHT;
+                case "k8":
+                    return this.button_KEY_DOT8;
+                case "k6":
+                    return this.button_KEY_DOT6;
+                case "k5":
+                    return this.button_KEY_DOT5;
+                case "k4":
+                    return this.button_KEY_DOT4;
+                case "r":
+                    return this.button_KEY_THUMB_RIGHT_HAND_RIGHT;
+                case "rl":
+                    return this.button_KEY_THUMB_RIGHT_HAND_LEFT;
+                case "lr":
+                    return this.button_KEY_THUMB_LEFT_HAND_RIGHT;
+                case "l":
+                    return this.button_KEY_THUMB_LEFT_HAND_LEFT;
+                case "k1":
+                    return this.button_KEY_DOT1;
+                case "k2":
+                    return this.button_KEY_DOT2;
+                case "k3":
+                    return this.button_KEY_DOT3;
+                case "k7":
+                    return this.button_KEY_DOT7;
+                default:
+                    break;
+            }
+
+            return null;
+
         }
 
         #endregion
