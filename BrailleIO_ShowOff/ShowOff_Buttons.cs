@@ -72,8 +72,8 @@ namespace BrailleIO
 
         private void button_KEY_LEFT_ROCKER_SWITCH_UP_Click(object sender, EventArgs e)
         {
-            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.ZoomInDown, new List<string>() { "nsdd" }, null, (int)DateTime.UtcNow.Ticks); }
-            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.ZoomInUp, null, new List<string>() { "nsdd" }, (int)DateTime.UtcNow.Ticks); }
+            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.ZoomInDown, new List<string>() { "rslu" }, null, (int)DateTime.UtcNow.Ticks); }
+            if (showOffAdapter != null) { showOffAdapter.firekeyStateChangedEvent(Interface.BrailleIO_DeviceButtonStates.ZoomInUp, null, new List<string>() { "rslu" }, (int)DateTime.UtcNow.Ticks); }
         }
 
         private void button_KEY_LEFT_ROCKER_SWITCH_DOWN_Click(object sender, EventArgs e)

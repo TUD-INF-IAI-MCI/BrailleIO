@@ -31,6 +31,23 @@ namespace BrailleIO.Interface
         ZoomOutUp = 131072,
         ZoomOutDown = 262144
     }
+    
+    [Flags]
+    public enum BrailleIO_DeviceButton : int
+    {
+        None = 0,
+        Unknown = 1,
+        Enter = 2,
+        Abort = 4,
+        Gesture = 8,
+        Left = 16,
+        Right = 32,
+        Up = 64,
+        Down = 128,
+        ZoomIn = 256,
+        ZoomOut = 512
+    }
+
 
     //[Flags]
     //public enum BrailleIO_DeviceButtonStatesDOWN : int
