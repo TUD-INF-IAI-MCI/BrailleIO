@@ -441,6 +441,11 @@ namespace BrailleIO
                 return null;
         }
 
+        public List<Object> GetViews()
+        {
+            return views.Values.ToList();
+        }
+
         /// <summary>
         /// checks if there are any views yet
         /// </summary>
