@@ -45,8 +45,12 @@ namespace BrailleIO.Renderer
         public bool[,] renderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom, bool autoThreshold) { return renderImage(img, view, null, invert, zoom, autoThreshold); }
         public bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom, bool autoThreshold)
         {
+            // FIXME: check this (invalidoperationexception nach schwellwert mehrmals absenken)
             var vr = view.ContentBox;
-            return renderImage(img, view, offset, invert, zoom, GraphicUtils.getAverageGrayscale(vr.Width, vr.Height, new Bitmap(img, new Size((int)Math.Round(img.Width * zoom), (int)Math.Round(img.Height * zoom)))));
+            Bitmap img2 = img.Clone() as Bitmap;
+            if(img2 != null)    
+                return renderImage(img2, view, offset, invert, zoom, GraphicUtils.getAverageGrayscale(vr.Width, vr.Height, new Bitmap(img2, new Size((int)Math.Round(img2.Width * zoom), (int)Math.Round(img2.Height * zoom)))));
+            return null;
         }
         public bool[,] renderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom) { return renderImage(img, view, null, invert, zoom); }
         public bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom)
