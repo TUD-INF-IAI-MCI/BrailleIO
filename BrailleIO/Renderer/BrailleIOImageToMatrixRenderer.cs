@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using BrailleIO.Interface;
 using System.Drawing.Imaging;
@@ -87,14 +84,7 @@ namespace BrailleIO.Renderer
 
                                 g2.DrawImage(_img, new Rectangle(0, 0, rescaled.Width, rescaled.Height), new Rectangle(0, 0, _img.Width, _img.Height), GraphicsUnit.Pixel);
                                 g2.Flush();
-                                //try
-                                //{
-                                //    rescaled.Save("C:\\Users\\Admin\\Desktop\\tmp\\test_" + vr.GetHashCode() + ".bmp"); //FIXME: only for fixing
-                                //}
-                                //catch (System.Exception) { }
                             }
-
-
                         }
                         catch (ArgumentException) { }
                         catch (InvalidOperationException) { if (rescaled != null) rescaled.Dispose(); return renderImage(_img, view, offset, invert, zoom); }
@@ -121,7 +111,7 @@ namespace BrailleIO.Renderer
 
                     }
                 }
-                catch (ArgumentException){}
+                catch (ArgumentException) { }
             }
             return m;
         }
