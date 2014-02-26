@@ -217,7 +217,7 @@ namespace BrailleIO
                 }
                 else if (this.views[key] is BrailleIOScreen)
                 {
-                    
+
                     foreach (BrailleIOViewRange vr in ((BrailleIOScreen)this.views[key]).getViewRanges().Values)
                     {
                         this.drawViewRange(vr);
@@ -322,23 +322,27 @@ namespace BrailleIO
         /// </param>
         public void ShowView(String name)
         {
-            if (views[name] is IViewable)
+            if (views.ContainsKey(name))
             {
-                ((IViewable)views[name]).SetVisibility(true);
-            }
-            if (views[name] is BrailleIOScreen)
-            {
-                foreach (var item in views.Keys)
+                if (views[name] is IViewable)
                 {
-                    if (!item.Equals(name) && views[item] is BrailleIOScreen)
+                    ((IViewable)views[name]).SetVisibility(true);
+                }
+                if (views[name] is BrailleIOScreen)
+                {
+                    foreach (var item in views.Keys)
                     {
-                        HideView(item.ToString());
+                        if (!item.Equals(name) && views[item] is BrailleIOScreen)
+                        {
+                            HideView(item.ToString());
+                        }
                     }
                 }
-            }
 
-            if (!this.VisibleViews.ContainsKey(name))
-                this.VisibleViews.TryAdd(name, true);
+                if (!this.VisibleViews.ContainsKey(name))
+                    this.VisibleViews.TryAdd(name, true);
+            }
+            else throw new ArgumentException("View '" + name + "' is unknown", "name");
         }
 
         /// <summary>
@@ -350,14 +354,18 @@ namespace BrailleIO
         /// </param>
         public void HideView(String name)
         {
-            if (views[name] is IViewable)
+            if (views.ContainsKey(name))
             {
-                ((IViewable)views[name]).SetVisibility(false);
-            }
+                if (views[name] is IViewable)
+                {
+                    ((IViewable)views[name]).SetVisibility(false);
+                }
 
-            object trash;
-            if (this.VisibleViews.ContainsKey(name))
-                this.VisibleViews.TryRemove(name, out trash);
+                object trash;
+                if (this.VisibleViews.ContainsKey(name))
+                    this.VisibleViews.TryRemove(name, out trash);
+            }
+            else throw new ArgumentException("View '" + name + "' is unknown", "name");
         }
 
         /// <summary>
