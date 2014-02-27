@@ -17,7 +17,7 @@ namespace BrailleIO.Renderer
         /// If the content-matrix is smaller than the view, the rest is set to false.
         /// This renderer takes also care about the panning, which is set in the view if they is IPannable.
         /// </summary>
-        /// <param name="view">The view with holds the BoxModel. If the view is IPannable than the offset is also considered.</param>
+        /// <param name="view">The view witch holds the BoxModel. If the view is IPannable than the offset is also considered.</param>
         /// <param name="contentMatrix">The content matrix. Holds the conten that should be placed in the view.</param>
         /// <returns>a bool[view.ViewBox.Width,view.ViewBox.Height] matrix holding the content with aware of the views' BoxModel.</returns>
         public bool[,] renderMatrix(IViewBoxModel view, bool[,] contentMatrix){ return renderMatrix(view, contentMatrix, false); }
@@ -54,8 +54,6 @@ namespace BrailleIO.Renderer
                 oY = ((IPannable)view).GetYOffset();
             }
 
-
-
             if (contentMatrix != null)
             {
                 for (int i = 0; (i + l) < viewMatrix.GetLength(1); i++) //TODO: maybe stop before the content matrix end (subtract left space)
@@ -75,7 +73,6 @@ namespace BrailleIO.Renderer
                         if ( (i + l) >= 0 && (j + t) >= 0
                             )
                         {
-
                             viewMatrix[j + t, i + l] = contentMatrix[cY, cX];
                         }
                     }

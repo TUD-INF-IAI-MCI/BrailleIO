@@ -55,6 +55,7 @@ namespace BrailleIO.Renderer
         public bool[,] renderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom) { return renderImage(img, view, null, invert, zoom); }
         public bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom)
         {
+            if(view == null) return new bool[0,0];
             //TODO: bring in threshold here
             //TODO: check how to get the threshold 
             var vr = view.ContentBox;
@@ -79,6 +80,9 @@ namespace BrailleIO.Renderer
                     {
                         try
                         {
+                            view.ContentHeight = rescaled.Height;
+                            view.ContentWidth = rescaled.Width;
+
                             using (Graphics g2 = Graphics.FromImage(rescaled))
                             {
                                 g2.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
