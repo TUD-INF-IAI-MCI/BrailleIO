@@ -39,6 +39,13 @@ namespace BrailleIO
             InitializeComponent();
             this.Activate();
             this.Show();
+
+            //register Ctr. Button listener
+            this.KeyPreview = true;
+            this.KeyDown += new KeyEventHandler(ShowOff_KeyDown);
+            this.KeyUp += new KeyEventHandler(ShowOff_KeyUp);
+
+            //TODO: Register hotkeys;
         }
 
         // has to be called in ShowOff.Designer.cs -> protected override void Dispose(bool disposing)
