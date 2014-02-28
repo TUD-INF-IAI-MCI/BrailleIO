@@ -7,7 +7,7 @@ namespace BrailleIO.Renderer
     /// <summary>
     /// Place a content-matrix in a matrix that fits in a given view with aware of the BoxModel.
     /// </summary>
-    public class BrailleIOViewMatixRenderer : BrailleIOIPannableRenderer, IBrailleIOMatrixRenderer
+    public class BrailleIOViewMatixRenderer : BrailleIOScrollbarRenderer, IBrailleIOMatrixRenderer
     {
         /// <summary>
         /// Puts the given content-matrix in a matrix that fits in the given view.
@@ -20,7 +20,7 @@ namespace BrailleIO.Renderer
         /// <param name="view">The view witch holds the BoxModel. If the view is IPannable than the offset is also considered.</param>
         /// <param name="contentMatrix">The content matrix. Holds the conten that should be placed in the view.</param>
         /// <returns>a bool[view.ViewBox.Width,view.ViewBox.Height] matrix holding the content with aware of the views' BoxModel.</returns>
-        public bool[,] renderMatrix(IViewBoxModel view, bool[,] contentMatrix){ return renderMatrix(view, contentMatrix, false); }
+        public bool[,] renderMatrix(IViewBoxModel view, bool[,] contentMatrix) { return renderMatrix(view, contentMatrix, false); }
 
         /// <summary>
         /// Puts the given content-matrix in a matrix that fits in the given view.
@@ -48,10 +48,18 @@ namespace BrailleIO.Renderer
 
             int oX = 0;
             int oY = 0;
-            if (handlePanning && view is IPannable)
+
+            if (view is IPannable)
             {
-                oX = ((IPannable)view).GetXOffset();
-                oY = ((IPannable)view).GetYOffset();
+                if (handlePanning)
+                {
+                    oX = ((IPannable)view).GetXOffset();
+                    oY = ((IPannable)view).GetYOffset();
+                }
+                if (((IPannable)view).ShowScrollbars)
+                {
+                    bool scucess = drawScrollbars(view, ref viewMatrix, oX, oY);
+                }
             }
 
             if (contentMatrix != null)
@@ -62,7 +70,7 @@ namespace BrailleIO.Renderer
                     int cX = oX + i;
                     if (cX < 0) continue;
                     if (contentMatrix.GetLength(1) <= cX) break;
-                    
+
                     for (int j = 0; (j + t) < viewMatrix.GetLength(0); j++) //TODO: maybe stop before the content matrix end (subtract bottom space) 
                     {
                         int cY = oY + j;
@@ -70,7 +78,7 @@ namespace BrailleIO.Renderer
                         if (contentMatrix.GetLength(0) <= cY) break;
 
 
-                        if ( (i + l) >= 0 && (j + t) >= 0
+                        if ((i + l) >= 0 && (j + t) >= 0
                             )
                         {
                             viewMatrix[j + t, i + l] = contentMatrix[cY, cX];

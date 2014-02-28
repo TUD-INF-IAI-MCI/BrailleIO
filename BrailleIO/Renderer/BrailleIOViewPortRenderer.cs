@@ -6,7 +6,7 @@ using BrailleIO.Interface;
 
 namespace BrailleIO.Renderer
 {
-    public class BrailleIOViewPortRenderer : BrailleIOIPannableRenderer
+    public class BrailleIOViewPortRenderer : BrailleIOScrollbarRenderer
     {
 
 

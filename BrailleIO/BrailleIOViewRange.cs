@@ -26,7 +26,7 @@ namespace BrailleIO
         // zoom multiplicator
         private double zoom = 1.0;
 
-        public const double MAX_ZOOM_LEVEL = 3;
+        public const double MAX_ZOOM_LEVEL = 2;
 
         public bool InvertImage { get; set; }
 

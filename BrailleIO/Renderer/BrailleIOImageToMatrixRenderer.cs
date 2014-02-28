@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 
 namespace BrailleIO.Renderer
 {
-    public class BrailleIOImageToMatrixRenderer : BrailleIOIPannableRenderer
+    public class BrailleIOImageToMatrixRenderer : BrailleIOScrollbarRenderer
     {
         /// <summary>
         /// If lightness of a color is lower than this threshold, the pin will be lowered. 
