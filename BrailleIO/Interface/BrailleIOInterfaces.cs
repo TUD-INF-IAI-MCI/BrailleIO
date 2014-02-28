@@ -158,10 +158,11 @@ namespace BrailleIO.Interface
         #region IViewBoxModel Member
         private readonly object _viewLock = new object();
         private Rectangle _viewBox = new Rectangle();
+        
         /// <summary>
         /// Rectangle given dimensions and position of the whole region including the region used for displaying content with aware of the BoxModel.
         /// </summary>
-        public Rectangle ViewBox { get { return _viewBox; } set { lock (_viewLock) { _viewBox = value; } } }
+        public Rectangle ViewBox { get { return _viewBox; } set { lock (_viewLock) { _viewBox = value; updateContentBoxFromViewBox(); } } }
         private readonly object _contLock = new object();
         private Rectangle _contBox = new Rectangle();
         /// <summary>
@@ -188,7 +189,25 @@ namespace BrailleIO.Interface
 
             int w = (int)(ViewBox.Width - lOffset - rOffset);
             int h = (int)(ViewBox.Height - tOffset - bOffset);
+
             _contBox = new Rectangle((int)lOffset, (int)tOffset, w < 0 ? 0 : w, h < 0 ? 0 : h);
+
+            //check if show scroll bars
+            if (ShowScrollbars)
+            {
+                //check if content is bigger than available space (contentBox)
+                if (ContentHeight > _contBox.Height)
+                {                    
+                    //TODO: check if enough space for a scroll bar
+                    _contBox.Width = Math.Max(Padding.Right > 0 ? _contBox.Width - 2 : _contBox.Width - 3, 0);
+                }
+
+                if (ContentWidth > _contBox.Width)
+                {
+                    //TODO: check if enough space for a scroll bar
+                    _contBox.Height = Math.Max(Padding.Bottom > 0 ? _contBox.Height - 2 : _contBox.Height - 3, 0);
+                }
+            }
 
             return _contBox;
         }

@@ -33,37 +33,37 @@ namespace BrailleIO
         {
             get
             {
-                //lock (gLock)
-                //{
+                lock (gLock)
+                {
                 if (_g == null)
                 {
                     _g = Graphics.FromImage(bmp);
                 }
                 return _g;
-                //}
+                }
             }
             set
             {
-                //lock (gLock)
-                //{
+                lock (gLock)
+                {
                 _g = value;
-                //}
+                }
             }
         }
 
         Bitmap _bmp;
-        //private readonly object _bmpLock = new object();
+        private readonly object _bmpLock = new object();
         Bitmap bmp
         {
             get
             {
-                //lock (_bmpLock)
-                //{
+                lock (_bmpLock)
+                {
                 if (_bmp == null)
                     _bmp = new Bitmap(panel_MatrixPanel.Width, panel_MatrixPanel.Height);
 
                 return _bmp;
-                //}
+                }
             }
         }
 

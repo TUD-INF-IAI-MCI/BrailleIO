@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 
 namespace BrailleIO.Renderer
 {
-    public class BrailleIOImageToMatrixRenderer
+    public class BrailleIOImageToMatrixRenderer : BrailleIOIPannableRenderer
     {
         /// <summary>
         /// If lightness of a color is lower than this threshold, the pin will be lowered. 
@@ -55,6 +55,9 @@ namespace BrailleIO.Renderer
         public bool[,] renderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom) { return renderImage(img, view, null, invert, zoom); }
         public bool[,] renderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom)
         {
+            if (zoom > 3) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than 3.", "zoom");
+            if (zoom < 0) throw new ArgumentException("The zoom level is with a value of " + zoom + "to low. The zoom level should be between 0 and 3.", "zoom");
+            
             if(view == null) return new bool[0,0];
             //TODO: bring in threshold here
             //TODO: check how to get the threshold 
@@ -75,8 +78,10 @@ namespace BrailleIO.Renderer
             {
                 try
                 {
-                    using (Bitmap rescaled = new Bitmap((Int32)Math.Max(Math.Round(_img.Width * zoom), 1),
-                                            (Int32)Math.Max(Math.Round(_img.Height * zoom), 1)))
+                    Int32 w = (Int32)Math.Max(Math.Round(_img.Width * zoom), 1);
+                    Int32 h = (Int32)Math.Max(Math.Round(_img.Height * zoom), 1);
+
+                    using (Bitmap rescaled = new Bitmap(w, h))
                     {
                         try
                         {

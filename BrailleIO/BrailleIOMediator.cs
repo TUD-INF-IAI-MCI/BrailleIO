@@ -121,7 +121,6 @@ namespace BrailleIO
                 }
                 else RefreshDisplay();
             }
-
         }
 
         /// <summary>
@@ -150,19 +149,23 @@ namespace BrailleIO
             // View Range bounds
             int o_x = vr.GetLeft();
             int o_y = vr.GetTop();
-
+            
             bool[,] cm = new bool[1, 1];
             if (vr.isMatrix()) // Matrix rendering
             {
                 if (vr.getMatrix() != null)
+                {
                     cm = vr.getMatrix();
+                    vr.ContentHeight = cm.GetLength(0);
+                    vr.ContentWidth = cm.GetLength(1);
+                }
             }
             else if (vr.isImage()) // Image rendering
             {
                 if (vr.getImage() != null)
                 {
                     int th = (vr is IContrastThreshold) ? ((IContrastThreshold)vr).getContrastThreshold() : -1;
-                    if (th > 0)
+                    if (th >= 0)
                     {
                         cm = vr.ImageRenderer.renderImage(vr.getImage(), vr, vr as IPannable, vr.InvertImage, vr.getZoom(), th);
                     }

@@ -26,7 +26,7 @@ namespace BrailleIO
         // zoom multiplicator
         private double zoom = 1.0;
 
-        public const double MAX_ZOOM_LEVEL = 5;
+        public const double MAX_ZOOM_LEVEL = 3;
 
         public bool InvertImage { get; set; }
 
@@ -65,7 +65,7 @@ namespace BrailleIO
         #region Matrix Constructors
 
         public BrailleIOViewRange(int left, int top, int width, int height)
-            : this(left, top, width, height, new bool[height, width]) { }
+            : this(left, top, width, height, new bool[0, 0]) { }
 
         public BrailleIOViewRange(int left, int top, int width, int height, bool[,] matrix)
         {
@@ -223,8 +223,8 @@ namespace BrailleIO
         /// <param name="zoom">The zoom value as ratio.</param>
         public void setZoom(double zoom)
         {
+            if (zoom > MAX_ZOOM_LEVEL) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than " + MAX_ZOOM_LEVEL + ".", "zoom");
             this.zoom = zoom;
-            //TODO: zoom in the center
         }
 
         /// <summary>
