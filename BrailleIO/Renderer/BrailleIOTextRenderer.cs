@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace BrailleIO.Renderer
 {
     //TODO: make this real working
-    public class BrailleIOTextRenderer : BrailleIOIPannableRenderer
+    public class BrailleIOTextRenderer : BrailleIOScrollbarRenderer
     {
         System.Drawing.SolidBrush drawBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
         System.Drawing.Font drawFont = new System.Drawing.Font("TUD Euro-8-Braille equidistant", 22.25977f, FontStyle.Bold);

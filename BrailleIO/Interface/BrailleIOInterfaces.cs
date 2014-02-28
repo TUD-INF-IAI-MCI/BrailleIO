@@ -381,8 +381,12 @@ namespace BrailleIO.Interface
         public Point Move(Point direktions)
         {
             //TODO: don't move over the end of height and with
-            OffsetPosition.X = Math.Min(OffsetPosition.X + direktions.X, 0);
-            OffsetPosition.Y = Math.Min(OffsetPosition.Y + direktions.Y, 0);
+
+            int maxXOffset = -(Math.Max(ContentWidth - ContentBox.Width,0));
+            int maxYOffset = -(Math.Max(ContentHeight - ContentBox.Height,0));
+
+            OffsetPosition.X = Math.Max(Math.Min(OffsetPosition.X + direktions.X, 0),maxXOffset);
+            OffsetPosition.Y = Math.Max(Math.Min(OffsetPosition.Y + direktions.Y, 0), maxYOffset);
             return OffsetPosition;
         }
     }
