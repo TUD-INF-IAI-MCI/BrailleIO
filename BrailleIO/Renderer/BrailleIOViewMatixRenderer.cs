@@ -7,7 +7,7 @@ namespace BrailleIO.Renderer
     /// <summary>
     /// Place a content-matrix in a matrix that fits in a given view with aware of the BoxModel.
     /// </summary>
-    public class BrailleIOViewMatixRenderer : IBrailleIOMatrixRenderer
+    public class BrailleIOViewMatixRenderer : BrailleIOIPannableRenderer, IBrailleIOMatrixRenderer
     {
         /// <summary>
         /// Puts the given content-matrix in a matrix that fits in the given view.
