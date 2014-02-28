@@ -5,7 +5,7 @@ using System;
 namespace BrailleIO.Interface
 {
     #region Interfaces
-    
+
     public interface IViewBorder
     {
         bool HasBorder { get; set; }
@@ -101,7 +101,7 @@ namespace BrailleIO.Interface
     #endregion
 
     #region Abstract Implementations
-    
+
     public abstract class AbstractViewBorderBase : AbstractViewPaddingBase, IViewBorder
     {
         public void SetBorder(BoxModel box)
@@ -158,7 +158,7 @@ namespace BrailleIO.Interface
         #region IViewBoxModel Member
         private readonly object _viewLock = new object();
         private Rectangle _viewBox = new Rectangle();
-        
+
         /// <summary>
         /// Rectangle given dimensions and position of the whole region including the region used for displaying content with aware of the BoxModel.
         /// </summary>
@@ -197,7 +197,7 @@ namespace BrailleIO.Interface
             {
                 //check if content is bigger than available space (contentBox)
                 if (ContentHeight > _contBox.Height)
-                {                    
+                {
                     //TODO: check if enough space for a scroll bar
                     _contBox.Width = Math.Max(Padding.Right > 0 ? _contBox.Width - 2 : _contBox.Width - 3, 0);
                 }
@@ -380,12 +380,10 @@ namespace BrailleIO.Interface
         /// <returns>The new ViewBox</returns>
         public Point Move(Point direktions)
         {
-            //TODO: don't move over the end of height and with
+            int maxXOffset = -(Math.Max(ContentWidth - ContentBox.Width, 0));
+            int maxYOffset = -(Math.Max(ContentHeight - ContentBox.Height, 0));
 
-            int maxXOffset = -(Math.Max(ContentWidth - ContentBox.Width,0));
-            int maxYOffset = -(Math.Max(ContentHeight - ContentBox.Height,0));
-
-            OffsetPosition.X = Math.Max(Math.Min(OffsetPosition.X + direktions.X, 0),maxXOffset);
+            OffsetPosition.X = Math.Max(Math.Min(OffsetPosition.X + direktions.X, 0), maxXOffset);
             OffsetPosition.Y = Math.Max(Math.Min(OffsetPosition.Y + direktions.Y, 0), maxYOffset);
             return OffsetPosition;
         }
