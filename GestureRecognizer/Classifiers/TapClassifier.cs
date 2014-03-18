@@ -4,7 +4,7 @@ using Gestures.Geometrie.Vertex;
 using Gestures.Recognition.GestureData;
 using Gestures.Recognition.Interfaces;
 
-namespace GestureRecognition
+namespace Gestures.Recognition
 {
     public class TapClassifier : IClassify
     {

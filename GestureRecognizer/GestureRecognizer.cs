@@ -6,7 +6,7 @@ using Gestures.Recognition.Interfaces;
 namespace Gestures.Recognition
 {
     /// <summary>
-    /// A gesture recognizer that supports multitouch on a touch display.
+    /// A gesture recognizer that supports multi touch on a touch display.
     /// </summary>
     public class GestureRecognizer : IRecognizeGestures
     {
