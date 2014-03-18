@@ -4,7 +4,7 @@ using Gestures.Geometrie.Vertex;
 using Gestures.Recognition.GestureData;
 using Gestures.Recognition.Interfaces;
 
-namespace GestureRecognition
+namespace Gestures.Recognition
 {
     /// <summary>
     /// A classifier to be used by a <see cref="HBGestureRecognizer"/> recognizer instance.
@@ -66,8 +66,8 @@ namespace GestureRecognition
         #region Parameters
         
         private const int TOKENMINBLOBCOUNT = 4;     
-        private double MAXDISTFROMLINE = 2; //max scattering of points to count as line
-        private double MINLINELENGTH = 5;
+        private double MAXDISTFROMLINE = 4; //max scattering of points to count as line
+        private double MINLINELENGTH = 8;
         private int MINEMPTYFRAMES = 2; //at beginning and at the end of a gesture in each case is an empty frame
         private const double MAXANGLEOSCILLATION = 25.0;
 

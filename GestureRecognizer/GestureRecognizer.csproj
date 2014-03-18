@@ -82,6 +82,8 @@
     <Compile Include="BlobTracker.cs" />
     <Compile Include="Classifiers\TapClassifier.cs" />
     <Compile Include="Classifiers\MultiTouchClassifier.cs" />
+    <Compile Include="Datastructs\Cluster.cs" />
+    <Compile Include="Clusterer.cs" />
     <Compile Include="Datastructs\KdTree.cs" />
     <Compile Include="Datastructs\Vertex.cs" />
     <Compile Include="GestureData\Frame.cs" />
