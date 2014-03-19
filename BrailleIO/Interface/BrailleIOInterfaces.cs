@@ -160,13 +160,13 @@ namespace BrailleIO.Interface
         private Rectangle _viewBox = new Rectangle();
 
         /// <summary>
-        /// Rectangle given dimensions and position of the whole region including the region used for displaying content with aware of the BoxModel.
+        /// Rectangle given dimensions and position of the whole view range or screen including the ContentBox, margin, padding and border (see BoxModel).
         /// </summary>
         public Rectangle ViewBox { get { return _viewBox; } set { lock (_viewLock) { _viewBox = value; updateContentBoxFromViewBox(); } } }
         private readonly object _contLock = new object();
         private Rectangle _contBox = new Rectangle();
         /// <summary>
-        /// Rectangle given dimensions and position of the region that can be used for displaying content.
+        /// Rectangle given dimensions and position of the view range or screen that can be used for displaying content. 
         /// </summary>
         public Rectangle ContentBox
         {
