@@ -8,7 +8,7 @@ namespace Gestures.Recognition
 {
     public class TapClassifier : IClassify
     {
-        private static double MAXTAPDISTANCE = 4;
+        private static double MAXTAPDISTANCE = 10;
 
         #region IClassify Members
 

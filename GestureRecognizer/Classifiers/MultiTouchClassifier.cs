@@ -94,7 +94,7 @@ namespace Gestures.Recognition
                 if (inputData.FrameList[i].Count == 2)
                 {
                     equalToX++;
-                    //store the first two blobs occuring together as start blobs for the pinch gesture
+                    //store the first two blobs occurring together as start blobs for the pinch gesture
                     if (startDist < 0.0)
                     {
                         //if more than 1/3 of the frames belongs to single line movement, than it is no pinch anymore
@@ -317,7 +317,7 @@ namespace Gestures.Recognition
 
         private bool CheckCircleFormKriterion(Frame[] frameList)
         {
-            //all points must lay on a circular shape arround the center 
+            //all points must lay on a circular shape around the center 
             //so check variance of distance from center
             var midPoint = GetCentre(frameList);
             int blobCount = 0;
