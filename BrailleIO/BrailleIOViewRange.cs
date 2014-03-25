@@ -17,11 +17,14 @@ namespace BrailleIO
         private bool is_matrix = false;
         private bool is_image = false;
         private bool is_text = false;
+        private bool is_other = false;
 
         // raw data
         private bool[,] matrix;
         private Bitmap image;
         private String text;
+        private Object otherContent;
+        private IBrailleIOContentRenderer otherContentRender;
 
         // zoom multiplicator
         private double zoom = 1.0;
@@ -47,7 +50,7 @@ namespace BrailleIO
         public BrailleIOViewRange(int left, int top, int width, int height, Bitmap image)
         {
             this.ViewBox = new Rectangle(left, top, width, height);
-            setBitmap(image);
+            SetBitmap(image);
         }
 
         #endregion
@@ -57,7 +60,7 @@ namespace BrailleIO
         public BrailleIOViewRange(int left, int top, int width, int height, String text)
         {
             this.ViewBox = new Rectangle(left, top, width, height);
-            setText(text);
+            SetText(text);
         }
 
         #endregion
@@ -70,7 +73,7 @@ namespace BrailleIO
         public BrailleIOViewRange(int left, int top, int width, int height, bool[,] matrix)
         {
             this.ViewBox = new Rectangle(left, top, width, height);
-            setMatrix(matrix);
+            SetMatrix(matrix);
         }
         #endregion
 
@@ -82,11 +85,11 @@ namespace BrailleIO
         /// <param name="matrix">
         /// bool[,] matrix
         /// </param>
-        public void setMatrix(bool[,] matrix)
+        public void SetMatrix(bool[,] matrix)
         {
             this.matrix = matrix;
             this.is_matrix = true;
-            this.is_text = this.is_image = false;
+            this.is_text = this.is_image = this.is_other = false;
         }
 
         /// <summary>
@@ -94,7 +97,7 @@ namespace BrailleIO
         /// <returns>
         /// bool[,] matrix
         /// </returns>
-        public bool[,] getMatrix()
+        public bool[,] GetMatrix()
         {
             return this.matrix;
         }
@@ -103,21 +106,21 @@ namespace BrailleIO
         /// Sets the bitmap that should be rendered.
         /// </summary>
         /// <param name="_img">The imgage.</param>
-        public void setBitmap(Bitmap img)
+        public void SetBitmap(Bitmap img)
         {
             this.image = img;
             this.is_image = true;
-            this.is_text = this.is_matrix = false;
+            this.is_text = this.is_matrix = this.is_other = false;
         }
         /// <summary>
         /// Sets the bitmap that should be rendered.
         /// </summary>
         /// <param name="_img">The imgage.</param>
-        public void setBitmap(Image img)
+        public void SetBitmap(Image img)
         {
             try
             {
-                setBitmap(new Bitmap(img));
+                SetBitmap(new Bitmap(img));
             }
             catch (ArgumentException) { }
         }
@@ -126,7 +129,7 @@ namespace BrailleIO
         /// Gets the image to render.
         /// </summary>
         /// <returns></returns>
-        public Bitmap getImage()
+        public Bitmap GetImage()
         {
             return this.image;
         }
@@ -150,7 +153,7 @@ namespace BrailleIO
         /// <returns>
         /// 	<c>true</c> if this instance renders a matrix; otherwise, <c>false</c>.
         /// </returns>
-        internal bool isMatrix()
+        internal bool IsMatrix()
         {
             return this.is_matrix;
         }
@@ -161,7 +164,7 @@ namespace BrailleIO
         /// <returns>
         /// 	<c>true</c> if this instance renders an image; otherwise, <c>false</c>.
         /// </returns>
-        internal bool isImage()
+        internal bool IsImage()
         {
             return this.is_image;
         }
@@ -172,7 +175,7 @@ namespace BrailleIO
         /// <returns>
         /// 	<c>true</c> if this instance renders a text; otherwise, <c>false</c>.
         /// </returns>
-        internal bool isText()
+        internal bool IsText()
         {
             return this.is_text;
         }
@@ -181,7 +184,7 @@ namespace BrailleIO
         /// Gets the text to render.
         /// </summary>
         /// <returns></returns>
-        public string getText()
+        public string GetText()
         {
             return this.text;
         }
@@ -190,22 +193,40 @@ namespace BrailleIO
         /// Sets the text that should be rendered.
         /// </summary>
         /// <param name="text">The text.</param>
-        public void setText(string text)
+        public void SetText(string text)
         {
             this.text = text;
             this.is_text = true;
-            this.is_image = this.is_matrix = false;
+            this.is_image = this.is_matrix = this.is_other = false;
         }
+
+        public void SetOtherContent(Object contet, IBrailleIOMatrixRenderer renderer)
+        {
+            this.otherContent = contet;
+            if (renderer != null) this.otherContentRender = renderer;
+            this.is_image = this.is_matrix = this.is_text = false;
+        }
+
+        public object GetOtherContent()
+        {
+            return this.otherContent;
+        }
+
+        public bool IsOther()
+        {
+            return this.is_other;
+        }
+
 
         /// <summary>
         /// Gets the actual zoom-level.
         /// </summary>
         /// <returns>Zoom value as ratio</returns>
-        public double getZoom()
+        public double GetZoom()
         {
-            if (zoom <= 0 && isImage()) // get zoom to fit in the view range
+            if (zoom <= 0 && IsImage()) // get zoom to fit in the view range
             {
-                var img = getImage();
+                var img = GetImage();
                 if (ContentBox != null && img != null)
                 {
                     double wr = (double)ContentBox.Width / (double)img.Width;
@@ -221,7 +242,7 @@ namespace BrailleIO
         /// Sets the actual zoom.
         /// </summary>
         /// <param name="zoom">The zoom value as ratio.</param>
-        public void setZoom(double zoom)
+        public void SetZoom(double zoom)
         {
             if (zoom > MAX_ZOOM_LEVEL) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than " + MAX_ZOOM_LEVEL + ".", "zoom");
             this.zoom = zoom;
@@ -252,6 +273,6 @@ namespace BrailleIO
         /// Have to be between 0 and 255.
         /// </summary>
         /// <returns></returns>
-        public int getContrastThreshold() { return threshold; }
+        public int GetContrastThreshold() { return threshold; }
     }
 }

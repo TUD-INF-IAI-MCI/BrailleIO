@@ -151,35 +151,35 @@ namespace BrailleIO
             int o_y = vr.GetTop();
             
             bool[,] cm = new bool[1, 1];
-            if (vr.isMatrix()) // Matrix rendering
+            if (vr.IsMatrix()) // Matrix rendering
             {
-                if (vr.getMatrix() != null)
+                if (vr.GetMatrix() != null)
                 {
-                    cm = vr.getMatrix();
+                    cm = vr.GetMatrix();
                     vr.ContentHeight = cm.GetLength(0);
                     vr.ContentWidth = cm.GetLength(1);
                 }
             }
-            else if (vr.isImage()) // Image rendering
+            else if (vr.IsImage()) // Image rendering
             {
-                if (vr.getImage() != null)
+                if (vr.GetImage() != null)
                 {
-                    int th = (vr is IContrastThreshold) ? ((IContrastThreshold)vr).getContrastThreshold() : -1;
+                    int th = (vr is IContrastThreshold) ? ((IContrastThreshold)vr).GetContrastThreshold() : -1;
                     if (th >= 0)
                     {
-                        cm = vr.ImageRenderer.renderImage(vr.getImage(), vr, vr as IPannable, vr.InvertImage, vr.getZoom(), th);
+                        cm = vr.ImageRenderer.renderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), th);
                     }
                     else
                     {
-                        cm = vr.ImageRenderer.renderImage(vr.getImage(), vr, vr as IPannable, vr.InvertImage, vr.getZoom(), true);
+                        cm = vr.ImageRenderer.renderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), true);
                     }
                 }
             }
-            else if (vr.isText())
+            else if (vr.IsText())
             {
-                if (!string.IsNullOrEmpty(vr.getText()))
+                if (!string.IsNullOrEmpty(vr.GetText()))
                 {
-                    cm = (new BrailleIO.Renderer.BrailleIOTextRenderer()).renderMatrix(vr, vr.getText());
+                    cm = (new BrailleIO.Renderer.BrailleIOTextRenderer()).renderMatrix(vr, vr.GetText());
                 }
             }
             else return;
