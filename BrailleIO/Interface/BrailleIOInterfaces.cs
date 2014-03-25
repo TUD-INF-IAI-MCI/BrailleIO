@@ -95,7 +95,7 @@ namespace BrailleIO.Interface
     public interface IContrastThreshold
     {
         int SetContrastThreshold(int threshold);
-        int getContrastThreshold();
+        int GetContrastThreshold();
     }
 
     #endregion

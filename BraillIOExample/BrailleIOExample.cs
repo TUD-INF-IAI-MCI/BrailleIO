@@ -115,7 +115,7 @@ namespace BraillIOExample
             BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).getViewRange(viewRangeName);
             if (vr != null)
             {
-                vr.SetContrastThreshold(vr.getContrastThreshold() + factor);
+                vr.SetContrastThreshold(vr.GetContrastThreshold() + factor);
             }
             io.SendToDevice();
         }
@@ -213,10 +213,10 @@ namespace BraillIOExample
             BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).getViewRange(viewRangeName);
             if (vr != null)
             {
-                if (vr.getZoom() > 0)
+                if (vr.GetZoom() > 0)
                 {
                     //TODO: make zoom to center
-                    var oldZoom = vr.getZoom();
+                    var oldZoom = vr.GetZoom();
                     var newZoom = oldZoom * factor;
                     var oldvrdin = vr.ViewBox;
                     Point oldcenter = new Point(
@@ -234,7 +234,7 @@ namespace BraillIOExample
                         (int)Math.Round((newCenter.Y - ((double)oldvrdin.Height / 2)) * -1)
                         );
 
-                    vr.setZoom(newZoom);
+                    vr.SetZoom(newZoom);
 
                     vr.SetXOffset(newOffset.X);
                     vr.SetYOffset(newOffset.Y);
@@ -252,7 +252,7 @@ namespace BraillIOExample
             if (vr != null)
             {
                 //TODO: make zoom to center
-                var oldZoom = vr.getZoom();
+                var oldZoom = vr.GetZoom();
                 var newZoom = factor;
                 var oldvrdin = vr.ViewBox;
                 Point oldcenter = new Point(
@@ -270,7 +270,7 @@ namespace BraillIOExample
                     (int)Math.Round((newCenter.Y - ((double)oldvrdin.Height / 2)) * -1)
                     );
 
-                vr.setZoom(newZoom);
+                vr.SetZoom(newZoom);
 
                 vr.SetXOffset(newOffset.X);
                 vr.SetYOffset(newOffset.Y);
@@ -284,10 +284,10 @@ namespace BraillIOExample
             BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).getViewRange(viewRangeName);
             if (vr != null)
             {
-                if (vr.getZoom() > 0)
+                if (vr.GetZoom() > 0)
                 {
                     //TODO: make zoom to center
-                    var oldZoom = vr.getZoom();
+                    var oldZoom = vr.GetZoom();
                     var newZoom = oldZoom + factor;
                     var oldvrdin = vr.ViewBox;
                     Point oldcenter = new Point(
@@ -305,7 +305,7 @@ namespace BraillIOExample
                         (int)Math.Round((newCenter.Y - ((double)oldvrdin.Height / 2)) * -1)
                         );
 
-                    vr.setZoom(newZoom);
+                    vr.SetZoom(newZoom);
 
                     vr.SetXOffset(newOffset.X);
                     vr.SetYOffset(newOffset.Y);
@@ -363,9 +363,9 @@ namespace BraillIOExample
             BrailleIOViewRange center = new BrailleIOViewRange(0, 7, 120, 46, new bool[120, 40]);
             //center.Move(1,1);
 
-            center.setBitmap(bmp);
+            center.SetBitmap(bmp);
 
-            center.setZoom(-1);
+            center.SetZoom(-1);
             center.SetBorder(0);
             center.SetContrastThreshold(150);
 
@@ -380,8 +380,8 @@ namespace BraillIOExample
             top.SetMargin(0, 0, 1);
             top.SetPadding(0, 0, 1);
 
-            top.setText("ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\nabcdefghijklmnopqrstuvwxyz\r\n0123456789!\"#$%&<=>?@©®\r\n*+-~:;[],.'^_`(){}/|\\r\nß\r\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\r\n");
-            top.setText("Tactile screen capture");
+            top.SetText("ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\nabcdefghijklmnopqrstuvwxyz\r\n0123456789!\"#$%&<=>?@©®\r\n*+-~:;[],.'^_`(){}/|\\r\nß\r\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\r\n");
+            top.SetText("Tactile screen capture");
             s.addViewRange("top", top);
 
             #endregion
@@ -390,13 +390,13 @@ namespace BraillIOExample
             var nm_b = new bool[120, 20];
             BrailleIOViewRange bottom = new BrailleIOViewRange(0, 53, 120, 7, nm_b);
 
-            bottom.setMatrix(nm_b);
+            bottom.SetMatrix(nm_b);
 
             bottom.SetBorder(1, 0, 0);
             bottom.SetMargin(1, 0, 0);
             bottom.SetPadding(1, 0, 0);
 
-            bottom.setText("Detail area: status messages can be shown");
+            bottom.SetText("Detail area: status messages can be shown");
 
             s.addViewRange("bottom", bottom);
             #endregion
@@ -429,7 +429,7 @@ namespace BraillIOExample
                     var cs = v.getViewRange("center");
                     if (cs != null)
                     {
-                        cs.setBitmap(captureScreen());
+                        cs.SetBitmap(captureScreen());
                         io.RefreshDisplay(true);
                     }
                 }

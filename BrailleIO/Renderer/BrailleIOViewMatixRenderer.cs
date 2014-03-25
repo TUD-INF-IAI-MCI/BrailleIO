@@ -88,5 +88,10 @@ namespace BrailleIO.Renderer
             }
             return viewMatrix;
         }
+
+        public bool[,] renderMatrix(IViewBoxModel view, object content)
+        {
+            return renderMatrix(view, content as bool[,]);
+        }
     }
 }
