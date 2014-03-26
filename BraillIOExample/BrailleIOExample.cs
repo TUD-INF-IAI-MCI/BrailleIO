@@ -112,7 +112,7 @@ namespace BraillIOExample
         {
             if (io == null && io.GetView(viewName) as BrailleIOScreen != null) return;
             // zoom in
-            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).getViewRange(viewRangeName);
+            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).GetViewRange(viewRangeName);
             if (vr != null)
             {
                 vr.SetContrastThreshold(vr.GetContrastThreshold() + factor);
@@ -210,7 +210,7 @@ namespace BraillIOExample
         {
             if (io == null && io.GetView(viewName) as BrailleIOScreen != null) return;
             // zoom in
-            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).getViewRange(viewRangeName);
+            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).GetViewRange(viewRangeName);
             if (vr != null)
             {
                 if (vr.GetZoom() > 0)
@@ -248,7 +248,7 @@ namespace BraillIOExample
         {
             if (io == null && io.GetView(viewName) as BrailleIOScreen != null) return;
             // zoom in
-            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).getViewRange(viewRangeName);
+            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).GetViewRange(viewRangeName);
             if (vr != null)
             {
                 //TODO: make zoom to center
@@ -281,7 +281,7 @@ namespace BraillIOExample
         {
             if (io == null && io.GetView(viewName) as BrailleIOScreen != null) return;
             // zoom in
-            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).getViewRange(viewRangeName);
+            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).GetViewRange(viewRangeName);
             if (vr != null)
             {
                 if (vr.GetZoom() > 0)
@@ -317,7 +317,7 @@ namespace BraillIOExample
         void moveHorizontal(string viewName, string viewRangeName, int steps)
         {
             if (io == null && io.GetView(viewName) as BrailleIOScreen != null) return;
-            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).getViewRange(viewRangeName);
+            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).GetViewRange(viewRangeName);
             if (vr != null)
             {
                 vr.MoveHorizontal(steps);
@@ -328,7 +328,7 @@ namespace BraillIOExample
         void moveVertical(string viewName, string viewRangeName, int steps)
         {
             if (io == null && io.GetView(viewName) as BrailleIOScreen != null) return;
-            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).getViewRange(viewRangeName);
+            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).GetViewRange(viewRangeName);
             if (vr != null)
             {
                 vr.MoveVertical(steps);
@@ -339,7 +339,7 @@ namespace BraillIOExample
         private void invertImage(string viewName, string viewRangeName)
         {
             if (io == null && io.GetView(viewName) as BrailleIOScreen != null) return;
-            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).getViewRange(viewRangeName);
+            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).GetViewRange(viewRangeName);
             if (vr != null)
             {
                 vr.InvertImage = !vr.InvertImage;
@@ -369,7 +369,7 @@ namespace BraillIOExample
             center.SetBorder(0);
             center.SetContrastThreshold(150);
 
-            s.addViewRange("center", center);
+            s.AddViewRange("center", center);
 
             #endregion
 
@@ -382,7 +382,7 @@ namespace BraillIOExample
 
             top.SetText("ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\nabcdefghijklmnopqrstuvwxyz\r\n0123456789!\"#$%&<=>?@©®\r\n*+-~:;[],.'^_`(){}/|\\r\nß\r\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\r\n");
             top.SetText("Tactile screen capture");
-            s.addViewRange("top", top);
+            s.AddViewRange("top", top);
 
             #endregion
 
@@ -398,7 +398,7 @@ namespace BraillIOExample
 
             bottom.SetText("Detail area: status messages can be shown");
 
-            s.addViewRange("bottom", bottom);
+            s.AddViewRange("bottom", bottom);
             #endregion
 
             io.AddView(BS_MAIN_NAME, s);
@@ -426,7 +426,7 @@ namespace BraillIOExample
                 var v = io.GetView(BS_MAIN_NAME) as BrailleIOScreen;
                 if (v != null)
                 {
-                    var cs = v.getViewRange("center");
+                    var cs = v.GetViewRange("center");
                     if (cs != null)
                     {
                         cs.SetBitmap(captureScreen());
