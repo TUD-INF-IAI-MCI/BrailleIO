@@ -9,7 +9,6 @@ namespace BrailleIO
         #region Members
         private OrderedDictionary view_ranges = new OrderedDictionary();
         private bool is_visible = true;
-        private bool has_border = false;
         public string Name { get; private set; }
         #endregion
 
@@ -25,12 +24,19 @@ namespace BrailleIO
         /// <param name="_view_range">
         /// ViewRange
         /// </param>
-        public void addViewRange(String name, BrailleIOViewRange _view_range)
+        public void AddViewRange(String name, BrailleIOViewRange _view_range)
         {
             if (_view_range != null)
             {
                 _view_range.Name = name;
-                this.view_ranges.Add(name, _view_range);
+                if (!this.view_ranges.Contains(name)) this.view_ranges.Add(name, _view_range);
+                else
+                {
+                    if (!this.view_ranges[name].Equals(_view_range)) { 
+                        this.view_ranges.Remove(name); this.view_ranges.Add(name, _view_range);
+                    }
+                }
+                _view_range.SetParent(this);
             }
         }
 
@@ -40,7 +46,7 @@ namespace BrailleIO
         /// <param name="name">
         /// name of ViewRange
         /// </param>
-        public void removeViewRange(String name)
+        public void RemoveViewRange(String name)
         {
             this.view_ranges.Remove(name);
         }
@@ -54,7 +60,7 @@ namespace BrailleIO
         /// <param name="to">
         /// new name of ViewRange
         /// </param>
-        public void renameViewRange(String from, String to)
+        public void RenameViewRange(String from, String to)
         {
             this.view_ranges.Add(to, this.view_ranges[from]);
             this.view_ranges.Remove(from);
@@ -66,14 +72,14 @@ namespace BrailleIO
         /// <returns>
         /// OrderedDictionary&lt;ViewRange&gt;
         /// </returns>
-        public OrderedDictionary getViewRanges()
+        public OrderedDictionary GetViewRanges()
         {
             return this.view_ranges;
         }
 
-        public BrailleIOViewRange getViewRange(String name)
+        public BrailleIOViewRange GetViewRange(String name)
         {
-            if (hasViewRange(name))
+            if (HasViewRange(name))
                 return (BrailleIOViewRange)this.view_ranges[name];
             else
                 return null;
@@ -88,27 +94,16 @@ namespace BrailleIO
         /// <returns>
         /// bool has ViewRange?
         /// </returns>
-        public bool hasViewRange(String name)
+        public bool HasViewRange(String name)
         {
             return this.view_ranges.Contains(name);
-        }
-
-        /// <summary>
-        /// has Border?
-        /// </summary>
-        /// <returns>
-        /// bool has border
-        /// </returns>
-        public bool hasBorder()
-        {
-            return this.has_border;
         }
 
         /// <summary>
         /// has any ViewRanges?
         /// </summary>
         /// <returns></returns>
-        public bool isEmpty()
+        public bool IsEmpty()
         {
             return (this.view_ranges.Count > 0) ? false : true;
         }
@@ -119,7 +114,7 @@ namespace BrailleIO
         /// <returns>
         /// int count
         /// </returns>
-        public int count()
+        public int Count()
         {
             return this.view_ranges.Count;
         }

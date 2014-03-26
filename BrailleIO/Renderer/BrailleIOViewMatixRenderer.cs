@@ -53,8 +53,8 @@ namespace BrailleIO.Renderer
             {
                 if (handlePanning)
                 {
-                    oX = ((IPannable)view).GetXOffset();
-                    oY = ((IPannable)view).GetYOffset();
+                    oX = ((IPannable)view).GetXOffset() * -1;
+                    oY = ((IPannable)view).GetYOffset() * -1;
                 }
                 if (((IPannable)view).ShowScrollbars)
                 {

@@ -149,6 +149,7 @@ namespace BrailleIO
             // View Range bounds
             int o_x = vr.GetLeft();
             int o_y = vr.GetTop();
+            bool handlePanning = true;
             
             bool[,] cm = new bool[1, 1];
             if (vr.IsMatrix()) // Matrix rendering
@@ -173,6 +174,7 @@ namespace BrailleIO
                     {
                         cm = vr.ImageRenderer.renderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), true);
                     }
+                    handlePanning = false;
                 }
             }
             else if (vr.IsText())
@@ -182,9 +184,17 @@ namespace BrailleIO
                     cm = (new BrailleIO.Renderer.BrailleIOTextRenderer()).renderMatrix(vr, vr.GetText());
                 }
             }
+            else if (vr.IsOther())
+            {
+                if (vr.GetOtherContent() != null && vr.ContentRender != null)
+                {
+                    cm = vr.ContentRender.renderMatrix(vr, vr.GetOtherContent());
+                }
+                else return;
+            }
             else return;
             //place the content matrix (cm) in the view range matrix with aware of the box model 
-            m = (new BrailleIO.Renderer.BrailleIOViewMatixRenderer()).renderMatrix(vr, cm);
+            m = (new BrailleIO.Renderer.BrailleIOViewMatixRenderer()).renderMatrix(vr, cm, handlePanning);
             // Border rendering
             m = (new BrailleIO.Renderer.BrailleIOBorderRenderer()).renderMatrix(vr, m);
 
@@ -221,7 +231,7 @@ namespace BrailleIO
                 else if (this.views[key] is BrailleIOScreen)
                 {
 
-                    foreach (BrailleIOViewRange vr in ((BrailleIOScreen)this.views[key]).getViewRanges().Values)
+                    foreach (BrailleIOViewRange vr in ((BrailleIOScreen)this.views[key]).GetViewRanges().Values)
                     {
                         this.drawViewRange(vr);
                     }

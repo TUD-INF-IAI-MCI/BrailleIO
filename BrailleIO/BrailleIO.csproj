@@ -11,7 +11,8 @@
     <RootNamespace>BrailleIO</RootNamespace>
     <AssemblyName>BrailleIO</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -79,6 +80,7 @@
     <Compile Include="Renderer\BrailleIOBorderRenderer.cs" />
     <Compile Include="Renderer\BrailleIOImageToMatrixRenderer.cs" />
     <Compile Include="Renderer\BrailleIOIPannableRenderer.cs" />
+    <Compile Include="Renderer\BrailleIOLiblouisBrailleRenderer.cs" />
     <Compile Include="Renderer\BrailleIOViewPortRenderer.cs" />
     <Compile Include="Renderer\BrailleIOTextRenderer.cs" />
     <Compile Include="Renderer\BrailleIOViewMatixRenderer.cs" />
@@ -125,7 +127,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Braille-Renderer\Braille-Renderer\Braille-Renderer.csproj">
+      <Project>{A3A54ED7-71E3-49D4-B389-5604C4393F99}</Project>
+      <Name>Braille-Renderer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

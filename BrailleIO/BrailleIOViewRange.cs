@@ -24,7 +24,7 @@ namespace BrailleIO
         private Bitmap image;
         private String text;
         private Object otherContent;
-        private IBrailleIOContentRenderer otherContentRender;
+        
 
         // zoom multiplicator
         private double zoom = 1.0;
@@ -35,9 +35,13 @@ namespace BrailleIO
 
         public String Name { get; set; }
 
+        public BrailleIOScreen Parent { get; private set; }
+
         #region Renderers
         private BrailleIO.Renderer.BrailleIOImageToMatrixRenderer _ir;
         public BrailleIO.Renderer.BrailleIOImageToMatrixRenderer ImageRenderer { get { if (_ir == null) _ir = new Renderer.BrailleIOImageToMatrixRenderer(); return _ir; } }
+        public IBrailleIOContentRenderer ContentRender { get; private set; }
+       
         #endregion
 
 
@@ -78,6 +82,19 @@ namespace BrailleIO
         #endregion
 
         #endregion
+
+        public bool SetParent(BrailleIOScreen parent)
+        {
+            bool success = false;
+            if (parent != null)
+            {
+                if (parent.GetViewRange(Name) == null || !parent.GetViewRange(Name).Equals(this))
+                    parent.AddViewRange(this.Name, this);
+                Parent = parent;
+                success = true;
+            }
+            return success;
+        }
 
         /// <summary>
         /// set matrix 
@@ -200,10 +217,11 @@ namespace BrailleIO
             this.is_image = this.is_matrix = this.is_other = false;
         }
 
-        public void SetOtherContent(Object contet, IBrailleIOMatrixRenderer renderer)
+        public void SetOtherContent(Object contet, IBrailleIOContentRenderer renderer)
         {
             this.otherContent = contet;
-            if (renderer != null) this.otherContentRender = renderer;
+            if (renderer != null) this.ContentRender = renderer;
+            this.is_other = true;
             this.is_image = this.is_matrix = this.is_text = false;
         }
 
@@ -216,7 +234,6 @@ namespace BrailleIO
         {
             return this.is_other;
         }
-
 
         /// <summary>
         /// Gets the actual zoom-level.
