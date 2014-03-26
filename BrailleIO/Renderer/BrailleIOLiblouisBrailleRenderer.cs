@@ -60,6 +60,8 @@ namespace BrailleIO.Renderer
 
         public bool[,] renderMatrix(IViewBoxModel view, object content)
         {
+            //System.Diagnostics.Debug.WriteLine("---------- Braille Renderer Call");
+
             bool[,]_m = new bool[0, 0];
 
             if (view != null && renderer != null)
@@ -68,13 +70,18 @@ namespace BrailleIO.Renderer
                 {
                     if (!view.Equals(lastView) || !lastString.Equals(content as String) || render)
                     {
+                        //System.Diagnostics.Debug.WriteLine("---------- ---- Real Renderer Call -" + cssPath + " - " + tables);
+
                         lastString = content as String;
                         lastView = view;
                         render = false;
 
                         List<bool[]> brailleLines = renderer.RenderHTMLDoc(content as String, cssPath, (uint)(Math.Max(view.ContentBox.Width - 3, 0)), tables);
-                        
-                        
+
+                        //FIXME: only for fixing
+                        //RTBrailleRendererHelper.PaintBoolMatrixToImage(brailleLines.ToArray(), @"C:\Users\Admin\Desktop\tmp\br_" + cssPath.Substring(Math.Max(cssPath.Length -5, 0)) + "_" + tables + ".bmp");
+
+
                         if (brailleLines.Count > 0 && brailleLines[0] != null)
                         {
                             m = new bool[brailleLines.Count, brailleLines[0].Length];
@@ -83,12 +90,14 @@ namespace BrailleIO.Renderer
                             {
                                 for (int x = 0; x < brailleLines[0].Length; x++)
                                 {
-                                    m[y, x] = brailleLines[y][x];
+                                    if(m.GetLength(0) > y && m.GetLength(1) > x && brailleLines.Count > y && brailleLines[y].Length > x) 
+                                        m[y, x] = brailleLines[y][x];
                                 }
                             }
                         }
                     }
-                    if(m != null) _m = m; 
+                    if(m != null) _m = m;
+                    //System.Diagnostics.Debug.WriteLine("---------------- Return new Matrix of " + _m.GetLength(0) + " lines");
                 }
             }
             view.ContentHeight = _m.GetLength(0);

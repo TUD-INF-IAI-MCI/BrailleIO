@@ -89,7 +89,7 @@ namespace tud.mci.tangram.Braille_Renderer
             this.cssfile = cssfile;
             this.maxwidth = maxwidth;
             this.tables = tables;
-            
+            reset();
 
             param = "--forward \"" + pathToTables + tables.Replace(",", "," + pathToTables) + "\"";
             param = param.TrimEnd();
@@ -99,12 +99,17 @@ namespace tud.mci.tangram.Braille_Renderer
             Dictionary<String, List<String>> rules = RTBCssParser.CssToDictionary(cssfile);
             CQ dom = htmlparse(htmlfile);
 
-
+            
             return IterateThroughDom(M, dom, rules);
 
         }
 
-
+        bool reset()
+        {
+            M.Clear();
+            coords = new Globals();
+            return true;
+        }
 
         /// <summary>
         /// parses the specified htmlfile to a DOM.
@@ -137,8 +142,8 @@ namespace tud.mci.tangram.Braille_Renderer
             htmldok = htmldok.Replace("\r\n<", "</p><");
             htmldok = htmldok.Replace("<p><p>", "<p>");
             htmldok = htmldok.Replace("</p></p>", "</p>");
-            File.WriteAllText("brailletest2.html", htmldok);
-            CQ dom = CQ.CreateFromFile("brailletest2.html");
+            //File.WriteAllText("brailletest2.html", htmldok);
+            CQ dom = CQ.CreateFragment(htmldok);
             return dom;
         }
 

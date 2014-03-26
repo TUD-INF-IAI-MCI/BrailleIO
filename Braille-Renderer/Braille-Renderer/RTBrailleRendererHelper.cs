@@ -10,7 +10,7 @@ using System.Drawing.Imaging;
 
 namespace tud.mci.tangram.Braille_Renderer
 {
-    static partial class RTBrailleRendererHelper
+    public static partial class RTBrailleRendererHelper
     {
 
         public static string cmdCall(string executable, string args, string STDIN)
@@ -211,14 +211,21 @@ namespace tud.mci.tangram.Braille_Renderer
                         {
                             lock (graphicsLock)
                             {
-                                if (m[i][j])
-                                {
-                                    PinGraphic.FillRectangle(Brushes.Black, j * (pixel + 1), i * (pixel + 1), pixel, pixel);
-                                }
-                                else
-                                {
-                                    PinGraphic.DrawEllipse(Stroke, j * (pixel + 1), i * (pixel + 1), pixel - 1, pixel - 1);
-                                }
+                                try
+{
+	if (m[i][j])
+	                                {
+	                                    PinGraphic.FillRectangle(Brushes.Black, j * (pixel + 1), i * (pixel + 1), pixel, pixel);
+	                                }
+	                                else
+	                                {
+	                                    PinGraphic.DrawEllipse(Stroke, j * (pixel + 1), i * (pixel + 1), pixel - 1, pixel - 1);
+	                                }
+}
+catch (System.Exception ex)
+{
+	
+}
                             }
                         }
 

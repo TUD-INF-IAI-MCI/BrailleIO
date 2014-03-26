@@ -5,7 +5,7 @@ using System.Text;
 
 namespace tud.mci.tangram.Braille_Renderer
 {
-    static partial class RTBrailleRendererHelper
+    public static partial class RTBrailleRendererHelper
     {
         public static bool[,] unicode_to_matrix(String unicode)
         {
