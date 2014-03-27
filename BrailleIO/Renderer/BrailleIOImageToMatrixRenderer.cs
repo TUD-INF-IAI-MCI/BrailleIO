@@ -97,6 +97,8 @@ namespace BrailleIO.Renderer
 
                                 g2.DrawImage(_img, new Rectangle(0, 0, rescaled.Width, rescaled.Height), new Rectangle(0, 0, _img.Width, _img.Height), GraphicsUnit.Pixel);
                                 g2.Flush();
+
+                                //rescaled.Save(@"C:\Users\Denise\Desktop\tmp\render.bmp");
                             }
                         }
                         catch (ArgumentException) { }
