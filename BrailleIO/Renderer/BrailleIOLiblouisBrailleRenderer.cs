@@ -60,7 +60,7 @@ namespace BrailleIO.Renderer
 
         public bool[,] renderMatrix(IViewBoxModel view, object content)
         {
-            //System.Diagnostics.Debug.WriteLine("---------- Braille Renderer Call");
+            System.Diagnostics.Debug.WriteLine("---------- Braille Renderer Call");
 
             bool[,]_m = new bool[0, 0];
 
@@ -70,7 +70,7 @@ namespace BrailleIO.Renderer
                 {
                     if (!view.Equals(lastView) || !lastString.Equals(content as String) || render)
                     {
-                        //System.Diagnostics.Debug.WriteLine("---------- ---- Real Renderer Call -" + cssPath + " - " + tables);
+                        System.Diagnostics.Debug.WriteLine("---------- ---- Real Renderer Call -" + cssPath + " - " + tables);
 
                         lastString = content as String;
                         lastView = view;
@@ -97,7 +97,7 @@ namespace BrailleIO.Renderer
                         }
                     }
                     if(m != null) _m = m;
-                    //System.Diagnostics.Debug.WriteLine("---------------- Return new Matrix of " + _m.GetLength(0) + " lines");
+                    System.Diagnostics.Debug.WriteLine("---------------- Return new Matrix of " + _m.GetLength(0) + " lines");
                 }
             }
             view.ContentHeight = _m.GetLength(0);
