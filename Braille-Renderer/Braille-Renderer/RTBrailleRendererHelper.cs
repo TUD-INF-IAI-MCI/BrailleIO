@@ -7,6 +7,7 @@ using System.Diagnostics;
 using CsQuery;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Text.RegularExpressions;
 
 namespace tud.mci.tangram.Braille_Renderer
 {
@@ -45,11 +46,15 @@ namespace tud.mci.tangram.Braille_Renderer
 
         public static string getSelectorFromElement(IDomObject element)
         {
-
-            string tag = element.OuterHTML.Substring(1, 3);
-            string[] temp = tag.Split('>');
-            string selector = temp[0];
-            return selector;
+            if (element != null && ! (element is IDomText))
+            {
+                return element.NodeName;
+                //string tag = element.OuterHTML.Substring(1, 3);
+                //string[] temp = tag.Split('>');
+                //string selector = temp[0];
+                //return selector;
+            }
+            return String.Empty;
         }
 
         public static List<bool[]> putcharinmatrix(ref List<bool[]> M, bool[,] letter, ref uint x, ref uint y)  //ref x, y
@@ -109,7 +114,10 @@ namespace tud.mci.tangram.Braille_Renderer
                 value = value.TrimEnd('e', 'm');
                 pixel = Convert.ToUInt32(value) * 3;
             }
-            else return 0;
+            else
+            {
+                UInt32.TryParse((new Regex(@"[^\d]")).Replace(value, ""), out pixel);
+            }
             return pixel;
         }
 
@@ -126,7 +134,10 @@ namespace tud.mci.tangram.Braille_Renderer
                 value = value.TrimEnd('e', 'm');
                 pixel = Convert.ToUInt32(value) * lineheight;
             }
-            else return 0;
+            else
+            {
+                 UInt32.TryParse((new Regex(@"[^\d]")).Replace(value, ""),out pixel);
+            }
             return pixel;
         }
 
@@ -143,7 +154,10 @@ namespace tud.mci.tangram.Braille_Renderer
                 value = value.TrimEnd('e', 'm');
                 pixel = Convert.ToInt32(value) * 3;
             }
-            else return 0;
+            else
+            {
+                Int32.TryParse((new Regex(@"[^\d]")).Replace(value, ""), out pixel);
+            }
             return pixel;
         }
 
