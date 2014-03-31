@@ -58,6 +58,7 @@
     <Compile Include="RTBCssParser.cs" />
     <Compile Include="RTBrailleRenderer.cs" />
     <Compile Include="RTBrailleRendererHelper.cs" />
+    <Compile Include="RTBrailleRenderer_Bornschein.cs" />
     <Compile Include="RTBrailleRenderer_BrailleTable.cs" />
     <Compile Include="RTBStruct.cs" />
   </ItemGroup>

@@ -50,6 +50,20 @@ namespace tud.mci.tangram.Braille_Renderer
             return stdOut;
         }
 
+        ///// <summary>
+        ///// Gets the selector (tag name) from the element element.
+        ///// </summary>
+        ///// <param name="element">The element.</param>
+        ///// <returns>the tag name in uppercase for this type or String.Empty</returns>
+        //public static string getSelectorFromElement(IDomObject element)
+        //{
+        //    if (element != null && !(element is IDomText))
+        //    {
+        //        return element.NodeName;
+        //    }
+        //    return String.Empty;
+        //}
+
         /// <summary>
         /// Gets the selector (tag name) from the element element.
         /// </summary>
@@ -59,10 +73,11 @@ namespace tud.mci.tangram.Braille_Renderer
         {
             if (element != null && !(element is IDomText))
             {
-                return element.NodeName;
+                return element.NodeName.ToLowerInvariant();
             }
             return String.Empty;
         }
+
 
         public static List<bool[]> putcharinmatrix(ref List<bool[]> M, bool[,] letter, ref uint x, ref uint y)  //ref x, y
         {
