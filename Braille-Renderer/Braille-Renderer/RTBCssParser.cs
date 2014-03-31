@@ -11,24 +11,18 @@ namespace tud.mci.tangram.Braille_Renderer
 
         public static Dictionary<String, Dictionary<String, Object>> CssToDictionary(String cssfile)
         {
-            /**** JB ***/
             Dictionary<String, Dictionary<String, Object>> cRules = new Dictionary<String, Dictionary<String, Object>>();
-            /***********/
-
-            //Dictionary<String, List<String>> rules = new Dictionary<String, List<String>>();
-            
             
             string cssstring = "";
             if (File.Exists(cssfile)) { cssstring = File.ReadAllText(cssfile); }
             else { System.Diagnostics.Debug.WriteLine("ERROR: CSS FILE COULD NOT BEEN LOADED: " + cssfile); cssstring = cssfile; }
             cssstring = cssstring.Replace("\r\n", "");
+
             char delimiter = '}';
             string[] cssdefinitions = cssstring.Split(delimiter);
-            //cssdefinitions contains one or more rules for a hhtml selector (h1, b, etc)
 
             foreach (string cssdefinition in cssdefinitions)
             {
-
                 if (!String.IsNullOrWhiteSpace(cssdefinition))
                 {
                     string[] name_features = cssdefinition.Split('{');
@@ -37,11 +31,7 @@ namespace tud.mci.tangram.Braille_Renderer
                     List<string> featureList = features.ToList();
                     featureList.Remove("");
 
-                    /************ JB **************/
-                    //create objects for features
                     Dictionary<String, Object> featureObjectList = getFeatureObjectList(featureList);
-
-                    /******************************/
 
                     if (defname.Contains(","))
                     {
@@ -51,9 +41,6 @@ namespace tud.mci.tangram.Braille_Renderer
                             if (singledef.Contains(':'))
                             {
                                 string[] pseudo = singledef.Split(':');
-                                //List<String> newFeatureList = pseudoElementaufl(pseudo[0], pseudo[1], featureList);
-                                //rules.Add(pseudo[0], newFeatureList);
-
                                 Dictionary<String, Object> newFeatureObjectList = pseudoElementaufl(pseudo[0], pseudo[1], featureObjectList);
                                 cRules.Add(pseudo[0], newFeatureObjectList);
                             }
@@ -61,12 +48,10 @@ namespace tud.mci.tangram.Braille_Renderer
                             {
                                 if (cRules.ContainsKey(singledef))
                                 {
-                                    //rules[singledef].AddRange(featureList);
                                     cRules[singledef] = MergeLeft(cRules[singledef], featureObjectList);
                                 }
                                 else
                                 {
-                                    //rules.Add(singledef, featureList);
                                     cRules.Add(singledef, featureObjectList);
                                 }
                             }
@@ -78,21 +63,14 @@ namespace tud.mci.tangram.Braille_Renderer
                         {
                             string[] pseudo = defname.Split(':');
                             string name = pseudo[0];
-                            //List<String> newFeatureList;
-                            //newFeatureList = pseudoElementaufl(name, pseudo[1], featureList);
-
-
                             Dictionary<String, Object> newFeatureObjectList = pseudoElementaufl(pseudo[0], pseudo[1], featureObjectList);
 
                             if (cRules.ContainsKey(name))
                             {
-                                //rules[name].AddRange(newFeatureList);
                                 cRules[name] = MergeLeft(cRules[name], newFeatureObjectList);
-                                //TODO:
                             }
                             else
                             {
-                                //rules.Add(pseudo[0], newFeatureList);
                                 cRules.Add(pseudo[0], newFeatureObjectList);
                             }
                         }
@@ -100,14 +78,10 @@ namespace tud.mci.tangram.Braille_Renderer
                         {
                             if (cRules.ContainsKey(defname))
                             {
-                                //rules[defname].AddRange(featureList);
                                 cRules[defname] = MergeLeft(cRules[defname], featureObjectList);
-                                
-                                //TODO:
                             }
                             else
                             {
-                                //rules.Add(defname, featureList);
                                 cRules.Add(defname, featureObjectList);
                             }
                         }
@@ -116,7 +90,6 @@ namespace tud.mci.tangram.Braille_Renderer
             }
 
             return cRules;
-
         }
 
         private static Dictionary<string, object> getFeatureObjectList(List<string> featureList)
@@ -328,32 +301,12 @@ namespace tud.mci.tangram.Braille_Renderer
             return featureObjectList;
         }
 
-        //public static List<String> pseudoElementaufl(string defname, string pseudoelement, List<String> featureList)
-        //{
-        //    List<String> newFeatureList = new List<String>();
-        //    foreach (string feature in featureList)
-        //    {
-
-        //        if (feature.StartsWith("content:"))
-        //        {
-        //            newFeatureList.Add(feature.Insert(0, pseudoelement + "|"));
-        //        }
-        //        else
-        //        {
-        //            newFeatureList.Add(feature);
-        //        }
-        //    }
-        //    return newFeatureList;
-        //}
-
         public static Dictionary<String, Object> pseudoElementaufl(string defname, string pseudoelement, Dictionary<String, Object> featureList)
         {
             Dictionary<String, Object> newFeatureList = new Dictionary<String, Object>();
             
             foreach (String feature in featureList.Keys)
             {
-                //TODO:
-
                 if (feature.Equals("content"))
                 {
                     newFeatureList.Add(pseudoelement.ToLowerInvariant(), featureList[feature]);
@@ -365,9 +318,6 @@ namespace tud.mci.tangram.Braille_Renderer
             }
             return newFeatureList;
         }
-
-
-
 
         // Works in C#3/VS2008:
         // Returns a new dictionary of this ... others merged leftward.
@@ -389,7 +339,5 @@ namespace tud.mci.tangram.Braille_Renderer
             }
             return newMap;
         }
-
-
     }
 }

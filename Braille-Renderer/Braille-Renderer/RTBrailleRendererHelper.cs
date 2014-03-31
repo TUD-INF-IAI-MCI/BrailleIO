@@ -13,7 +13,13 @@ namespace tud.mci.tangram.Braille_Renderer
 {
     public static partial class RTBrailleRendererHelper
     {
-
+        /// <summary>
+        /// perform a CMD call.
+        /// </summary>
+        /// <param name="executable">The executable.</param>
+        /// <param name="args">The args.</param>
+        /// <param name="STDIN">The STDIN.</param>
+        /// <returns>the stdout result</returns>
         public static string cmdCall(string executable, string args, string STDIN)
         {
 
@@ -44,15 +50,16 @@ namespace tud.mci.tangram.Braille_Renderer
             return stdOut;
         }
 
+        /// <summary>
+        /// Gets the selector (tag name) from the element element.
+        /// </summary>
+        /// <param name="element">The element.</param>
+        /// <returns>the tag name in uppercase for this type or String.Empty</returns>
         public static string getSelectorFromElement(IDomObject element)
         {
-            if (element != null && ! (element is IDomText))
+            if (element != null && !(element is IDomText))
             {
                 return element.NodeName;
-                //string tag = element.OuterHTML.Substring(1, 3);
-                //string[] temp = tag.Split('>');
-                //string selector = temp[0];
-                //return selector;
             }
             return String.Empty;
         }
@@ -69,17 +76,24 @@ namespace tud.mci.tangram.Braille_Renderer
 
                     bool temp = false;
                     temp = letter[i, j];
-                    
-                        var line = M[inty + i];
-                        if (line != null) line[intx + j] = temp;
-                   
 
-                    
+                    var line = M[inty + i];
+                    if (line != null) line[intx + j] = temp;
                 }
             }
             return M;
         }
 
+        public static bool[] newLine(uint lenght)
+        {
+            return new bool[lenght];
+        }
+
+        /// <summary>
+        /// Transforms a List of arrays into a rectangular array.
+        /// </summary>
+        /// <param name="arrays">The array list.</param>
+        /// <returns>the rectangular bool array</returns>
         public static bool[,] CreateRectangularArray(List<bool[]> arrays)
         {
             // TODO: Validation and special-casing for arrays.Count == 0
@@ -136,7 +150,7 @@ namespace tud.mci.tangram.Braille_Renderer
             }
             else
             {
-                 UInt32.TryParse((new Regex(@"[^\d]")).Replace(value, ""),out pixel);
+                UInt32.TryParse((new Regex(@"[^\d]")).Replace(value, ""), out pixel);
             }
             return pixel;
         }
@@ -188,12 +202,11 @@ namespace tud.mci.tangram.Braille_Renderer
             }
         }
 
-
-
-
         private static Object gLock = new Object();
         private static Pen _p = new Pen(Brushes.LightGray, 0.4F);
         private static Object pLock = new Object();
+
+        #region Paint matrix to BMP
 
         private static Pen Stroke
         {
@@ -226,20 +239,20 @@ namespace tud.mci.tangram.Braille_Renderer
                             lock (graphicsLock)
                             {
                                 try
-{
-	if (m[i][j])
-	                                {
-	                                    PinGraphic.FillRectangle(Brushes.Black, j * (pixel + 1), i * (pixel + 1), pixel, pixel);
-	                                }
-	                                else
-	                                {
-	                                    PinGraphic.DrawEllipse(Stroke, j * (pixel + 1), i * (pixel + 1), pixel - 1, pixel - 1);
-	                                }
-}
-catch (System.Exception ex)
-{
-	
-}
+                                {
+                                    if (m[i][j])
+                                    {
+                                        PinGraphic.FillRectangle(Brushes.Black, j * (pixel + 1), i * (pixel + 1), pixel, pixel);
+                                    }
+                                    else
+                                    {
+                                        PinGraphic.DrawEllipse(Stroke, j * (pixel + 1), i * (pixel + 1), pixel - 1, pixel - 1);
+                                    }
+                                }
+                                catch (System.Exception ex)
+                                {
+
+                                }
                             }
                         }
 
@@ -253,48 +266,6 @@ catch (System.Exception ex)
                 }
             }
         }
-
-        public static bool[] newLine(uint lenght)
-        {
-            return new bool[lenght];
-        }
-
-        //public static void zoomout(string htmlfile, string cssfile)
-        //{
-        //    switch (cssfile)
-        //    {
-        //        case "Zoom1.css":
-        //            break;
-        //        case "Zoom2.css":
-        //            start(htmlfile, "Zoom1,css");
-        //            break;
-        //        case "Zoome3.css":
-        //            start(htmlfile, "Zoom2.css");
-        //            break;
-        //        case "Zoom4.css":
-        //            start(htmlfile, "Zoom3,css");
-        //            break;
-        //    }
-        //}
-
-        //public static void zoomin(string htmlfile, string cssfile)
-        //{
-        //    switch (cssfile)
-        //    {
-        //        case "Zoom1.css":
-        //            start(htmlfile, "Zoom2.css");
-        //            break;
-        //        case "Zoom2.css":
-        //            start(htmlfile, "Zoom3,css");
-        //            break;
-        //        case "Zoome3.css":
-        //            start(htmlfile, "Zoom4.css");
-        //            break;
-        //        case "Zoom4.css":
-        //            break;
-        //    }
-        //}
-
-
+        #endregion
     }
 }

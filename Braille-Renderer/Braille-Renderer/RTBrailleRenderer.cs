@@ -77,17 +77,14 @@ namespace tud.mci.tangram.Braille_Renderer
         /// <param name="maxwidth">The maximum width of the display</param>
         public RTBrailleRenderer(string _pathToLiblouis, string _pathToTables)
         {
-            // TODO: Complete member initialization
             pathToLiblouis = _pathToLiblouis;
             pathToTables = _pathToTables;
             coords = new Globals();
             command = pathToLiblouis + @"lou_translate";
-
         }
 
         public List<bool[]> RenderHTMLDoc(string htmlfile, string cssfile, uint maxwidth, string tables)
         {
-            // TODO: Complete member initialization
             this.htmlfile = htmlfile;
             this.cssfile = cssfile;
             this.maxwidth = maxwidth;
@@ -97,14 +94,10 @@ namespace tud.mci.tangram.Braille_Renderer
             param = "--forward \"" + pathToTables + tables.Replace(",", "," + pathToTables) + "\"";
             param = param.TrimEnd();
 
-            //param = "--forward " + pathToTables + "de-de-comp8.ctb";
-
             Dictionary<String, Dictionary<String, Object>> rules = RTBCssParser.CssToDictionary(cssfile);
             CQ dom = htmlparse(htmlfile);
 
-
             return IterateThroughDom(M, dom, rules);
-
         }
 
         bool reset()
@@ -201,24 +194,24 @@ namespace tud.mci.tangram.Braille_Renderer
             }
         }
 
-
+        private const int SPLIT_STRING_MAX_LENGTH = 60;
         private string SplitString(string command, string param, string text)
         {
             string output = null;
             string temp = null;
-            int splitCount = (text.Length / 60) + 1;
+            int splitCount = (text.Length / SPLIT_STRING_MAX_LENGTH) + 1;
             string[] textarray = new string[splitCount];
 
             for (int i = 0; i < splitCount; i++)
             {
                 if (i == splitCount - 1)
                 {
-                    temp = text.Substring(i * 60);
+                    temp = text.Substring(i * SPLIT_STRING_MAX_LENGTH);
                     textarray[i] = RTBrailleRendererHelper.cmdCall(command, param, temp);
                 }
                 else
                 {
-                    temp = text.Substring(i * 60, 60);
+                    temp = text.Substring(i * SPLIT_STRING_MAX_LENGTH, SPLIT_STRING_MAX_LENGTH);
                     textarray[i] = RTBrailleRendererHelper.cmdCall(command, param, temp);
                 }
 
