@@ -84,6 +84,7 @@
     <Compile Include="Renderer\BrailleIOViewPortRenderer.cs" />
     <Compile Include="Renderer\BrailleIOTextRenderer.cs" />
     <Compile Include="Renderer\BrailleIOViewMatixRenderer.cs" />
+    <Compile Include="Renderer\LockBitmap.cs" />
     <Compile Include="Structs\BoxModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

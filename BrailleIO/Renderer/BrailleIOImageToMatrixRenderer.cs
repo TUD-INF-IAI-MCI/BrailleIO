@@ -48,7 +48,7 @@ namespace BrailleIO.Renderer
             // FIXME: check this (invalidoperationexception nach schwellwert mehrmals absenken)
             var vr = view.ContentBox;
             Bitmap img2 = img.Clone() as Bitmap;
-            if(img2 != null)    
+            if (img2 != null)
                 return renderImage(img2, view, offset, invert, zoom, GraphicUtils.getAverageGrayscale(vr.Width, vr.Height, new Bitmap(img2, new Size((int)Math.Round(img2.Width * zoom), (int)Math.Round(img2.Height * zoom)))));
             return null;
         }
@@ -57,8 +57,8 @@ namespace BrailleIO.Renderer
         {
             if (zoom > 3) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than 3.", "zoom");
             if (zoom < 0) throw new ArgumentException("The zoom level is with a value of " + zoom + "to low. The zoom level should be between 0 and 3.", "zoom");
-            
-            if(view == null) return new bool[0,0];
+
+            if (view == null) return new bool[0, 0];
             //TODO: bring in threshold here
             //TODO: check how to get the threshold 
             var vr = view.ContentBox;
@@ -76,6 +76,13 @@ namespace BrailleIO.Renderer
 
             using (Bitmap _img = img.Clone() as Bitmap)
             {
+
+                
+
+
+
+
+
                 try
                 {
                     Int32 w = (Int32)Math.Max(Math.Round(_img.Width * zoom), 1);
@@ -106,6 +113,13 @@ namespace BrailleIO.Renderer
 
                         if (rescaled != null)
                         {
+                            LockBitmap lockBitmap = new LockBitmap(rescaled);
+                            lockBitmap.LockBits();
+
+
+                            int rw = lockBitmap.Width;
+                            int rh = lockBitmap.Height;
+
                             for (int x = 0; x + oX < m_w; x++)
                             {
                                 int cX = x + oX;
@@ -114,14 +128,15 @@ namespace BrailleIO.Renderer
                                 {
                                     int cY = oY + y;
                                     if (cY < 0) continue;
-                                    if (x < rescaled.Width && y < rescaled.Height)
+                                    if (x < rw && y < rh)
                                     {
-                                        Color c = rescaled.GetPixel(x, y);
+                                        Color c = lockBitmap.GetPixel(x, y);
                                         var l = GraphicUtils.getLightness(c);
                                         m[cY, cX] = (l > Threshold) ? invert ? true : false : invert ? false : true;
                                     }
                                 }
                             }
+                            lockBitmap.UnlockBits();
                         }
 
                     }
