@@ -152,24 +152,25 @@ namespace Gestures.Geometrie.Vertex
     public struct Sample : IVertex
     {
         //public fixed double Coords[2];
-        double coord1;
-        double coord2;
+        private double _y;
+        public double Y { get { return _y; } private set { _y = value; } }
+        private double _x;
+        public double X { get {return _x;} private set { _x = value; }}
 
         public Sample(System.DateTime timeStamp, double coord1, double coord2)
-        {
-            this.coord1 = coord1;
-            this.coord2 = coord2;
+        {          
             _TimeStamp = timeStamp;
             _num = 0;
+            _y = coord1;
+            _x = coord2;
         }
 
         public Sample(System.DateTime timeStamp, IVertex vertex)
         {
             _num = 0;
-            this.coord1 = vertex[0];
-            this.coord2 = vertex[1];
-
             _TimeStamp = timeStamp;
+            _y = vertex[0];
+            _x = vertex[1];
         }
 
         private System.DateTime _TimeStamp;
@@ -182,8 +183,8 @@ namespace Gestures.Geometrie.Vertex
             {
                 switch (index)
                 {
-                    case 0: return coord1;
-                    case 1: return coord2;
+                    case 0: return Y;
+                    case 1: return X;
                     default: return .0;
                 }
             }
@@ -191,8 +192,8 @@ namespace Gestures.Geometrie.Vertex
             {
                 switch (index)
                 {
-                    case 0: coord1 = value; break;
-                    case 1: coord2 = value; break;
+                    case 0: Y = value; break;
+                    case 1: X = value; break;
                     default: break;
                 }
             }
