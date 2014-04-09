@@ -144,5 +144,6 @@ namespace BrailleIO.Interface
         bool Disconnect();
 
         void Synchronize(bool[,] matrix);
+        bool Recalibrate(double threshold);
     }
 }

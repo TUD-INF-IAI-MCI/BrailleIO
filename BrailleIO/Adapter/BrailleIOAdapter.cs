@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using BrailleIO.Interface;
+using System.Threading.Tasks;
 
 namespace BrailleIO
 {
@@ -33,8 +34,6 @@ namespace BrailleIO
         {
             return new BrailleIODevice(120, 60, "UNKNOWN", true, true, 10, this.GetType().ToString());
         }
-
-
 
         private float _dpiX = 10;
         /// <summary>
@@ -177,17 +176,121 @@ namespace BrailleIO
             if (touchValuesChanged != null)
                 touchValuesChanged(this, new BrailleIO_TouchValuesChanged_EventArgs(touches, timestamp, ref raw));
         }
-        public virtual void Synchronize(bool[,] matrix)
-        {
-            manager.ActiveAdapter.Synchronize(matrix);
-        }
         public virtual void fireErrorOccured(ErrorCode errorCode, ref OrderedDictionary raw)
         {
             if (errorOccured != null)
                 errorOccured(this, new BrailleIO_ErrorOccured_EventArgs(errorCode, ref raw));
         }
 
+        public virtual void Synchronize(bool[,] matrix)
+        {
+            manager.ActiveAdapter.Synchronize(matrix);
+        }
 
+        #region Touch
+
+
+        public virtual bool Recalibrate(double threshold)
+        {
+            if (Device != null)
+            {
+                touchValuesChanged += new BrailleIO_TouchValuesChanged_EventHandler(AbstractBrailleIOAdapterBase_touchValuesChanged);
+                bool[,] empty = new bool[Device.DeviceSizeY, Device.DeviceSizeX];
+                bool[,] full = GetFullSetMatrix();
+                //clear the correction matrix 
+                touchCorrectionMatrix = new double[Device.DeviceSizeY, Device.DeviceSizeX];
+
+                Synchronize(empty);
+                System.Threading.Thread.Sleep(1000);
+                Synchronize(full);
+                System.Threading.Thread.Sleep(1000);
+                Synchronize(empty);
+                System.Threading.Thread.Sleep(1000);
+                Synchronize(full);
+                System.Threading.Thread.Sleep(1000);
+                Synchronize(empty);
+
+                touchValuesChanged -= new BrailleIO_TouchValuesChanged_EventHandler(AbstractBrailleIOAdapterBase_touchValuesChanged);
+                touchCorrectionMatrix = tempTouchCorrectionMatrix;
+            }
+
+            return true;
+        }
+
+        void AbstractBrailleIOAdapterBase_touchValuesChanged(object sender, BrailleIO_TouchValuesChanged_EventArgs e)
+        {
+            addToFlickeringTouchMatrix(e.touches);
+        }
+
+        double[,] _touchCorrectionMatrix;
+        private static readonly object tcmLock = new object();
+        protected double[,] touchCorrectionMatrix
+        {
+            get { return _touchCorrectionMatrix; }
+            set { lock (tcmLock) { _touchCorrectionMatrix = value; } }
+        }
+
+        double[,] _tmpTouchCorrectionMatrix;
+        static readonly object ttcmLock = new object();
+        double[,] tempTouchCorrectionMatrix
+        {
+            get { return _tmpTouchCorrectionMatrix; }
+            set { lock (ttcmLock) { _tmpTouchCorrectionMatrix = value; } }
+        }
+
+        private double[,] addToFlickeringTouchMatrix(double[,] tMatrix)
+        {
+            double[,] ftm = tempTouchCorrectionMatrix;
+
+            if (ftm != null && tMatrix != null)
+            {
+                int rows = tMatrix.GetLength(0);
+                int cols = tMatrix.GetLength(1);
+
+                Parallel.For(0, rows, i =>
+                {
+                    Parallel.For(0, cols, j =>
+                    {
+                        try
+                        {
+                            // Use a temporary to improve parallel performance. 
+                            double temp = 0;
+                            temp += Math.Max(tMatrix[i, j], ftm[i, j]);
+                            ftm[i, j] = temp;
+                        }
+                        catch (System.Exception ex)
+                        {
+
+                        }
+
+                    }); // Parallel.For cols
+
+                }); // Parallel.For rows
+            }
+            else
+            {
+                ftm = tMatrix;
+            }
+            tempTouchCorrectionMatrix = ftm;
+            return ftm;
+        }
+
+
+        private bool[,] _fullMatrix;
+        public bool[,] GetFullSetMatrix()
+        {
+            if (_fullMatrix == null || (Device != null && (_fullMatrix.GetLength(0) != Device.DeviceSizeY || _fullMatrix.GetLength(1) != Device.DeviceSizeX)))
+            {
+                int rows = Device.DeviceSizeY;
+                int cols = Device.DeviceSizeX;
+                _fullMatrix = new bool[rows, cols];
+                Parallel.For(0, rows, i => {
+                    Parallel.For(0, cols, j => { try { _fullMatrix[i, j] = true; } catch{} });
+                });
+            }
+            return _fullMatrix;
+        }
+        #endregion
 
     }
 

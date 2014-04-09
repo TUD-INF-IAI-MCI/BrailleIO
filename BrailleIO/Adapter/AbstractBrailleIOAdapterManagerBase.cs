@@ -10,13 +10,14 @@ namespace BrailleIO
     abstract public class AbstractBrailleIOAdapterManagerBase
     {
 
+        AbstractBrailleIOAdapterBase _activeAdapter;
         /// <summary>
         /// initialize all supported devices and wait for connection.
         /// </summary>
         public AbstractBrailleIOAdapterBase ActiveAdapter
         {
-            get;
-            set;
+            get { return _activeAdapter; }
+            set { AddAdapter(value); _activeAdapter = value; }
         }
         private Object _adapterLock = new Object();
         private ConcurrentBag<AbstractBrailleIOAdapterBase> _adapters = new ConcurrentBag<AbstractBrailleIOAdapterBase>();
@@ -78,8 +79,7 @@ namespace BrailleIO
 
         public virtual AbstractBrailleIOAdapterBase[] GetAdapters()
         {
-            Adapters.ToArray();
-            return null;
+            return Adapters.ToArray();
         }
 
         /// <summary>
