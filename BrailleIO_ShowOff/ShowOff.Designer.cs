@@ -29,7 +29,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel_MatrixPanel = new System.Windows.Forms.Panel();
             this.button_KEY_RIGHT_ROCKER_SWITCH_UP = new System.Windows.Forms.Button();
             this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN = new System.Windows.Forms.Button();
             this.button_KEY_DOT1 = new System.Windows.Forms.Button();
@@ -78,20 +77,14 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.zoom_level = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pictureBoxTouch = new System.Windows.Forms.PictureBox();
+            this.pictureBoxPins = new System.Windows.Forms.PictureBox();
+            this.pictureBoxMatrix = new System.Windows.Forms.PictureBox();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMatrix)).BeginInit();
             this.SuspendLayout();
-            // 
-            // panel1
-            // 
-            this.panel_MatrixPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_MatrixPanel.Location = new System.Drawing.Point(94, 78);
-            this.panel_MatrixPanel.Margin = new System.Windows.Forms.Padding(2);
-            this.panel_MatrixPanel.Name = "panel1";
-            this.panel_MatrixPanel.Size = new System.Drawing.Size(721, 363);
-            this.panel_MatrixPanel.TabIndex = 0;
-            this.panel_MatrixPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
-            this.panel_MatrixPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
-            this.panel_MatrixPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
             // 
             // button_KEY_RIGHT_ROCKER_SWITCH_UP
             // 
@@ -103,7 +96,6 @@
             this.button_KEY_RIGHT_ROCKER_SWITCH_UP.Text = "+";
             this.button_KEY_RIGHT_ROCKER_SWITCH_UP.UseVisualStyleBackColor = true;
             this.button_KEY_RIGHT_ROCKER_SWITCH_UP.Click += new System.EventHandler(this.button_KEY_RIGHT_ROCKER_SWITCH_UP_Click);
-            
             // 
             // button_KEY_RIGHT_ROCKER_SWITCH_DOWN
             // 
@@ -550,12 +542,40 @@
             this.zoom_level.Size = new System.Drawing.Size(25, 17);
             this.zoom_level.Text = "100";
             // 
+            // pictureBoxTouch
+            // 
+            this.pictureBoxTouch.Location = new System.Drawing.Point(116, 97);
+            this.pictureBoxTouch.Name = "pictureBoxTouch";
+            this.pictureBoxTouch.Size = new System.Drawing.Size(721, 363);
+            this.pictureBoxTouch.TabIndex = 49;
+            this.pictureBoxTouch.TabStop = false;
+            // 
+            // pictureBoxPins
+            // 
+            this.pictureBoxPins.Location = new System.Drawing.Point(106, 88);
+            this.pictureBoxPins.Name = "pictureBoxPins";
+            this.pictureBoxPins.Size = new System.Drawing.Size(721, 363);
+            this.pictureBoxPins.TabIndex = 48;
+            this.pictureBoxPins.TabStop = false;
+            // 
+            // pictureBoxMatrix
+            // 
+            this.pictureBoxMatrix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxMatrix.Location = new System.Drawing.Point(93, 77);
+            this.pictureBoxMatrix.Name = "pictureBoxMatrix";
+            this.pictureBoxMatrix.Size = new System.Drawing.Size(721, 363);
+            this.pictureBoxMatrix.TabIndex = 47;
+            this.pictureBoxMatrix.TabStop = false;
+            // 
             // ShowOff
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(919, 531);
+            this.Controls.Add(this.pictureBoxTouch);
+            this.Controls.Add(this.pictureBoxPins);
+            this.Controls.Add(this.pictureBoxMatrix);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.button_KEY_NAV_DOWN);
             this.Controls.Add(this.button_KEY_NAV_DOWN_2);
@@ -593,7 +613,6 @@
             this.Controls.Add(this.button_KEY_DOT1);
             this.Controls.Add(this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN);
             this.Controls.Add(this.button_KEY_RIGHT_ROCKER_SWITCH_UP);
-            this.Controls.Add(this.panel_MatrixPanel);
             this.Controls.Add(this.shapeContainer1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximumSize = new System.Drawing.Size(935, 569);
@@ -602,6 +621,9 @@
             this.Text = "BrailleIO Show Off Adapter";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMatrix)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -609,7 +631,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel_MatrixPanel;
         private System.Windows.Forms.Button button_KEY_RIGHT_ROCKER_SWITCH_UP;
         private System.Windows.Forms.Button button_KEY_RIGHT_ROCKER_SWITCH_DOWN;
         private System.Windows.Forms.Button button_KEY_DOT1;
@@ -658,6 +679,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel zoom_level;
+        private System.Windows.Forms.PictureBox pictureBoxTouch;
+        private System.Windows.Forms.PictureBox pictureBoxPins;
+        private System.Windows.Forms.PictureBox pictureBoxMatrix;
 
 
     }

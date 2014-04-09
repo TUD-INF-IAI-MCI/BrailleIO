@@ -23,61 +23,47 @@ namespace BrailleIO
         readonly int pixelFactor = 5;
         #endregion
 
-        volatile bool _run = true;
+        volatile bool _locked = false;
+        //volatile bool _run = true;
 
-        volatile bool[,] rm;
-
-        Graphics _g;
-        readonly Object gLock = new Object();
-        Graphics PinGraphic
+        bool[,] _rm;
+        readonly object renderMatrixLock = new object();
+        bool[,] RenderingMatrix
         {
             get
             {
-                lock (gLock)
+                lock (renderMatrixLock)
                 {
-                if (_g == null)
-                {
-                    _g = Graphics.FromImage(bmp);
-                }
-                return _g;
+                    return _rm;
                 }
             }
             set
             {
-                lock (gLock)
-                {
-                _g = value;
-                }
+                lock (renderMatrixLock) { _rm = value; }
             }
         }
 
-        Bitmap _bmp;
-        private readonly object _bmpLock = new object();
-        Bitmap bmp
-        {
-            get
-            {
-                lock (_bmpLock)
-                {
-                if (_bmp == null)
-                    _bmp = new Bitmap(panel_MatrixPanel.Width, panel_MatrixPanel.Height);
-
-                return _bmp;
-                }
-            }
-        }
-
-        Graphics _pg;
-        Graphics PG
-        {
-            get { if (_pg == null && panel_MatrixPanel != null) { _pg = panel_MatrixPanel.CreateGraphics(); } return _pg; }
-        }
-        
-        object graphicsLock = new object();
-        
         Bitmap _baseImg;
 
+        readonly static System.Timers.Timer renderTimer = new System.Timers.Timer(100);
+
         #endregion
+
+        void renderTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+                if (!_locked)
+                {
+                    if (this.pictureBoxMatrix.Image == null)
+                        this.pictureBoxMatrix.Image = generateBaseImage(120, 60);
+                    this.pictureBoxPins.Image = getPinMatrixImage(RenderingMatrix);
+                    RenderingMatrix = null;
+                }
+            }
+            catch { }
+        }
+
 
         /// <summary>
         /// Generates a base image of this virtual pin matrix.
@@ -86,11 +72,11 @@ namespace BrailleIO
         /// <param name="Width">The width.</param>
         /// <param name="height">The height.</param>
         /// <returns></returns>
-        Bitmap generateBaseImage(bool rerender, int Width, int height)
+        Bitmap generateBaseImage(int Width, int height)
         {
-            if (_baseImg == null || rerender)
+            if (_baseImg == null)
             {
-                _baseImg = new Bitmap(panel_MatrixPanel.Width, panel_MatrixPanel.Height);
+                _baseImg = new Bitmap(pictureBoxMatrix.Width, pictureBoxMatrix.Height);
                 using (Graphics big = Graphics.FromImage(_baseImg))
                 {
                     big.FillRectangle(Brushes.White, 0, 0, _baseImg.Width, _baseImg.Height);
@@ -116,8 +102,8 @@ namespace BrailleIO
             }
             return _baseImg != null ? _baseImg.Clone() as Bitmap : null;
         }
-        
-        partial void _dispose() { _run = false; }
+
+        partial void _dispose() { renderTimer.Stop(); }
 
         /// <summary>
         /// Paints the specified matrix to the GUI.
@@ -125,79 +111,109 @@ namespace BrailleIO
         /// <param name="m">The pin matrix.</param>
         public void paint(bool[,] m)
         {
-            startRendering();
-            rm = m;
-        }
+            RenderingMatrix = m;
+            //FIXME: for fixing
+            //BrailleIO.Renderer.GraphicUtils.PaintBoolMatrixToImage(m, @"C:\Users\Admin\Desktop\tmp\matrixes\m_" + DateTime.UtcNow.ToString("yyyy_MM_dd-HH_mm_ss_fff",
+            //                                System.Globalization.CultureInfo.InvariantCulture) + ".bmp" );
 
-        /// <summary>
-        /// Starts the rendering thread if necessary.
-        /// </summary>
-        private void startRendering()
-        {
-            try
-            {
-                if (renderingThread == null || !renderingThread.IsAlive)
-                {
-                    renderingThread = new Thread(threadPaint);
-                    renderingThread.Name = "renderingThread";
-                    // renderingThread.Priority = ThreadPriority.BelowNormal;
-                    renderingThread.Start();
-                }
-            }
-            catch (System.Threading.ThreadStartException e) { System.Diagnostics.Debug.WriteLine(e); }
-            catch (System.Threading.ThreadStateException e) { System.Diagnostics.Debug.WriteLine(e); }
-        }
 
-        /// <summary>
-        /// Paints the pin matrix to the GUI.
-        /// </summary>
-        private void threadPaint()
+        }
+        #region Matrix Image
+
+        Bitmap _matrixbmp;
+        readonly object _matrixGraphicLock = new object();
+        Graphics _matrixGraphics;
+        Graphics matrixGraphics
         {
-            bool[,] m1 = null;
-            while (_run)
+            get
             {
-                try
+                lock (_matrixGraphicLock)
                 {
-                    m1 = rm;
-                    if (m1 != null)
+                    if (_matrixGraphics == null)
                     {
-                        PinGraphic.DrawImageUnscaled(generateBaseImage(false, 120, 60), 0, 0);
-                        for (int i = 0; i < m1.GetLength(0); i++)
-                            for (int j = 0; j < m1.GetLength(1); j++)
-                            {
-
-                                double t = 0;
-                                //touch paint
-                                if (touchMatrix != null && touchMatrix.GetLength(0) > i && touchMatrix.GetLength(1) > j && touchMatrix[i, j] > 0)
-                                {
-                                    t = touchMatrix[i, j];
-                                }
-
-                                if (m1[i, j])
-                                {
-                                    PinGraphic.FillRectangle(Brushes.Black, j * (pixelFactor + 1), i * (pixelFactor + 1), pixelFactor, pixelFactor);
-                                    if (t > 0) PinGraphic.FillEllipse(Brushes.LightPink, (j * (pixelFactor + 1)) + 1, (i * (pixelFactor + 1)) + 1, pixelFactor - 2, pixelFactor - 2);
-                                }
-                                else
-                                {
-                                    if (t > 0) PinGraphic.FillEllipse(Brushes.Red, j * (pixelFactor + 1), i * (pixelFactor + 1), pixelFactor, pixelFactor);
-                                    //    PinGraphic.DrawEllipse(strokePen, j * (pixelFactor + 1), i * (pixelFactor + 1), pixelFactor - 1, pixelFactor - 1);
-                                }
-                            }
-                        rm = null;
-                        try
-                        {
-                            if (PG != null) PG.DrawImage(bmp, 0, 0);
-                        }
-                        catch (System.ObjectDisposedException) { return; }
-                        catch (System.ComponentModel.Win32Exception) { return; }
+                        if (_matrixbmp == null) _matrixbmp = new Bitmap(this.pictureBoxTouch.Width, this.pictureBoxTouch.Height);
+                        if (_matrixbmp != null) _matrixGraphics = Graphics.FromImage(_matrixbmp);
                     }
-                    else { Thread.Sleep(5); }
+                    return _matrixGraphics;
                 }
-                catch (System.Exception) { }
-                finally { /*Thread.Sleep(10);*/ }
             }
         }
+
+        private Bitmap getPinMatrixImage(bool[,] m)
+        {
+            _locked = true;
+            if (m != null && matrixGraphics != null)
+            {
+                matrixGraphics.Clear(Color.Transparent);
+                int rows = m.GetLength(0);
+                int cols = m.GetLength(1);
+
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                    {
+                        if (m[i, j])
+                        {
+                            matrixGraphics.FillRectangle(Brushes.Black, j * (pixelFactor + 1), i * (pixelFactor + 1), pixelFactor, pixelFactor);
+                        }
+                    }
+
+            }
+            _locked = false;
+            return _matrixbmp != null ? _matrixbmp.Clone() as Bitmap : null;
+        }
+
+        #endregion
+
+        #region Touch Image
+
+        Bitmap _touchbmp;
+        readonly object _touchGraphicLock = new object();
+        Graphics _touchGraphics;
+        Graphics touchGraphics
+        {
+            get
+            {
+                lock (_touchGraphicLock)
+                {
+                    if (_touchGraphics == null)
+                    {
+                        if (_touchbmp == null) _touchbmp = new Bitmap(this.pictureBoxTouch.Width, this.pictureBoxTouch.Height);
+                        if (_touchbmp != null) _touchGraphics = Graphics.FromImage(_touchbmp);
+                    }
+                    return _touchGraphics;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets a image representing the touched pins.
+        /// </summary>
+        /// <returns></returns>
+        private Bitmap getTouchImage()
+        {
+            if (touchGraphics != null)
+            {
+                touchGraphics.Clear(Color.Transparent);
+                int rows = 60;
+                int cols = 120;
+
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                    {
+                        double t = 0;
+                        //touch paint
+                        if (touchMatrix != null && touchMatrix.GetLength(0) > i && touchMatrix.GetLength(1) > j && touchMatrix[i, j] > 0)
+                        {
+                            t = touchMatrix[i, j];
+                        }
+                        if (t > 0) touchGraphics.FillEllipse(Brushes.Red, j * (pixelFactor + 1), i * (pixelFactor + 1), pixelFactor - 1, pixelFactor - 1);
+                    }
+            }
+
+            return _touchbmp != null ? _touchbmp.Clone() as Bitmap : null;
+        }
+        #endregion
+
 
         #endregion
 

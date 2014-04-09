@@ -145,7 +145,6 @@ namespace BrailleIO.Renderer
             }
             return m;
         }
-
     }
 
     public static class GraphicUtils
