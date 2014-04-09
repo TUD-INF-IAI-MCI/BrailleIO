@@ -150,7 +150,7 @@ namespace BrailleIO
             int o_x = vr.GetLeft();
             int o_y = vr.GetTop();
             bool handlePanning = true;
-            
+
             bool[,] cm = new bool[1, 1];
             if (vr.IsMatrix()) // Matrix rendering
             {
@@ -506,5 +506,21 @@ namespace BrailleIO
         {
             return new BrailleIOTouchPath();
         }
+
+        public bool Recalibrate()
+        {
+            return AdapterManager.ActiveAdapter.Recalibrate(0);
+        }
+
+        public bool RecalibrateAll()
+        {
+            bool result = true;
+            foreach (var adapter in AdapterManager.GetAdapters())
+            {
+                result &= adapter.Recalibrate(0);
+            }
+            return result;
+        }
+
     }
 }
