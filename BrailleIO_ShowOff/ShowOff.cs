@@ -37,6 +37,21 @@ namespace BrailleIO
         public ShowOff()
         {
             InitializeComponent();
+
+
+            this.pictureBoxMatrix.BackColor = Color.White;
+            this.pictureBoxMatrix.Image = generateBaseImage(120, 60);
+            this.pictureBoxPins.BackColor = Color.Transparent;
+            pictureBoxPins.Parent = pictureBoxMatrix;
+            pictureBoxPins.Location = new Point(0, 0);
+            this.pictureBoxTouch.BackColor = Color.Transparent;
+            pictureBoxTouch.Parent = pictureBoxPins;
+            pictureBoxTouch.Location = new Point(0, 0);
+            pictureBoxTouch.Image = null;
+
+            renderTimer.Elapsed += new System.Timers.ElapsedEventHandler(renderTimer_Elapsed);
+            renderTimer.Start();            
+            
             this.Activate();
             this.Show();
 
@@ -77,9 +92,24 @@ namespace BrailleIO
 
         #region Public Functions
 
-        public void PaintTouchMatrix(double[,] touchMatrix) { this.touchMatrix = touchMatrix; this.paint(m); }
+        public void PaintTouchMatrix(double[,] touchMatrix) { this.touchMatrix = touchMatrix; this.pictureBoxTouch.Image = getTouchImage(); }
 
         #endregion
+
+        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void panel1_MouseUp(object sender, MouseEventArgs e)
+        {
+
+        }
 
     }
 }

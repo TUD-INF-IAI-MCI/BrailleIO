@@ -11,20 +11,6 @@ namespace BrailleIO
         //TODO: make gesture emulation
         #region Mouse events
 
-        private void panel1_MouseMove(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        private void panel1_MouseDown(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        private void panel1_MouseUp(object sender, MouseEventArgs e)
-        {
-
-        }
 
         #endregion
 

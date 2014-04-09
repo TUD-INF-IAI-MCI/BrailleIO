@@ -60,7 +60,7 @@ namespace BrailleIO
                     if (_matrix == null)
                     {
                         if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
-                            _matrix = new bool[AdapterManager.ActiveAdapter.Device.DeviceSizeX, AdapterManager.ActiveAdapter.Device.DeviceSizeX];
+                            _matrix = new bool[AdapterManager.ActiveAdapter.Device.DeviceSizeY, AdapterManager.ActiveAdapter.Device.DeviceSizeX];
                         else
                             _matrix = new bool[0, 0];
                     }
