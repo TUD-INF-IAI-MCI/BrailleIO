@@ -95,7 +95,7 @@ namespace BrailleIO
                             instance.device_update_timer.Elapsed += new ElapsedEventHandler(refreshDisplayEvent);
                             instance.device_update_timer.Interval = 200;
                             instance.device_update_timer.Enabled = true;
-                            //instance.manager = new BrailleIOAdapterManager(ref instance);
+                            instance.AdapterManager = new BasicBrailleIOAdapterManager();
                         }
                         syncRoot = null;
                     }
