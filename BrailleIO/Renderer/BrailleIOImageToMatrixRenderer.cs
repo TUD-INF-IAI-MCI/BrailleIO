@@ -74,14 +74,20 @@ namespace BrailleIO.Renderer
                 oY = offset.GetYOffset();
             }
 
+            //TODO: handle this exception problem
+  //          System.InvalidOperationException ist aufgetreten.
+  //HResult=-2146233079
+  //Message=Das Objekt wird bereits an anderer Stelle verwendet.
+  //Source=System.Drawing
+  //StackTrace:
+  //     bei System.Drawing.Image.Clone()
+  //     bei BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.renderImage(Bitmap img, IViewBoxModel view, IPannable offset, Boolean invert, Double zoom) in E:\Tangram\Tool\BrailleIO\BrailleIO\Renderer\BrailleIOImageToMatrixRenderer.cs:Zeile 77.
+  //InnerException: 
+
+
+
             using (Bitmap _img = img.Clone() as Bitmap)
             {
-
-                
-
-
-
-
 
                 try
                 {
@@ -138,7 +144,6 @@ namespace BrailleIO.Renderer
                             }
                             lockBitmap.UnlockBits();
                         }
-
                     }
                 }
                 catch (ArgumentException) { }
