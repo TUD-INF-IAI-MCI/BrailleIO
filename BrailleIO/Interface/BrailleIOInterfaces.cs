@@ -387,6 +387,17 @@ namespace BrailleIO.Interface
             OffsetPosition.Y = Math.Max(Math.Min(OffsetPosition.Y + direktions.Y, 0), maxYOffset);
             return OffsetPosition;
         }
+        /// <summary>
+        /// Moves the viewBox to the given position.
+        /// </summary>
+        /// <param name="viewPort">Position to which the viewBox should be moved.</param>
+        /// <returns>The new ViewBox</returns>
+        public Point MoveTo(Point viewPort)
+        {
+            OffsetPosition.X = viewPort.X;
+            OffsetPosition.Y = viewPort.Y;
+            return OffsetPosition;
+        }
     }
 
     #endregion
