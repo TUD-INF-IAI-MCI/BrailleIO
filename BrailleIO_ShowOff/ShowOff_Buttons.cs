@@ -372,6 +372,10 @@ namespace BrailleIO
         private readonly Color MarkedButtonBgColor = Color.FromArgb(100, Color.DarkOrange);
         private readonly Color ReleasingButtonBgColor = Color.FromArgb(100, Color.ForestGreen);
 
+        /// <summary>
+        /// Marks the button as pressed.
+        /// </summary>
+        /// <param name="pressedButtons">The pressed buttons.</param>
         public void MarkButtonAsPressed(List<String> pressedButtons)
         {
             if (pressedButtons != null && pressedButtons.Count > 0)
@@ -385,6 +389,10 @@ namespace BrailleIO
                 }
         }
 
+        /// <summary>
+        /// Reset the buttons to normal mode.
+        /// </summary>
+        /// <param name="releasedButtons">The released buttons.</param>
         public void UnmarkButtons(List<String> releasedButtons)
         {
             if (releasedButtons != null && releasedButtons.Count > 0)

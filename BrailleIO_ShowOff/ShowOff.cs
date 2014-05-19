@@ -15,12 +15,9 @@ namespace BrailleIO
     public partial class ShowOff : Form
     {
         #region Members
-
-        public bool[,] m { get; set; }
+        internal readonly ConcurrentStack<double[,]> touchStack = new ConcurrentStack<double[,]>();
 
         BrailleIOMediator io;
-        volatile double[,] touchMatrix;
-        Thread renderingThread;
         BrailleIOAdapter_ShowOff showOffAdapter;
 
         #endregion
@@ -92,7 +89,20 @@ namespace BrailleIO
 
         #region Public Functions
 
-        public void PaintTouchMatrix(double[,] touchMatrix) { this.touchMatrix = touchMatrix; this.pictureBoxTouch.Image = getTouchImage(); }
+        /// <summary>
+        /// Paints the touch matrix over the matrix image.
+        /// </summary>
+        /// <param name="touchMatrix">The touch matrix.</param>
+        public void PaintTouchMatrix(double[,] touchMatrix) { addMatrixToStack(touchMatrix); this.pictureBoxTouch.Image = getTouchImage(); }
+
+        private void addMatrixToStack(double[,] touchMatrix)
+        {
+            if (touchMatrix != null)
+            {
+                touchStack.Push(touchMatrix);
+            }
+        }
+
 
         #endregion
 

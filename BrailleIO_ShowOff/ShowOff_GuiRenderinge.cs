@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Concurrent;
 
 namespace BrailleIO
 {
@@ -23,25 +24,7 @@ namespace BrailleIO
         readonly int pixelFactor = 5;
         #endregion
 
-        volatile bool _locked = false;
-        //volatile bool _run = true;
-
-        bool[,] _rm;
-        readonly object renderMatrixLock = new object();
-        bool[,] RenderingMatrix
-        {
-            get
-            {
-                lock (renderMatrixLock)
-                {
-                    return _rm;
-                }
-            }
-            set
-            {
-                lock (renderMatrixLock) { _rm = value; }
-            }
-        }
+        internal readonly ConcurrentStack<bool[,]> MartixStack = new ConcurrentStack<bool[,]>();
 
         Bitmap _baseImg;
 
@@ -53,13 +36,21 @@ namespace BrailleIO
         {
             try
             {
-                if (!_locked)
+
+                if (MartixStack.Count > 0)
                 {
+
+                    bool[,] rm;
+                    int c = 0;
+
+                    while (!MartixStack.TryPop(out rm) && (++c < 10)) { rm = null; }
+
                     if (this.pictureBoxMatrix.Image == null)
                         this.pictureBoxMatrix.Image = generateBaseImage(120, 60);
-                    this.pictureBoxPins.Image = getPinMatrixImage(RenderingMatrix);
-                    RenderingMatrix = null;
+                    this.pictureBoxPins.Image = getPinMatrixImage(rm);
+                    MartixStack.Clear();
                 }
+
             }
             catch { }
         }
@@ -111,7 +102,7 @@ namespace BrailleIO
         /// <param name="m">The pin matrix.</param>
         public void paint(bool[,] m)
         {
-            RenderingMatrix = m;
+            MartixStack.Push(m);
             //FIXME: for fixing
             //BrailleIO.Renderer.GraphicUtils.PaintBoolMatrixToImage(m, @"C:\Users\Admin\Desktop\tmp\matrixes\m_" + DateTime.UtcNow.ToString("yyyy_MM_dd-HH_mm_ss_fff",
             //                                System.Globalization.CultureInfo.InvariantCulture) + ".bmp" );
@@ -141,7 +132,6 @@ namespace BrailleIO
 
         private Bitmap getPinMatrixImage(bool[,] m)
         {
-            _locked = true;
             if (m != null && matrixGraphics != null)
             {
                 matrixGraphics.Clear(Color.Transparent);
@@ -158,7 +148,6 @@ namespace BrailleIO
                     }
 
             }
-            _locked = false;
             return _matrixbmp != null ? _matrixbmp.Clone() as Bitmap : null;
         }
 
@@ -185,29 +174,43 @@ namespace BrailleIO
             }
         }
 
+
+        private Image _lastTouchImage;
         /// <summary>
         /// Gets a image representing the touched pins.
         /// </summary>
         /// <returns></returns>
         private Bitmap getTouchImage()
         {
-            if (touchGraphics != null)
+            if (touchStack.Count > 0)
             {
-                touchGraphics.Clear(Color.Transparent);
-                int rows = 60;
-                int cols = 120;
+                double[,] tm;
+                int c = 0;
 
-                for (int i = 0; i < rows; i++)
-                    for (int j = 0; j < cols; j++)
+                while (!touchStack.TryPop(out tm) && (++c < 10)) { tm = null; }
+
+                if (tm != null)
+                {
+                    if (touchGraphics != null)
                     {
-                        double t = 0;
-                        //touch paint
-                        if (touchMatrix != null && touchMatrix.GetLength(0) > i && touchMatrix.GetLength(1) > j && touchMatrix[i, j] > 0)
-                        {
-                            t = touchMatrix[i, j];
-                        }
-                        if (t > 0) touchGraphics.FillEllipse(Brushes.Red, j * (pixelFactor + 1), i * (pixelFactor + 1), pixelFactor - 1, pixelFactor - 1);
+                        touchGraphics.Clear(Color.Transparent);
+                        int rows = 60;
+                        int cols = 120;
+
+                        for (int i = 0; i < rows; i++)
+                            for (int j = 0; j < cols; j++)
+                            {
+                                double t = 0;
+                                //touch paint
+                                if (tm != null && tm.GetLength(0) > i && tm.GetLength(1) > j && tm[i, j] > 0)
+                                {
+                                    t = tm[i, j];
+                                }
+                                if (t > 0) touchGraphics.FillEllipse(Brushes.Red, j * (pixelFactor + 1), i * (pixelFactor + 1), pixelFactor - 1, pixelFactor - 1);
+                            }
                     }
+                }
+                touchStack.Clear();
             }
 
             return _touchbmp != null ? _touchbmp.Clone() as Bitmap : null;
