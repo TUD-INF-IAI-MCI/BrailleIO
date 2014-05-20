@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace BrailleIO.Renderer
 {
-    public class LockBitmap
+    public class LockBitmap : IDisposable
     {
         Bitmap source = null;
         IntPtr Iptr = IntPtr.Zero;
@@ -71,20 +71,17 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Unlock bitmap data
         /// </summary>
-        public void UnlockBits()
+        void unlockBits()
         {
             try
             {
                 // Copy data from byte array to pointer
                 Marshal.Copy(Pixels, 0, Iptr, Pixels.Length);
-
+                
                 // Unlock bitmap data
                 source.UnlockBits(bitmapData);
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            catch (Exception ex){}
         }
 
         /// <summary>
@@ -162,6 +159,12 @@ namespace BrailleIO.Renderer
             {
                 Pixels[i] = color.B;
             }
+        }
+
+        public void Dispose()
+        {
+            unlockBits();
+            this.source.Dispose();
         }
     }
 }

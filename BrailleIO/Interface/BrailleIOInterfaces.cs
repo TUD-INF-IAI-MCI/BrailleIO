@@ -390,12 +390,16 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Moves the viewBox to the given position.
         /// </summary>
-        /// <param name="viewPort">Position to which the viewBox should be moved.</param>
+        /// <param name="point">Position to which the viewBox should be moved.</param>
         /// <returns>The new ViewBox</returns>
-        public Point MoveTo(Point viewPort)
+        public Point MoveTo(Point point)
         {
-            OffsetPosition.X = viewPort.X;
-            OffsetPosition.Y = viewPort.Y;
+            int maxXOffset = -(Math.Max(ContentWidth - ContentBox.Width, 0));
+            int maxYOffset = -(Math.Max(ContentHeight - ContentBox.Height, 0));
+
+            OffsetPosition.X = Math.Max(point.X, maxXOffset);
+            OffsetPosition.Y = Math.Max(point.Y, maxYOffset);
+
             return OffsetPosition;
         }
     }

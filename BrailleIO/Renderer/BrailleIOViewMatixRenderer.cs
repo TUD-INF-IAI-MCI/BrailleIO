@@ -64,27 +64,50 @@ namespace BrailleIO.Renderer
 
             if (contentMatrix != null)
             {
-                for (int i = 0; (i + l) < viewMatrix.GetLength(1); i++) //TODO: maybe stop before the content matrix end (subtract left space)
+
+                int cw = contentMatrix.GetLength(1);
+                int ch = contentMatrix.GetLength(0);
+
+                System.Threading.Tasks.Parallel.For(0, viewMatrix.GetLength(1) - l, x =>
                 {
 
-                    int cX = oX + i;
-                    if (cX < 0) continue;
-                    if (contentMatrix.GetLength(1) <= cX) break;
-
-                    for (int j = 0; (j + t) < viewMatrix.GetLength(0); j++) //TODO: maybe stop before the content matrix end (subtract bottom space) 
+                    int cX = oX + x;
+                    if (cX >= 0 && contentMatrix.GetLength(1) > cX)
                     {
-                        int cY = oY + j;
-                        if (cY < 0) continue;
-                        if (contentMatrix.GetLength(0) <= cY) break;
-
-
-                        if ((i + l) >= 0 && (j + t) >= 0
-                            )
+                        System.Threading.Tasks.Parallel.For(0, viewMatrix.GetLength(0) - t, y =>
                         {
-                            viewMatrix[j + t, i + l] = contentMatrix[cY, cX];
-                        }
+                            int cY = oY + y;
+                            if (cY >= 0 && contentMatrix.GetLength(0) > cY)
+                            {
+                                if ((x + l) >= 0 && (y + t) >= 0)
+                                {
+                                    viewMatrix[y + t, x + l] = contentMatrix[cY, cX];
+                                }
+                            }
+                        });
                     }
-                }
+                });
+
+                //for (int x = 0; (x + l) < viewMatrix.GetLength(1); x++) //TODO: maybe stop before the content matrix end (subtract left space)
+                //{
+
+                //    int cX = oX + x;
+                //    if (cX < 0) continue;
+                //    if (contentMatrix.GetLength(1) <= cX) break;
+
+                //    for (int y = 0; (y + t) < viewMatrix.GetLength(0); y++) //TODO: maybe stop before the content matrix end (subtract bottom space) 
+                //    {
+                //        int cY = oY + y;
+                //        if (cY < 0) continue;
+                //        if (contentMatrix.GetLength(0) <= cY) break;
+
+
+                //        if ((x + l) >= 0 && (y + t) >= 0)
+                //        {
+                //            viewMatrix[y + t, x + l] = contentMatrix[cY, cX];
+                //        }
+                //    }
+                //}
             }
             return viewMatrix;
         }
