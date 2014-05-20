@@ -61,90 +61,166 @@ namespace BrailleIO.Renderer
             if (view == null) return new bool[0, 0];
             //TODO: bring in threshold here
             //TODO: check how to get the threshold 
-            var vr = view.ContentBox;
-            bool[,] m = new bool[vr.Height, vr.Width];
-            int m_w = m.GetLength(1);
-            int m_h = m.GetLength(0);
+            Rectangle viewRange = view.ContentBox;
+            int matrixWidth = viewRange.Width;
+            int matrixHeight = viewRange.Height;
 
-            int oX = 0;
-            int oY = 0;
+            bool[,] m = new bool[matrixHeight, matrixWidth];
+
+            int offsetX = 0;
+            int offsetY = 0;
             if (offset != null && zoom > 0)
             {
-                oX = offset.GetXOffset();
-                oY = offset.GetYOffset();
+                offsetX = offset.GetXOffset();
+                offsetY = offset.GetYOffset();
+
+                offsetX = (Int32)Math.Round(offsetX / zoom);
+                offsetY = (Int32)Math.Round(offsetY / zoom);
+
+
+
             }
-
-            //TODO: handle this exception problem
-  //          System.InvalidOperationException ist aufgetreten.
-  //HResult=-2146233079
-  //Message=Das Objekt wird bereits an anderer Stelle verwendet.
-  //Source=System.Drawing
-  //StackTrace:
-  //     bei System.Drawing.Image.Clone()
-  //     bei BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.renderImage(Bitmap img, IViewBoxModel view, IPannable offset, Boolean invert, Double zoom) in E:\Tangram\Tool\BrailleIO\BrailleIO\Renderer\BrailleIOImageToMatrixRenderer.cs:Zeile 77.
-  //InnerException: 
-
-
 
             using (Bitmap _img = img.Clone() as Bitmap)
             {
-
                 try
                 {
-                    Int32 w = (Int32)Math.Max(Math.Round(_img.Width * zoom), 1);
-                    Int32 h = (Int32)Math.Max(Math.Round(_img.Height * zoom), 1);
+                    Int32 contentWidth = (Int32)Math.Max(Math.Round(_img.Width * zoom), 1);
+                    Int32 contentHeight = (Int32)Math.Max(Math.Round(_img.Height * zoom), 1);
+                    //set the content size fields in the view.
+                    view.ContentHeight = contentHeight;
+                    view.ContentWidth = contentWidth;
 
-                    using (Bitmap rescaled = new Bitmap(w, h))
+                    double vrZoom = zoom > 0 ? (double)1 / zoom : 0;
+
+                    Int32 zoomedVrWidth = (Int32)Math.Max(Math.Round(matrixWidth * vrZoom), 1);
+                    Int32 zoomedVrHeight = (Int32)Math.Max(Math.Round(matrixHeight * vrZoom), 1);
+
+                    int imgWidth = Math.Min(zoomedVrWidth, _img.Width);
+                    int imgHeiht = Math.Min(zoomedVrHeight, _img.Height);
+                    
+                    using (Bitmap viewRangeImage = new Bitmap(matrixWidth, matrixHeight))
                     {
                         try
                         {
-                            view.ContentHeight = rescaled.Height;
-                            view.ContentWidth = rescaled.Width;
-
-                            using (Graphics g2 = Graphics.FromImage(rescaled))
+                            using (Graphics grMatrix = Graphics.FromImage(viewRangeImage))
                             {
-                                g2.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-                                g2.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-                                g2.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
-                                g2.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                                grMatrix.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
+                                grMatrix.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                                grMatrix.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
+                                grMatrix.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                                
+                                // One hand of the runner
+                                Rectangle sourceRectangle = new Rectangle(offsetX * -1, offsetY *-1, zoomedVrWidth, zoomedVrHeight);
 
-                                g2.DrawImage(_img, new Rectangle(0, 0, rescaled.Width, rescaled.Height), new Rectangle(0, 0, _img.Width, _img.Height), GraphicsUnit.Pixel);
-                                g2.Flush();
+                                // Compressed hand
+                                Rectangle destRectangle1 = new Rectangle(0, 0, matrixWidth, matrixHeight);
 
-                                //rescaled.Save(@"C:\Users\Denise\Desktop\tmp\render.bmp");
+                                grMatrix.FillRectangle(Brushes.White, destRectangle1);
+                                grMatrix.DrawImage(_img, destRectangle1, sourceRectangle, GraphicsUnit.Pixel);
                             }
                         }
-                        catch (ArgumentException) { }
-                        catch (InvalidOperationException) { if (rescaled != null) rescaled.Dispose(); return renderImage(_img, view, offset, invert, zoom); }
+                        catch{}
 
-                        if (rescaled != null)
+                        if (viewRangeImage != null)
                         {
-                            LockBitmap lockBitmap = new LockBitmap(rescaled);
-                            lockBitmap.LockBits();
-
-
-                            int rw = lockBitmap.Width;
-                            int rh = lockBitmap.Height;
-
-                            for (int x = 0; x + oX < m_w; x++)
+                            using (LockBitmap lockBitmap = new LockBitmap(viewRangeImage))
                             {
-                                int cX = x + oX;
-                                if (cX < 0) continue;
-                                for (int y = 0; oY + y < m_h; y++)
+                                lockBitmap.LockBits();
+
+                                int rw = lockBitmap.Width;
+                                int rh = lockBitmap.Height;
+
+                                System.Threading.Tasks.Parallel.For(0, matrixWidth, x =>
                                 {
-                                    int cY = oY + y;
-                                    if (cY < 0) continue;
-                                    if (x < rw && y < rh)
+                                    System.Threading.Tasks.Parallel.For(0, matrixHeight, y =>
                                     {
-                                        Color c = lockBitmap.GetPixel(x, y);
-                                        var l = GraphicUtils.getLightness(c);
-                                        m[cY, cX] = (l > Threshold) ? invert ? true : false : invert ? false : true;
-                                    }
-                                }
+                                        int cX = x;
+                                        if (cX >= 0)
+                                        {
+                                            int cY = y;
+                                            if (cY >= 0)
+                                            {
+                                                if (x < rw && y < rh)
+                                                {
+                                                    Color c = lockBitmap.GetPixel(x, y);
+                                                    var l = GraphicUtils.getLightness(c);
+                                                    m[cY, cX] = (l > Threshold) ? invert ? true : false : invert ? false : true;
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
                             }
-                            lockBitmap.UnlockBits();
                         }
+
                     }
+
+                   
+
+
+                //try
+                //{
+                //    Int32 contentWidth = (Int32)Math.Max(Math.Round(_img.Width * zoom), 1);
+                //    Int32 contentHeight = (Int32)Math.Max(Math.Round(_img.Height * zoom), 1);
+
+                //    using (Bitmap rescaled = new Bitmap(contentWidth, contentHeight))
+                //    {
+                //        try
+                //        {
+                //            //set the content size fields in the view.
+                //            view.ContentHeight = contentHeight;
+                //            view.ContentWidth = contentWidth;
+
+                //            using (Graphics g2 = Graphics.FromImage(rescaled))
+                //            {
+                //                g2.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
+                //                g2.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                //                g2.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
+                //                g2.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+
+                //                g2.DrawImage(_img, new Rectangle(0, 0, contentWidth, contentHeight), new Rectangle(0, 0, _img.Width, _img.Height), GraphicsUnit.Pixel);
+
+                //                g2.Flush();
+
+                //                //rescaled.Save(@"C:\Users\Denise\Desktop\tmp\render.bmp");
+                //            }
+                //        }
+                //        catch (ArgumentException) { }
+                //        catch (InvalidOperationException) { if (rescaled != null) rescaled.Dispose(); return renderImage(_img, view, offset, invert, zoom); }
+
+                //        if (rescaled != null)
+                //        {
+                //            using (LockBitmap lockBitmap = new LockBitmap(rescaled))
+                //            {
+                //                lockBitmap.LockBits();
+
+                //                int rw = lockBitmap.Width;
+                //                int rh = lockBitmap.Height;
+
+                //                System.Threading.Tasks.Parallel.For(0, matrixWidth - offsetX, x =>
+                //                {
+                //                    System.Threading.Tasks.Parallel.For(0, matrixHeight - offsetY, y =>
+                //                    {
+                //                        int cX = x + offsetX;
+                //                        if (cX >= 0)
+                //                        {
+                //                            int cY = offsetY + y;
+                //                            if (cY >= 0)
+                //                            {
+                //                                if (x < rw && y < rh)
+                //                                {
+                //                                    Color c = lockBitmap.GetPixel(x, y);
+                //                                    var l = GraphicUtils.getLightness(c);
+                //                                    m[cY, cX] = (l > Threshold) ? invert ? true : false : invert ? false : true;
+                //                                }
+                //                            }
+                //                        }
+                //                    });
+                //                });
+                //            }
+                //        }
+                //    }
                 }
                 catch (ArgumentException) { }
             }
@@ -198,17 +274,30 @@ namespace BrailleIO.Renderer
             double gr = 0;
             double b = 0;
 
-            for (int x = 0; x < m_w; x++)
-                for (int y = 0; y < m_h; y++)
+            if (rescaled != null)
+            {
+                using (LockBitmap lockBitmap = new LockBitmap(rescaled))
                 {
-                    if (x < rescaled.Width && y < rescaled.Height)
-                    {
-                        Color c = rescaled.GetPixel(x, y);
-                        r += c.R;
-                        gr += c.G;
-                        b += c.B;
-                    }
+                    lockBitmap.LockBits();
+
+                    int rw = lockBitmap.Width;
+                    int rh = lockBitmap.Height;
+
+
+                    for (int x = 0; x < m_w; x++)
+                        for (int y = 0; y < m_h; y++)
+                        {
+                            if (x < rw && y < rh)
+                            {
+                                Color c = lockBitmap.GetPixel(x, y);
+                                r += c.R;
+                                gr += c.G;
+                                b += c.B;
+                            }
+                        }
                 }
+            }
+
             r /= m_w * m_h;
             gr /= m_w * m_h;
             b /= m_w * m_h;
@@ -259,7 +348,6 @@ namespace BrailleIO.Renderer
                                 }
                             }
                         }
-
                     try
                     {
                         PinGraphic.Flush();

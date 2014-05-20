@@ -144,71 +144,69 @@ namespace BrailleIO
         private void drawViewRange(BrailleIOViewRange vr)
         {
             if (vr == null || vr.ViewBox == null || Matrix == null || !vr.IsVisible()) return;
-            bool[,] m = new bool[vr.ViewBox.Height, vr.ViewBox.Width];
+            bool[,] viewBoxMatrix = new bool[vr.ViewBox.Height, vr.ViewBox.Width];
 
             // View Range bounds
-            int o_x = vr.GetLeft();
-            int o_y = vr.GetTop();
+            int srcOffsetX = vr.GetLeft();
+            int scrOffsetY = vr.GetTop();
             bool handlePanning = true;
 
-            bool[,] cm = new bool[1, 1];
+            bool[,] contentMatrix = new bool[1, 1];
             if (vr.IsMatrix()) // Matrix rendering
             {
                 if (vr.GetMatrix() != null)
                 {
-                    cm = vr.GetMatrix();
-                    vr.ContentHeight = cm.GetLength(0);
-                    vr.ContentWidth = cm.GetLength(1);
+                    contentMatrix = vr.GetMatrix();
+                    //set content size in vr
+                    vr.ContentHeight = contentMatrix.GetLength(0);
+                    vr.ContentWidth = contentMatrix.GetLength(1);
                 }
             }
-            else if (vr.IsImage()) // Image rendering
+            else if (vr.IsImage() && vr.GetImage() != null) // Image rendering
             {
-                if (vr.GetImage() != null)
+                int th = (vr is IContrastThreshold) ? ((IContrastThreshold)vr).GetContrastThreshold() : -1;
+                if (th >= 0)
                 {
-                    int th = (vr is IContrastThreshold) ? ((IContrastThreshold)vr).GetContrastThreshold() : -1;
-                    if (th >= 0)
-                    {
-                        cm = vr.ImageRenderer.renderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), th);
-                    }
-                    else
-                    {
-                        cm = vr.ImageRenderer.renderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), true);
-                    }
-                    handlePanning = false;
+                    contentMatrix = vr.ImageRenderer.renderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), th);
                 }
+                else
+                {
+                    contentMatrix = vr.ImageRenderer.renderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), true);
+                }
+                handlePanning = false;
             }
             else if (vr.IsText())
             {
                 if (!string.IsNullOrEmpty(vr.GetText()))
                 {
-                    cm = (new BrailleIO.Renderer.BrailleIOTextRenderer()).renderMatrix(vr, vr.GetText());
+                    contentMatrix = (new BrailleIO.Renderer.BrailleIOTextRenderer()).renderMatrix(vr, vr.GetText());
                 }
             }
             else if (vr.IsOther())
             {
                 if (vr.GetOtherContent() != null && vr.ContentRender != null)
                 {
-                    cm = vr.ContentRender.renderMatrix(vr, vr.GetOtherContent());
+                    contentMatrix = vr.ContentRender.renderMatrix(vr, vr.GetOtherContent());
                 }
                 else return;
             }
             else return;
             //place the content matrix (cm) in the view range matrix with aware of the box model 
-            m = (new BrailleIO.Renderer.BrailleIOViewMatixRenderer()).renderMatrix(vr, cm, handlePanning);
+            viewBoxMatrix = (new BrailleIO.Renderer.BrailleIOViewMatixRenderer()).renderMatrix(vr, contentMatrix, handlePanning);
             // Border rendering
-            m = (new BrailleIO.Renderer.BrailleIOBorderRenderer()).renderMatrix(vr, m);
+            viewBoxMatrix = (new BrailleIO.Renderer.BrailleIOBorderRenderer()).renderMatrix(vr, viewBoxMatrix);
 
 
             bool pl = pins_locked;
             pins_locked = true;
             // draw content and borders to main matrix
-            for (int i = o_x; i < o_x + m.GetLength(1); i++)
+            for (int i = srcOffsetX; i < srcOffsetX + viewBoxMatrix.GetLength(1); i++)
             {
                 if (i >= Matrix.GetLength(1)) break;
-                for (int j = o_y; j < o_y + m.GetLength(0); j++)
+                for (int j = scrOffsetY; j < scrOffsetY + viewBoxMatrix.GetLength(0); j++)
                 {
                     if (j >= Matrix.GetLength(0)) break;
-                    this.Matrix[j, i] = m[j - o_y, i - o_x];
+                    this.Matrix[j, i] = viewBoxMatrix[j - scrOffsetY, i - srcOffsetX];
                 }
             }
             pins_locked = pl;
@@ -230,7 +228,6 @@ namespace BrailleIO
                 }
                 else if (this.views[key] is BrailleIOScreen)
                 {
-
                     foreach (BrailleIOViewRange vr in ((BrailleIOScreen)this.views[key]).GetViewRanges().Values)
                     {
                         this.drawViewRange(vr);
