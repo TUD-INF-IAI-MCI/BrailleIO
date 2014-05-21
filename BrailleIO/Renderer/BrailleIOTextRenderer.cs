@@ -55,7 +55,7 @@ namespace BrailleIO.Renderer
         {
             var ir = new BrailleIOImageToMatrixRenderer();
             var vr = view.ContentBox;
-            var m = ir.renderImage(DrawString(text, vr.Width, vr.Height), view, 1, 100f);
+            var m = ir.RenderImage(DrawString(text, vr.Width, vr.Height), view, 1, 100f);
             return m;
         }
     }

@@ -70,7 +70,6 @@ namespace BrailleIO.Renderer
 
                 System.Threading.Tasks.Parallel.For(0, viewMatrix.GetLength(1) - l, x =>
                 {
-
                     int cX = oX + x;
                     if (cX >= 0 && contentMatrix.GetLength(1) > cX)
                     {
@@ -87,27 +86,6 @@ namespace BrailleIO.Renderer
                         });
                     }
                 });
-
-                //for (int x = 0; (x + l) < viewMatrix.GetLength(1); x++) //TODO: maybe stop before the content matrix end (subtract left space)
-                //{
-
-                //    int cX = oX + x;
-                //    if (cX < 0) continue;
-                //    if (contentMatrix.GetLength(1) <= cX) break;
-
-                //    for (int y = 0; (y + t) < viewMatrix.GetLength(0); y++) //TODO: maybe stop before the content matrix end (subtract bottom space) 
-                //    {
-                //        int cY = oY + y;
-                //        if (cY < 0) continue;
-                //        if (contentMatrix.GetLength(0) <= cY) break;
-
-
-                //        if ((x + l) >= 0 && (y + t) >= 0)
-                //        {
-                //            viewMatrix[y + t, x + l] = contentMatrix[cY, cX];
-                //        }
-                //    }
-                //}
             }
             return viewMatrix;
         }
