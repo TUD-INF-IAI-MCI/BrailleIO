@@ -10,6 +10,8 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using BrailleIO.Interface;
 using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.Threading;
 
 namespace BrailleIO
 {
@@ -48,37 +50,35 @@ namespace BrailleIO
 
         private volatile bool pins_locked = false;
 
-        private Object _matrixLock = new Object();
+        private bool[,] resultMatrix;
+
+
+        // private Object _matrixLock = new Object();
         private bool[,] _matrix;
         // matrix to be displayed on device
         private bool[,] Matrix
         {
             get
             {
-                lock (_matrixLock)
+                if (_matrix == null)
                 {
-                    if (_matrix == null)
-                    {
-                        if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
-                            _matrix = new bool[AdapterManager.ActiveAdapter.Device.DeviceSizeY, AdapterManager.ActiveAdapter.Device.DeviceSizeX];
-                        else
-                            _matrix = new bool[0, 0];
-                    }
-                    return _matrix;
+                    if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
+                        _matrix = new bool[AdapterManager.ActiveAdapter.Device.DeviceSizeY, AdapterManager.ActiveAdapter.Device.DeviceSizeX];
+                    else
+                        _matrix = new bool[0, 0];
                 }
+                return _matrix;
             }
             set
             {
-                lock (_matrixLock)
-                {
-                    _matrix = value;
-                }
+                _matrix = value;
             }
         }
 
         #endregion
 
         private BrailleIOMediator() { }
+        ~BrailleIOMediator() { if (renderingTread != null) renderingTread.Abort(); }
 
         //double checked multi threaded singleton to avoid usage of expensive lock operation
         public static BrailleIOMediator Instance
@@ -93,7 +93,7 @@ namespace BrailleIO
                         {
                             instance = new BrailleIOMediator();
                             instance.device_update_timer.Elapsed += new ElapsedEventHandler(refreshDisplayEvent);
-                            instance.device_update_timer.Interval = 200;
+                            instance.device_update_timer.Interval = 100;
                             instance.device_update_timer.Enabled = true;
                             instance.AdapterManager = new BasicBrailleIOAdapterManager();
                         }
@@ -123,27 +123,74 @@ namespace BrailleIO
             }
         }
 
+        int t = 0;
+
         /// <summary>
         /// transmit matrix to display
         /// </summary>
         public void RefreshDisplay()
         {
             if (ArePinsLocked()) return;
-            if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
+            if (AdapterManager != null && AdapterManager.ActiveAdapter != null && resultMatrix != null)
             {
                 if (instance.device_update_timer.Interval != AdapterManager.ActiveAdapter.Device.RefreshRate * 10)
                     instance.device_update_timer.Interval = AdapterManager.ActiveAdapter.Device.RefreshRate * 10;
-                AdapterManager.Synchronize(this.Matrix);
+
+                AdapterManager.Synchronize(this.resultMatrix.Clone() as bool[,]);
+
             }
         }
+
+
+        private readonly ConcurrentStack<object> stack = new ConcurrentStack<Object>();
+
+        private Thread renderingTread;
+
+        void renderDisplay()
+        {
+
+            while (stack.Count > 0)
+            {
+                stack.Clear();
+                if (AdapterManager == null || AdapterManager.ActiveAdapter == null) return;
+
+                pins_locked = true;
+                foreach (String key in this.VisibleViews.Keys)
+                {
+                    if (this.views[key] is BrailleIOViewRange)
+                    {
+                        this.drawViewRange(((BrailleIOViewRange)this.views[key]));
+                    }
+                    else if (this.views[key] is BrailleIOScreen)
+                    {
+                        foreach (BrailleIOViewRange vr in ((BrailleIOScreen)this.views[key]).GetViewRanges().Values)
+                        {
+                            this.drawViewRange(vr);
+                        }
+                    }
+                    else { }
+                }
+
+                //BrailleIO.Renderer.GraphicUtils.PaintBoolMatrixToImage(this.resultMatrix, @"C:\Users\Admin\Desktop\tmp\matrixes\sent_" + (t++) + ".bmp");
+
+                this.resultMatrix = Matrix;
+
+                pins_locked = false;
+            }
+        }
+
 
         /// <summary>
         /// draw a ViewRange to this.matrix
         /// </summary>
         /// <param name="vr">ViewRange</param>
-        private void drawViewRange(BrailleIOViewRange vr)
+        private bool drawViewRange(BrailleIOViewRange vr)
         {
-            if (vr == null || vr.ViewBox == null || Matrix == null || !vr.IsVisible()) return;
+            if (vr == null || vr.ViewBox == null || !vr.IsVisible()) return false;
+
+            //Stopwatch sw = new Stopwatch();
+            //sw.Start();            
+
             bool[,] viewBoxMatrix = new bool[vr.ViewBox.Height, vr.ViewBox.Width];
 
             // View Range bounds
@@ -152,7 +199,8 @@ namespace BrailleIO
             bool handlePanning = true;
 
             bool[,] contentMatrix = new bool[1, 1];
-            if (vr.IsMatrix()) // Matrix rendering
+            // Matrix rendering
+            if (vr.IsMatrix())
             {
                 if (vr.GetMatrix() != null)
                 {
@@ -162,19 +210,21 @@ namespace BrailleIO
                     vr.ContentWidth = contentMatrix.GetLength(1);
                 }
             }
-            else if (vr.IsImage() && vr.GetImage() != null) // Image rendering
+            // Image rendering
+            else if (vr.IsImage() && vr.GetImage() != null)
             {
                 int th = (vr is IContrastThreshold) ? ((IContrastThreshold)vr).GetContrastThreshold() : -1;
                 if (th >= 0)
                 {
-                    contentMatrix = vr.ImageRenderer.renderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), th);
+                    contentMatrix = vr.ImageRenderer.RenderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), th);
                 }
                 else
                 {
-                    contentMatrix = vr.ImageRenderer.renderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), true);
+                    contentMatrix = vr.ImageRenderer.RenderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), true);
                 }
                 handlePanning = false;
             }
+            // Text rendering
             else if (vr.IsText())
             {
                 if (!string.IsNullOrEmpty(vr.GetText()))
@@ -182,60 +232,68 @@ namespace BrailleIO
                     contentMatrix = (new BrailleIO.Renderer.BrailleIOTextRenderer()).renderMatrix(vr, vr.GetText());
                 }
             }
+            // Generic renderer
             else if (vr.IsOther())
             {
                 if (vr.GetOtherContent() != null && vr.ContentRender != null)
                 {
                     contentMatrix = vr.ContentRender.renderMatrix(vr, vr.GetOtherContent());
                 }
-                else return;
+                else return false;
             }
-            else return;
-            //place the content matrix (cm) in the view range matrix with aware of the box model 
+            else return false;
+            //place the content matrix (contentMatrix) in the view range matrix with aware of the box model 
             viewBoxMatrix = (new BrailleIO.Renderer.BrailleIOViewMatixRenderer()).renderMatrix(vr, contentMatrix, handlePanning);
             // Border rendering
-            viewBoxMatrix = (new BrailleIO.Renderer.BrailleIOBorderRenderer()).renderMatrix(vr, viewBoxMatrix);
-
-
+            viewBoxMatrix = BrailleIO.Renderer.BrailleIOBorderRenderer.renderMatrix(vr, viewBoxMatrix);
             bool pl = pins_locked;
             pins_locked = true;
+
+
+
+
             // draw content and borders to main matrix
-            for (int i = srcOffsetX; i < srcOffsetX + viewBoxMatrix.GetLength(1); i++)
+            System.Threading.Tasks.Parallel.For(srcOffsetX, srcOffsetX + viewBoxMatrix.GetLength(1), x =>
             {
-                if (i >= Matrix.GetLength(1)) break;
-                for (int j = scrOffsetY; j < scrOffsetY + viewBoxMatrix.GetLength(0); j++)
+                if (x >= 0 && x < Matrix.GetLength(1))
                 {
-                    if (j >= Matrix.GetLength(0)) break;
-                    this.Matrix[j, i] = viewBoxMatrix[j - scrOffsetY, i - srcOffsetX];
+                    System.Threading.Tasks.Parallel.For(scrOffsetY, scrOffsetY + viewBoxMatrix.GetLength(0), y =>
+                    {
+                        if (y < Matrix.GetLength(0)) { Matrix[y, x] = viewBoxMatrix[y - scrOffsetY, x - srcOffsetX]; }
+                    });
                 }
-            }
+            });
+
+            //sw.Stop();
+            //Console.WriteLine("Elapsed={0}", sw.Elapsed);
+
             pins_locked = pl;
+
+            return true;
         }
+
 
         /// <summary>
         /// parse display-matrix and save for transmission to display.
         /// </summary>
-        public void SendToDevice()
+        public bool SendToDevice()
         {
-            if (AdapterManager == null || AdapterManager.ActiveAdapter == null) return;
+            //return renderDisplay();
 
-            pins_locked = true;
-            foreach (String key in this.VisibleViews.Keys)
+            stack.Push(true);
+
+            if (renderingTread == null || !renderingTread.IsAlive)
             {
-                if (this.views[key] is BrailleIOViewRange)
-                {
-                    this.drawViewRange(((BrailleIOViewRange)this.views[key]));
-                }
-                else if (this.views[key] is BrailleIOScreen)
-                {
-                    foreach (BrailleIOViewRange vr in ((BrailleIOScreen)this.views[key]).GetViewRanges().Values)
-                    {
-                        this.drawViewRange(vr);
-                    }
-                }
-                else { }
+                renderingTread = new Thread(delegate() { renderDisplay(); });
+                renderingTread.Start();
             }
-            pins_locked = false;
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("------ rendering still running and ignored");
+            }
+
+            return true;
+
         }
 
         /// <summary>
@@ -244,8 +302,9 @@ namespace BrailleIO
         /// <returns>bool[,] matrix</returns>
         public bool[,] GetMatrix()
         {
-            SendToDevice();
-            return this.Matrix;
+            if (SendToDevice()) { return this.resultMatrix; }
+            return new bool[0, 0];
+
         }
 
         /// <summary>
@@ -283,8 +342,11 @@ namespace BrailleIO
             for (int i = 0; i < AdapterManager.ActiveAdapter.Device.DeviceSizeX; i++)
                 for (int j = 0; j < AdapterManager.ActiveAdapter.Device.DeviceSizeY; j++)
                     this.Matrix[j, i] = true;
+
+            resultMatrix = Matrix;
+
             if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
-                AdapterManager.Synchronize(this.Matrix);
+                AdapterManager.Synchronize(resultMatrix.Clone() as bool[,]);
         }
 
         /// <summary>

@@ -7,9 +7,9 @@ using System.Drawing;
 
 namespace BrailleIO.Renderer
 {
-    public class BrailleIOBorderRenderer
+    public static class BrailleIOBorderRenderer
     {
-        public bool[,] renderMatrix(AbstractViewBorderBase view, bool[,] contentMatrix)
+        public static bool[,] renderMatrix(AbstractViewBorderBase view, bool[,] contentMatrix)
         {
             if (view != null && view.HasBorder && contentMatrix != null)
             {
@@ -28,19 +28,12 @@ namespace BrailleIO.Renderer
                 for (int i = 0; i < w; i++)
                 {
                     if (contentMatrix.GetLength(1) <= i + x) break;
-                    //top line
-                    for (int j = 0; j < view.Border.Top; j++)
-                    {
-                        if (contentMatrix.GetLength(0) <= (j + y)) break;
-                        contentMatrix[j + y, i + x] = true;
-                    }
 
+                    //top line
+                    drawHorizontalLine(view.Border.Top, ref contentMatrix, i + x, y);
+   
                     //bottom line
-                    for (int j = 0; j < view.Border.Bottom; j++)
-                    {
-                        if (contentMatrix.GetLength(0) <= y + (h - 1) - j) break;
-                        contentMatrix[y + (h - 1) - j, i + x] = true;
-                    }
+                    drawHorizontalLine(view.Border.Bottom, ref contentMatrix, i + x, Convert.ToInt32((y + h - view.Border.Bottom)));
                 }
 
                 //vertical lines
@@ -64,5 +57,17 @@ namespace BrailleIO.Renderer
             }
             return contentMatrix;
         }
+        
+
+        private static void drawHorizontalLine(uint width, ref bool[,]contentMatrix, int xOffset = 0, int yOffset = 0)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                if (contentMatrix.GetLength(0) <= (j + yOffset)) break;
+                contentMatrix[j + yOffset, xOffset] = true;
+            }
+        }
+
+
     }
 }
