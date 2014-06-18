@@ -1,0 +1,9 @@
+/**/bin/Debug
+/**/bin/Release
+/**/obj/Debug
+/**/obj/Release
+/**/x86/Debug
+/**/x86/Release
+/**/Setup_x64
+/**/*.log
+/**/*.tlog
