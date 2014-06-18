@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BrailleIO.Interface;
-using tud.mci.tangram.Braille_Renderer;
+//using tud.mci.tangram.Braille_Renderer;
 using System.IO;
 
 namespace BrailleIO.Renderer
@@ -11,7 +11,7 @@ namespace BrailleIO.Renderer
     public class BrailleIOLiblouisBrailleRenderer : IBrailleIOContentRenderer
     {
         private String cssPath, tables;
-        private readonly RTBrailleRenderer renderer;
+        //private readonly RTBrailleRenderer renderer;
         private volatile bool render = true;
 
         bool[,] _m;
@@ -28,7 +28,7 @@ namespace BrailleIO.Renderer
         {
             this.cssPath = cssPath;
             this.tables = tables;
-            renderer = (String.IsNullOrWhiteSpace(pathToLiblouis) || String.IsNullOrWhiteSpace(pathToTables)) ? new RTBrailleRenderer() : new RTBrailleRenderer(pathToLiblouis, pathToTables);
+            //renderer = (String.IsNullOrWhiteSpace(pathToLiblouis) || String.IsNullOrWhiteSpace(pathToTables)) ? new RTBrailleRenderer() : new RTBrailleRenderer(pathToLiblouis, pathToTables);
         }
 
         public BrailleIOLiblouisBrailleRenderer(String cssPath, String tables) : this(null, null, cssPath, tables) { }
@@ -64,42 +64,42 @@ namespace BrailleIO.Renderer
 
             bool[,]_m = new bool[0, 0];
 
-            if (view != null && renderer != null)
-            {
-                if (content is String)
-                {
-                    if (!view.Equals(lastView) || !lastString.Equals(content as String) || render)
-                    {
-                        System.Diagnostics.Debug.WriteLine("---------- ---- Real Renderer Call -" + cssPath + " - " + tables);
+            //if (view != null && renderer != null)
+            //{
+            //    if (content is String)
+            //    {
+            //        if (!view.Equals(lastView) || !lastString.Equals(content as String) || render)
+            //        {
+            //            System.Diagnostics.Debug.WriteLine("---------- ---- Real Renderer Call -" + cssPath + " - " + tables);
 
-                        lastString = content as String;
-                        lastView = view;
-                        render = false;
+            //            lastString = content as String;
+            //            lastView = view;
+            //            render = false;
 
-                        List<bool[]> brailleLines = renderer.RenderHTMLDoc(content as String, cssPath, (uint)(Math.Max(view.ContentBox.Width - 3, 0)), tables);
+            //            List<bool[]> brailleLines = renderer.RenderHTMLDoc(content as String, cssPath, (uint)(Math.Max(view.ContentBox.Width - 3, 0)), tables);
 
-                        //FIXME: only for fixing
-                        //RTBrailleRendererHelper.PaintBoolMatrixToImage(brailleLines.ToArray(), @"C:\Users\Admin\Desktop\tmp\br_" + cssPath.Substring(Math.Max(cssPath.Length -5, 0)) + "_" + tables + ".bmp");
+            //            //FIXME: only for fixing
+            //            //RTBrailleRendererHelper.PaintBoolMatrixToImage(brailleLines.ToArray(), @"C:\Users\Admin\Desktop\tmp\br_" + cssPath.Substring(Math.Max(cssPath.Length -5, 0)) + "_" + tables + ".bmp");
 
 
-                        if (brailleLines.Count > 0 && brailleLines[0] != null)
-                        {
-                            m = new bool[brailleLines.Count, brailleLines[0].Length];
+            //            if (brailleLines.Count > 0 && brailleLines[0] != null)
+            //            {
+            //                m = new bool[brailleLines.Count, brailleLines[0].Length];
 
-                            for (int y = 0; y < brailleLines.Count; y++)
-                            {
-                                for (int x = 0; x < brailleLines[0].Length; x++)
-                                {
-                                    if(m.GetLength(0) > y && m.GetLength(1) > x && brailleLines.Count > y && brailleLines[y].Length > x) 
-                                        m[y, x] = brailleLines[y][x];
-                                }
-                            }
-                        }
-                    }
-                    if(m != null) _m = m;
-                    System.Diagnostics.Debug.WriteLine("---------------- Return new Matrix of " + _m.GetLength(0) + " lines");
-                }
-            }
+            //                for (int y = 0; y < brailleLines.Count; y++)
+            //                {
+            //                    for (int x = 0; x < brailleLines[0].Length; x++)
+            //                    {
+            //                        if(m.GetLength(0) > y && m.GetLength(1) > x && brailleLines.Count > y && brailleLines[y].Length > x) 
+            //                            m[y, x] = brailleLines[y][x];
+            //                    }
+            //                }
+            //            }
+            //        }
+            //        if(m != null) _m = m;
+            //        System.Diagnostics.Debug.WriteLine("---------------- Return new Matrix of " + _m.GetLength(0) + " lines");
+            //    }
+            //}
             view.ContentHeight = _m.GetLength(0);
             view.ContentWidth = _m.GetLength(1);
             return _m;

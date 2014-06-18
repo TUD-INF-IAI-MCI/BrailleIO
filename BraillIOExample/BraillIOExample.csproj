@@ -86,7 +86,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BrailleIOBraillDisAdapter\BrailleIOBraillDisAdapter.csproj">
+    <ProjectReference Include="..\..\BarilleIOPrivate\BrailleIOBraillDisAdapter\BrailleIOBraillDisAdapter.csproj">
       <Project>{4306FCD9-4DD1-42CE-B449-07ABAB7FD8F7}</Project>
       <Name>BrailleIOBraillDisAdapter</Name>
     </ProjectReference>
@@ -97,10 +97,6 @@
     <ProjectReference Include="..\BrailleIO_ShowOff\BrailleIO_ShowOff.csproj">
       <Project>{9CF455A0-B3B8-4D16-B54C-8EAF6BC97E06}</Project>
       <Name>BrailleIO_ShowOff</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HBBrailleDisV2\HBBrailleDisV2.csproj">
-      <Project>{E5454493-14E2-4429-8EC9-646154154482}</Project>
-      <Name>HBBrailleDisV2</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

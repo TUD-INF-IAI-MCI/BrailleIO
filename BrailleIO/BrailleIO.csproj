@@ -128,12 +128,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Braille-Renderer\Braille-Renderer\Braille-Renderer.csproj">
-      <Project>{A3A54ED7-71E3-49D4-B389-5604C4393F99}</Project>
-      <Name>Braille-Renderer</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
