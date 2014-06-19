@@ -1,9 +1,0 @@
-[submodule "MetecBD"]
-	path = MetecBD
-	url = ssh://141.76.84.200:51423/home/voegler/git/metecBD.git
-[submodule "HBBrailleDisV2"]
-	path = HBBrailleDisV2
-	url = ssh://141.76.84.200:51423/home/voegler/git/hbBrailleDisV2.git
-[submodule "BrailleIOBraillDisAdapter"]
-	path = BrailleIOBraillDisAdapter
-	url = ssh://141.76.84.200:51423/home/voegler/git/brailleIoBraillDisAdapter.git
