@@ -16,6 +16,8 @@ namespace BraillIOExample
 
         ShowOff monitor;
 
+        const String BS_MAIN_NAME = "Mainscreen";
+
         #endregion
 
         public BrailleIOExample()
@@ -23,7 +25,6 @@ namespace BraillIOExample
             io = BrailleIOMediator.Instance;
             io.AdapterManager = new ShowOffBrailleIOAdapterManager();
             showOff = createShowOff();
-            createBrailleDis();
             showExample();
         }
 
@@ -41,153 +42,12 @@ namespace BraillIOExample
                 io.AdapterManager.AddAdapter(soa);
 
                 #region events
-                soa.touchValuesChanged += new AbstractBrailleIOAdapterBase.BrailleIO_TouchValuesChanged_EventHandler(_bda_touchValuesChanged);
-                soa.keyStateChanged += new AbstractBrailleIOAdapterBase.BrailleIO_KeyStateChanged_EventHandler(_bda_keyStateChanged);
                 #endregion
 
                 return soa;
             }
             return null;
         }
-
-        #endregion
-
-        #region BrailleDis
-
-        private AbstractBrailleIOAdapterBase createBrailleDis()
-        {
-            if (io != null && io.AdapterManager != null)
-            {
-                AbstractBrailleIOAdapterBase _bda = new BrailleIOBraillDisAdapter.BrailleIOAdapter_BrailleDisNet(ref io.AdapterManager);
-                io.AdapterManager.ActiveAdapter = _bda;
-
-                #region BrailleDis events
-                _bda.touchValuesChanged += new AbstractBrailleIOAdapterBase.BrailleIO_TouchValuesChanged_EventHandler(_bda_touchValuesChanged);
-                _bda.keyStateChanged += new AbstractBrailleIOAdapterBase.BrailleIO_KeyStateChanged_EventHandler(_bda_keyStateChanged);
-                #endregion
-
-                return _bda;
-            }
-            return null;
-        }
-
-        #region Events
-
-        void _bda_keyStateChanged(object sender, BrailleIO.Interface.BrailleIO_KeyStateChanged_EventArgs e)
-        {
-            //throw new NotImplementedException();
-            interpretGeneralButtons(e.keyCode);
-            if ((e.keyCode & BrailleIO_DeviceButtonStates.Unknown) == BrailleIO_DeviceButtonStates.Unknown
-                || ((e.keyCode & BrailleIO_DeviceButtonStates.None) == BrailleIO_DeviceButtonStates.None && e.raw != null)
-                ) { interpretGenericButtons(sender, e.raw); }
-        }
-
-        const String BS_MAIN_NAME = "Mainscreen";
-        private void interpretGenericButtons(object sender, System.Collections.Specialized.OrderedDictionary orderedDictionary)
-        {
-            //var adapter = sender as BrailleIOAdapter_BrailleDisNet;
-            if (orderedDictionary.Contains("allPressedKeys"))
-            {
-                var keys = orderedDictionary["allPressedKeys"] as List<String>;
-                if (keys != null)
-                {
-                    if (keys.Contains("nsrr")) { moveHorizontal(BS_MAIN_NAME, "center", -25); }
-                    if (keys.Contains("nsr")) { moveHorizontal(BS_MAIN_NAME, "center", -5); }
-                    if (keys.Contains("nsll")) { moveHorizontal(BS_MAIN_NAME, "center", 25); }
-                    if (keys.Contains("nsl")) { moveHorizontal(BS_MAIN_NAME, "center", 5); }
-                    if (keys.Contains("nsuu")) { moveVertical(BS_MAIN_NAME, "center", 25); }
-                    if (keys.Contains("nsu")) { moveVertical(BS_MAIN_NAME, "center", 5); }
-                    if (keys.Contains("nsdd")) { moveVertical(BS_MAIN_NAME, "center", -25); }
-                    if (keys.Contains("nsd")) { moveVertical(BS_MAIN_NAME, "center", -5); }
-
-                    if (keys.Contains("crc")) { zoomToRealSize(sender); }
-                    if (keys.Contains("rsru")) { updateContrast(BS_MAIN_NAME, "center", 10); }
-                    if (keys.Contains("rsrd")) { updateContrast(BS_MAIN_NAME, "center", -10); }
-                }
-            }
-
-        }
-
-        private void updateContrast(string viewName, string viewRangeName, int factor)
-        {
-            if (io == null && io.GetView(viewName) as BrailleIOScreen != null) return;
-            // zoom in
-            BrailleIOViewRange vr = ((BrailleIOScreen)io.GetView(viewName)).GetViewRange(viewRangeName);
-            if (vr != null)
-            {
-                vr.SetContrastThreshold(vr.GetContrastThreshold() + factor);
-            }
-            io.SendToDevice();
-        }
-
-        private void zoomToRealSize(object sender)
-        {
-            IBrailleIOAdapter adapter = sender as IBrailleIOAdapter;
-            if (adapter != null)
-            {
-                float adapterRes = Utils.GetResoultion(adapter.DpiX, adapter.DpiY);
-                adapterRes = 10.0f;
-                float screenRes = Utils.GetScreenDpi();
-
-                float zoom = adapterRes / (float)Math.Max(screenRes, 0.0000001);
-                zoom = 0.10561666418313964f;
-                zoomTo(BS_MAIN_NAME, "center", zoom);
-
-            }
-        }
-
-        void _bda_touchValuesChanged(object sender, BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs e)
-        {
-            if (monitor != null) monitor.PaintTouchMatrix(e.touches);
-            //throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region Helper functions
-        private void interpretGeneralButtons(BrailleIO_DeviceButtonStates states)
-        {
-            if (states != BrailleIO_DeviceButtonStates.None)
-            {
-                if ((states & BrailleIO_DeviceButtonStates.AbortDown) == BrailleIO_DeviceButtonStates.AbortDown) { invertImage(BS_MAIN_NAME, "center"); }
-                else if ((states & BrailleIO_DeviceButtonStates.AbortUp) == BrailleIO_DeviceButtonStates.AbortUp) { }
-
-                if ((states & BrailleIO_DeviceButtonStates.DownDown) == BrailleIO_DeviceButtonStates.DownDown) { moveVertical(BS_MAIN_NAME, "center", -5); }
-                else if ((states & BrailleIO_DeviceButtonStates.DownUp) == BrailleIO_DeviceButtonStates.DownUp) { }
-
-                if ((states & BrailleIO_DeviceButtonStates.EnterDown) == BrailleIO_DeviceButtonStates.EnterDown) { }
-                else if ((states & BrailleIO_DeviceButtonStates.EnterUp) == BrailleIO_DeviceButtonStates.EnterUp) { }
-
-                if ((states & BrailleIO_DeviceButtonStates.GestureDown) == BrailleIO_DeviceButtonStates.GestureDown) { /*if (io != null) { io.AllPinsDown(); }*/ }
-                else if ((states & BrailleIO_DeviceButtonStates.GestureUp) == BrailleIO_DeviceButtonStates.GestureUp) { /*if (io != null) { io.RestoreLastRendering(); }*/ }
-
-                if ((states & BrailleIO_DeviceButtonStates.LeftDown) == BrailleIO_DeviceButtonStates.LeftDown) { moveHorizontal(BS_MAIN_NAME, "center", 5); }
-                else if ((states & BrailleIO_DeviceButtonStates.LeftUp) == BrailleIO_DeviceButtonStates.LeftUp) { }
-
-                if ((states & BrailleIO_DeviceButtonStates.RightDown) == BrailleIO_DeviceButtonStates.RightDown) { moveHorizontal(BS_MAIN_NAME, "center", -5); }
-                else if ((states & BrailleIO_DeviceButtonStates.RightUp) == BrailleIO_DeviceButtonStates.RightUp) { }
-
-                if ((states & BrailleIO_DeviceButtonStates.UpDown) == BrailleIO_DeviceButtonStates.UpDown) { moveVertical(BS_MAIN_NAME, "center", 5); }
-                else if ((states & BrailleIO_DeviceButtonStates.UpUp) == BrailleIO_DeviceButtonStates.UpUp) { }
-
-                if ((states & BrailleIO_DeviceButtonStates.ZoomInDown) == BrailleIO_DeviceButtonStates.ZoomInDown)
-                {
-                    zoom(BS_MAIN_NAME, "center", 1.3);
-                    //zoomPlus(BS_MAIN_NAME, "center", 0.00005); 
-                }
-                else if ((states & BrailleIO_DeviceButtonStates.ZoomInUp) == BrailleIO_DeviceButtonStates.ZoomInUp) { }
-
-                if ((states & BrailleIO_DeviceButtonStates.ZoomOutDown) == BrailleIO_DeviceButtonStates.ZoomOutDown)
-                {
-                    //zoomPlus(BS_MAIN_NAME, "center", -0.00005);
-                    zoom(BS_MAIN_NAME, "center", 0.6);
-                }
-                else if ((states & BrailleIO_DeviceButtonStates.ZoomOutUp) == BrailleIO_DeviceButtonStates.ZoomOutUp) { }
-            }
-        }
-
-
-        #endregion
 
         #endregion
 
