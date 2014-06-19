@@ -129,11 +129,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <ProjectReference Include="..\..\BrailleIOPrivate\Braille-Renderer\Braille-Renderer\Braille-Renderer.csproj">
-=======
-    <ProjectReference Include="..\Braille-Renderer\Braille-Renderer\Braille-Renderer.csproj">
->>>>>>> 9a578b775074d97d312707b8efad5e64da7d0af6
+    <ProjectReference Include="..\..\BrailleIOPrivate\Braille-Renderer\Braille-Renderer\Braille-Renderer.csproj">    
       <Project>{A3A54ED7-71E3-49D4-B389-5604C4393F99}</Project>
       <Name>Braille-Renderer</Name>
     </ProjectReference>

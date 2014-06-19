@@ -97,11 +97,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <ProjectReference Include="..\..\BrailleIOPrivate\BrailleIOBraillDisAdapter\BrailleIOBraillDisAdapter.csproj">
-=======
-    <ProjectReference Include="..\BrailleIOBraillDisAdapter\BrailleIOBraillDisAdapter.csproj">
->>>>>>> 9a578b775074d97d312707b8efad5e64da7d0af6
+    <ProjectReference Include="..\..\BrailleIOPrivate\BrailleIOBraillDisAdapter\BrailleIOBraillDisAdapter.csproj">    
       <Project>{4306FCD9-4DD1-42CE-B449-07ABAB7FD8F7}</Project>
       <Name>BrailleIOBraillDisAdapter</Name>
     </ProjectReference>
