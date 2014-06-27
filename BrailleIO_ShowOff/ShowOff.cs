@@ -27,8 +27,13 @@ namespace BrailleIO
         /// </summary>
         public static void InitForm()
         {
+            try
+            {
+            	Application.SetCompatibleTextRenderingDefault(false);
+            }
+            catch (System.InvalidOperationException){}
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            
         }
 
         public ShowOff()
