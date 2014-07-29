@@ -31,7 +31,10 @@ namespace BrailleIO
             {
             	Application.SetCompatibleTextRenderingDefault(false);
             }
-            catch (System.InvalidOperationException){}
+            catch (System.InvalidOperationException e)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception  in Init show off form\n" + e);
+            }
             Application.EnableVisualStyles();
             
         }

@@ -52,7 +52,12 @@ namespace BrailleIO
                 }
 
             }
-            catch { }
+            catch (Exception ex){
+                _baseImg = null;
+                _touchbmp = null;
+                _matrixbmp = null;
+                System.Diagnostics.Debug.WriteLine("Exception in renderer Timer Elapsed\n" + ex);
+            }
         }
 
 
