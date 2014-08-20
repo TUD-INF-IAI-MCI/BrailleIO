@@ -29,14 +29,13 @@ namespace BrailleIO
         {
             try
             {
+                Application.EnableVisualStyles();
             	Application.SetCompatibleTextRenderingDefault(false);
             }
             catch (System.InvalidOperationException e)
             {
-                System.Diagnostics.Debug.WriteLine("Exception  in Init show off form\n" + e);
+                //System.Diagnostics.Debug.WriteLine("Exception  in Init show off form\n" + e);
             }
-            Application.EnableVisualStyles();
-            
         }
 
         public ShowOff()
