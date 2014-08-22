@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace BrailleIO.Renderer
 {
     //TODO: make this real working
-    public class BrailleIOTextRenderer : BrailleIOScrollbarRenderer
+    public class BrailleIOTextRenderer : BrailleIOScrollbarRenderer, IBrailleIOContentRenderer
     {
         System.Drawing.SolidBrush drawBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
         System.Drawing.Font drawFont = new System.Drawing.Font("TUD Euro-8-Braille equidistant", 22.25977f, FontStyle.Bold);
@@ -57,6 +57,11 @@ namespace BrailleIO.Renderer
             var vr = view.ContentBox;
             var m = ir.RenderImage(DrawString(text, vr.Width, vr.Height), view, 1, 100f);
             return m;
+        }
+
+        public bool[,] renderMatrix(IViewBoxModel view, object content)
+        {
+            return renderMatrix(view, content.ToString());
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 
 namespace BrailleIO.Renderer
 {
-    public class BrailleIOImageToMatrixRenderer : BrailleIOScrollbarRenderer
+    public class BrailleIOImageToMatrixRenderer : BrailleIOScrollbarRenderer, IBrailleIOContentRenderer
     {
         /// <summary>
         /// If lightness of a color is lower than this threshold, the pin will be lowered. 
@@ -152,6 +152,11 @@ namespace BrailleIO.Renderer
                 catch (ArgumentException) { }
             }
             return m;
+        }
+
+        public bool[,] renderMatrix(IViewBoxModel view, object content)
+        {
+            return RenderImage(content as Bitmap, view, 1);
         }
     }
 

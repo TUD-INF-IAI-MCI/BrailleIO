@@ -9,6 +9,11 @@ namespace BrailleIO
         #region Members
         private OrderedDictionary view_ranges = new OrderedDictionary();
         private bool is_visible = true;
+        /// <summary>
+        /// Gets or sets the name of the Screen.
+        /// Can change when adding it with a different name to a collection
+        /// </summary>
+        /// <value>The name.</value>
         public string Name { get; private set; }
         #endregion
 
@@ -128,8 +133,6 @@ namespace BrailleIO
         public void SetVisibility(bool visible)
         {
             this.is_visible = visible;
-            //foreach (BrailleIOViewRange r in this.view_ranges.Values)
-            //    r.SetVisibility(visible);
         }
 
         public bool IsVisible() { return this.is_visible; }

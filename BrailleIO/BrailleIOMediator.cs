@@ -1,17 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Collections.Specialized;
-using System.Timers;
-using System.Runtime.InteropServices;
-using System.Drawing.Imaging;
-using System.Drawing;
-using System.Text.RegularExpressions;
-using BrailleIO.Interface;
-using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Threading;
+using System.Timers;
+using BrailleIO.Interface;
 
 namespace BrailleIO
 {
@@ -547,24 +540,6 @@ namespace BrailleIO
         public int Count()
         {
             return this.views.Count;
-        }
-
-        ///<summary>
-        /// <para>
-        /// subscribe to touchPath Event. Returns BrailleIOTouchPoint
-        /// stop manually with touchpoint.stopTouch()
-        /// or listen on stopTouch.
-        /// </para>
-        /// <param name="accuracy">
-        /// time in ms to get add TouchPoints to touch path
-        /// </param>
-        /// <returns>
-        /// TangramSkApp.BrailleIOTouchPoint
-        /// </returns>
-        /// </summary>
-        public BrailleIOTouchPath TouchStart(int accuracy) //TODO: implement this
-        {
-            return new BrailleIOTouchPath();
         }
 
         public bool Recalibrate()

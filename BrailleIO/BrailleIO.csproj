@@ -71,7 +71,6 @@
     <Compile Include="Adapter\AbstractBrailleIOAdapterManagerBase.cs" />
     <Compile Include="BrailleIODevice.cs" />
     <Compile Include="BrailleIOScreen.cs" />
-    <Compile Include="BrailleIOTouchPoint.cs" />
     <Compile Include="BrailleIOViewRange.cs" />
     <Compile Include="Interface\IBrailleIOAdapter.cs" />
     <Compile Include="Interface\IBrailleIOMatrixRenderer.cs" />
@@ -80,7 +79,6 @@
     <Compile Include="Renderer\BrailleIOBorderRenderer.cs" />
     <Compile Include="Renderer\BrailleIOImageToMatrixRenderer.cs" />
     <Compile Include="Renderer\BrailleIOIPannableRenderer.cs" />
-    <Compile Include="Renderer\BrailleIOLiblouisBrailleRenderer.cs" />
     <Compile Include="Renderer\BrailleIOViewPortRenderer.cs" />
     <Compile Include="Renderer\BrailleIOTextRenderer.cs" />
     <Compile Include="Renderer\BrailleIOViewMatixRenderer.cs" />
@@ -96,6 +94,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

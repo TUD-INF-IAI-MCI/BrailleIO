@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using BrailleIO.Interface;
 using System.Drawing;
+using System.Threading.Tasks;
 
 namespace BrailleIO.Renderer
 {
@@ -58,7 +59,7 @@ namespace BrailleIO.Renderer
             return contentMatrix;
         }
         
-
+        
         private static void drawHorizontalLine(uint width, ref bool[,]contentMatrix, int xOffset = 0, int yOffset = 0)
         {
             for (int j = 0; j < width; j++)
@@ -67,7 +68,5 @@ namespace BrailleIO.Renderer
                 contentMatrix[j + yOffset, xOffset] = true;
             }
         }
-
-
     }
 }
