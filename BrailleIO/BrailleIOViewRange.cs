@@ -278,7 +278,7 @@ namespace BrailleIO
         {
             if (threshold <= 0) threshold = 1;
             if (threshold > 255) threshold = 255;
-            System.Diagnostics.Debug.WriteLine("Threshold ist: " + threshold.ToString());
+            //System.Diagnostics.Debug.WriteLine("Threshold ist: " + threshold.ToString());
             return this.threshold = Math.Max(Math.Min(threshold, 255), 0);
         }
 

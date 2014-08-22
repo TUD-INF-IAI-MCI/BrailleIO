@@ -52,7 +52,12 @@ namespace BrailleIO
                 }
 
             }
-            catch { }
+            catch (Exception ex){
+                _baseImg = null;
+                _touchbmp = null;
+                _matrixbmp = null;
+                System.Diagnostics.Debug.WriteLine("Exception in renderer Timer Elapsed\n" + ex);
+            }
         }
 
 
@@ -128,25 +133,44 @@ namespace BrailleIO
                     return _matrixGraphics;
                 }
             }
+
+            set
+            {
+                lock (_matrixGraphicLock)
+                {
+                    _matrixGraphics = value;
+                }
+            }
         }
 
         private Bitmap getPinMatrixImage(bool[,] m)
         {
-            if (m != null && matrixGraphics != null)
+            while (true)
             {
-                matrixGraphics.Clear(Color.Transparent);
-                int rows = m.GetLength(0);
-                int cols = m.GetLength(1);
-
-                for (int i = 0; i < rows; i++)
-                    for (int j = 0; j < cols; j++)
+                try
+                {
+                    if (m != null && matrixGraphics != null)
                     {
-                        if (m[i, j])
-                        {
-                            matrixGraphics.FillRectangle(Brushes.Black, j * (pixelFactor + 1), i * (pixelFactor + 1), pixelFactor, pixelFactor);
-                        }
-                    }
+                        matrixGraphics.Flush(System.Drawing.Drawing2D.FlushIntention.Flush);
+                        matrixGraphics.Clear(Color.Transparent);
+                        int rows = m.GetLength(0);
+                        int cols = m.GetLength(1);
 
+                        for (int i = 0; i < rows; i++)
+                            for (int j = 0; j < cols; j++)
+                            {
+                                if (m[i, j])
+                                {
+                                    matrixGraphics.FillRectangle(Brushes.Black, j * (pixelFactor + 1), i * (pixelFactor + 1), pixelFactor, pixelFactor);
+                                }
+                            }
+                        break;
+                    }
+                }
+                catch (System.InvalidOperationException)
+                {
+                    Thread.Sleep(5);
+                }
             }
             return _matrixbmp != null ? _matrixbmp.Clone() as Bitmap : null;
         }
@@ -206,6 +230,22 @@ namespace BrailleIO
                                 {
                                     t = tm[i, j];
                                 }
+                                //TODO:System.InvalidOperationException wurde nicht von Benutzercode behandelt.
+                                //HResult=-2146233079
+                                //Message=Das Objekt wird bereits an anderer Stelle verwendet.
+                                //Source=System.Drawing
+                                //StackTrace:
+                                //     bei System.Drawing.Graphics.CheckErrorStatus(Int32 status)
+                                //     bei System.Drawing.Graphics.FillEllipse(Brush brush, Int32 x, Int32 y, Int32 width, Int32 height)
+                                //     bei BrailleIO.ShowOff.getTouchImage() in E:\Tangram\Tool\BrailleIO\BrailleIO_ShowOff\ShowOff_GuiRenderinge.cs:Zeile 209.
+                                //     bei BrailleIO.ShowOff.PaintTouchMatrix(Double[,] touchMatrix) in E:\Tangram\Tool\BrailleIO\BrailleIO_ShowOff\ShowOff.cs:Zeile 101.
+                                //     bei tud.mci.tangram.TangramLector.LectorGUI._bda_touchValuesChanged(Object sender, BrailleIO_TouchValuesChanged_EventArgs e) in E:\Tangram\Tool\OOo Draw Extension\TangramLector\BrailleIO\LectorBIO.cs:Zeile 144.
+                                //     bei BrailleIO.AbstractBrailleIOAdapterBase.BrailleIO_TouchValuesChanged_EventHandler.Invoke(Object sender, BrailleIO_TouchValuesChanged_EventArgs e)
+                                //     bei BrailleIO.AbstractBrailleIOAdapterBase.fireTouchValuesChanged(Double[,] touches, Int32 timestamp, OrderedDictionary& raw) in E:\Tangram\Tool\BrailleIO\BrailleIO\Adapter\BrailleIOAdapter.cs:Zeile 177.
+                                //     bei BrailleIOBraillDisAdapter.BrailleIOAdapter_BrailleDisNet.BrailleDis_touchValuesChangedEvent(BrailleDisModuleState[] changedModules, BrailleDisModuleState[] activeModules, Int32 timeStampTickCount) in E:\Tangram\Tool\BrailleIOPrivate\BrailleIOBraillDisAdapter\BrailleIOAdapter_BrailleDisNet.cs:Zeile 266.
+                                //InnerException: 
+
+
                                 if (t > 0) touchGraphics.FillEllipse(Brushes.Red, j * (pixelFactor + 1), i * (pixelFactor + 1), pixelFactor - 1, pixelFactor - 1);
                             }
                     }

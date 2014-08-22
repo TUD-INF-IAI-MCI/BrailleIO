@@ -287,10 +287,7 @@ namespace BrailleIO
                 renderingTread = new Thread(delegate() { renderDisplay(); });
                 renderingTread.Start();
             }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("------ rendering still running and ignored");
-            }
+            else { }
 
             return true;
 
@@ -373,7 +370,9 @@ namespace BrailleIO
         /// <returns>int Width of device</returns>
         public int GetDeviceSizeX()
         {
-            return AdapterManager.ActiveAdapter.Device.DeviceSizeX;
+            if (AdapterManager != null && AdapterManager.ActiveAdapter != null && AdapterManager.ActiveAdapter.Device != null)
+                return AdapterManager.ActiveAdapter.Device.DeviceSizeX;
+            else return 0;
         }
 
         /// <summary>
@@ -382,7 +381,9 @@ namespace BrailleIO
         /// <returns>int Height of device</returns>
         public int GetDeviceSizeY()
         {
-            return AdapterManager.ActiveAdapter.Device.DeviceSizeY;
+            if (AdapterManager != null && AdapterManager.ActiveAdapter != null && AdapterManager.ActiveAdapter.Device != null)
+                return AdapterManager.ActiveAdapter.Device.DeviceSizeY;
+            else return 0;
         }
 
         /// <summary>
