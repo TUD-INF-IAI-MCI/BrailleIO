@@ -109,8 +109,22 @@ namespace BrailleIO.Interface
 
     public enum ErrorCode
     {
-        //TODO: implement real ErrorCodes. Which I do not have any clue about. Apparently.
-        DeviceDestroyedByGozilla = 1
+        /// <summary>
+        /// everything is fine
+        /// </summary>
+        NONE,
+        /// <summary>
+        /// sending matrix to device returned FALSE
+        /// </summary>
+        CANT_SENT_MATRIX,
+        /// <summary>
+        /// device is not available
+        /// </summary>
+        DEVICE_UNAVAILABLE,
+        /// <summary>
+        /// unknown error occurred
+        /// </summary>
+        UNKNOWN
     }
 
     public class BrailleIO_InputChanged_EventArgs : System.EventArgs
@@ -145,5 +159,17 @@ namespace BrailleIO.Interface
 
         void Synchronize(bool[,] matrix);
         bool Recalibrate(double threshold);
+
+        #region event handlers
+        event EventHandler<BrailleIO_KeyPressed_EventArgs> keyPressed;
+        event EventHandler<BrailleIO_KeyStateChanged_EventArgs> keyStateChanged;
+        event EventHandler<BrailleIO_Initialized_EventArgs> initialized;
+        event EventHandler<BrailleIO_InputChanged_EventArgs> inputChanged;
+        event EventHandler<BrailleIO_TouchValuesChanged_EventArgs> touchValuesChanged;
+        event EventHandler<BrailleIO_PinStateChanged_EventArgs> pinStateChanged;
+        event EventHandler<BrailleIO_ErrorOccured_EventArgs> errorOccured;
+        #endregion
+
+
     }
 }

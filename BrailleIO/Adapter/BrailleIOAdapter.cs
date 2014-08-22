@@ -105,26 +105,6 @@ namespace BrailleIO
             return true;
         }
 
-        #region event delegates
-        public delegate void BrailleIO_KeyPressed_EventHandler(object sender, BrailleIO_KeyPressed_EventArgs e);
-        public delegate void BrailleIO_KeyStateChanged_EventHandler(object sender, BrailleIO_KeyStateChanged_EventArgs e);
-        public delegate void BrailleIO_Initialized_EventHandler(object sender, BrailleIO_Initialized_EventArgs e);
-        public delegate void BrailleIO_InputChanged_EventHandler(object sender, BrailleIO_InputChanged_EventArgs e);
-        public delegate void BrailleIO_TouchValuesChanged_EventHandler(object sender, BrailleIO_TouchValuesChanged_EventArgs e);
-        public delegate void BrailleIO_PinStateChanged_EventHandler(object sender, BrailleIO_PinStateChanged_EventArgs e);
-        public delegate void BrailleIO_ErrorOccured_EventHandler(object sender, BrailleIO_ErrorOccured_EventArgs e);
-        #endregion
-
-        #region event handlers
-        public event BrailleIO_KeyPressed_EventHandler keyPressed;
-        public event BrailleIO_KeyStateChanged_EventHandler keyStateChanged;
-        public event BrailleIO_Initialized_EventHandler initialized;
-        public event BrailleIO_InputChanged_EventHandler inputChanged;
-        public event BrailleIO_TouchValuesChanged_EventHandler touchValuesChanged;
-        public event BrailleIO_PinStateChanged_EventHandler pinStateChanged;
-        public event BrailleIO_ErrorOccured_EventHandler errorOccured;
-        #endregion
-
         #region on before event handlers
         internal virtual void OnBrailleIO_KeyPressed_EventHandler(BrailleIO_KeyPressed_EventArgs e) { keyPressed(this, e); }
         internal virtual void OnBrailleIO_KeyStateChanged_EventHandler(BrailleIO_KeyStateChanged_EventArgs e) { keyStateChanged(this, e); }
@@ -133,28 +113,13 @@ namespace BrailleIO
         internal virtual void OnBrailleIO_ErrorOccured_EventHandler(BrailleIO_ErrorOccured_EventArgs e) { errorOccured(this, e); }
         #endregion
 
-        #region subscribe to eventhandlers // called and specified and wrapped in driver specific adapters
-        public virtual void subscribe_BrailleIO_KeyPressed_EventHandler(BrailleIO_KeyPressed_EventHandler handler)
-        {
-            this.keyPressed += handler;
-        }
-        public virtual void subscribe_BrailleIO_KeyStateChanged_EventHandler(BrailleIO_KeyStateChanged_EventHandler handler)
-        {
-            this.keyStateChanged += handler;
-        }
-        public virtual void subscribe_BrailleIO_TouchValuesChanged_EventHandler(BrailleIO_TouchValuesChanged_EventHandler handler)
-        {
-            this.touchValuesChanged += handler;
-        }
-        public virtual void subscribe_BrailleIO_PinStateChanged_EventHandler(BrailleIO_PinStateChanged_EventHandler handler)
-        {
-            this.pinStateChanged += handler;
-        }
-        public virtual void subscribe_BrailleIO_ErrorOccured_EventHandler(BrailleIO_ErrorOccured_EventHandler handler)
-        {
-            this.errorOccured += handler;
-        }
-        #endregion
+        public event EventHandler<BrailleIO_KeyPressed_EventArgs> keyPressed;
+        public event EventHandler<BrailleIO_KeyStateChanged_EventArgs> keyStateChanged;
+        public event EventHandler<BrailleIO_Initialized_EventArgs> initialized;
+        public event EventHandler<BrailleIO_InputChanged_EventArgs> inputChanged;
+        public event EventHandler<BrailleIO_TouchValuesChanged_EventArgs> touchValuesChanged;
+        public event EventHandler<BrailleIO_PinStateChanged_EventArgs> pinStateChanged;
+        public event EventHandler<BrailleIO_ErrorOccured_EventArgs> errorOccured;
 
         protected virtual void fireInitialized(BrailleIO_Initialized_EventArgs e)
         {
@@ -194,7 +159,7 @@ namespace BrailleIO
         {
             if (Device != null)
             {
-                touchValuesChanged += new BrailleIO_TouchValuesChanged_EventHandler(AbstractBrailleIOAdapterBase_touchValuesChanged);
+                touchValuesChanged += new EventHandler<BrailleIO_TouchValuesChanged_EventArgs>(AbstractBrailleIOAdapterBase_touchValuesChanged);
                 bool[,] empty = new bool[Device.DeviceSizeY, Device.DeviceSizeX];
                 bool[,] full = GetFullSetMatrix();
                 //clear the correction matrix 
@@ -210,7 +175,7 @@ namespace BrailleIO
                 System.Threading.Thread.Sleep(1000);
                 Synchronize(empty);
 
-                touchValuesChanged -= new BrailleIO_TouchValuesChanged_EventHandler(AbstractBrailleIOAdapterBase_touchValuesChanged);
+                touchValuesChanged -= new EventHandler<BrailleIO_TouchValuesChanged_EventArgs>(AbstractBrailleIOAdapterBase_touchValuesChanged);
                 touchCorrectionMatrix = tempTouchCorrectionMatrix;
             }
 
