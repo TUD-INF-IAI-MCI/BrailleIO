@@ -79,7 +79,6 @@
     <Compile Include="Renderer\BrailleIOBorderRenderer.cs" />
     <Compile Include="Renderer\BrailleIOImageToMatrixRenderer.cs" />
     <Compile Include="Renderer\BrailleIOIPannableRenderer.cs" />
-    <Compile Include="Renderer\BrailleIOViewPortRenderer.cs" />
     <Compile Include="Renderer\BrailleIOTextRenderer.cs" />
     <Compile Include="Renderer\BrailleIOViewMatixRenderer.cs" />
     <Compile Include="Renderer\LockBitmap.cs" />

@@ -277,7 +277,7 @@
       <FileName>Interface\BrailleIOInterfaces.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="BrailleIO.Interface.IBrailleIOAdapter" Collapsed="true">
+  <Interface Name="BrailleIO.Interface.IBrailleIOAdapter">
     <Position X="22.5" Y="0.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAABAAQkAABgAAAIAACAJAAAAgIEACAAAAAAA=</HashCode>
