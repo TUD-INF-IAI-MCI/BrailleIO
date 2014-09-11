@@ -33,9 +33,7 @@ namespace BrailleIO
 
         protected BrailleIOMediator io;
         public AbstractBrailleIOAdapterManagerBase()
-        {
-            AbstractBrailleIOAdapterManagerBase me = this;
-        }
+        {}
 
         public AbstractBrailleIOAdapterManagerBase(ref BrailleIOMediator io)
             : this()
