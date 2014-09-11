@@ -20,8 +20,8 @@ namespace BrailleIO
     public class BrailleIOAdapter_ShowOff : AbstractBrailleIOAdapterBase
     {
         MockDriver driver = new MockDriver();
-        AbstractBrailleIOAdapterManagerBase manager;
-        public BrailleIOAdapter_ShowOff(ref AbstractBrailleIOAdapterManagerBase manager)
+        IBrailleIOAdapterManager manager;
+        public BrailleIOAdapter_ShowOff(ref IBrailleIOAdapterManager manager)
             : base(ref manager)
         {
             this.manager = manager;

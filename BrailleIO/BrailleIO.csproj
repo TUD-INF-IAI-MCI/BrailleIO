@@ -73,6 +73,7 @@
     <Compile Include="BrailleIOScreen.cs" />
     <Compile Include="BrailleIOViewRange.cs" />
     <Compile Include="Interface\IBrailleIOAdapter.cs" />
+    <Compile Include="Interface\IBrailleIOAdapterManager.cs" />
     <Compile Include="Interface\IBrailleIOMatrixRenderer.cs" />
     <Compile Include="Interface\BrailleIOInterfaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

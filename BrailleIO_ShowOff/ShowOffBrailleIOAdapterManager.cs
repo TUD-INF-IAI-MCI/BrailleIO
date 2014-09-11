@@ -1,4 +1,5 @@
 ﻿
+using BrailleIO.Interface;
 namespace BrailleIO
 {
     public class ShowOffBrailleIOAdapterManager : AbstractBrailleIOAdapterManagerBase
@@ -13,7 +14,7 @@ namespace BrailleIO
         void init()
         {
             //push all supported devices and map events 
-            AbstractBrailleIOAdapterManagerBase me = this;
+            IBrailleIOAdapterManager me = this;
             Adapters.Add(new BrailleIOAdapter_ShowOff(ref me));
         }
     }

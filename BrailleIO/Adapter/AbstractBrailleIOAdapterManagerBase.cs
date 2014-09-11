@@ -4,24 +4,25 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Collections.Concurrent;
+using BrailleIO.Interface;
 
 namespace BrailleIO
 {
-    abstract public class AbstractBrailleIOAdapterManagerBase
+    abstract public class AbstractBrailleIOAdapterManagerBase : IBrailleIOAdapterManager
     {
 
-        AbstractBrailleIOAdapterBase _activeAdapter;
+        IBrailleIOAdapter _activeAdapter;
         /// <summary>
         /// initialize all supported devices and wait for connection.
         /// </summary>
-        public AbstractBrailleIOAdapterBase ActiveAdapter
+        public IBrailleIOAdapter ActiveAdapter
         {
             get { return _activeAdapter; }
             set { AddAdapter(value); _activeAdapter = value; }
         }
         private Object _adapterLock = new Object();
-        private ConcurrentBag<AbstractBrailleIOAdapterBase> _adapters = new ConcurrentBag<AbstractBrailleIOAdapterBase>();
-        protected ConcurrentBag<AbstractBrailleIOAdapterBase> Adapters
+        private ConcurrentBag<IBrailleIOAdapter> _adapters = new ConcurrentBag<IBrailleIOAdapter>();
+        protected ConcurrentBag<IBrailleIOAdapter> Adapters
         {
             get
             {
@@ -47,7 +48,7 @@ namespace BrailleIO
         /// </summary>
         /// <param name="adapter">The adapter.</param>
         /// <returns>True if the adapter could be added to the manager otherwise false. It also returns false if the adapter is already added.</returns>
-        public virtual bool AddAdapter(AbstractBrailleIOAdapterBase adapter)
+        public virtual bool AddAdapter(IBrailleIOAdapter adapter)
         {
             if (Adapters.Contains(adapter)) return false;
             try
@@ -63,7 +64,7 @@ namespace BrailleIO
         /// </summary>
         /// <param name="adapter">The adapter.</param>
         /// <returns>True if the adapter could be removed from the manager otherwise false.</returns>
-        public virtual bool RemoveAdapter(AbstractBrailleIOAdapterBase adapter)
+        public virtual bool RemoveAdapter(IBrailleIOAdapter adapter)
         {
             if (Adapters.Contains(adapter))
             {
@@ -77,7 +78,7 @@ namespace BrailleIO
             return false;
         }
 
-        public virtual AbstractBrailleIOAdapterBase[] GetAdapters()
+        public virtual IBrailleIOAdapter[] GetAdapters()
         {
             return Adapters.ToArray();
         }
@@ -92,7 +93,7 @@ namespace BrailleIO
             ActiveAdapter.Synchronize(matrix);
             foreach (var item in Adapters)
             {
-                if (item != null && item != ActiveAdapter && item.Synch)
+                if (item != null && item != ActiveAdapter && item is AbstractBrailleIOAdapterBase && ((AbstractBrailleIOAdapterBase)item).Synch)
                     item.Synchronize(matrix);
             }
             return false;

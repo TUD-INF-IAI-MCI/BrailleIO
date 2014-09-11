@@ -71,12 +71,12 @@ namespace BrailleIO
             protected set { _connected = value; }
         }
 
-        AbstractBrailleIOAdapterManagerBase manager = null;
+        IBrailleIOAdapterManager manager = null;
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractBrailleIOAdapterBase"/> class.
         /// </summary>
         /// <param name="manager">The manager.</param>
-        public AbstractBrailleIOAdapterBase(ref AbstractBrailleIOAdapterManagerBase manager)
+        public AbstractBrailleIOAdapterBase(ref IBrailleIOAdapterManager manager)
         {
             this.manager = manager;
         }

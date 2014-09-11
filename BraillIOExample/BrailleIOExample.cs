@@ -56,7 +56,7 @@ namespace BraillIOExample
 
         #region Functions
 
-        AbstractBrailleIOAdapterBase getActiveAdapter()
+        IBrailleIOAdapter getActiveAdapter()
         {
             if (io != null && io.AdapterManager != null)
             {

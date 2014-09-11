@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
+using BrailleIO.Interface;
 
 
 namespace BrailleIO
@@ -86,7 +87,7 @@ namespace BrailleIO
             return showOffAdapter;
         }
 
-        public AbstractBrailleIOAdapterBase GetAdapter(ref AbstractBrailleIOAdapterManagerBase manager)
+        public AbstractBrailleIOAdapterBase GetAdapter(ref IBrailleIOAdapterManager manager)
         {
             showOffAdapter = new BrailleIOAdapter_ShowOff(ref manager);
             return showOffAdapter;

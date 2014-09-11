@@ -16,7 +16,7 @@ namespace BrailleIO
         private static object syncRoot = new Object();
         private System.Timers.Timer device_update_timer = new System.Timers.Timer();
 
-        public AbstractBrailleIOAdapterManagerBase AdapterManager;
+        public IBrailleIOAdapterManager AdapterManager;
 
         // views are either Screens (combined ViewRanges) or simply ViewRanges
         // Screens should be more comfortable to use for the developer
