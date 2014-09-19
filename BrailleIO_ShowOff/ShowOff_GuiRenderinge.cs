@@ -52,7 +52,8 @@ namespace BrailleIO
                 }
 
             }
-            catch (Exception ex){
+            catch (Exception ex)
+            {
                 _baseImg = null;
                 _touchbmp = null;
                 _matrixbmp = null;
@@ -217,37 +218,42 @@ namespace BrailleIO
                 {
                     if (touchGraphics != null)
                     {
-                        touchGraphics.Clear(Color.Transparent);
-                        int rows = 60;
-                        int cols = 120;
+                        try
+                        {
+                            touchGraphics.Clear(Color.Transparent);
+                            int rows = 60;
+                            int cols = 120;
 
-                        for (int i = 0; i < rows; i++)
-                            for (int j = 0; j < cols; j++)
-                            {
-                                double t = 0;
-                                //touch paint
-                                if (tm != null && tm.GetLength(0) > i && tm.GetLength(1) > j && tm[i, j] > 0)
+                            for (int i = 0; i < rows; i++)
+                                for (int j = 0; j < cols; j++)
                                 {
-                                    t = tm[i, j];
+                                    double t = 0;
+                                    //touch paint
+                                    if (tm != null && tm.GetLength(0) > i && tm.GetLength(1) > j && tm[i, j] > 0)
+                                    {
+                                        t = tm[i, j];
+                                    }
+                                    //TODO:System.InvalidOperationException wurde nicht von Benutzercode behandelt.
+                                    //HResult=-2146233079
+                                    //Message=Das Objekt wird bereits an anderer Stelle verwendet.
+                                    //Source=System.Drawing
+                                    //StackTrace:
+                                    //     bei System.Drawing.Graphics.CheckErrorStatus(Int32 status)
+                                    //     bei System.Drawing.Graphics.FillEllipse(Brush brush, Int32 x, Int32 y, Int32 width, Int32 height)
+                                    //     bei BrailleIO.ShowOff.getTouchImage() in E:\Tangram\Tool\BrailleIO\BrailleIO_ShowOff\ShowOff_GuiRenderinge.cs:Zeile 209.
+                                    //     bei BrailleIO.ShowOff.PaintTouchMatrix(Double[,] touchMatrix) in E:\Tangram\Tool\BrailleIO\BrailleIO_ShowOff\ShowOff.cs:Zeile 101.
+                                    //     bei tud.mci.tangram.TangramLector.LectorGUI._bda_touchValuesChanged(Object sender, BrailleIO_TouchValuesChanged_EventArgs e) in E:\Tangram\Tool\OOo Draw Extension\TangramLector\BrailleIO\LectorBIO.cs:Zeile 144.
+                                    //     bei BrailleIO.AbstractBrailleIOAdapterBase.BrailleIO_TouchValuesChanged_EventHandler.Invoke(Object sender, BrailleIO_TouchValuesChanged_EventArgs e)
+                                    //     bei BrailleIO.AbstractBrailleIOAdapterBase.fireTouchValuesChanged(Double[,] touches, Int32 timestamp, OrderedDictionary& raw) in E:\Tangram\Tool\BrailleIO\BrailleIO\Adapter\BrailleIOAdapter.cs:Zeile 177.
+                                    //     bei BrailleIOBraillDisAdapter.BrailleIOAdapter_BrailleDisNet.BrailleDis_touchValuesChangedEvent(BrailleDisModuleState[] changedModules, BrailleDisModuleState[] activeModules, Int32 timeStampTickCount) in E:\Tangram\Tool\BrailleIOPrivate\BrailleIOBraillDisAdapter\BrailleIOAdapter_BrailleDisNet.cs:Zeile 266.
+                                    //InnerException: 
+
+
+                                    if (t > 0) 
+                                        touchGraphics.FillEllipse(Brushes.Red, j * (pixelFactor + 1), i * (pixelFactor + 1), pixelFactor - 1, pixelFactor - 1);
                                 }
-                                //TODO:System.InvalidOperationException wurde nicht von Benutzercode behandelt.
-                                //HResult=-2146233079
-                                //Message=Das Objekt wird bereits an anderer Stelle verwendet.
-                                //Source=System.Drawing
-                                //StackTrace:
-                                //     bei System.Drawing.Graphics.CheckErrorStatus(Int32 status)
-                                //     bei System.Drawing.Graphics.FillEllipse(Brush brush, Int32 x, Int32 y, Int32 width, Int32 height)
-                                //     bei BrailleIO.ShowOff.getTouchImage() in E:\Tangram\Tool\BrailleIO\BrailleIO_ShowOff\ShowOff_GuiRenderinge.cs:Zeile 209.
-                                //     bei BrailleIO.ShowOff.PaintTouchMatrix(Double[,] touchMatrix) in E:\Tangram\Tool\BrailleIO\BrailleIO_ShowOff\ShowOff.cs:Zeile 101.
-                                //     bei tud.mci.tangram.TangramLector.LectorGUI._bda_touchValuesChanged(Object sender, BrailleIO_TouchValuesChanged_EventArgs e) in E:\Tangram\Tool\OOo Draw Extension\TangramLector\BrailleIO\LectorBIO.cs:Zeile 144.
-                                //     bei BrailleIO.AbstractBrailleIOAdapterBase.BrailleIO_TouchValuesChanged_EventHandler.Invoke(Object sender, BrailleIO_TouchValuesChanged_EventArgs e)
-                                //     bei BrailleIO.AbstractBrailleIOAdapterBase.fireTouchValuesChanged(Double[,] touches, Int32 timestamp, OrderedDictionary& raw) in E:\Tangram\Tool\BrailleIO\BrailleIO\Adapter\BrailleIOAdapter.cs:Zeile 177.
-                                //     bei BrailleIOBraillDisAdapter.BrailleIOAdapter_BrailleDisNet.BrailleDis_touchValuesChangedEvent(BrailleDisModuleState[] changedModules, BrailleDisModuleState[] activeModules, Int32 timeStampTickCount) in E:\Tangram\Tool\BrailleIOPrivate\BrailleIOBraillDisAdapter\BrailleIOAdapter_BrailleDisNet.cs:Zeile 266.
-                                //InnerException: 
-
-
-                                if (t > 0) touchGraphics.FillEllipse(Brushes.Red, j * (pixelFactor + 1), i * (pixelFactor + 1), pixelFactor - 1, pixelFactor - 1);
-                            }
+                        }
+                        catch (System.Exception ex) { }
                     }
                 }
                 touchStack.Clear();
