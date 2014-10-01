@@ -54,7 +54,7 @@ namespace BrailleIO
             return false;
         }
 
-        protected void sendAttached(BrailleIODevice device)
+        internal void sendAttached(BrailleIODevice device)
         {
             fireInitialized(new BrailleIO_Initialized_EventArgs(device));
         }
@@ -100,13 +100,13 @@ namespace BrailleIO
         //    }
         //}
 
-        //private void driver_touchValuesChangedEvent(
-        //    HyperBraille.HBBrailleDis.BrailleDisModuleState[] changedModules,
-        //    HyperBraille.HBBrailleDis.BrailleDisModuleState[] activeModules,
-        //    int timeStampTickCount)
-        //{
-
-        //}
+        internal void firetouchValuesChangedEvent(
+            double[,] touches,
+            int timeStampTickCount)
+        {
+            OrderedDictionary raw = new OrderedDictionary();
+            fireTouchValuesChanged(touches, timeStampTickCount, ref raw);
+        }
 
         public void startTouch()
         {

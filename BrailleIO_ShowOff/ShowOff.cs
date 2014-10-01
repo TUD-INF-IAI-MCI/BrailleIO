@@ -43,7 +43,6 @@ namespace BrailleIO
         {
             InitializeComponent();
 
-
             this.pictureBoxMatrix.BackColor = Color.White;
             this.pictureBoxMatrix.Image = generateBaseImage(120, 60);
             this.pictureBoxPins.BackColor = Color.Transparent;
@@ -66,8 +65,6 @@ namespace BrailleIO
             this.KeyUp += new KeyEventHandler(ShowOff_KeyUp);
 
             //TODO: Register hotkeys;
-
-
         }
 
         // has to be called in ShowOff.Designer.cs -> protected override void Dispose(bool disposing)
@@ -103,13 +100,16 @@ namespace BrailleIO
         /// <param name="touchMatrix">The touch matrix.</param>
         public void PaintTouchMatrix(double[,] touchMatrix)
         {
-            addMatrixToStack(touchMatrix); try
+            if (!mouseToGetureMode) // maybe show the modules in background?!
             {
-                this.pictureBoxTouch.Image = getTouchImage();
-            }
-            catch (System.Exception ex)
-            {
+                addMatrixToStack(touchMatrix); try
+                {
+                    this.pictureBoxTouch.Image = getTouchImage();
+                }
+                catch (System.Exception ex)
+                {
 
+                }
             }
         }
 
@@ -124,20 +124,7 @@ namespace BrailleIO
 
         #endregion
 
-        private void panel1_MouseDown(object sender, MouseEventArgs e)
-        {
 
-        }
-
-        private void panel1_MouseMove(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        private void panel1_MouseUp(object sender, MouseEventArgs e)
-        {
-
-        }
 
     }
 }

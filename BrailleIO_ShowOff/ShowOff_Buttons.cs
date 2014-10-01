@@ -232,7 +232,6 @@ namespace BrailleIO
 
         #region key combinations
 
-
         #region Application keys
 
         protected volatile bool ctr = false;
@@ -262,12 +261,10 @@ namespace BrailleIO
 
         void hk_Pressed(object sender, System.ComponentModel.HandledEventArgs e)
         {
-            throw new NotImplementedException();
+
         }
 
         #endregion
-
-
 
         volatile List<BrailleIO_DeviceButtonStates> _pressedStates = new List<BrailleIO_DeviceButtonStates>();
         volatile List<BrailleIO_DeviceButtonStates> _releasedStates = new List<BrailleIO_DeviceButtonStates>();
@@ -279,11 +276,8 @@ namespace BrailleIO
             List<string> releasedKeys,
             int timeStampTickCount)
         {
-
-
             if (ctr)
             {
-
                 //check if pressed or released
                 if (releasedKeys == null || releasedKeys.Count < 1) //pressed keys
                 {
@@ -304,7 +298,6 @@ namespace BrailleIO
                             }
                         }
                     }
-
                 }
                 else // released keys
                 {
@@ -327,23 +320,30 @@ namespace BrailleIO
                     }
                 }
 
+                //FIXME: check why this is not working proper
                 MarkButtonAsPressed(_pressedButtons);
 
-                return;
+                //return;
             }
+
+            BrailleIO_DeviceButtonStates ps = BrailleIO_DeviceButtonStates.None;
+            foreach (BrailleIO_DeviceButtonStates s in _pressedStates) { ps = ps | s; }
+
+            // fire always button pressed but wait for release
+            if (showOffAdapter != null && pressedKeys != null && pressedKeys.Count > 0)
+                showOffAdapter.firekeyStateChangedEvent(ps, _pressedButtons, new List<String>(), timeStampTickCount);
+
+            if (ctr) return; // break the release or reset functions 
+
 
             if (states == BrailleIO_DeviceButtonStates.None && pressedKeys == null && releasedKeys == null && timeStampTickCount == 0)
             {
                 //check if this is because the ctr is released
                 if (showOffAdapter != null)
                 {
-                    BrailleIO_DeviceButtonStates ps = BrailleIO_DeviceButtonStates.None;
-                    foreach (BrailleIO_DeviceButtonStates s in _pressedStates) { ps = ps & s; }
-
                     BrailleIO_DeviceButtonStates rs = BrailleIO_DeviceButtonStates.None;
-                    foreach (BrailleIO_DeviceButtonStates s in _releasedStates) { rs = rs & s; }
+                    foreach (BrailleIO_DeviceButtonStates s in _releasedStates) { rs = rs | s; }
 
-                    showOffAdapter.firekeyStateChangedEvent(ps, _pressedButtons, new List<String>(), timeStampTickCount);
                     showOffAdapter.firekeyStateChangedEvent(rs, new List<String>(), _releasedButtons, timeStampTickCount);
 
                     UnmarkButtons(_releasedButtons);
@@ -362,7 +362,6 @@ namespace BrailleIO
                 }
             }
         }
-
 
         #endregion
 

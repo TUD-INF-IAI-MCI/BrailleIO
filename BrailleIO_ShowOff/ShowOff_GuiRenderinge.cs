@@ -199,8 +199,9 @@ namespace BrailleIO
             }
         }
 
+        int rows = 60;
+        int cols = 120;
 
-        private Image _lastTouchImage;
         /// <summary>
         /// Gets a image representing the touched pins.
         /// </summary>
@@ -221,8 +222,7 @@ namespace BrailleIO
                         try
                         {
                             touchGraphics.Clear(Color.Transparent);
-                            int rows = 60;
-                            int cols = 120;
+                            
 
                             for (int i = 0; i < rows; i++)
                                 for (int j = 0; j < cols; j++)
@@ -265,8 +265,6 @@ namespace BrailleIO
 
 
         #endregion
-
-
     }
 
 

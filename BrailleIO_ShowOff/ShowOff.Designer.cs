@@ -549,6 +549,13 @@
             this.pictureBoxTouch.Size = new System.Drawing.Size(721, 363);
             this.pictureBoxTouch.TabIndex = 49;
             this.pictureBoxTouch.TabStop = false;
+            this.pictureBoxTouch.Click += new System.EventHandler(this.pictureBoxTouch_Click);
+            //this.pictureBoxTouch.MouseCaptureChanged += new System.EventHandler(pictureBoxTouch_MouseCaptureChanged);
+            this.pictureBoxTouch.MouseDown += new System.Windows.Forms.MouseEventHandler(pictureBoxTouch_MouseDown);
+            this.pictureBoxTouch.MouseEnter += new System.EventHandler(pictureBoxTouch_MouseEnter);
+            this.pictureBoxTouch.MouseLeave += new System.EventHandler(pictureBoxTouch_MouseLeave);
+            this.pictureBoxTouch.MouseMove += new System.Windows.Forms.MouseEventHandler(pictureBoxTouch_MouseMove);
+            this.pictureBoxTouch.MouseUp += new System.Windows.Forms.MouseEventHandler(pictureBoxTouch_MouseUp);
             // 
             // pictureBoxPins
             // 
