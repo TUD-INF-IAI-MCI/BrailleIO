@@ -8,6 +8,7 @@ namespace BrailleIO
     {
         #region Members
         private OrderedDictionary view_ranges = new OrderedDictionary();
+
         private bool is_visible = true;
         /// <summary>
         /// Gets or sets the name of the Screen.

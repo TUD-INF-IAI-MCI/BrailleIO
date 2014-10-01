@@ -165,6 +165,11 @@ namespace BrailleIO
                 //clear the correction matrix 
                 touchCorrectionMatrix = new double[Device.DeviceSizeY, Device.DeviceSizeX];
 
+                System.Threading.Thread.Sleep(1000);
+                Synchronize(empty);
+                System.Threading.Thread.Sleep(1000);
+                Synchronize(full);
+                System.Threading.Thread.Sleep(1000);
                 Synchronize(empty);
                 System.Threading.Thread.Sleep(1000);
                 Synchronize(full);
@@ -174,6 +179,11 @@ namespace BrailleIO
                 Synchronize(full);
                 System.Threading.Thread.Sleep(1000);
                 Synchronize(empty);
+                System.Threading.Thread.Sleep(1000);
+                Synchronize(full);
+                System.Threading.Thread.Sleep(1000);
+                Synchronize(empty);
+                System.Threading.Thread.Sleep(3000);
 
                 touchValuesChanged -= new EventHandler<BrailleIO_TouchValuesChanged_EventArgs>(AbstractBrailleIOAdapterBase_touchValuesChanged);
                 touchCorrectionMatrix = tempTouchCorrectionMatrix;

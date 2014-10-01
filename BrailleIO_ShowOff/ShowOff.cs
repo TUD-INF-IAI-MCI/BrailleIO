@@ -31,7 +31,7 @@ namespace BrailleIO
             try
             {
                 Application.EnableVisualStyles();
-            	Application.SetCompatibleTextRenderingDefault(false);
+                Application.SetCompatibleTextRenderingDefault(false);
             }
             catch (System.InvalidOperationException e)
             {
@@ -55,8 +55,8 @@ namespace BrailleIO
             pictureBoxTouch.Image = null;
 
             renderTimer.Elapsed += new System.Timers.ElapsedEventHandler(renderTimer_Elapsed);
-            renderTimer.Start();            
-            
+            renderTimer.Start();
+
             this.Activate();
             this.Show();
 
@@ -101,7 +101,17 @@ namespace BrailleIO
         /// Paints the touch matrix over the matrix image.
         /// </summary>
         /// <param name="touchMatrix">The touch matrix.</param>
-        public void PaintTouchMatrix(double[,] touchMatrix) { addMatrixToStack(touchMatrix); this.pictureBoxTouch.Image = getTouchImage(); }
+        public void PaintTouchMatrix(double[,] touchMatrix)
+        {
+            addMatrixToStack(touchMatrix); try
+            {
+                this.pictureBoxTouch.Image = getTouchImage();
+            }
+            catch (System.Exception ex)
+            {
+
+            }
+        }
 
         private void addMatrixToStack(double[,] touchMatrix)
         {
