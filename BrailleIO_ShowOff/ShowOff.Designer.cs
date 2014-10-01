@@ -549,7 +549,7 @@
             this.pictureBoxTouch.Size = new System.Drawing.Size(721, 363);
             this.pictureBoxTouch.TabIndex = 49;
             this.pictureBoxTouch.TabStop = false;
-            this.pictureBoxTouch.Click += new System.EventHandler(this.pictureBoxTouch_Click);
+            //this.pictureBoxTouch.Click += new System.EventHandler(this.pictureBoxTouch_Click);
             //this.pictureBoxTouch.MouseCaptureChanged += new System.EventHandler(pictureBoxTouch_MouseCaptureChanged);
             this.pictureBoxTouch.MouseDown += new System.Windows.Forms.MouseEventHandler(pictureBoxTouch_MouseDown);
             this.pictureBoxTouch.MouseEnter += new System.EventHandler(pictureBoxTouch_MouseEnter);
