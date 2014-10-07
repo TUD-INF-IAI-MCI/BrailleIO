@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 
 namespace BrailleIO.Renderer
 {
-    public class BrailleIOImageToMatrixRenderer : BrailleIOScrollbarRenderer, IBrailleIOContentRenderer
+    public class BrailleIOImageToMatrixRenderer : BrailleIOHookableRendererBase, IBrailleIOContentRenderer
     {
         /// <summary>
         /// If lightness of a color is lower than this threshold, the pin will be lowered. 
@@ -55,6 +55,11 @@ namespace BrailleIO.Renderer
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom) { return RenderImage(img, view, null, invert, zoom); }
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom)
         {
+            //call pre hooks
+            object cImg = img as object;
+            callAllPreHooks(ref view, ref cImg, offset, invert, zoom);
+            img = cImg as Bitmap;
+
             if (zoom > 3) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than 3.", "zoom");
             if (zoom < 0) throw new ArgumentException("The zoom level is with a value of " + zoom + "to low. The zoom level should be between 0 and 3.", "zoom");
 
@@ -151,13 +156,21 @@ namespace BrailleIO.Renderer
                 }
                 catch (ArgumentException) { }
             }
+
+            //call post hooks
+            callAllPostHooks(view, img, ref m, offset, invert, zoom);
+
             return m;
         }
 
-        public bool[,] renderMatrix(IViewBoxModel view, object content)
+        #region IBrailleIOContentRenderer
+
+        public bool[,] RenderMatrix(IViewBoxModel view, object content)
         {
             return RenderImage(content as Bitmap, view, 1);
         }
+
+        #endregion
     }
 
     public static class GraphicUtils

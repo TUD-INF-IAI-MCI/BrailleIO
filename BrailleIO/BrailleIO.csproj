@@ -74,12 +74,12 @@
     <Compile Include="BrailleIOViewRange.cs" />
     <Compile Include="Interface\IBrailleIOAdapter.cs" />
     <Compile Include="Interface\IBrailleIOAdapterManager.cs" />
-    <Compile Include="Interface\IBrailleIOMatrixRenderer.cs" />
+    <Compile Include="Interface\IBrailleIORendererInterfaces.cs" />
     <Compile Include="Interface\BrailleIOInterfaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer\BrailleIOBorderRenderer.cs" />
     <Compile Include="Renderer\BrailleIOImageToMatrixRenderer.cs" />
-    <Compile Include="Renderer\BrailleIOIPannableRenderer.cs" />
+    <Compile Include="Renderer\BrailleIOIBasisRenderer.cs" />
     <Compile Include="Renderer\BrailleIOTextRenderer.cs" />
     <Compile Include="Renderer\BrailleIOViewMatixRenderer.cs" />
     <Compile Include="Renderer\LockBitmap.cs" />

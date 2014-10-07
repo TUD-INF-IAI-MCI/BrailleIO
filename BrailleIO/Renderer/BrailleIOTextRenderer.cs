@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace BrailleIO.Renderer
 {
     //TODO: make this real working
-    public class BrailleIOTextRenderer : BrailleIOScrollbarRenderer, IBrailleIOContentRenderer
+    public class BrailleIOTextRenderer : BrailleIOHookableRendererBase, IBrailleIOContentRenderer, IBrailleIOHookableRenderer
     {
         System.Drawing.SolidBrush drawBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
         System.Drawing.Font drawFont = new System.Drawing.Font("TUD Euro-8-Braille equidistant", 22.25977f, FontStyle.Bold);
@@ -51,17 +51,30 @@ namespace BrailleIO.Renderer
             return bmp;
         }
 
-        public bool[,] renderMatrix(IViewBoxModel view, String text)
+        #region IBrailleIOContentRenderer
+
+        public bool[,] RenderMatrix(IViewBoxModel view, String text)
         {
+            //call pre hooks
+            object cT = text as object;
+            callAllPreHooks(ref view, ref cT);
+            text = cT as String;
+
             var ir = new BrailleIOImageToMatrixRenderer();
             var vr = view.ContentBox;
             var m = ir.RenderImage(DrawString(text, vr.Width, vr.Height), view, 1, 100f);
+
+            //call post hooks
+            callAllPostHooks(view, text, ref m);
+
             return m;
         }
 
-        public bool[,] renderMatrix(IViewBoxModel view, object content)
+        public bool[,] RenderMatrix(IViewBoxModel view, object content)
         {
-            return renderMatrix(view, content.ToString());
+            return RenderMatrix(view, content.ToString());
         }
+
+        #endregion 
     }
 }

@@ -222,7 +222,7 @@ namespace BrailleIO
             {
                 if (!string.IsNullOrEmpty(vr.GetText()))
                 {
-                    contentMatrix = (new BrailleIO.Renderer.BrailleIOTextRenderer()).renderMatrix(vr, vr.GetText());
+                    contentMatrix = (new BrailleIO.Renderer.BrailleIOTextRenderer()).RenderMatrix(vr, vr.GetText());
                 }
             }
             // Generic renderer
@@ -230,13 +230,13 @@ namespace BrailleIO
             {
                 if (vr.GetOtherContent() != null && vr.ContentRender != null)
                 {
-                    contentMatrix = vr.ContentRender.renderMatrix(vr, vr.GetOtherContent());
+                    contentMatrix = vr.ContentRender.RenderMatrix(vr, vr.GetOtherContent());
                 }
                 else return false;
             }
             else return false;
             //place the content matrix (contentMatrix) in the view range matrix with aware of the box model 
-            viewBoxMatrix = (new BrailleIO.Renderer.BrailleIOViewMatixRenderer()).renderMatrix(vr, contentMatrix, handlePanning);
+            viewBoxMatrix = (new BrailleIO.Renderer.BrailleIOViewMatixRenderer()).RenderMatrix(vr, contentMatrix, handlePanning);
             // Border rendering
             viewBoxMatrix = BrailleIO.Renderer.BrailleIOBorderRenderer.renderMatrix(vr, viewBoxMatrix);
             bool pl = pins_locked;

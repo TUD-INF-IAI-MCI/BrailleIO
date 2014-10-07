@@ -37,6 +37,14 @@ namespace BrailleIO
 
         public BrailleIOScreen Parent { get; private set; }
 
+        #region for sorting
+
+        private volatile int tstamp;
+
+        private int zIndex;
+
+        #endregion
+
         #region Renderers
         private BrailleIO.Renderer.BrailleIOImageToMatrixRenderer _ir;
         public BrailleIO.Renderer.BrailleIOImageToMatrixRenderer ImageRenderer { get { if (_ir == null) _ir = new Renderer.BrailleIOImageToMatrixRenderer(); return _ir; } }
@@ -291,5 +299,30 @@ namespace BrailleIO
         /// </summary>
         /// <returns></returns>
         public int GetContrastThreshold() { return threshold; }
+
+
+        /// <summary>
+        /// Sets the time stamp for the sorting after time.
+        /// </summary>
+        /// <param name="tstamp">The tstamp in ticks.</param>
+        internal void setTimeStamp(int tstamp) { this.tstamp = tstamp; }
+        /// <summary>
+        /// Gets the time stamp for sorting after time.
+        /// </summary>
+        /// <returns>the set time stamp in ticks</returns>
+        internal int getTimeStamp() { return this.tstamp; }
+
+
+        /// <summary>
+        /// Sets the z-index of the view range. A lager z-index overlays a smaller.
+        /// </summary>
+        /// <param name="zIndex">the z-index of the viewRange.</param>
+        public void SetZIndex(int zIndex) { this.zIndex = zIndex; }
+        /// <summary>
+        /// Gets the z-index of the view range. A lager z-index overlays a smaller.
+        /// </summary>
+        /// <returns>the z-index of the viewRange.</returns>
+        public int GetZIndex() { return this.zIndex; }
+
     }
 }

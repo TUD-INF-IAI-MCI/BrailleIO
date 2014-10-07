@@ -7,7 +7,7 @@ namespace BrailleIO.Renderer
     /// <summary>
     /// Place a content-matrix in a matrix that fits in a given view with aware of the BoxModel.
     /// </summary>
-    public class BrailleIOViewMatixRenderer : BrailleIOScrollbarRenderer, IBrailleIOMatrixRenderer
+    public class BrailleIOViewMatixRenderer : BrailleIOHookableRendererBase, IBrailleIORendererInterfaces
     {
         /// <summary>
         /// Puts the given content-matrix in a matrix that fits in the given view.
@@ -20,7 +20,7 @@ namespace BrailleIO.Renderer
         /// <param name="view">The view witch holds the BoxModel. If the view is IPannable than the offset is also considered.</param>
         /// <param name="contentMatrix">The content matrix. Holds the conten that should be placed in the view.</param>
         /// <returns>a bool[view.ViewBox.Width,view.ViewBox.Height] matrix holding the content with aware of the views' BoxModel.</returns>
-        public bool[,] renderMatrix(IViewBoxModel view, bool[,] contentMatrix) { return renderMatrix(view, contentMatrix, false); }
+        public bool[,] RenderMatrix(IViewBoxModel view, bool[,] contentMatrix) { return RenderMatrix(view, contentMatrix, false); }
 
         /// <summary>
         /// Puts the given content-matrix in a matrix that fits in the given view.
@@ -34,8 +34,14 @@ namespace BrailleIO.Renderer
         /// <param name="contentMatrix">The content matrix. Holds the conten that should be placed in the view.</param>
         /// <param name="handlePanning">Handle the panning of the content matrix or not</param>
         /// <returns>a bool[view.ViewBox.Width,view.ViewBox.Height] matrix holding the content with aware of the views' BoxModel.</returns>
-        public bool[,] renderMatrix(IViewBoxModel view, bool[,] contentMatrix, bool handlePanning)
+        public bool[,] RenderMatrix(IViewBoxModel view, bool[,] contentMatrix, bool handlePanning)
         {
+            //call pre hooks
+            object cM = contentMatrix as object;
+            callAllPreHooks(ref view, ref cM, handlePanning);
+            contentMatrix = cM as bool[,];
+
+
             if (view == null) return null;
             bool[,] viewMatrix = new bool[view.ViewBox.Height, view.ViewBox.Width];
 
@@ -58,7 +64,7 @@ namespace BrailleIO.Renderer
                 }
                 if (((IPannable)view).ShowScrollbars)
                 {
-                    bool scucess = drawScrollbars(view, ref viewMatrix, oX, oY);
+                    bool scucess = BrailleIOScrollbarRenderer.DrawScrollbars(view, ref viewMatrix, oX, oY);
                 }
             }
 
@@ -87,12 +93,16 @@ namespace BrailleIO.Renderer
                     }
                 });
             }
+
+            //call post hooks
+            callAllPostHooks(view, contentMatrix, ref viewMatrix, handlePanning);
+
             return viewMatrix;
         }
 
-        public bool[,] renderMatrix(IViewBoxModel view, object content)
+        public bool[,] RenderMatrix(IViewBoxModel view, object content)
         {
-            return renderMatrix(view, content as bool[,]);
+            return RenderMatrix(view, content as bool[,]);
         }
     }
 }
