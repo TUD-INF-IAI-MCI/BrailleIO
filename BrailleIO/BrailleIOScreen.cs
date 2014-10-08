@@ -188,14 +188,14 @@ namespace BrailleIO
         }
         private long getTick() { return DateTime.UtcNow.Ticks; }
 
-        private List<KeyValuePair<TKey, TValue>> getSortedValues()
-        {
-            List<KeyValuePair<TKey, TValue>> myList = new List<KeyValuePair<TKey, TValue>>();
+        //private List<KeyValuePair<TKey, TValue>> getSortedValues()
+        //{
+        //    //List<KeyValuePair<TKey, TValue>> myList = dic.;
 
-            myList.Sort(comparer);
+        //    myList.Sort(comparer);
 
-            return myList;
-        }
+        //    return myList;
+        //}
 
         #endregion
 
