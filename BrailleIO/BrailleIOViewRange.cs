@@ -324,5 +324,19 @@ namespace BrailleIO
         /// <returns>the z-index of the viewRange.</returns>
         public int GetZIndex() { return this.zIndex; }
 
+
+        /// <summary>
+        /// Occurs when the renderer was changed.
+        /// </summary>
+        public event EventHandler<EventArgs> RendererChanged;
+
+        private void fireRendererChanged()
+        {
+            if (RendererChanged != null)
+            {
+                RendererChanged.DynamicInvoke(this);
+            }
+        }
+
     }
 }
