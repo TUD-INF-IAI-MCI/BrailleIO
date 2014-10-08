@@ -325,19 +325,6 @@ namespace BrailleIO
         /// <returns></returns>
         public int GetContrastThreshold() { return threshold; }
 
-
-        /// <summary>
-        /// Sets the time stamp for the sorting after time.
-        /// </summary>
-        /// <param name="tstamp">The tstamp in ticks.</param>
-        internal void setTimeStamp(int tstamp) { this.tstamp = tstamp; }
-        /// <summary>
-        /// Gets the time stamp for sorting after time.
-        /// </summary>
-        /// <returns>the set time stamp in ticks</returns>
-        internal int getTimeStamp() { return this.tstamp; }
-
-
         /// <summary>
         /// Sets the z-index of the view range. A lager z-index overlays a smaller.
         /// </summary>

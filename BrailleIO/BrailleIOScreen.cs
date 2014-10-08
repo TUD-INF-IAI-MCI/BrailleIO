@@ -4,15 +4,17 @@ using BrailleIO.Interface;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 
 namespace BrailleIO
 {
     public class BrailleIOScreen : AbstractViewBoxModelBase, IViewable
     {
         #region Members
+        //FIXME: remove this if we can trust the orderedConcurrentDictionarry 
         private OrderedDictionary view_ranges = new OrderedDictionary();
 
-
+        private OrderedConcurentDictionary<String, BrailleIOViewRange> viewRanges = new OrderedConcurentDictionary<String, BrailleIOViewRange>(new BrailleIOViewRangeComparer());
 
 
         private bool is_visible = true;
@@ -26,10 +28,15 @@ namespace BrailleIO
 
         public BrailleIOScreen()
         {
-            orderedConcurentDictionary<String, object> bla = new orderedConcurentDictionary<String, object>(new BrailleIOViewRangeComparer());
 
         }
         public BrailleIOScreen(String name) { Name = name; }
+
+        //FIXME: 
+        public List<KeyValuePair<String, BrailleIOViewRange>> GetOrderedViewRanges()
+        {
+            return viewRanges.GetSortedValues();
+        }
 
         /// <summary>
         /// add ViewRange to screen
@@ -45,6 +52,10 @@ namespace BrailleIO
             if (_view_range != null)
             {
                 _view_range.Name = name;
+
+                //FIXME: add to ordered
+                viewRanges.Add(name, _view_range);
+
                 if (!this.view_ranges.Contains(name)) this.view_ranges.Add(name, _view_range);
                 else
                 {
@@ -66,6 +77,7 @@ namespace BrailleIO
         public void RemoveViewRange(String name)
         {
             this.view_ranges.Remove(name);
+            viewRanges.Remove(name);
         }
 
         /// <summary>
@@ -91,7 +103,21 @@ namespace BrailleIO
         /// </returns>
         public OrderedDictionary GetViewRanges()
         {
-            return this.view_ranges;
+            //return this.view_ranges;
+            
+            OrderedDictionary result = new OrderedDictionary();
+            try
+            {
+                var list = viewRanges.GetSortedValues();
+                foreach (var pair in list)
+                {
+                    result.Add(pair.Key, pair.Value);
+                }
+            }
+            catch { }
+
+            return result;
+
         }
 
         public BrailleIOViewRange GetViewRange(String name)
@@ -151,8 +177,7 @@ namespace BrailleIO
 
     }
 
-
-    class orderedConcurentDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
+    class OrderedConcurentDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>,
     IDictionary, ICollection, IEnumerable, IComparer<KeyValuePair<TKey, TValue>>
     {
@@ -166,36 +191,30 @@ namespace BrailleIO
 
         #endregion
 
-        public orderedConcurentDictionary(IComparer<KeyValuePair<TKey, TValue>> comparer)
+        public OrderedConcurentDictionary(IComparer<KeyValuePair<TKey, TValue>> comparer)
         {
             dic = new ConcurrentDictionary<TKey, TValue>();
             this.comparer = comparer;
         }
 
-
-        //public void Add(TKey key, TValue value){
-        //    dic.AddOrUpdate(key, value, (k, oldValue) => oldValue = value);
-        //}
-
         #region timeStamp list
 
-        private void addToTimeDic(TKey key) { timedic[key] = getTick(); }
-        private void updateInTimeDic(TKey key) { timedic[key] = getTick(); }
+        volatile int z = 0;
+
+        private void addToTimeDic(TKey key) { timedic[key] = z++; }
+        private void updateInTimeDic(TKey key) { timedic[key] = z++; }
         private void removeFromTimeDic(TKey key)
         {
             long trash;
             timedic.TryRemove(key, out trash);
         }
-        private long getTick() { return DateTime.UtcNow.Ticks; }
 
-        //private List<KeyValuePair<TKey, TValue>> getSortedValues()
-        //{
-        //    //List<KeyValuePair<TKey, TValue>> myList = dic.;
-
-        //    myList.Sort(comparer);
-
-        //    return myList;
-        //}
+        public List<KeyValuePair<TKey, TValue>> GetSortedValues()
+        {
+            List<KeyValuePair<TKey, TValue>> myList = dic.ToArray().ToList();
+            myList.Sort(this);
+            return myList;
+        }
 
         #endregion
 
@@ -252,6 +271,7 @@ namespace BrailleIO
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
+            addToTimeDic(item.Key);
             dic.AddOrUpdate(item.Key, item.Value, (k, oldValue) => oldValue = item.Value);
         }
 
@@ -418,15 +438,21 @@ namespace BrailleIO
             return result;
         }
 
-
         #endregion
-
 
     }
 
-    class BrailleIOViewRangeComparer : Comparer<KeyValuePair<String, BrailleIOViewRange>>
-        , IComparer<KeyValuePair<String, object>>
+    class BrailleIOViewRangeComparer : Comparer<KeyValuePair<String, BrailleIOViewRange>>,
+        IComparer<KeyValuePair<String, object>>
     {
+
+        /*
+         * return:
+         *      < 0 |   x < y
+         *      = 0 |   x == x
+         *      > 0 |   x > y
+         * */
+
         public override int Compare(KeyValuePair<String, BrailleIOViewRange> x, KeyValuePair<String, BrailleIOViewRange> y)
         {
             int zx = 0;
@@ -435,7 +461,7 @@ namespace BrailleIO
             if (x.Value is BrailleIOViewRange) zx = ((BrailleIOViewRange)x.Value).GetZIndex();
             if (y.Value is BrailleIOViewRange) zy = ((BrailleIOViewRange)y.Value).GetZIndex();
 
-            return zy - zx;
+            return zx - zy;
         }
 
         public int Compare(KeyValuePair<String, object> x, KeyValuePair<String, object> y)
@@ -449,6 +475,5 @@ namespace BrailleIO
             return 0;
         }
     }
-
 
 }
