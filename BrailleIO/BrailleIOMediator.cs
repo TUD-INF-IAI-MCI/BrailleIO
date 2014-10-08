@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Timers;
 using BrailleIO.Interface;
+using BrailleIO.Renderer;
 
 namespace BrailleIO
 {
@@ -116,8 +117,6 @@ namespace BrailleIO
             }
         }
 
-        int t = 0;
-
         /// <summary>
         /// transmit matrix to display
         /// </summary>
@@ -207,14 +206,25 @@ namespace BrailleIO
             else if (vr.IsImage() && vr.GetImage() != null)
             {
                 int th = (vr is IContrastThreshold) ? ((IContrastThreshold)vr).GetContrastThreshold() : -1;
-                if (th >= 0)
+
+                if (vr.ContentRender is BrailleIOImageToMatrixRenderer)
                 {
-                    contentMatrix = vr.ImageRenderer.RenderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), th);
+
+                    if (th >= 0)
+                    {
+                        contentMatrix = ((BrailleIOImageToMatrixRenderer)vr.ContentRender).RenderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), th);
+                    }
+                    else
+                    {
+                        contentMatrix = ((BrailleIOImageToMatrixRenderer)vr.ContentRender).RenderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), true);
+                    }
+
                 }
                 else
                 {
-                    contentMatrix = vr.ImageRenderer.RenderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), true);
+                    contentMatrix = vr.ContentRender.RenderMatrix(vr, vr.GetImage());
                 }
+
                 handlePanning = false;
             }
             // Text rendering
@@ -222,7 +232,7 @@ namespace BrailleIO
             {
                 if (!string.IsNullOrEmpty(vr.GetText()))
                 {
-                    contentMatrix = (new BrailleIO.Renderer.BrailleIOTextRenderer()).RenderMatrix(vr, vr.GetText());
+                    contentMatrix = vr.ContentRender.RenderMatrix(vr, vr.GetText());
                 }
             }
             // Generic renderer

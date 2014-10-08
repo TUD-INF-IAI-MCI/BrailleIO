@@ -19,7 +19,6 @@ namespace GestureRecognition
         List<int> equalRegions;
 
         int[] tempArray = new int[200];
-        int[] old;
 
         #endregion
 

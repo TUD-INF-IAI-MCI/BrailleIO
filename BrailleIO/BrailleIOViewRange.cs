@@ -46,9 +46,22 @@ namespace BrailleIO
         #endregion
 
         #region Renderers
-        private BrailleIO.Renderer.BrailleIOImageToMatrixRenderer _ir;
-        public BrailleIO.Renderer.BrailleIOImageToMatrixRenderer ImageRenderer { get { if (_ir == null) _ir = new Renderer.BrailleIOImageToMatrixRenderer(); return _ir; } }
-        public IBrailleIOContentRenderer ContentRender { get; private set; }
+        private readonly BrailleIO.Renderer.BrailleIOImageToMatrixRenderer _ir = new Renderer.BrailleIOImageToMatrixRenderer();
+        private readonly BrailleIO.Renderer.BrailleIOViewMatixRenderer _mr = new BrailleIO.Renderer.BrailleIOViewMatixRenderer();
+        private readonly BrailleIO.Renderer.BrailleIOTextRenderer _tr = new BrailleIO.Renderer.BrailleIOTextRenderer();
+
+
+        //public BrailleIO.Renderer.BrailleIOImageToMatrixRenderer ImageRenderer { get { if (_ir == null) _ir = new Renderer.BrailleIOImageToMatrixRenderer(); return _ir; } }
+        private IBrailleIOContentRenderer _cr;
+        public IBrailleIOContentRenderer ContentRender
+        {
+            get {return _cr;}
+            private set
+            {
+                _cr = value;
+                fireRendererChanged();
+            } 
+        }
        
         #endregion
 
@@ -115,6 +128,7 @@ namespace BrailleIO
             this.matrix = matrix;
             this.is_matrix = true;
             this.is_text = this.is_image = this.is_other = false;
+            this.ContentRender = _mr;
         }
 
         /// <summary>
@@ -136,6 +150,7 @@ namespace BrailleIO
             this.image = img;
             this.is_image = true;
             this.is_text = this.is_matrix = this.is_other = false;
+            this.ContentRender = _ir;
         }
         /// <summary>
         /// Sets the bitmap that should be rendered.
@@ -223,10 +238,21 @@ namespace BrailleIO
             this.text = text;
             this.is_text = true;
             this.is_image = this.is_matrix = this.is_other = false;
+            this.ContentRender = _tr;
         }
 
+        /// <summary>
+        /// Sets an generic content and a related renderer for this type.
+        /// </summary>
+        /// <param name="contet">The contet.</param>
+        /// <param name="renderer">The renderer - can not be null.</param>
         public void SetOtherContent(Object contet, IBrailleIOContentRenderer renderer)
         {
+            if (renderer == null)
+            {
+                throw new ArgumentException("No content render set! The content renderer can not be null.", "renderer");
+            }
+
             this.otherContent = contet;
             if (renderer != null) this.ContentRender = renderer;
             this.is_other = true;
@@ -286,7 +312,6 @@ namespace BrailleIO
         {
             if (threshold <= 0) threshold = 1;
             if (threshold > 255) threshold = 255;
-            //System.Diagnostics.Debug.WriteLine("Threshold ist: " + threshold.ToString());
             return this.threshold = Math.Max(Math.Min(threshold, 255), 0);
         }
 

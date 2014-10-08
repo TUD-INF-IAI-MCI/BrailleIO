@@ -154,7 +154,7 @@ namespace BrailleIO
 
     class orderedConcurentDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>,
-    IDictionary, ICollection, IEnumerable
+    IDictionary, ICollection, IEnumerable, IComparer<KeyValuePair<TKey, TValue>>
     {
         #region Member
 
@@ -179,9 +179,10 @@ namespace BrailleIO
 
         #region timeStamp list
 
-        private void addToTimeDic(TKey key) { timedic[key]= getTick(); }
+        private void addToTimeDic(TKey key) { timedic[key] = getTick(); }
         private void updateInTimeDic(TKey key) { timedic[key] = getTick(); }
-        private void removeFromTimeDic(TKey key) { 
+        private void removeFromTimeDic(TKey key)
+        {
             long trash;
             timedic.TryRemove(key, out trash);
         }
@@ -197,6 +198,8 @@ namespace BrailleIO
         }
 
         #endregion
+
+        #region interface implementations
 
         public bool ContainsKey(TKey key)
         {
@@ -375,7 +378,7 @@ namespace BrailleIO
         public bool IsSynchronized
         {
             get
-            { 
+            {
                 //TODO
                 return false;
             }
@@ -389,6 +392,34 @@ namespace BrailleIO
                 return null;
             }
         }
+
+        #endregion
+
+        #region internal sorter
+
+
+        public int Compare(KeyValuePair<TKey, TValue> x, KeyValuePair<TKey, TValue> y)
+        {
+            int result = this.comparer.Compare(x, y);
+
+            if (result == 0)
+            {
+                // try find the tstamps
+                long tx = 0;
+                long ty = 0;
+
+                if (timedic.ContainsKey(x.Key)) { tx = timedic[x.Key]; }
+                if (timedic.ContainsKey(y.Key)) { ty = timedic[y.Key]; }
+
+                try { return (int)(tx - ty); }
+                catch { }
+            }
+
+            return result;
+        }
+
+
+        #endregion
 
 
     }
@@ -404,15 +435,15 @@ namespace BrailleIO
             if (x.Value is BrailleIOViewRange) zx = ((BrailleIOViewRange)x.Value).GetZIndex();
             if (y.Value is BrailleIOViewRange) zy = ((BrailleIOViewRange)y.Value).GetZIndex();
 
-            return zx - zy;
+            return zy - zx;
         }
 
         public int Compare(KeyValuePair<String, object> x, KeyValuePair<String, object> y)
         {
 
-            if (x.Value is BrailleIOViewRange && y.Value is BrailleIOViewRange) 
+            if (x.Value is BrailleIOViewRange && y.Value is BrailleIOViewRange)
                 return Compare(
-                    new KeyValuePair<String, BrailleIOViewRange>(x.Key, ((BrailleIOViewRange)x.Value)), 
+                    new KeyValuePair<String, BrailleIOViewRange>(x.Key, ((BrailleIOViewRange)x.Value)),
                     new KeyValuePair<string, BrailleIOViewRange>(y.Key, ((BrailleIOViewRange)x.Value)));
 
             return 0;
