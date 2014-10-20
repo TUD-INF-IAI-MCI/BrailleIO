@@ -7,15 +7,40 @@ using System.Text.RegularExpressions;
 using BrailleIO.Interface;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Drawing.Text;
+using BrailleIO.Properties;
+using System.Runtime.InteropServices;
 
 namespace BrailleIO.Renderer
 {
     //TODO: make this real working
     public class BrailleIOTextRenderer : BrailleIOHookableRendererBase, IBrailleIOContentRenderer, IBrailleIOHookableRenderer
     {
+        const String fName = "TUD Euro-8-Braille equidistant";
         System.Drawing.SolidBrush drawBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
-        System.Drawing.Font drawFont = new System.Drawing.Font("TUD Euro-8-Braille equidistant", 22.25977f, FontStyle.Bold);
-        
+        System.Drawing.Font __drawFont;
+        System.Drawing.Font drawFont
+        {
+            get
+            {
+                if (__drawFont == null )
+                {
+                    if (IsFontInstalled(fName))
+                    {
+                        __drawFont = new System.Drawing.Font(fName, 22.25977f, FontStyle.Bold);
+                    }
+                    else
+                    {
+                        __drawFont = loadBrailleFont();
+                    }
+                }else if(!__drawFont.IsSystemFont){
+                    __drawFont = loadBrailleFont();
+                }
+
+                return __drawFont;
+            }
+        }
+
         int fac = 6;
         private Bitmap DrawString(String drawString, int width, int height)
         {
@@ -28,11 +53,24 @@ namespace BrailleIO.Renderer
                 {
                     g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
                     g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
-                    
+
                     float x = -7.0f;
                     float y = 0.01f;
-                    g.DrawString(drawString, drawFont, drawBrush, x, y);
 
+                    if (drawFont != null)
+                    {
+                        if (drawFont.IsSystemFont)
+                        {
+                            g.DrawString(drawString, drawFont, drawBrush, x, y);
+                        }
+                        else
+                        {
+                            using (drawFont)
+                            {
+                                g.DrawString(drawString, drawFont, drawBrush, x, y);
+                            }
+                        }
+                    }
                     g.Flush();
                 }
 
@@ -45,11 +83,13 @@ namespace BrailleIO.Renderer
 
                     g2.DrawImage(objBmpImage, new Rectangle(0, 0, width, height), new Rectangle(0, 0, objBmpImage.Width, objBmpImage.Height), GraphicsUnit.Pixel);
                     g2.Flush();
-                    //bmp.Save("C:\\Users\\Admin\\Desktop\\test_"+drawString.Substring(0,3)+".bmp"); //FIXME: only for fixing
                 }
             }
             return bmp;
         }
+
+
+
 
         #region IBrailleIOContentRenderer
 
@@ -75,6 +115,50 @@ namespace BrailleIO.Renderer
             return RenderMatrix(view, content.ToString());
         }
 
-        #endregion 
+        #endregion
+
+
+        private static bool IsFontInstalled(string fontName)
+        {
+            using (var testFont = new Font(fontName, 8))
+            {
+                return 0 == string.Compare(
+                  fontName,
+                  testFont.Name,
+                  StringComparison.InvariantCultureIgnoreCase);
+            }
+        }
+
+        private static Font loadBrailleFont()
+        {
+            try
+            {
+                PrivateFontCollection _fonts = new PrivateFontCollection();
+                IntPtr fontBuffer;
+                if (_fonts != null)
+                {
+                    _fonts = new PrivateFontCollection();
+                    byte[] font = Properties.Resources.TUD_EuroBraille_equidistant_10;
+                    fontBuffer = Marshal.AllocCoTaskMem(font.Length);
+                    Marshal.Copy(font, 0, fontBuffer, font.Length);
+                    _fonts.AddMemoryFont(fontBuffer, font.Length);
+                    Marshal.FreeCoTaskMem(fontBuffer);
+
+                    Font customFont = new Font(_fonts.Families[0], 22.25977f, FontStyle.Bold);
+                    return customFont;
+                }
+            }
+            catch (System.Exception ex)
+            {
+
+            }
+            return null;
+        }
+
+
+
     }
+
+
+
 }
