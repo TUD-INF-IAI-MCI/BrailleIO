@@ -346,7 +346,7 @@ namespace BrailleIO
         {
             if (RendererChanged != null)
             {
-                RendererChanged.DynamicInvoke(this);
+                RendererChanged.DynamicInvoke(this, null);
             }
         }
 
