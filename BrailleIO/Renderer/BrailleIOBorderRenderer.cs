@@ -40,18 +40,21 @@ namespace BrailleIO.Renderer
                 //vertical lines
                 for (int i = 0; i < h - (int)view.Border.Bottom; i++)
                 {
-                    if (contentMatrix.GetLength(1) <= i + y) break;
+                    if (contentMatrix.GetLength(0) <= i + y)
+                        break;
                     //left line
                     for (int j = 0; j < view.Border.Left; j++)
                     {
-                        if (contentMatrix.GetLength(0) <= (i + y + (int)view.Border.Top)) break;
+                        if (contentMatrix.GetLength(0) <= (i + y + (int)view.Border.Top)) 
+                            break;
                         contentMatrix[i + y + (int)view.Border.Top, j + x] = true;
                     }
 
                     //right line
                     for (int j = 0; j < view.Border.Right; j++)
                     {
-                        if (contentMatrix.GetLength(0) <= (i + y + (int)view.Border.Top)) break;
+                        if (contentMatrix.GetLength(0) <= (i + y + (int)view.Border.Top)) 
+                            break;
                         contentMatrix[i + y + (int)view.Border.Top, x + (w - 1) - j] = true;
                     }
                 }

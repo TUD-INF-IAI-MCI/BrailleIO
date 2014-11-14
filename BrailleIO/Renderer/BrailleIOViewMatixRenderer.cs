@@ -40,9 +40,8 @@ namespace BrailleIO.Renderer
             object cM = contentMatrix as object;
             callAllPreHooks(ref view, ref cM, handlePanning);
             contentMatrix = cM as bool[,];
-
-
-            if (view == null) return null;
+			
+			if (view == null) return null;
             bool[,] viewMatrix = new bool[view.ViewBox.Height, view.ViewBox.Width];
 
             Rectangle cb = view.ContentBox;
@@ -65,6 +64,7 @@ namespace BrailleIO.Renderer
                 if (((IPannable)view).ShowScrollbars)
                 {
                     bool scucess = BrailleIOScrollbarRenderer.DrawScrollbars(view, ref viewMatrix, oX, oY);
+
                 }
             }
 

@@ -38,34 +38,41 @@ namespace BrailleIO.Renderer
             if (view.ContentBox.Height < view.ContentHeight)
             {
                 vertical = true;
-                drawVerticalScrollBar(view, ref viewMatrix, yOffset, paintArrows);
+                drawVerticalScrollBar(view, ref viewMatrix, yOffset, (view.ContentBox.Height < 8 ? true : paintArrows));
             }
 
             if (view.ContentBox.Width < view.ContentWidth)
             {
-                drawHorizontalScrollBar(view, ref viewMatrix, xOffset, vertical, paintArrows);
+                drawHorizontalScrollBar(view, ref viewMatrix, xOffset, vertical, (view.ContentBox.Width < 8 ? true : paintArrows));
             }
             return true;
         }
 
         private static void drawVerticalScrollBar(IViewBoxModel view, ref bool[,] viewMatrix, int yOffset, bool paintArrows)
         {
-            int x = view.ViewBox.X + view.ContentBox.X + view.ContentBox.Width + 1;
-            int yO = view.ViewBox.Y + view.ContentBox.Y;
-            for (int y = 0; y < view.ContentBox.Height; y++)
+            int x = view.ContentBox.X + view.ContentBox.Width + 1;
+            int yO = view.ContentBox.Y;
+
+
+            // if paint all arrows and height < 8 do nothing
+            if (!(paintArrows && view.ContentBox.Height < 8))
             {
-                if (viewMatrix.GetLength(0) > y + yO)
+                for (int y = 0; y < view.ContentBox.Height; y++)
                 {
-                    if (viewMatrix.GetLength(1) > x)
+                    if (viewMatrix.GetLength(0) > y + yO)
                     {
-                        try
+                        if (viewMatrix.GetLength(1) > x)
                         {
-                            viewMatrix[y + yO, x] = true;
+                            try
+                            {
+                                viewMatrix[y + yO, x] = true;
+                            }
+                            catch { }
                         }
-                        catch { }
                     }
                 }
             }
+
 
             //paint slider
             double offsetRatio = Math.Abs((double)yOffset / (double)view.ContentHeight);
@@ -78,17 +85,41 @@ namespace BrailleIO.Renderer
 
             int ybO = yO + (int)Math.Abs(sliderOffset) + 1;
 
-            for (int y = 0; y < 3; y++)
+            // if paint arrows and the size is smaller than 8 (3 + 3 + 2) - paint no slider           
+            //TODO: paint slider different if arrows are active
+
+
+            if (paintArrows && view.ContentBox.Height < 8)
             {
-                if ((viewMatrix.GetLength(0) > (ybO + y - 1)) && (viewMatrix.GetLength(1) > (x + 1)))
+                //do nothing
+            }
+            else if (paintArrows && view.ContentBox.Height < 10)
+            {
+                if ((viewMatrix.GetLength(0) > (ybO + 1 - 1)) && (viewMatrix.GetLength(1) > (x + 1)))
                 {
                     try
                     {
-                        if ((ybO + y - 1) > 0) viewMatrix[ybO + y - 1, x + 1] = true;
+                        if (ybO > 0) viewMatrix[ybO, x + 1] = true;
                     }
                     catch { }
                 }
             }
+            else // normal handling
+            {
+                for (int y = 0; y < 3; y++)
+                {
+                    if ((viewMatrix.GetLength(0) > (ybO + y - 1)) && (viewMatrix.GetLength(1) > (x + 1)))
+                    {
+                        try
+                        {
+                            if ((ybO + y - 1) > 0) viewMatrix[ybO + y - 1, x + 1] = true;
+                        }
+                        catch { }
+                    }
+                }
+            }
+
+
 
             if (paintArrows)
             {
@@ -101,7 +132,8 @@ namespace BrailleIO.Renderer
                         {
                             viewMatrix[yO, x] = true;
                             viewMatrix[yO + 1, x - 1] = true;
-                            viewMatrix[yO + 1, x] = true;
+                            if (yOffset < 0) 
+                                viewMatrix[yO + 1, x] = true;
                             viewMatrix[yO + 1, x + 1] = true;
                         }
                         catch { }
@@ -109,16 +141,17 @@ namespace BrailleIO.Renderer
                 }
 
                 //bottom arrow
-                if (viewMatrix.GetLength(0) > yO + view.ContentBox.Height)
+                if (viewMatrix.GetLength(0) > yO + view.ContentBox.Height - 1)
                 {
                     if (viewMatrix.GetLength(1) > (x + 1))
                     {
                         try
                         {
-                            viewMatrix[yO + view.ContentBox.Height, x] = true;
-                            viewMatrix[yO + view.ContentBox.Height - 1, x - 1] = true;
                             viewMatrix[yO + view.ContentBox.Height - 1, x] = true;
-                            viewMatrix[yO + view.ContentBox.Height - 1, x + 1] = true;
+                            viewMatrix[yO + view.ContentBox.Height - 2, x - 1] = true;
+                            if (Math.Abs(yOffset - view.ContentBox.Height) < view.ContentHeight) 
+                                viewMatrix[yO + view.ContentBox.Height - 2, x] = true;
+                            viewMatrix[yO + view.ContentBox.Height - 2, x + 1] = true;
                         }
                         catch { }
                     }
@@ -127,10 +160,11 @@ namespace BrailleIO.Renderer
 
         }
 
+        //TODO: do the same scrolling and arrow stuff as in vertical
         private static void drawHorizontalScrollBar(IViewBoxModel view, ref bool[,] viewMatrix, int xOffset, bool vertical, bool paintArrows)
         {
-            int y = view.ViewBox.Y + view.ContentBox.Y + view.ContentBox.Height + 1;
-            int xO = view.ViewBox.X + view.ContentBox.X;
+            int y = view.ContentBox.Y + view.ContentBox.Height + 1;
+            int xO = view.ContentBox.X;
             for (int x = 0; x < view.ContentBox.Width; x++)
             {
                 if (viewMatrix.GetLength(0) > y)

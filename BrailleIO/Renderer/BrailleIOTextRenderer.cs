@@ -14,6 +14,8 @@ using System.Runtime.InteropServices;
 namespace BrailleIO.Renderer
 {
     //TODO: make this real working
+    //TODO: error with long texts -- hangs on
+    //TODO: does not fill the whole line. The last char don't fit in
     public class BrailleIOTextRenderer : BrailleIOHookableRendererBase, IBrailleIOContentRenderer
     {
         float fontSize = 22.5f;
@@ -57,7 +59,16 @@ namespace BrailleIO.Renderer
         /// y-offset for Braille-font rendering
         /// was 0.01f
         /// </summary>
-        float fontRenderingY = 2.5f;
+        float fontRenderingY = -3.5f;
+
+        readonly BrailleIOImageToMatrixRenderer ir = new BrailleIOImageToMatrixRenderer();
+        const float threshold = 250;
+
+
+        public BrailleIOTextRenderer() : base()
+        {
+            ir.SetThreshold(threshold);
+        }
 
         #region String rendering
 
@@ -85,7 +96,7 @@ namespace BrailleIO.Renderer
                     g.Flush();
                 }
 
-                //tmp.Save(@"C:\Users\Admin\Desktop\tmp\upscalled" + drawString.GetHashCode() + ".png", System.Drawing.Imaging.ImageFormat.Png);
+                //tmp.Save(@"upscalled" + drawString.GetHashCode() + ".png", System.Drawing.Imaging.ImageFormat.Png);
 
                 // downsize it to the real dimensions
                 SizeF realSize = decreseSize(size);
@@ -106,25 +117,25 @@ namespace BrailleIO.Renderer
                     }
                 }
 
-               // bmp.Save(@"C:\Users\Admin\Desktop\tmp\output_" + drawString.GetHashCode() + "_" + fontSize + ".png", System.Drawing.Imaging.ImageFormat.Png);
+                //bmp.Save(@"output_" + drawString.GetHashCode() + "_" + fontSize + ".png", System.Drawing.Imaging.ImageFormat.Png);
 
-            //    Pen a = new Pen(Color.FromArgb(100, Color.Red));
-            //    Pen b = new Pen(Color.FromArgb(100, Color.Blue));
-            ////FIXME: paint in the raster
-            //    using (Graphics g = Graphics.FromImage(tmp))
-            //    {
-            //        for (int x = 0; x < tmp.Width; x+=6)
-            //        {
-            //            c++;
-            //            g.DrawLine(a, new Point(x, 0), new Point(x, tmp.Height));
-            //        }
-            //        for (int y = 0; y < tmp.Height; y += 6)
-            //        {
-            //            g.DrawLine(b, new Point(0,y), new Point(tmp.Width, y));
-            //        }
-            //        g.Flush();
-            //    }
-            //   tmp.Save(@"C:\Users\Admin\Desktop\tmp\upscalled_MARKS_" + drawString.GetHashCode() + ".png", System.Drawing.Imaging.ImageFormat.Png);
+                //Pen a = new Pen(Color.FromArgb(100, Color.Red));
+                //Pen b = new Pen(Color.FromArgb(100, Color.Blue));
+                ////FIXME: paint in the raster
+                //using (Graphics g = Graphics.FromImage(tmp))
+                //{
+                //    for (int x = 0; x < tmp.Width; x += 6)
+                //    {
+                //        c++;
+                //        g.DrawLine(a, new Point(x, 0), new Point(x, tmp.Height));
+                //    }
+                //    for (int y = 0; y < tmp.Height; y += 6)
+                //    {
+                //        g.DrawLine(b, new Point(0, y), new Point(tmp.Width, y));
+                //    }
+                //    g.Flush();
+                //}
+                //tmp.Save(@".upscalled_MARKS_" + drawString.GetHashCode() + ".png", System.Drawing.Imaging.ImageFormat.Png);
             
             }
             return bmp;
@@ -144,13 +155,10 @@ namespace BrailleIO.Renderer
         private void drawStringAndMeasure(Graphics g, Font drawFont, String drawString, int width, int height, float x, float y, out SizeF contentSize)
         {
             contentSize = measureString(g, drawFont, drawString, width);
-            // g.DrawString(drawString, drawFont, drawBrush, x, y);
-
             g.DrawString(drawString, drawFont, drawBrush,
                        new RectangleF(x, y, width, height),
                        StringFormat.GenericTypographic
                        );
-
         }
 
         /// <summary>
@@ -209,7 +217,6 @@ namespace BrailleIO.Renderer
             {
                 if (drawFont.IsSystemFont)
                 {
-                    //drawStringAndMeasure(g, drawString, width, height, fontRenderingX, fontRenderingY, out contentSize);
                     g.DrawString(drawString, drawFont, drawBrush,
                         new RectangleF(fontRenderingX, fontRenderingY, width, height),
                         StringFormat.GenericTypographic
@@ -219,7 +226,6 @@ namespace BrailleIO.Renderer
                 {
                     using (drawFont)
                     {
-                        //  drawStringAndMeasure(g, drawString, width, height, fontRenderingX, fontRenderingY, out contentSize);
                         g.DrawString(drawString, drawFont, drawBrush,
                         new RectangleF(fontRenderingX, fontRenderingY, width, height),
                         StringFormat.GenericTypographic
@@ -288,23 +294,21 @@ namespace BrailleIO.Renderer
 
         #endregion
 
-
         #region IBrailleIOContentRenderer
-
+        
         public bool[,] RenderMatrix(IViewBoxModel view, String text)
         {
+            
             //call pre hooks
             object cT = text as object;
             callAllPreHooks(ref view, ref cT);
             text = cT as String;
 
-            var ir = new BrailleIOImageToMatrixRenderer();
             var vr = view.ContentBox;
 
             Bitmap bImage = drawWholeString(text, vr.Width, vr.Height);
-            //Bitmap bImage = DrawString(text, vr.Width, vr.Height);
-
-            var m = ir.RenderImage(bImage, view, 1, 100f);
+            // generate content matrix
+            var m = ir.RenderImage(bImage, new FakeView(bImage.Width, bImage.Height), 1, 250);
 
             view.ContentWidth = bImage.Width;
             view.ContentHeight = bImage.Height;     
@@ -322,7 +326,13 @@ namespace BrailleIO.Renderer
 
         #endregion
 
-
+        /// <summary>
+        /// Determines whether [is font installed (system font)] [the specified font name].
+        /// </summary>
+        /// <param name="fontName">Name of the font.</param>
+        /// <returns>
+        /// 	<c>true</c> if [is font installed]; otherwise, <c>false</c>.
+        /// </returns>
         private bool IsFontInstalled(string fontName)
         {
             using (var testFont = new Font(fontName, 8))
@@ -334,6 +344,10 @@ namespace BrailleIO.Renderer
             }
         }
 
+        /// <summary>
+        /// Loads the braille font from the properties.
+        /// </summary>
+        /// <returns></returns>
         private Font loadBrailleFont()
         {
             try
@@ -393,5 +407,20 @@ namespace BrailleIO.Renderer
     }
 
 
+    class FakeView : IViewBoxModel
+    {
+        public FakeView(int width, int height)
+        {
+            this.ContentBox = new Rectangle(0, 0, width, height);
+            this.ContentHeight = height;
+            this.ContentWidth = width;
+            this.ViewBox = this.ContentBox;
+        }
+
+        public Rectangle ViewBox { get; set; }
+        public Rectangle ContentBox { get; set; }
+        public int ContentWidth { get; set; }
+        public int ContentHeight { get; set; }
+    }
 
 }

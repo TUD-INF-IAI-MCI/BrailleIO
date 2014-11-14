@@ -19,6 +19,7 @@ namespace BrailleIO.Renderer
         /// </summary>
         /// <returns>the new threshold</returns>
         public float ResetThreshold() { return this.Threshold = 130; }
+        public float SetThreshold(float threshold) { return this.Threshold = Math.Min(Math.Max(threshold, 0), 255); }
 
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, double zoom, float threshold) { return RenderImage(img, view, null, zoom, threshold); }
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, IPannable offset, double zoom, float threshold)
