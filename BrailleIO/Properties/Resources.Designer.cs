@@ -61,15 +61,6 @@ namespace BrailleIO.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        public static string BrailleFont_Equidistant {
-            get {
-                return ResourceManager.GetString("BrailleFont_Equidistant", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         public static byte[] TUD_EuroBraille_equidistant_10 {
