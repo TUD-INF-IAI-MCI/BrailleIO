@@ -203,28 +203,28 @@ namespace BrailleIO
                 }
             }
             // Image rendering
-            else if (vr.IsImage() && vr.GetImage() != null)
+            else if (vr.IsImage())
             {
                 int th = (vr is IContrastThreshold) ? ((IContrastThreshold)vr).GetContrastThreshold() : -1;
 
-                if (vr.ContentRender is BrailleIOImageToMatrixRenderer)
+                using (System.Drawing.Bitmap img = vr.GetImage())
                 {
-
-                    if (th >= 0)
+                    if (vr.ContentRender is BrailleIOImageToMatrixRenderer)
                     {
-                        contentMatrix = ((BrailleIOImageToMatrixRenderer)vr.ContentRender).RenderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), th);
+                        if (th >= 0)
+                        {
+                            contentMatrix = ((BrailleIOImageToMatrixRenderer)vr.ContentRender).RenderImage(img, vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), th);
+                        }
+                        else
+                        {
+                            contentMatrix = ((BrailleIOImageToMatrixRenderer)vr.ContentRender).RenderImage(img, vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), true);
+                        }
                     }
                     else
                     {
-                        contentMatrix = ((BrailleIOImageToMatrixRenderer)vr.ContentRender).RenderImage(vr.GetImage(), vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), true);
+                        contentMatrix = vr.ContentRender.RenderMatrix(vr, vr.GetImage());
                     }
-
                 }
-                else
-                {
-                    contentMatrix = vr.ContentRender.RenderMatrix(vr, vr.GetImage());
-                }
-
                 handlePanning = false;
             }
             // Text rendering

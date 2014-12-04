@@ -22,9 +22,10 @@ namespace BrailleIO
         // raw data
         private bool[,] matrix;
         private Bitmap image;
+        private Size imageSize = new Size();
         private String text;
         private Object otherContent;
-        
+
 
         // zoom multiplicator
         private double zoom = 1.0;
@@ -55,14 +56,14 @@ namespace BrailleIO
         private IBrailleIOContentRenderer _cr;
         public IBrailleIOContentRenderer ContentRender
         {
-            get {return _cr;}
+            get { return _cr; }
             private set
             {
                 _cr = value;
                 fireRendererChanged();
-            } 
+            }
         }
-       
+
         #endregion
 
 
@@ -147,10 +148,17 @@ namespace BrailleIO
         /// <param name="_img">The imgage.</param>
         public void SetBitmap(Bitmap img)
         {
-            this.image = img;
-            this.is_image = true;
-            this.is_text = this.is_matrix = this.is_other = false;
-            this.ContentRender = _ir;
+            try
+            {
+                //clean up the memory
+                if (this.image != null) this.image.Dispose();
+                this.image = img.Clone() as Bitmap;
+                imageSize = new Size(img.Width, img.Height);
+                this.is_image = true;
+                this.is_text = this.is_matrix = this.is_other = false;
+                this.ContentRender = _ir;
+            }
+            catch { }
         }
         /// <summary>
         /// Sets the bitmap that should be rendered.
@@ -171,7 +179,14 @@ namespace BrailleIO
         /// <returns></returns>
         public Bitmap GetImage()
         {
-            return this.image;
+            try
+            {
+                return this.image.Clone() as Bitmap;
+            }
+            catch (System.Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -277,11 +292,10 @@ namespace BrailleIO
         {
             if (zoom <= 0 && IsImage()) // get zoom to fit in the view range
             {
-                var img = GetImage();
-                if (ContentBox != null && img != null)
+                if (ContentBox != null && imageSize != null)
                 {
-                    double wr = (double)ContentBox.Width / (double)img.Width;
-                    double hr = (double)ContentBox.Height / (double)img.Height;
+                    double wr = (double)ContentBox.Width / (double)imageSize.Width;
+                    double hr = (double)ContentBox.Height / (double)imageSize.Height;
                     zoom = Math.Min(wr, hr);
                 }
             }
