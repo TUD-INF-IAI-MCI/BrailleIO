@@ -6,6 +6,20 @@ namespace BrailleIO.Interface
 {
     #region Interfaces
 
+    public interface IZoomable
+    {
+        /// <summary>
+        /// Gets the actual zoom-level.
+        /// </summary>
+        /// <returns>Zoom value as ratio</returns>
+        double GetZoom();
+        /// <summary>
+        /// Sets the actual zoom.
+        /// </summary>
+        /// <param name="zoom">The zoom value as ratio.</param>
+        void SetZoom(double zoom);
+    }
+
     public interface IViewBorder
     {
         bool HasBorder { get; set; }

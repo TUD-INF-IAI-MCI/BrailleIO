@@ -4,7 +4,7 @@ using BrailleIO.Interface;
 
 namespace BrailleIO
 {
-    public class BrailleIOViewRange : AbstractViewBoxModelBase, IViewable, IContrastThreshold
+    public class BrailleIOViewRange : AbstractViewBoxModelBase, IViewable, IContrastThreshold, IZoomable
     {
         #region Members
 
