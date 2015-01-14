@@ -15,7 +15,7 @@ namespace BrailleIO
     {
         //TODO: make gesture emulation
         #region Mouse events
-        
+
         volatile bool mouseToGetureMode = false;
 
         void pictureBoxTouch_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -59,9 +59,15 @@ namespace BrailleIO
 
         void resetMouseGestureMode()
         {
-            touchGraphics.Clear(Color.Transparent);
-            this.pictureBoxTouch.Image = _touchbmp;
-            mouseToGetureMode = false;
+            try
+            {
+                touchGraphics.Clear(Color.Transparent);
+                this.pictureBoxTouch.Image = _touchbmp;
+                mouseToGetureMode = false;
+            }
+            catch (System.Exception ex)
+            {
+            }
         }
 
 
@@ -84,10 +90,10 @@ namespace BrailleIO
                 {
                     touchGraphics.FillEllipse(Brushes.Red, new Rectangle(touch.X * (pixelFactor + 1), touch.Y * (pixelFactor + 1), pixelFactor - 1, pixelFactor - 1));
                 }
-                
+
                 this.pictureBoxTouch.Image = _touchbmp;
             }
-            catch (Exception){}
+            catch (Exception) { }
         }
 
         /// <summary>
@@ -116,7 +122,7 @@ namespace BrailleIO
         #endregion
 
 
-        void fireTouchEvent(List<Touch>touches)
+        void fireTouchEvent(List<Touch> touches)
         {
             if (showOffAdapter != null)
             {
@@ -127,7 +133,7 @@ namespace BrailleIO
                     if (p.X >= 0 && p.Y >= 0 && p.X < cols && p.Y < rows)
                     { touchM[p.Y, p.X] = p.Intense; }
                 }
-    
+
                 showOffAdapter.firetouchValuesChangedEvent(touchM, (int)DateTime.UtcNow.Ticks);
             }
         }
@@ -193,14 +199,14 @@ namespace BrailleIO
         /// <param name="r_x">1/2 width of the ellipse.</param>
         /// <param name="r_y">1/2 height of the ellipse.</param>
         /// <returns>Value must be smaller or equal to 1 - than the point is inside the ellipse, otherwise it is outside</returns>
-        public static double PointIsInsideEllipse(Point pointToCheck, double c_x,double c_y, double r_x, double r_y)
+        public static double PointIsInsideEllipse(Point pointToCheck, double c_x, double c_y, double r_x, double r_y)
         {
             if (r_x == 0 || r_y == 0)
                 return 2;
-            double xComponent = 
-                Math.Pow((double)(pointToCheck.X - c_x) , 2)
+            double xComponent =
+                Math.Pow((double)(pointToCheck.X - c_x), 2)
                 /
-                Math.Pow( r_x, 2);
+                Math.Pow(r_x, 2);
 
             double yComponent =
                     Math.Pow((double)(pointToCheck.Y - c_y), 2)
@@ -214,7 +220,7 @@ namespace BrailleIO
     }
 
 
-    struct Touch 
+    struct Touch
     {
         public readonly int X;
         public readonly int Y;
