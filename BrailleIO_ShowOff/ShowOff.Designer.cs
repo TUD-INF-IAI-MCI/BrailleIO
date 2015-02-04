@@ -57,12 +57,6 @@
             this.button_KEY_RIGHT_CURSORS_DOWN = new System.Windows.Forms.Button();
             this.button_KEY_RIGHT_CURSORS_UP = new System.Windows.Forms.Button();
             this.button_KEY_RIGHT_CURSORS_CENTER = new System.Windows.Forms.Button();
-            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            this.rectangleShape1 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
-            this.ovalShape2 = new Microsoft.VisualBasic.PowerPacks.OvalShape();
-            this.ovalShape1 = new Microsoft.VisualBasic.PowerPacks.OvalShape();
-            this.rectangleShape3 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
-            this.rectangleShape2 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
             this.button_KEY_NAV_RIGHT_2 = new System.Windows.Forms.Button();
             this.button_KEY_NAV_RIGHT = new System.Windows.Forms.Button();
             this.button_KEY_NAV_LEFT_2 = new System.Windows.Forms.Button();
@@ -370,54 +364,6 @@
             this.button_KEY_RIGHT_CURSORS_CENTER.UseVisualStyleBackColor = true;
             this.button_KEY_RIGHT_CURSORS_CENTER.Click += new System.EventHandler(this.button_KEY_RIGHT_CURSORS_CENTER_Click);
             // 
-            // shapeContainer1
-            // 
-            this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
-            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
-            this.shapeContainer1.Name = "shapeContainer1";
-            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.rectangleShape1,
-            this.ovalShape2,
-            this.ovalShape1,
-            this.rectangleShape3,
-            this.rectangleShape2});
-            this.shapeContainer1.Size = new System.Drawing.Size(919, 531);
-            this.shapeContainer1.TabIndex = 34;
-            this.shapeContainer1.TabStop = false;
-            // 
-            // rectangleShape1
-            // 
-            this.rectangleShape1.CornerRadius = 6;
-            this.rectangleShape1.Location = new System.Drawing.Point(217, 464);
-            this.rectangleShape1.Name = "rectangleShape1";
-            this.rectangleShape1.Size = new System.Drawing.Size(482, 27);
-            // 
-            // ovalShape2
-            // 
-            this.ovalShape2.Location = new System.Drawing.Point(819, 209);
-            this.ovalShape2.Name = "ovalShape2";
-            this.ovalShape2.Size = new System.Drawing.Size(80, 80);
-            // 
-            // ovalShape1
-            // 
-            this.ovalShape1.Location = new System.Drawing.Point(5, 209);
-            this.ovalShape1.Name = "ovalShape1";
-            this.ovalShape1.Size = new System.Drawing.Size(80, 80);
-            // 
-            // rectangleShape3
-            // 
-            this.rectangleShape3.CornerRadius = 6;
-            this.rectangleShape3.Location = new System.Drawing.Point(860, 93);
-            this.rectangleShape3.Name = "rectangleShape3";
-            this.rectangleShape3.Size = new System.Drawing.Size(25, 79);
-            // 
-            // rectangleShape2
-            // 
-            this.rectangleShape2.CornerRadius = 6;
-            this.rectangleShape2.Location = new System.Drawing.Point(21, 93);
-            this.rectangleShape2.Name = "rectangleShape2";
-            this.rectangleShape2.Size = new System.Drawing.Size(25, 79);
-            // 
             // button_KEY_NAV_RIGHT_2
             // 
             this.button_KEY_NAV_RIGHT_2.Location = new System.Drawing.Point(666, 465);
@@ -549,12 +495,11 @@
             this.pictureBoxTouch.Size = new System.Drawing.Size(721, 363);
             this.pictureBoxTouch.TabIndex = 49;
             this.pictureBoxTouch.TabStop = false;
-            //this.pictureBoxTouch.MouseCaptureChanged += new System.EventHandler(pictureBoxTouch_MouseCaptureChanged);
-            this.pictureBoxTouch.MouseDown += new System.Windows.Forms.MouseEventHandler(pictureBoxTouch_MouseDown);
-            this.pictureBoxTouch.MouseEnter += new System.EventHandler(pictureBoxTouch_MouseEnter);
-            this.pictureBoxTouch.MouseLeave += new System.EventHandler(pictureBoxTouch_MouseLeave);
-            this.pictureBoxTouch.MouseMove += new System.Windows.Forms.MouseEventHandler(pictureBoxTouch_MouseMove);
-            this.pictureBoxTouch.MouseUp += new System.Windows.Forms.MouseEventHandler(pictureBoxTouch_MouseUp);
+            this.pictureBoxTouch.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseDown);
+            this.pictureBoxTouch.MouseEnter += new System.EventHandler(this.pictureBoxTouch_MouseEnter);
+            this.pictureBoxTouch.MouseLeave += new System.EventHandler(this.pictureBoxTouch_MouseLeave);
+            this.pictureBoxTouch.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseMove);
+            this.pictureBoxTouch.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseUp);
             // 
             // pictureBoxPins
             // 
@@ -619,7 +564,6 @@
             this.Controls.Add(this.button_KEY_DOT1);
             this.Controls.Add(this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN);
             this.Controls.Add(this.button_KEY_RIGHT_ROCKER_SWITCH_UP);
-            this.Controls.Add(this.shapeContainer1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximumSize = new System.Drawing.Size(935, 569);
             this.MinimumSize = new System.Drawing.Size(100, 80);
@@ -665,8 +609,6 @@
         private System.Windows.Forms.Button button_KEY_RIGHT_CURSORS_DOWN;
         private System.Windows.Forms.Button button_KEY_RIGHT_CURSORS_UP;
         private System.Windows.Forms.Button button_KEY_RIGHT_CURSORS_CENTER;
-        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
-        private Microsoft.VisualBasic.PowerPacks.RectangleShape rectangleShape1;
         private System.Windows.Forms.Button button_KEY_NAV_RIGHT_2;
         private System.Windows.Forms.Button button_KEY_NAV_RIGHT;
         private System.Windows.Forms.Button button_KEY_NAV_LEFT_2;
@@ -675,10 +617,6 @@
         private System.Windows.Forms.Button button_KEY_NAV_UP_2;
         private System.Windows.Forms.Button button_KEY_NAV_DOWN_2;
         private System.Windows.Forms.Button button_KEY_NAV_DOWN;
-        private Microsoft.VisualBasic.PowerPacks.OvalShape ovalShape2;
-        private Microsoft.VisualBasic.PowerPacks.OvalShape ovalShape1;
-        private Microsoft.VisualBasic.PowerPacks.RectangleShape rectangleShape3;
-        private Microsoft.VisualBasic.PowerPacks.RectangleShape rectangleShape2;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel label1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
