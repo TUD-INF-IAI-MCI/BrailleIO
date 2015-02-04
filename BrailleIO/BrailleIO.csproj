@@ -72,6 +72,7 @@
     <Compile Include="BrailleIODevice.cs" />
     <Compile Include="BrailleIOScreen.cs" />
     <Compile Include="BrailleIOViewRange.cs" />
+    <Compile Include="Interface\AbstractBrailleIOHookableRendererBase.cs" />
     <Compile Include="Interface\IBrailleIOAdapter.cs" />
     <Compile Include="Interface\IBrailleIOAdapterManager.cs" />
     <Compile Include="Interface\IBrailleIORendererInterfaces.cs" />
@@ -80,9 +81,9 @@
     <Compile Include="Renderer\BrailleIOBorderRenderer.cs" />
     <Compile Include="Renderer\BrailleIOImageToMatrixRenderer.cs" />
     <Compile Include="Renderer\BrailleIOIBasisRenderer.cs" />
-    <Compile Include="Renderer\BrailleIOTextRenderer.cs" />
     <Compile Include="Renderer\BrailleIOViewMatixRenderer.cs" />
     <Compile Include="Renderer\LockBitmap.cs" />
+    <Compile Include="Renderer\NewBrailleRenderer.cs" />
     <Compile Include="Structs\BoxModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -94,7 +95,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -128,7 +128,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BrailleRenderer\BrailleRenderer.csproj">
+      <Project>{FC472E01-7C5A-4982-9825-59589AAADCCB}</Project>
+      <Name>BrailleRenderer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

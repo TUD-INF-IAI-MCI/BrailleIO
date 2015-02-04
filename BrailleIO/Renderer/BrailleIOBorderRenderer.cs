@@ -65,6 +65,28 @@ namespace BrailleIO.Renderer
         
         private static void drawHorizontalLine(uint width, ref bool[,]contentMatrix, int xOffset = 0, int yOffset = 0)
         {
+            //TODO:
+
+
+  //          System.IndexOutOfRangeException wurde nicht behandelt.
+  //HResult=-2146233080
+  //Message=Der Index war außerhalb des Arraybereichs.
+  //Source=BrailleIO
+  //StackTrace:
+  //     bei BrailleIO.Renderer.BrailleIOBorderRenderer.drawHorizontalLine(UInt32 width, Boolean[,]& contentMatrix, Int32 xOffset, Int32 yOffset) in E:\Tangram\Tool\BrailleIO\BrailleIO\Renderer\BrailleIOBorderRenderer.cs:Zeile 71.
+  //     bei BrailleIO.Renderer.BrailleIOBorderRenderer.renderMatrix(AbstractViewBorderBase view, Boolean[,] contentMatrix) in E:\Tangram\Tool\BrailleIO\BrailleIO\Renderer\BrailleIOBorderRenderer.cs:Zeile 37.
+  //     bei BrailleIO.BrailleIOMediator.drawViewRange(BrailleIOViewRange vr) in E:\Tangram\Tool\BrailleIO\BrailleIO\BrailleIOMediator.cs:Zeile 251.
+  //     bei BrailleIO.BrailleIOMediator.renderDisplay() in E:\Tangram\Tool\BrailleIO\BrailleIO\BrailleIOMediator.cs:Zeile 160.
+  //     bei BrailleIO.BrailleIOMediator.<SendToDevice>b__a() in E:\Tangram\Tool\BrailleIO\BrailleIO\BrailleIOMediator.cs:Zeile 290.
+  //     bei System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+  //     bei System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+  //     bei System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+  //     bei System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+  //     bei System.Threading.ThreadHelper.ThreadStart()
+  //InnerException: 
+
+
+
             for (int j = 0; j < width; j++)
             {
                 if (contentMatrix.GetLength(0) <= (j + yOffset)) break;

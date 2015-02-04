@@ -49,10 +49,8 @@ namespace BrailleIO
         #region Renderers
         private readonly BrailleIO.Renderer.BrailleIOImageToMatrixRenderer _ir = new Renderer.BrailleIOImageToMatrixRenderer();
         private readonly BrailleIO.Renderer.BrailleIOViewMatixRenderer _mr = new BrailleIO.Renderer.BrailleIOViewMatixRenderer();
-        private readonly BrailleIO.Renderer.BrailleIOTextRenderer _tr = new BrailleIO.Renderer.BrailleIOTextRenderer();
+        private readonly BrailleIO.Renderer.NewBrailleRenderer _tr = new BrailleIO.Renderer.NewBrailleRenderer();
 
-
-        //public BrailleIO.Renderer.BrailleIOImageToMatrixRenderer ImageRenderer { get { if (_ir == null) _ir = new Renderer.BrailleIOImageToMatrixRenderer(); return _ir; } }
         private IBrailleIOContentRenderer _cr;
         public IBrailleIOContentRenderer ContentRender
         {
@@ -65,8 +63,6 @@ namespace BrailleIO
         }
 
         #endregion
-
-
 
         #endregion
 

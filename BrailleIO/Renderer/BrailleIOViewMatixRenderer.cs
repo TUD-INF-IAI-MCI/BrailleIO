@@ -64,7 +64,6 @@ namespace BrailleIO.Renderer
                 if (((IPannable)view).ShowScrollbars)
                 {
                     bool scucess = BrailleIOScrollbarRenderer.DrawScrollbars(view, ref viewMatrix, oX, oY);
-
                 }
             }
 
@@ -74,12 +73,12 @@ namespace BrailleIO.Renderer
                 int cw = contentMatrix.GetLength(1);
                 int ch = contentMatrix.GetLength(0);
 
-                System.Threading.Tasks.Parallel.For(0, viewMatrix.GetLength(1) - l, x =>
+                System.Threading.Tasks.Parallel.For(0, cb.Width, x =>
                 {
                     int cX = oX + x;
                     if (cX >= 0 && contentMatrix.GetLength(1) > cX)
                     {
-                        System.Threading.Tasks.Parallel.For(0, viewMatrix.GetLength(0) - t, y =>
+                        System.Threading.Tasks.Parallel.For(0, cb.Height, y =>
                         {
                             int cY = oY + y;
                             if (cY >= 0 && contentMatrix.GetLength(0) > cY)
