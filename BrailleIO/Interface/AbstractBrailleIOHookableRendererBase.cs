@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace BrailleIO.Interface
 {
@@ -9,7 +10,7 @@ namespace BrailleIO.Interface
     {
         #region Member
 
-        protected readonly ConcurrentBag<IBailleIORendererHook> hooks = new ConcurrentBag<IBailleIORendererHook>();
+        protected readonly ConcurrentDictionary<int, IBailleIORendererHook> hooks = new ConcurrentDictionary<int, IBailleIORendererHook>();
 
         #endregion
 
@@ -17,13 +18,25 @@ namespace BrailleIO.Interface
         /// Register a hook.
         /// </summary>
         /// <param name="hook">The hook.</param>
-        public virtual void RegisterHook(IBailleIORendererHook hook) { hooks.Add(hook); }
+        public virtual void RegisterHook(IBailleIORendererHook hook)
+        {
+            if (!hooks.ContainsKey(hook.GetHashCode()))
+            {
+                hooks[hook.GetHashCode()] = hook;
+            }
+        }
 
         /// <summary>
         /// Unregisters a hook.
         /// </summary>
         /// <param name="hook">The hook.</param>
-        public virtual void UnregisterHook(IBailleIORendererHook hook) { hooks.TryTake(out hook); }
+        public virtual void UnregisterHook(IBailleIORendererHook hook)
+        {
+            if (hooks.ContainsKey(hook.GetHashCode()))
+            {
+                hooks.TryRemove(hook.GetHashCode(), out hook);
+            }
+        }
 
         /// <summary>
         /// Calls all registered pre-renderer hooks.
@@ -37,7 +50,7 @@ namespace BrailleIO.Interface
             {
                 try
                 {
-                    foreach (IBailleIORendererHook hook in hooks)
+                    foreach (IBailleIORendererHook hook in hooks.Values)
                     {
                         hook.PreRenderHook(ref view, ref content, additionalParams);
                     }
@@ -62,7 +75,7 @@ namespace BrailleIO.Interface
             {
                 try
                 {
-                    foreach (IBailleIORendererHook hook in hooks)
+                    foreach (IBailleIORendererHook hook in hooks.Values)
                     {
                         hook.PostRenderHook(view, content, ref result, additionalParams);
                     }

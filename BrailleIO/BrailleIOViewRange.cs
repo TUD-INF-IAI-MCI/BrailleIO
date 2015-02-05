@@ -57,8 +57,9 @@ namespace BrailleIO
             get { return _cr; }
             private set
             {
+                bool fire = _cr != value;
                 _cr = value;
-                fireRendererChanged();
+                if(fire) fireRendererChanged();
             }
         }
 
