@@ -24,35 +24,9 @@ namespace BraillIOExample
         {
             io = BrailleIOMediator.Instance;
             io.AdapterManager = new ShowOffBrailleIOAdapterManager();
-            showOff = createShowOff();
+            showOff = io.AdapterManager.ActiveAdapter as AbstractBrailleIOAdapterBase;
             showExample();
         }
-
-        #region Adapters
-
-        #region ShowOff
-
-        private AbstractBrailleIOAdapterBase createShowOff()
-        {
-            monitor = new ShowOff();
-            if (io != null && io.AdapterManager != null)
-            {
-                var soa = monitor.GetAdapter(ref io.AdapterManager);
-                soa.Synch = true;
-                io.AdapterManager.AddAdapter(soa);
-
-                #region events
-                #endregion
-
-                return soa;
-            }
-            return null;
-        }
-
-        #endregion
-
-        #endregion
-
 
         #region Functions
 
@@ -228,13 +202,14 @@ namespace BraillIOExample
             center.SetZoom(-1);
             center.SetBorder(0);
             center.SetContrastThreshold(150);
+            center.ShowScrollbars = true;
 
             s.AddViewRange("center", center);
 
             #endregion
 
             #region Top Reagion
-            BrailleIOViewRange top = new BrailleIOViewRange(0, 0, 120, 7, new bool[0, 0]);
+            BrailleIOViewRange top = new BrailleIOViewRange(0, 0, 120, 7);
 
             top.SetBorder(0, 0, 1);
             top.SetMargin(0, 0, 1);
@@ -247,10 +222,7 @@ namespace BraillIOExample
             #endregion
 
             #region Bottom Reagion
-            var nm_b = new bool[120, 20];
-            BrailleIOViewRange bottom = new BrailleIOViewRange(0, 53, 120, 7, nm_b);
-
-            bottom.SetMatrix(nm_b);
+            BrailleIOViewRange bottom = new BrailleIOViewRange(0, 53, 120, 7);
 
             bottom.SetBorder(1, 0, 0);
             bottom.SetMargin(1, 0, 0);
