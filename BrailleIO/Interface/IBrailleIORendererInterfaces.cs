@@ -82,7 +82,7 @@ namespace BrailleIO.Interface
         /// </summary>
         /// <param name="view">The view.</param>
         /// <param name="content">The content.</param>
-        /// <param name="result">The result.</param>
+        /// <param name="result">The result matrix, may be manipulated. Adressed in [y, x] notation.</param>
         /// <param name="additionalParams">Additional parameters.</param>
         void PostRenderHook(IViewBoxModel view, object content, ref bool[,] result, params object[] additionalParams);
     }
