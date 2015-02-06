@@ -46,8 +46,8 @@ namespace BrailleIO
         /// </summary>
         /// <param name="manager">The IBrailleIOAdapterManager the device hase to be registerd to.</param>
         /// <param name="gui">The ShowOff windows forms application that is used as displaying or user interaction GUI.</param>
-        public BrailleIOAdapter_ShowOff(ref IBrailleIOAdapterManager manager, ShowOff gui)
-            : this(ref manager)
+        public BrailleIOAdapter_ShowOff(IBrailleIOAdapterManager manager, ShowOff gui)
+            : this(manager)
         {
             driver.form = gui;
         }
@@ -56,8 +56,8 @@ namespace BrailleIO
         /// Initializes a new instance of the <see cref="BrailleIOAdapter_ShowOff"/> class.
         /// </summary>
         /// <param name="manager">The IBrailleIOAdapterManager the device hase to be registerd to.</param>
-        public BrailleIOAdapter_ShowOff(ref IBrailleIOAdapterManager manager)
-            : base(ref manager)
+        public BrailleIOAdapter_ShowOff(IBrailleIOAdapterManager manager)
+            : base(manager)
         {
             this.manager = manager;
             this.Device = new BrailleIODevice(120, 60, "ShowOFF_" + this.GetHashCode(), true, false, 30, this);

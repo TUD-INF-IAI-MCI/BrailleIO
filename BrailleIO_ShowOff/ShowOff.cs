@@ -79,7 +79,7 @@ namespace BrailleIO
         /// <returns>The created BrailleIOAdapter_ShowOff, that was build with this instance</returns>
         public AbstractBrailleIOAdapterBase InitializeBrailleIO(IBrailleIOAdapterManager adapterManager, bool setAsActiveAdapter = false)
         {
-            ShowOffAdapter = new BrailleIOAdapter_ShowOff(ref adapterManager, this);
+            ShowOffAdapter = new BrailleIOAdapter_ShowOff(adapterManager, this);
             ShowOffAdapter.Synch = true;
 
             adapterManager.AddAdapter(ShowOffAdapter);
@@ -106,9 +106,9 @@ namespace BrailleIO
             return null;
         }
 
-        public AbstractBrailleIOAdapterBase GetAdapter(ref IBrailleIOAdapterManager manager)
+        public AbstractBrailleIOAdapterBase GetAdapter(IBrailleIOAdapterManager manager)
         {
-            ShowOffAdapter = new BrailleIOAdapter_ShowOff(ref manager);
+            ShowOffAdapter = new BrailleIOAdapter_ShowOff(manager);
             return ShowOffAdapter;
         }
 
