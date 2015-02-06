@@ -6,21 +6,56 @@ using System.Text;
 using BrailleIO.Interface;
 namespace BrailleIO
 {
-    class MockDriver
+    /// <summary>
+    /// Driver to emulate an real hardware driver that is responsible for sending the bool matrix to the hardware device
+    /// </summary>
+    public class MockDriver
     {
-        ShowOff form = ShowOff.ActiveForm as ShowOff;
+        /// <summary>
+        /// The Windows Forms Application that should display the matrix. It is the Emulation of the presenting hardware.
+        /// </summary>
+        public ShowOff form = ShowOff.ActiveForm as ShowOff;
         public MockDriver() { }
-        public void setMatrix(bool[,] m)
+        public MockDriver(ShowOff gui) { form = gui; }
+        /// <summary>
+        /// Sends the Matrix to the windows forms application to display
+        /// </summary>
+        /// <param name="m">The m.</param>
+        public void SetMatrix(bool[,] m)
         {
             if (form != null && m != null)
                 form.paint(m);
         }
     }
 
+    /// <summary>
+    /// Software emulation of a Metec BrailleDis 7200 display. 
+    /// It enables Developers to emulate a real pin matrix device or can be used 
+    /// as debug monitor for displaying inputs on a real connected BrailleDis device.
+    /// </summary>
     public class BrailleIOAdapter_ShowOff : AbstractBrailleIOAdapterBase
     {
-        MockDriver driver = new MockDriver();
+        /// <summary>
+        /// The driver emulator that send the matrix to the windows forms application
+        /// </summary>
+        public MockDriver driver = new MockDriver();
         IBrailleIOAdapterManager manager;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIOAdapter_ShowOff"/> class.
+        /// </summary>
+        /// <param name="manager">The IBrailleIOAdapterManager the device hase to be registerd to.</param>
+        /// <param name="gui">The ShowOff windows forms application that is used as displaying or user interaction GUI.</param>
+        public BrailleIOAdapter_ShowOff(ref IBrailleIOAdapterManager manager, ShowOff gui)
+            : this(ref manager)
+        {
+            driver.form = gui;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIOAdapter_ShowOff"/> class.
+        /// </summary>
+        /// <param name="manager">The IBrailleIOAdapterManager the device hase to be registerd to.</param>
         public BrailleIOAdapter_ShowOff(ref IBrailleIOAdapterManager manager)
             : base(ref manager)
         {
@@ -31,7 +66,7 @@ namespace BrailleIO
 
         public override void Synchronize(bool[,] m)
         {
-            driver.setMatrix(m);
+            driver.SetMatrix(m);
         }
 
         public override bool Connect()

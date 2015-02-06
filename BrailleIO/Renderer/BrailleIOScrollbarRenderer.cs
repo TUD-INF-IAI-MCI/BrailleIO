@@ -7,6 +7,10 @@ using System.Collections.Concurrent;
 
 namespace BrailleIO.Renderer
 {
+    /// <summary>
+    /// renders scroll bars
+    /// TODO: unfinished for vertical scroll bars (very small)
+    /// </summary>
     public static class BrailleIOScrollbarRenderer
     {
         /// <summary>

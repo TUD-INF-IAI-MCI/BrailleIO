@@ -8,6 +8,12 @@ using System.Linq;
 
 namespace BrailleIO
 {
+    /// <summary>
+    /// A container for <see cref="BrailleIOViewRange"/> regions. So you can combine complex displays. 
+    /// You can add an unlimited number of screen to your <see cref="BrailleIOMediator"/> instance. 
+    /// But only one Screen can be visible at the same time.
+    /// Width this container you can build multi screen applications
+    /// </summary>
     public class BrailleIOScreen : AbstractViewBoxModelBase, IViewable
     {
         #region Members
@@ -26,13 +32,27 @@ namespace BrailleIO
         public string Name { get; private set; }
         #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIOScreen"/> class.
+        /// </summary>
         public BrailleIOScreen()
         {
 
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIOScreen"/> class.
+        /// </summary>
+        /// <param name="name">The name of the screen. Shoulb be unique. Can be used to find the screen (view) 
+        /// in the list of all available screen of the <see cref="BrailleIOMediator"/> instance.</param>
         public BrailleIOScreen(String name) { Name = name; }
 
-        //FIXME: 
+
+        /// <summary>
+        /// Returns an ordered list of the added view ranges.
+        /// The order is from the earliest added to the latest added but width respect of the set zOrder from the lowest to the highest.
+        /// </summary>
+        /// <returns>Returns an ordered list of the added view ranges.
+        /// The order is from the earliest added to the latest added but width respect of the set zOrder from the lowest to the highest.</returns>
         public List<KeyValuePair<String, BrailleIOViewRange>> GetOrderedViewRanges()
         {
             return viewRanges.GetSortedValues();
@@ -120,6 +140,11 @@ namespace BrailleIO
 
         }
 
+        /// <summary>
+        /// Gets the view range width a specific name.
+        /// </summary>
+        /// <param name="name">The name of the viewRange to seach for.</param>
+        /// <returns>the view range or <c>null</c></returns>
         public BrailleIOViewRange GetViewRange(String name)
         {
             if (HasViewRange(name))
@@ -173,10 +198,21 @@ namespace BrailleIO
             this.is_visible = visible;
         }
 
+        /// <summary>
+        /// Determines whether this instance is visible.
+        /// </summary>
+        /// <returns>
+        /// 	<c>true</c> if this instance is visible; otherwise, <c>false</c> if the instance is hidden.
+        /// </returns>
         public bool IsVisible() { return this.is_visible; }
 
     }
 
+    /// <summary>
+    /// A Dictionary that can be sorted
+    /// </summary>
+    /// <typeparam name="TKey">The type of the key.</typeparam>
+    /// <typeparam name="TValue">The type of the value.</typeparam>
     class OrderedConcurentDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
     ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>,
     IDictionary, ICollection, IEnumerable, IComparer<KeyValuePair<TKey, TValue>>
@@ -442,6 +478,9 @@ namespace BrailleIO
 
     }
 
+    /// <summary>
+    /// Comparer for <see cref="BrailleIOViewRange"/> width respect to their adding time stamp and their zIndex.
+    /// </summary>
     class BrailleIOViewRangeComparer : Comparer<KeyValuePair<String, BrailleIOViewRange>>,
         IComparer<KeyValuePair<String, object>>
     {

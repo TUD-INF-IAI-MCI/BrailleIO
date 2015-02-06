@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace BrailleIO
 {
-
+    /// <summary>
+    /// Abstract implementation for basic functions a real Hardware modeling device Adapter has to implement
+    /// </summary>
     public abstract class AbstractBrailleIOAdapterBase : IBrailleIOAdapter
     {
         // display options
@@ -24,12 +26,21 @@ namespace BrailleIO
         }
 
         BrailleIODevice _device;
+        /// <summary>
+        /// Gets or sets the device.
+        /// The device gives access to specific properties of the modeled hardware device.
+        /// </summary>
+        /// <value>The device.</value>
         public BrailleIODevice Device
         {
             get { if (_device == null) _device = createDevice(); return _device; }
             protected set { _device = value; }
         }
 
+        /// <summary>
+        /// Creates an dummy device width dimensions of a Metec BrailleDis device.
+        /// </summary>
+        /// <returns></returns>
         protected virtual BrailleIODevice createDevice()
         {
             return new BrailleIODevice(120, 60, "UNKNOWN", true, true, 10, this.GetType().ToString());
@@ -54,8 +65,7 @@ namespace BrailleIO
         {
             get { return _dpiY; }
         }
-
-
+        
         private bool _connected = false;
         /// <summary>
         /// Gets a value indicating whether this <see cref="AbstractBrailleIOAdapterBase"/> is connected or not.
@@ -110,7 +120,7 @@ namespace BrailleIO
         internal virtual void OnBrailleIO_KeyStateChanged_EventHandler(BrailleIO_KeyStateChanged_EventArgs e) { keyStateChanged(this, e); }
         internal virtual void OnBrailleIO_TouchValuesChanged_EventHandler(BrailleIO_TouchValuesChanged_EventArgs e) { touchValuesChanged(this, e); }
         internal virtual void OnBrailleIO_PinStateChanged_EventHandler(BrailleIO_PinStateChanged_EventArgs e) { pinStateChanged(this, e); }
-        internal virtual void OnBrailleIO_ErrorOccured_EventHandler(BrailleIO_ErrorOccured_EventArgs e) { errorOccured(this, e); }
+        internal virtual void OnBrailleIO_ErrorOccured_EventHandler(BrailleIO_ErrorOccured_EventArgs e) { errorOccurred(this, e); }
         #endregion
 
         public event EventHandler<BrailleIO_KeyPressed_EventArgs> keyPressed;
@@ -119,42 +129,83 @@ namespace BrailleIO
         public event EventHandler<BrailleIO_InputChanged_EventArgs> inputChanged;
         public event EventHandler<BrailleIO_TouchValuesChanged_EventArgs> touchValuesChanged;
         public event EventHandler<BrailleIO_PinStateChanged_EventArgs> pinStateChanged;
-        public event EventHandler<BrailleIO_ErrorOccured_EventArgs> errorOccured;
+        public event EventHandler<BrailleIO_ErrorOccured_EventArgs> errorOccurred;
 
+        /// <summary>
+        /// Fires an initialized event.
+        /// </summary>
+        /// <param name="e">The <see cref="BrailleIO.Interface.BrailleIO_Initialized_EventArgs"/> instance containing the event data.</param>
         protected virtual void fireInitialized(BrailleIO_Initialized_EventArgs e)
         {
             if (initialized != null)
                 initialized(this, e);
         }
+
+        /// <summary>
+        /// Fires a key state changed event.
+        /// </summary>
+        /// <param name="keyCode">The key code.</param>
+        /// <param name="raw">The raw.</param>
         protected virtual void fireKeyStateChanged(BrailleIO_DeviceButtonStates keyCode, ref OrderedDictionary raw)
         {
             if (keyStateChanged != null)
                 keyStateChanged(this, new BrailleIO_KeyStateChanged_EventArgs(keyCode, ref raw));
         }
+
+        /// <summary>
+        /// Fires an input changed event.
+        /// </summary>
+        /// <param name="touches">The touches.</param>
+        /// <param name="timestamp">The timestamp.</param>
+        /// <param name="raw">The raw.</param>
         protected virtual void fireInputChanged(bool[,] touches, int timestamp, ref OrderedDictionary raw)
         {
             if (inputChanged != null)
                 inputChanged(this, new BrailleIO_InputChanged_EventArgs(touches, timestamp, ref raw));
         }
+
+        /// <summary>
+        /// Fires a touch values changed event.
+        /// </summary>
+        /// <param name="touches">The touches.</param>
+        /// <param name="timestamp">The timestamp.</param>
+        /// <param name="raw">The raw.</param>
         protected virtual void fireTouchValuesChanged(double[,] touches, int timestamp, ref OrderedDictionary raw)
         {
             if (touchValuesChanged != null)
                 touchValuesChanged(this, new BrailleIO_TouchValuesChanged_EventArgs(touches, timestamp, ref raw));
         }
+
+        /// <summary>
+        /// Fires an error occured event.
+        /// </summary>
+        /// <param name="errorCode">The error code.</param>
+        /// <param name="raw">The raw.</param>
         public virtual void fireErrorOccured(ErrorCode errorCode, ref OrderedDictionary raw)
         {
-            if (errorOccured != null)
-                errorOccured(this, new BrailleIO_ErrorOccured_EventArgs(errorCode, ref raw));
+            if (errorOccurred != null)
+                errorOccurred(this, new BrailleIO_ErrorOccured_EventArgs(errorCode, ref raw));
         }
 
+        /// <summary>
+        /// Synchronizes the specified matrix. 
+        /// That means the Adapter try to sent the given Matrix to the real hardware 
+        /// device as an output.
+        /// </summary>
+        /// <param name="matrix">The matrix.</param>
         public virtual void Synchronize(bool[,] matrix)
         {
             manager.ActiveAdapter.Synchronize(matrix);
         }
 
         #region Touch
-
-
+        
+        /// <summary>
+        /// Recalibrate the Touch detection Adapter with the specified threshold.
+        /// //FIXME: BAD-HACK function to find bad detectors. Make this real working
+        /// </summary>
+        /// <param name="threshold">The threshold.</param>
+        /// <returns><c>true</c> if the devices touch abilities could be recalibrated</returns>
         public virtual bool Recalibrate(double threshold)
         {
             if (Device != null)
@@ -191,6 +242,7 @@ namespace BrailleIO
 
             return true;
         }
+        #region Touch matrix calibration Methodes -- ONLY A TRY
 
         void AbstractBrailleIOAdapterBase_touchValuesChanged(object sender, BrailleIO_TouchValuesChanged_EventArgs e)
         {
@@ -250,8 +302,13 @@ namespace BrailleIO
             return ftm;
         }
 
+        #endregion
 
         private bool[,] _fullMatrix;
+        /// <summary>
+        /// returns a matrix full of raised pins.
+        /// </summary>
+        /// <returns>a matrix full of raised pins in the dimension of the device.</returns>
         public bool[,] GetFullSetMatrix()
         {
             if (_fullMatrix == null || (Device != null && (_fullMatrix.GetLength(0) != Device.DeviceSizeY || _fullMatrix.GetLength(1) != Device.DeviceSizeX)))
@@ -268,6 +325,4 @@ namespace BrailleIO
         #endregion
 
     }
-
-
 }

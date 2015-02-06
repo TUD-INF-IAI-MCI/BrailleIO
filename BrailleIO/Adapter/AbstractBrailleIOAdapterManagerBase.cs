@@ -10,7 +10,6 @@ namespace BrailleIO
 {
     abstract public class AbstractBrailleIOAdapterManagerBase : IBrailleIOAdapterManager
     {
-
         IBrailleIOAdapter _activeAdapter;
         /// <summary>
         /// initialize all supported devices and wait for connection.
@@ -76,6 +75,10 @@ namespace BrailleIO
             return false;
         }
 
+        /// <summary>
+        /// Gets the adapters.
+        /// </summary>
+        /// <returns></returns>
         public virtual IBrailleIOAdapter[] GetAdapters()
         {
             return Adapters.ToArray();

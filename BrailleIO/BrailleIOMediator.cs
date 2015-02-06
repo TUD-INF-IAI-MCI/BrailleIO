@@ -9,18 +9,32 @@ using BrailleIO.Renderer;
 
 namespace BrailleIO
 {
-
+    /// <summary>
+    /// Central instance for the BrailleIO Framework. 
+    /// It connects the hardware abstraction layers and the GUI/TUI components.
+    /// It gives you access to the hardware via the <see cref="IBrailleIOAdapterManager"/> AdapterManager.
+    /// The GUI/TUI components are available through several methods. 
+    /// </summary>
     public class BrailleIOMediator
     {
         #region Members
+
+        #region Private Members
+
+        /// <summary>
+        /// The singleton instance
+        /// </summary>
         private static BrailleIOMediator instance;
-        private static object syncRoot = new Object();
+
+        /// <summary>
+        /// Timer to enable a continuous refresh rate
+        /// </summary>
         private System.Timers.Timer device_update_timer = new System.Timers.Timer();
 
-        public IBrailleIOAdapterManager AdapterManager;
-
-        // views are either Screens (combined ViewRanges) or simply ViewRanges
-        // Screens should be more comfortable to use for the developer
+        /// <summary>
+        /// views are either Screens (combined ViewRanges) or simply ViewRanges
+        /// Screens should be more comfortable to use for the developer
+        /// /// </summary>
         private ConcurrentDictionary<String, Object> views = new ConcurrentDictionary<String, Object>();
         private readonly object vvLock = new object();
         private ConcurrentDictionary<String, Object> _visibleViews = new ConcurrentDictionary<String, Object>();
@@ -42,14 +56,15 @@ namespace BrailleIO
             }
         }
 
+        /// <summary>
+        /// Flag to determine it the resulting matrix is changeable or not
+        /// </summary>
         private volatile bool pins_locked = false;
-
-        private bool[,] resultMatrix;
-
-
-        // private Object _matrixLock = new Object();
+        
         private bool[,] _matrix;
-        // matrix to be displayed on device
+        /// <summary>
+        ///  matrix to be displayed on device
+        /// </summary>
         private bool[,] Matrix
         {
             get
@@ -69,12 +84,36 @@ namespace BrailleIO
             }
         }
 
+
         #endregion
 
+        #region Public Members
+
+        /// <summary>
+        /// The Adapter Manager that knows and handle the connected devices for the output
+        /// </summary>
+        public IBrailleIOAdapterManager AdapterManager {get; set;}
+
+        #endregion
+
+        #endregion
+
+        #region Constructor / Destructor / Singleton
+
         private BrailleIOMediator() { }
+
         ~BrailleIOMediator() { if (renderingTread != null) renderingTread.Abort(); }
 
-        //double checked multi threaded singleton to avoid usage of expensive lock operation
+        /// <summary>
+        /// lock object so the instance can not been build twice.
+        /// </summary>
+        private static object syncRoot = new Object();
+        /// <summary>
+        /// Central instance for the BrailleIO Framework. 
+        /// It connects the hardware abstraction layers and the GUI/TUI components.
+        /// It gives you access to the hardware via the <see cref="IBrailleIOAdapterManager"/> AdapterManager.
+        /// The GUI/TUI components are available through several methods. 
+        /// </summary>
         public static BrailleIOMediator Instance
         {
             get
@@ -98,49 +137,97 @@ namespace BrailleIO
             }
         }
 
-        private static void refreshDisplayEvent(object source, ElapsedEventArgs e)
-        {
-            BrailleIOMediator.Instance.RefreshDisplay();
-        }
+        #endregion
+        
+        #region Rendering Methods
 
+        #region Public Available Calls 
+
+        /// <summary>
+        /// Trys to sent the actual build matrix to all devices, that are active.
+        /// To enable a sending, the pins have to be unlocked (still rendering or maybe locked ba user)
+        /// and at an Adapter has to be active.
+        /// </summary>
+        /// <param name="rerender">if set to <c>true</c> it forces the rendering thread to rebuild the matrix by calling all renderers.</param>
         public void RefreshDisplay(bool rerender)
         {
             if (rerender)
             {
                 if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
                 {
-                    if (instance.device_update_timer.Interval != AdapterManager.ActiveAdapter.Device.RefreshRate * 10)
-                        instance.device_update_timer.Interval = AdapterManager.ActiveAdapter.Device.RefreshRate * 10;
-                    SendToDevice();
+                    //if (instance.device_update_timer.Interval != AdapterManager.ActiveAdapter.Device.RefreshRate * 10)
+                    //    instance.device_update_timer.Interval = AdapterManager.ActiveAdapter.Device.RefreshRate * 10;
+                    RenderDisplay();
                 }
-                else RefreshDisplay();
             }
+            else RefreshDisplay();
         }
 
         /// <summary>
-        /// transmit matrix to display
+        /// Trys to sent the actual build matrix to all devices, that are active.
+        /// To enable a sending, the pins have to be unlocked (still rendering or maybe locked by the user)
+        /// and at an Adapter has to be active.
         /// </summary>
         public void RefreshDisplay()
         {
             if (ArePinsLocked()) return;
-            if (AdapterManager != null && AdapterManager.ActiveAdapter != null && resultMatrix != null)
+            if (AdapterManager != null && AdapterManager.ActiveAdapter != null && Matrix != null)
             {
-                if (instance.device_update_timer.Interval != AdapterManager.ActiveAdapter.Device.RefreshRate * 10)
-                    instance.device_update_timer.Interval = AdapterManager.ActiveAdapter.Device.RefreshRate * 10;
 
-                AdapterManager.Synchronize(this.resultMatrix.Clone() as bool[,]);
+                //if (instance.device_update_timer.Interval != AdapterManager.ActiveAdapter.Device.RefreshRate * 10)
+                //    instance.device_update_timer.Interval = AdapterManager.ActiveAdapter.Device.RefreshRate * 10;
 
+                AdapterManager.Synchronize(this.Matrix.Clone() as bool[,]);
             }
         }
 
+        /// <summary>
+        /// Forces the rendering thread to build the resulting Matrix by 
+        /// calling all renderer for the visible view ranges.
+        /// The matrix will not been sent until the refresh timer is elapsed or the 
+        /// <see cref="RefreshDisplay"/> Method was called.
+        /// </summary>
+        public void RenderDisplay()
+        {
+            stack.Push(true);
 
+            if (renderingTread == null || !renderingTread.IsAlive)
+            {
+                renderingTread = new Thread(delegate() { renderDisplay(); });
+                renderingTread.Start();
+            }
+            else { }
+        }
+
+        #endregion
+
+        #region private Rendering
+
+        /// <summary>
+        /// Event handler for the refresh timer elapsed event.
+        /// Refreshes the display.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="e">The <see cref="System.Timers.ElapsedEventArgs"/> instance containing the event data.</param>
+        private static void refreshDisplayEvent(object source, ElapsedEventArgs e)
+        {
+            BrailleIOMediator.Instance.RefreshDisplay();
+        }
+
+        /// <summary>
+        /// helping stack that helps to determine if a rendering is necessary.
+        /// Collects all render calls and the rendering thread cann decide if to render or not.
+        /// </summary>
         private readonly ConcurrentStack<object> stack = new ConcurrentStack<Object>();
-
+        /// <summary>
+        /// separate thread for building the resulting matrix
+        /// </summary>
         private Thread renderingTread;
-
+        /// <summary>
+        /// Builds the resulting matrix that will be send to the adapters by calling the renderers for each view range.
+        /// </summary>
         void renderDisplay()
         {
-
             while (stack.Count > 0)
             {
                 stack.Clear();
@@ -163,14 +250,13 @@ namespace BrailleIO
                     else { }
                 }
 
-                //BrailleIO.Renderer.GraphicUtils.PaintBoolMatrixToImage(this.resultMatrix, @"C:\Users\Admin\Desktop\tmp\matrixes\sent_" + (t++) + ".bmp");
+                BrailleIO.Renderer.GraphicUtils.PaintBoolMatrixToImage(this.Matrix, @"C:\Users\Admin\Desktop\temp\sent_.bmp");
 
-                this.resultMatrix = Matrix;
+                this.Matrix = Matrix;
 
                 pins_locked = false;
             }
         }
-
 
         /// <summary>
         /// draw a ViewRange to this.matrix
@@ -253,8 +339,6 @@ namespace BrailleIO
             pins_locked = true;
 
 
-
-
             // draw content and borders to main matrix
             System.Threading.Tasks.Parallel.For(srcOffsetX, srcOffsetX + viewBoxMatrix.GetLength(1), x =>
             {
@@ -275,26 +359,11 @@ namespace BrailleIO
             return true;
         }
 
+        #endregion
 
-        /// <summary>
-        /// parse display-matrix and save for transmission to display.
-        /// </summary>
-        public bool SendToDevice()
-        {
-            //return renderDisplay();
+        #endregion
 
-            stack.Push(true);
-
-            if (renderingTread == null || !renderingTread.IsAlive)
-            {
-                renderingTread = new Thread(delegate() { renderDisplay(); });
-                renderingTread.Start();
-            }
-            else { }
-
-            return true;
-
-        }
+        #region Getter & Setter
 
         /// <summary>
         /// get current display-matrix.
@@ -302,64 +371,63 @@ namespace BrailleIO
         /// <returns>bool[,] matrix</returns>
         public bool[,] GetMatrix()
         {
-            if (SendToDevice()) { return this.resultMatrix; }
-            return new bool[0, 0];
-
+            return Matrix;
         }
 
+        ///// <summary>
+        ///// put all pins down.
+        ///// (clear screen)
+        ///// </summary>
+        //public void AllPinsDown() // TODO: handle that
+        //{
+        //    this.pins_locked = true;
+        //    //foreach (String key in views.Keys)
+        //    //{
+        //    //    this.HideView(key);
+        //    //}
+        //    //for (int i = 0; i < AdapterManager.ActiveAdapter.DeviceSizeX; i++)
+        //    //    for (int j = 0; j < AdapterManager.ActiveAdapter.DeviceSizeY; j++)
+        //    //        this.Matrix[j, i] = false;
+
+        //    Matrix = new bool[1, 1];
+
+        //    if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
+        //        AdapterManager.Synchronize(Matrix);
+        //}
+
+        ///// <summary>
+        ///// put all Pins Up.
+        ///// (black screen)
+        ///// </summary>
+        //public void AllPinsUp()
+        //{
+        //    this.pins_locked = true;
+        //    foreach (String key in views.Keys)
+        //    {
+        //        this.HideView(key);
+        //    }
+        //    for (int i = 0; i < AdapterManager.ActiveAdapter.Device.DeviceSizeX; i++)
+        //        for (int j = 0; j < AdapterManager.ActiveAdapter.Device.DeviceSizeY; j++)
+        //            this.Matrix[j, i] = true;
+
+        //    Matrix = Matrix;
+
+        //    if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
+        //        AdapterManager.Synchronize(Matrix.Clone() as bool[,]);
+        //}
+
+        ///// <summary>
+        ///// release allUp or allDown and show ViewRanges again
+        ///// </summary>
+        //public void RestoreLastRendering()
+        //{
+        //    this.pins_locked = false;
+        //    this.RenderDisplay();
+        //}
+
         /// <summary>
-        /// put all pins down.
-        /// (clear screen)
-        /// </summary>
-        public void AllPinsDown() // TODO: handle that
-        {
-            this.pins_locked = true;
-            //foreach (String key in views.Keys)
-            //{
-            //    this.HideView(key);
-            //}
-            //for (int i = 0; i < AdapterManager.ActiveAdapter.DeviceSizeX; i++)
-            //    for (int j = 0; j < AdapterManager.ActiveAdapter.DeviceSizeY; j++)
-            //        this.Matrix[j, i] = false;
-
-            Matrix = new bool[1, 1];
-
-            if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
-                AdapterManager.Synchronize(Matrix);
-        }
-
-        /// <summary>
-        /// put all Pins Up.
-        /// (black screen)
-        /// </summary>
-        public void AllPinsUp()
-        {
-            this.pins_locked = true;
-            foreach (String key in views.Keys)
-            {
-                this.HideView(key);
-            }
-            for (int i = 0; i < AdapterManager.ActiveAdapter.Device.DeviceSizeX; i++)
-                for (int j = 0; j < AdapterManager.ActiveAdapter.Device.DeviceSizeY; j++)
-                    this.Matrix[j, i] = true;
-
-            resultMatrix = Matrix;
-
-            if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
-                AdapterManager.Synchronize(resultMatrix.Clone() as bool[,]);
-        }
-
-        /// <summary>
-        /// release allUp or allDown and show ViewRanges again
-        /// </summary>
-        public void RestoreLastRendering()
-        {
-            this.pins_locked = false;
-            this.SendToDevice();
-        }
-
-        /// <summary>
-        /// check if pins are locked
+        /// check if pins are locked. This indicates that a rendering is still going on 
+        /// or the rendering is disabled by the user by locking the set matrix.
         /// </summary>
         /// <returns>bool pins_locked</returns>
         public bool ArePinsLocked() //TODO: check for this is necessary
@@ -368,26 +436,24 @@ namespace BrailleIO
         }
 
         /// <summary>
-        /// get device Width from active adapter
+        /// Locks the pins. Stops renderers to do there work
         /// </summary>
-        /// <returns>int Width of device</returns>
-        public int GetDeviceSizeX()
+        public void LockPins()
         {
-            if (AdapterManager != null && AdapterManager.ActiveAdapter != null && AdapterManager.ActiveAdapter.Device != null)
-                return AdapterManager.ActiveAdapter.Device.DeviceSizeX;
-            else return 0;
+            pins_locked = true;
         }
 
         /// <summary>
-        /// get device Height from active adapter
+        /// Unlocks the pins. Enables renderers to refresh the matrix that is send to the devices
         /// </summary>
-        /// <returns>int Height of device</returns>
-        public int GetDeviceSizeY()
+        public void UnlockPins()
         {
-            if (AdapterManager != null && AdapterManager.ActiveAdapter != null && AdapterManager.ActiveAdapter.Device != null)
-                return AdapterManager.ActiveAdapter.Device.DeviceSizeY;
-            else return 0;
+            pins_locked = false;
         }
+
+        #endregion
+
+        #region View Handling
 
         /// <summary>
         /// show a view.
@@ -504,7 +570,7 @@ namespace BrailleIO
         /// </returns>
         public bool ContainsView(String name)
         {
-            return this.views.ContainsKey(name);
+            return this.views != null ? this.views.ContainsKey(name) : false;
         }
 
         /// <summary>
@@ -525,9 +591,13 @@ namespace BrailleIO
                 return null;
         }
 
+        /// <summary>
+        /// Gets a list of all available top-level views.
+        /// </summary>
+        /// <returns>list of all available top-level views. Could be <see cref="BrailleIOScreen"/> or <see cref="BrailleIOViewRange"/></returns>
         public List<Object> GetViews()
         {
-            return views.Values.ToList();
+            return views != null ? views.Values.ToList() : new List<Object>();
         }
 
         /// <summary>
@@ -538,11 +608,11 @@ namespace BrailleIO
         /// </returns>
         public bool IsEmpty()
         {
-            return (this.views.Count > 0) ? false : true;
+            return (this.views != null && this.views.Count > 0) ? false : true;
         }
 
         /// <summary>
-        /// count of views
+        /// count of available top-level views e.g. screens in a multi screen setting
         /// </summary>
         /// <returns>
         /// int views.count
@@ -552,20 +622,59 @@ namespace BrailleIO
             return this.views.Count;
         }
 
-        public bool Recalibrate()
+        #endregion
+
+        #region Adapter/Device Methodes
+
+        /// <summary>
+        /// get device Width from active adapter
+        /// </summary>
+        /// <returns>int Width of device</returns>
+        public int GetDeviceSizeX()
         {
-            return AdapterManager.ActiveAdapter.Recalibrate(0);
+            if (AdapterManager != null && AdapterManager.ActiveAdapter != null && AdapterManager.ActiveAdapter.Device != null)
+                return AdapterManager.ActiveAdapter.Device.DeviceSizeX;
+            else return 0;
         }
 
+        /// <summary>
+        /// get device Height from active adapter
+        /// </summary>
+        /// <returns>int Height of device</returns>
+        public int GetDeviceSizeY()
+        {
+            if (AdapterManager != null && AdapterManager.ActiveAdapter != null && AdapterManager.ActiveAdapter.Device != null)
+                return AdapterManager.ActiveAdapter.Device.DeviceSizeY;
+            else return 0;
+        }
+
+        /// <summary>
+        /// Forces the current active adapter devices to recalibrate.
+        /// </summary>
+        /// <returns><c>true</c> if the adapter is successfully recalibrated</returns>
+        public bool Recalibrate()
+        {
+            return (AdapterManager.ActiveAdapter != null) ? AdapterManager.ActiveAdapter.Recalibrate(0) : false;
+        }
+
+        /// <summary>
+        /// Forces all connected adapter devices to recalibrate.
+        /// </summary>
+        /// <returns><c>true</c> if all adapter are successfully recalibrated</returns>
         public bool RecalibrateAll()
         {
             bool result = true;
-            foreach (var adapter in AdapterManager.GetAdapters())
+            if (AdapterManager != null)
             {
-                result &= adapter.Recalibrate(0);
+                foreach (var adapter in AdapterManager.GetAdapters())
+                {
+                    result &= adapter.Recalibrate(0);
+                } 
             }
             return result;
         }
+
+        #endregion
 
     }
 }

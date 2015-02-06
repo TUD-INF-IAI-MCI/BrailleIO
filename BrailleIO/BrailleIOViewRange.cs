@@ -4,6 +4,9 @@ using BrailleIO.Interface;
 
 namespace BrailleIO
 {
+    /// <summary>
+    /// Basic structure to hold content that should been displayed on an output device
+    /// </summary>
     public class BrailleIOViewRange : AbstractViewBoxModelBase, IViewable, IContrastThreshold, IZoomable
     {
         #region Members
@@ -102,6 +105,11 @@ namespace BrailleIO
 
         #endregion
 
+        /// <summary>
+        /// Sets the parent Screen.
+        /// </summary>
+        /// <param name="parent">The parent.</param>
+        /// <returns></returns>
         public bool SetParent(BrailleIOScreen parent)
         {
             bool success = false;
@@ -271,11 +279,21 @@ namespace BrailleIO
             this.is_image = this.is_matrix = this.is_text = false;
         }
 
+        /// <summary>
+        /// Gets the content that is not of the standart types.
+        /// </summary>
+        /// <returns></returns>
         public object GetOtherContent()
         {
             return this.otherContent;
         }
 
+        /// <summary>
+        /// Determines whether this instance has a special type of content taht can not been rendered with one of the standard renderer.
+        /// </summary>
+        /// <returns>
+        /// 	<c>true</c> if this instance has an specialized content type other; otherwise, <c>false</c>.
+        /// </returns>
         public bool IsOther()
         {
             return this.is_other;

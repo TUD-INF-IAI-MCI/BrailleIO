@@ -8,6 +8,9 @@ using System.Runtime.InteropServices;
 
 namespace BrailleIO.Renderer
 {
+    /// <summary>
+    /// Class for faster handling of images
+    /// </summary>
     public class LockBitmap : IDisposable
     {
         Bitmap source = null;

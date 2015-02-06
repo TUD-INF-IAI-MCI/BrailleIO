@@ -8,8 +8,24 @@ using System.Threading.Tasks;
 
 namespace BrailleIO.Renderer
 {
+    /// <summary>
+    /// render the border defined for an <see cref="AbstractViewBorderBase"/> view range
+    /// </summary>
     public static class BrailleIOBorderRenderer
     {
+        /// <summary>
+        /// Renders a content object into an boolean matrix;
+        /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowerd pins
+        /// </summary>
+        /// <param name="view">The frame to render in. This gives acces to the space to render and other paramenters. Normaly this is a <see cref="BrailleIOViewRange"/>.</param>
+        /// <param name="matrix">The content to render.</param>
+        /// <returns>
+        /// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
+        /// and N is the count of columns (which is the width). 
+        /// Positions in the Matrix are of type [i,j] 
+        /// while i is the index of the row (is the y position) 
+        /// and j is the index of the column (is the x position). 
+        /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowerd pins</returns>
         public static bool[,] renderMatrix(AbstractViewBorderBase view, bool[,] contentMatrix)
         {
             if (view != null && view.HasBorder && contentMatrix != null)
@@ -61,32 +77,17 @@ namespace BrailleIO.Renderer
             }
             return contentMatrix;
         }
-        
-        
+
+
+        /// <summary>
+        /// Draws the horizontal line.
+        /// </summary>
+        /// <param name="width">The width.</param>
+        /// <param name="contentMatrix">The content matrix.</param>
+        /// <param name="xOffset">The x offset.</param>
+        /// <param name="yOffset">The y offset.</param>
         private static void drawHorizontalLine(uint width, ref bool[,]contentMatrix, int xOffset = 0, int yOffset = 0)
-        {
-            //TODO:
-
-
-  //          System.IndexOutOfRangeException wurde nicht behandelt.
-  //HResult=-2146233080
-  //Message=Der Index war außerhalb des Arraybereichs.
-  //Source=BrailleIO
-  //StackTrace:
-  //     bei BrailleIO.Renderer.BrailleIOBorderRenderer.drawHorizontalLine(UInt32 width, Boolean[,]& contentMatrix, Int32 xOffset, Int32 yOffset) in E:\Tangram\Tool\BrailleIO\BrailleIO\Renderer\BrailleIOBorderRenderer.cs:Zeile 71.
-  //     bei BrailleIO.Renderer.BrailleIOBorderRenderer.renderMatrix(AbstractViewBorderBase view, Boolean[,] contentMatrix) in E:\Tangram\Tool\BrailleIO\BrailleIO\Renderer\BrailleIOBorderRenderer.cs:Zeile 37.
-  //     bei BrailleIO.BrailleIOMediator.drawViewRange(BrailleIOViewRange vr) in E:\Tangram\Tool\BrailleIO\BrailleIO\BrailleIOMediator.cs:Zeile 251.
-  //     bei BrailleIO.BrailleIOMediator.renderDisplay() in E:\Tangram\Tool\BrailleIO\BrailleIO\BrailleIOMediator.cs:Zeile 160.
-  //     bei BrailleIO.BrailleIOMediator.<SendToDevice>b__a() in E:\Tangram\Tool\BrailleIO\BrailleIO\BrailleIOMediator.cs:Zeile 290.
-  //     bei System.Threading.ThreadHelper.ThreadStart_Context(Object state)
-  //     bei System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
-  //     bei System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
-  //     bei System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
-  //     bei System.Threading.ThreadHelper.ThreadStart()
-  //InnerException: 
-
-
-
+        {            
             for (int j = 0; j < width; j++)
             {
                 if (contentMatrix.GetLength(0) <= (j + yOffset)) break;

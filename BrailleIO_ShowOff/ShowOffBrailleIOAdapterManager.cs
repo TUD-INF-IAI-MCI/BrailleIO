@@ -4,6 +4,12 @@ namespace BrailleIO
 {
     public class ShowOffBrailleIOAdapterManager : AbstractBrailleIOAdapterManagerBase
     {
+        #region Members
+
+        public ShowOff Monitor { get; private set; }
+
+        #endregion
+
         public ShowOffBrailleIOAdapterManager()
             : base()
         { init(); }
@@ -13,9 +19,9 @@ namespace BrailleIO
 
         void init()
         {
-            //push all supported devices and map events 
-            IBrailleIOAdapterManager me = this;
-            Adapters.Add(new BrailleIOAdapter_ShowOff(ref me));
+            Monitor = new ShowOff();
+            IBrailleIOAdapter showOffAdapter = Monitor.InitializeBrailleIO();
+            ActiveAdapter = showOffAdapter;
         }
     }
 }

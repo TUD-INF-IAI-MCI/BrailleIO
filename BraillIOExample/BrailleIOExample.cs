@@ -24,6 +24,7 @@ namespace BraillIOExample
         {
             io = BrailleIOMediator.Instance;
             io.AdapterManager = new ShowOffBrailleIOAdapterManager();
+            monitor = ((ShowOffBrailleIOAdapterManager)io.AdapterManager).Monitor;
             showOff = io.AdapterManager.ActiveAdapter as AbstractBrailleIOAdapterBase;
             showExample();
         }
@@ -38,7 +39,6 @@ namespace BraillIOExample
             }
             return null;
         }
-
 
         void zoom(string viewName, string viewRangeName, double factor)
         {
@@ -76,7 +76,7 @@ namespace BraillIOExample
             }
 
             this.
-            io.SendToDevice();
+            io.RenderDisplay();
         }
         void zoomTo(string viewName, string viewRangeName, double factor)
         {
@@ -109,7 +109,7 @@ namespace BraillIOExample
                 vr.SetXOffset(newOffset.X);
                 vr.SetYOffset(newOffset.Y);
             }
-            io.SendToDevice();
+            io.RenderDisplay();
         }
         void zoomPlus(string viewName, string viewRangeName, double factor)
         {
@@ -145,7 +145,7 @@ namespace BraillIOExample
                     vr.SetYOffset(newOffset.Y);
                 }
             }
-            io.SendToDevice();
+            io.RenderDisplay();
         }
 
         void moveHorizontal(string viewName, string viewRangeName, int steps)
@@ -156,9 +156,8 @@ namespace BraillIOExample
             {
                 vr.MoveHorizontal(steps);
             }
-            io.SendToDevice();
+            io.RenderDisplay();
         }
-
         void moveVertical(string viewName, string viewRangeName, int steps)
         {
             if (io == null && io.GetView(viewName) as BrailleIOScreen != null) return;
@@ -167,7 +166,7 @@ namespace BraillIOExample
             {
                 vr.MoveVertical(steps);
             }
-            io.SendToDevice();
+            io.RenderDisplay();
         }
 
         private void invertImage(string viewName, string viewRangeName)
@@ -178,7 +177,7 @@ namespace BraillIOExample
             {
                 vr.InvertImage = !vr.InvertImage;
             }
-            io.SendToDevice();
+            io.RenderDisplay();
         }
 
         #endregion
@@ -235,7 +234,7 @@ namespace BraillIOExample
 
             io.AddView(BS_MAIN_NAME, s);
             io.ShowView(BS_MAIN_NAME);
-            io.SendToDevice();
+            io.RenderDisplay();
 
         }
 

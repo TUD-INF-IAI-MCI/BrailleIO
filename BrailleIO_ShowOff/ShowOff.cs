@@ -19,7 +19,7 @@ namespace BrailleIO
         internal readonly ConcurrentStack<double[,]> touchStack = new ConcurrentStack<double[,]>();
 
         BrailleIOMediator io;
-        BrailleIOAdapter_ShowOff showOffAdapter;
+        public BrailleIOAdapter_ShowOff ShowOffAdapter { get; private set; }
 
         #endregion
 
@@ -72,22 +72,44 @@ namespace BrailleIO
 
         #region initalization
 
-        public AbstractBrailleIOAdapterBase InitalizeBrailleIO()
+        /// <summary>
+        /// Initializes the BrailleIO framework. Build a new BrailleIOAdapter_ShowOff, and add it to the IBrailleIOAdapterManager.
+        /// </summary>
+        /// <param name="adapterManager">The adapter manager to use for managing devices.</param>
+        /// <returns>The created BrailleIOAdapter_ShowOff, that was build with this instance</returns>
+        public AbstractBrailleIOAdapterBase InitializeBrailleIO(IBrailleIOAdapterManager adapterManager, bool setAsActiveAdapter = false)
+        {
+            ShowOffAdapter = new BrailleIOAdapter_ShowOff(ref adapterManager, this);
+            ShowOffAdapter.Synch = true;
+
+            adapterManager.AddAdapter(ShowOffAdapter);
+
+            return ShowOffAdapter;
+        }
+
+        /// <summary>
+        /// Initializes the BrailleIO framework. Build a new BrailleIOAdapter_ShowOff, and add it to the global IBrailleIOAdapterManager.
+        /// </summary>
+        /// <returns>The created BrailleIOAdapter_ShowOff, that was build with this instance</returns>
+        public AbstractBrailleIOAdapterBase InitializeBrailleIO(bool setAsActiveAdapter = false)
         {
             io = BrailleIOMediator.Instance;
-            io.AdapterManager = new ShowOffBrailleIOAdapterManager();
-
-            showOffAdapter = GetAdapter(ref io.AdapterManager) as BrailleIOAdapter_ShowOff;
-            showOffAdapter.Synch = true;
-            io.AdapterManager.AddAdapter(showOffAdapter);
-
-            return showOffAdapter;
+            if (io != null)
+            {
+                if (io.AdapterManager == null)
+                {
+                    io.AdapterManager = new ShowOffBrailleIOAdapterManager();
+                    setAsActiveAdapter = true;
+                }
+                return InitializeBrailleIO(io.AdapterManager, setAsActiveAdapter);
+            }
+            return null;
         }
 
         public AbstractBrailleIOAdapterBase GetAdapter(ref IBrailleIOAdapterManager manager)
         {
-            showOffAdapter = new BrailleIOAdapter_ShowOff(ref manager);
-            return showOffAdapter;
+            ShowOffAdapter = new BrailleIOAdapter_ShowOff(ref manager);
+            return ShowOffAdapter;
         }
 
         #endregion

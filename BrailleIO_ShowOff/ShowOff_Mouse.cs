@@ -124,7 +124,7 @@ namespace BrailleIO
 
         void fireTouchEvent(List<Touch> touches)
         {
-            if (showOffAdapter != null)
+            if (ShowOffAdapter != null)
             {
                 double[,] touchM = new double[rows, cols];
 
@@ -134,7 +134,7 @@ namespace BrailleIO
                     { touchM[p.Y, p.X] = p.Intense; }
                 }
 
-                showOffAdapter.firetouchValuesChangedEvent(touchM, (int)DateTime.UtcNow.Ticks);
+                ShowOffAdapter.firetouchValuesChangedEvent(touchM, (int)DateTime.UtcNow.Ticks);
             }
         }
 
