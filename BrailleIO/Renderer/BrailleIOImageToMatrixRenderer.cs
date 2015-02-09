@@ -298,7 +298,7 @@ namespace BrailleIO.Renderer
                     {
                         PinGraphic.Flush();
                         if (string.IsNullOrEmpty(filePath) || string.IsNullOrWhiteSpace(filePath)) return;
-                        bmp.Save(filePath, ImageFormat.Bmp);
+                        //bmp.Save(filePath, ImageFormat.Bmp);
                     }
                     catch { }
                 }
