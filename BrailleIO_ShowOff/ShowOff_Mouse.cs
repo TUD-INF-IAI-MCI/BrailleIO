@@ -61,8 +61,10 @@ namespace BrailleIO
         {
             try
             {
-                touchGraphics.Clear(Color.Transparent);
-                this.pictureBoxTouch.Image = _touchbmp;
+                //touchGraphics.Clear(Color.Transparent);
+                //this.pictureBoxTouch.Image = _touchbmp;
+
+                this.PaintTouchMatrix(buildTouchMatrix(null));
                 mouseToGetureMode = false;
             }
             catch (System.Exception ex)
@@ -83,15 +85,16 @@ namespace BrailleIO
             {
                 Point pin = getPinForPoint(p);
                 var touchPoints = handleEllipsePoints(pin);
+                this.PaintTouchMatrix(buildTouchMatrix(touchPoints));
                 // fire event
                 fireTouchEvent(touchPoints);
 
-                foreach (var touch in touchPoints)
-                {
-                    touchGraphics.FillEllipse(Brushes.Red, new Rectangle(touch.X * (pixelFactor + 1), touch.Y * (pixelFactor + 1), pixelFactor - 1, pixelFactor - 1));
-                }
+                //foreach (var touch in touchPoints)
+                //{
+                //    touchGraphics.FillEllipse(Brushes.Red, new Rectangle(touch.X * (pixelFactor + 1), touch.Y * (pixelFactor + 1), pixelFactor - 1, pixelFactor - 1));
+                //}
 
-                this.pictureBoxTouch.Image = _touchbmp;
+                //this.pictureBoxTouch.Image = _touchbmp;
             }
             catch (Exception) { }
         }
@@ -122,20 +125,34 @@ namespace BrailleIO
         #endregion
 
 
+
         void fireTouchEvent(List<Touch> touches)
         {
             if (ShowOffAdapter != null)
             {
-                double[,] touchM = new double[rows, cols];
+                double[,] touchM = buildTouchMatrix(touches);
+                ShowOffAdapter.firetouchValuesChangedEvent(touchM, (int)DateTime.UtcNow.Ticks);
+            }
+        }
 
+        /// <summary>
+        /// Builds the touch matrix from a list of points.
+        /// </summary>
+        /// <param name="touches">The touches.</param>
+        /// <returns></returns>
+        private double[,] buildTouchMatrix(List<Touch> touches)
+        {
+            double[,] touchM = new double[rows, cols];
+
+            if (touches != null)
+            {
                 foreach (var p in touches)
                 {
                     if (p.X >= 0 && p.Y >= 0 && p.X < cols && p.Y < rows)
                     { touchM[p.Y, p.X] = p.Intense; }
                 }
-
-                ShowOffAdapter.firetouchValuesChangedEvent(touchM, (int)DateTime.UtcNow.Ticks);
             }
+            return touchM;
         }
 
         public double TouchSizeRadiusX = 1;

@@ -122,8 +122,8 @@ namespace BrailleIO
         /// <param name="touchMatrix">The touch matrix.</param>
         public void PaintTouchMatrix(double[,] touchMatrix)
         {
-            if (!mouseToGetureMode) // maybe show the modules in background?!
-            {
+            //if (!mouseToGetureMode) // maybe show the modules in background?!
+            //{
                 addMatrixToStack(touchMatrix); try
                 {
                     this.pictureBoxTouch.Image = getTouchImage();
@@ -132,7 +132,7 @@ namespace BrailleIO
                 {
 
                 }
-            }
+            //}
         }
 
         private void addMatrixToStack(double[,] touchMatrix)
