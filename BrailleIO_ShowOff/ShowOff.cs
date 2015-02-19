@@ -53,6 +53,12 @@ namespace BrailleIO
             pictureBoxTouch.Location = new Point(0, 0);
             pictureBoxTouch.Image = null;
 
+
+            this.pictureBox_overAllOverlay.BackColor = Color.Transparent;
+            pictureBox_overAllOverlay.Parent = pictureBoxTouch;
+            pictureBox_overAllOverlay.Location = new Point(0, 0);
+            pictureBox_overAllOverlay.Image = null;
+
             renderTimer.Elapsed += new System.Timers.ElapsedEventHandler(renderTimer_Elapsed);
             renderTimer.Start();
 
@@ -115,6 +121,8 @@ namespace BrailleIO
         #endregion
 
         #region Public Functions
+        
+        #region Touch Image Overlay
 
         /// <summary>
         /// Paints the touch matrix over the matrix image.
@@ -158,10 +166,105 @@ namespace BrailleIO
             }
         }
 
+        #endregion
+
+        #region Picture Overlay
+
+        private readonly object overlayLock = new Object();
+        /// <summary>
+        /// Sets an overlay picture will be displayed as topmost 
+        /// - so beware to use a transparent background when using this 
+        /// overlay functionality.
+        /// </summary>
+        /// <param name="image">The image to be displayed as an overlay.</param>
+        /// <returns><c>true</c> if the image could been set, otherwise <c>false</c></returns>
+        public bool SetPictureOverlay(Image image)
+        {
+            lock (overlayLock)
+            {
+                try
+                {
+                    if (this.pictureBox_overAllOverlay != null)
+                    {
+                        this.pictureBox_overAllOverlay.Enabled = true;
+                        this.pictureBox_overAllOverlay.Image = image;
+                        return true;
+                    }
+                }
+                catch{}
+
+                return false; 
+            }
+        }
+
+        /// <summary>
+        /// Resets the picture overlay to an invisible overlay.
+        /// </summary>
+        public void ResetPictureOverlay()
+        {
+            lock (overlayLock)
+            {
+                try
+                {
+                    if (this.pictureBox_overAllOverlay != null)
+                    {
+                        this.pictureBox_overAllOverlay.Enabled = false;
+                        this.pictureBox_overAllOverlay.Image = null;
+                        this.pictureBox_overAllOverlay.BackColor = Color.Transparent;
+                    }
+                }
+                catch { }
+            }
+        }
+
+        /// <summary>
+        /// Gets the current overlay image.
+        /// </summary>
+        /// <returns>the current set overlay image or <c>null</c></returns>
+        public Image GetPictureOverlay()
+        {
+            lock (overlayLock)
+            {
+                try
+                {
+                    if (this.pictureBox_overAllOverlay != null)
+                    {
+                        if (this.pictureBox_overAllOverlay.Image != null)
+                        {
+                            return this.pictureBox_overAllOverlay.Image.Clone() as Image;
+                        }
+                    }
+                }
+                catch { }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the size of the picture overlay image.
+        /// </summary>
+        /// <value>The size of the overlay image.</value>
+        public Size PictureOverlaySize
+        {
+            get
+            {
+                lock (overlayLock)
+                {
+                    try
+                    {
+                        if (this.pictureBox_overAllOverlay != null)
+                        {
+                            return this.pictureBox_overAllOverlay.Size;
+                        }
+                    }
+                    catch { }
+                    return new Size(-1, -1);
+                }
+            }
+        }
 
         #endregion
 
-
-
+        #endregion
     }
 }

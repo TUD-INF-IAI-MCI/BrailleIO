@@ -74,10 +74,12 @@
             this.pictureBoxTouch = new System.Windows.Forms.PictureBox();
             this.pictureBoxPins = new System.Windows.Forms.PictureBox();
             this.pictureBoxMatrix = new System.Windows.Forms.PictureBox();
+            this.pictureBox_overAllOverlay = new System.Windows.Forms.PictureBox();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMatrix)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_overAllOverlay)).BeginInit();
             this.SuspendLayout();
             // 
             // button_KEY_RIGHT_ROCKER_SWITCH_UP
@@ -518,12 +520,25 @@
             this.pictureBoxMatrix.TabIndex = 47;
             this.pictureBoxMatrix.TabStop = false;
             // 
+            // pictureBox_overAllOverlay
+            // 
+            this.pictureBox_overAllOverlay.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_overAllOverlay.Cursor = System.Windows.Forms.Cursors.Default;
+            this.pictureBox_overAllOverlay.Enabled = false;
+            this.pictureBox_overAllOverlay.InitialImage = null;
+            this.pictureBox_overAllOverlay.Location = new System.Drawing.Point(93, 98);
+            this.pictureBox_overAllOverlay.Name = "pictureBox_overAllOverlay";
+            this.pictureBox_overAllOverlay.Size = new System.Drawing.Size(721, 363);
+            this.pictureBox_overAllOverlay.TabIndex = 50;
+            this.pictureBox_overAllOverlay.TabStop = false;
+            // 
             // ShowOff
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(919, 531);
+            this.Controls.Add(this.pictureBox_overAllOverlay);
             this.Controls.Add(this.pictureBoxTouch);
             this.Controls.Add(this.pictureBoxPins);
             this.Controls.Add(this.pictureBoxMatrix);
@@ -574,6 +589,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMatrix)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_overAllOverlay)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -626,6 +642,7 @@
         private System.Windows.Forms.PictureBox pictureBoxTouch;
         private System.Windows.Forms.PictureBox pictureBoxPins;
         private System.Windows.Forms.PictureBox pictureBoxMatrix;
+        private System.Windows.Forms.PictureBox pictureBox_overAllOverlay;
 
 
     }
