@@ -248,9 +248,6 @@ namespace BrailleIO
         }
         #endregion
 
-
         #endregion
     }
-
-
 }

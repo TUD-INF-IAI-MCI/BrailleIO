@@ -121,7 +121,7 @@ namespace BrailleIO
         #endregion
 
         #region Public Functions
-        
+
         #region Touch Image Overlay
 
         /// <summary>
@@ -130,32 +130,32 @@ namespace BrailleIO
         /// <param name="touchMatrix">The touch matrix.</param>
         public void PaintTouchMatrix(double[,] touchMatrix)
         {
-                addMatrixToStack(touchMatrix);
-                Thread.Sleep(2);
-                Bitmap touchImage = null;
+            addMatrixToStack(touchMatrix);
+            Thread.Sleep(2);
+            Bitmap touchImage = null;
 
             try
-                {
-                    touchImage = getTouchImage();
-                }
-                catch (System.Exception ex)
-                {
+            {
+                touchImage = getTouchImage();
+            }
+            catch (System.Exception ex)
+            {
 
-                }
+            }
             int trys = 0;
-            while(++trys < 5)
-            try
-            {
-                if (touchImage != null)
+            while (++trys < 5)
+                try
                 {
-                    this.pictureBoxTouch.Image = touchImage;
-                    break;
+                    if (touchImage != null)
+                    {
+                        this.pictureBoxTouch.Image = touchImage;
+                        break;
+                    }
                 }
-            }
-            catch
-            {
-                Thread.Sleep(1);
-            }
+                catch
+                {
+                    Thread.Sleep(1);
+                }
         }
 
         private void addMatrixToStack(double[,] touchMatrix)
@@ -180,6 +180,27 @@ namespace BrailleIO
         /// <returns><c>true</c> if the image could been set, otherwise <c>false</c></returns>
         public bool SetPictureOverlay(Image image)
         {
+            try
+            {
+                if (this.pictureBox_overAllOverlay != null)
+                {
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            setPictureOverlay(image);
+                        });
+                    }
+
+                }
+                return true;
+            }
+            catch (Exception) { return false; }
+        }
+
+
+        void setPictureOverlay(Image image)
+        {
             lock (overlayLock)
             {
                 try
@@ -188,14 +209,12 @@ namespace BrailleIO
                     {
                         this.pictureBox_overAllOverlay.Enabled = true;
                         this.pictureBox_overAllOverlay.Image = image;
-                        return true;
                     }
                 }
-                catch{}
-
-                return false; 
+                catch (Exception e) { }
             }
         }
+
 
         /// <summary>
         /// Resets the picture overlay to an invisible overlay.
