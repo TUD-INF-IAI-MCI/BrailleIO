@@ -221,6 +221,25 @@ namespace BrailleIO
         /// </summary>
         public void ResetPictureOverlay()
         {
+            try
+            {
+                if (this.pictureBox_overAllOverlay != null)
+                {
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            resetPictureOverlay();
+                        });
+                    }
+
+                }
+            }
+            catch {  }
+        }
+
+        void resetPictureOverlay()
+        {
             lock (overlayLock)
             {
                 try
@@ -282,6 +301,77 @@ namespace BrailleIO
             }
         }
 
+        #endregion
+
+        #region Status Text
+
+        private readonly object statusLock = new Object();
+
+        /// <summary>
+        /// Sets the text in the status bar.
+        /// </summary>
+        /// <param name="text">The text to display in the status bar.</param>
+        public void SetStatusText(string text)
+        {
+            try
+            {
+                if (this.toolStripStatusLabel_Messages != null)
+                {
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            setStatusText(text);
+                        });
+                    }
+                }
+            }
+            catch {}
+        }
+
+        private void setStatusText(string text)
+        {
+            lock (statusLock)
+            {
+                if (this.toolStripStatusLabel_Messages != null)
+                {
+                    this.toolStripStatusLabel_Messages.Text = text;
+                } 
+            }
+        }
+
+        /// <summary>
+        /// Resets the text in the status bar.
+        /// </summary>
+        public void ResetStatusText()
+        {
+            try
+            {
+                if (this.toolStripStatusLabel_Messages != null)
+                {
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            resetStatusText();
+                        });
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private void resetStatusText()
+        {
+            lock (statusLock)
+            {
+                if (this.toolStripStatusLabel_Messages != null)
+                {
+                    this.toolStripStatusLabel_Messages.Text = string.Empty;
+                }
+            }
+        }
+        
         #endregion
 
         #endregion
