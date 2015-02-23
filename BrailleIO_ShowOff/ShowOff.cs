@@ -13,7 +13,7 @@ using BrailleIO.Interface;
 
 namespace BrailleIO
 {
-    public partial class ShowOff : Form
+    public partial class ShowOff : Form, IBrailleIOShowOffMonitor
     {
         #region Members
         internal readonly ConcurrentStack<double[,]> touchStack = new ConcurrentStack<double[,]>();
@@ -26,13 +26,12 @@ namespace BrailleIO
         /// <summary>
         /// Important function! Call this if you don't rum the ShowOffAdapter out of an windows form application.
         /// </summary>
-        public static void InitForm()
+        public void InitForm()
         {
             try
             {
                 Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-            }
+}
             catch (System.InvalidOperationException e)
             {
                 //System.Diagnostics.Debug.WriteLine("Exception  in Init show off form\n" + e);
@@ -41,6 +40,7 @@ namespace BrailleIO
 
         public ShowOff()
         {
+            InitForm();
             InitializeComponent();
 
             this.pictureBoxMatrix.BackColor = Color.White;
@@ -67,8 +67,8 @@ namespace BrailleIO
 
             //register Ctr. Button listener
             this.KeyPreview = true;
-            this.KeyDown += new KeyEventHandler(ShowOff_KeyDown);
-            this.KeyUp += new KeyEventHandler(ShowOff_KeyUp);
+            this.KeyDown += new KeyEventHandler(showOff_KeyDown);
+            this.KeyUp += new KeyEventHandler(showOff_KeyUp);
 
             //TODO: Register hotkeys;
         }
@@ -214,7 +214,6 @@ namespace BrailleIO
                 catch (Exception e) { }
             }
         }
-
 
         /// <summary>
         /// Resets the picture overlay to an invisible overlay.

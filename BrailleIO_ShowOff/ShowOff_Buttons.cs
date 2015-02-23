@@ -8,7 +8,7 @@ using BrailleIO.Interface;
 
 namespace BrailleIO
 {
-    public partial class ShowOff : Form
+    public partial class ShowOff : Form, IBrailleIOShowOffMonitor
     {
         #region buttons
 
@@ -236,7 +236,7 @@ namespace BrailleIO
 
         protected volatile bool ctr = false;
 
-        void ShowOff_KeyUp(object sender, KeyEventArgs e)
+        void showOff_KeyUp(object sender, KeyEventArgs e)
         {
             if (e != null)
             {
@@ -248,7 +248,7 @@ namespace BrailleIO
             }
         }
 
-        void ShowOff_KeyDown(object sender, KeyEventArgs e)
+        void showOff_KeyDown(object sender, KeyEventArgs e)
         {
             if (e != null)
             {
@@ -367,9 +367,9 @@ namespace BrailleIO
 
         #region Button marking
 
-        private readonly Color NormalButtonBgColor = Color.FromArgb(0, Color.Gray);
-        private readonly Color MarkedButtonBgColor = Color.FromArgb(100, Color.DarkOrange);
-        private readonly Color ReleasingButtonBgColor = Color.FromArgb(100, Color.ForestGreen);
+        private readonly Color normalButtonBgColor = Color.FromArgb(0, Color.Gray);
+        private readonly Color markedButtonBgColor = Color.FromArgb(100, Color.DarkOrange);
+        private readonly Color releasingButtonBgColor = Color.FromArgb(100, Color.ForestGreen);
 
         /// <summary>
         /// Marks the button as pressed.
@@ -383,7 +383,7 @@ namespace BrailleIO
                     Control button = getButtonFromGenericName(buttonName.ToString().Trim());
                     if (button != null)
                     {
-                        button.BackColor = MarkedButtonBgColor;
+                        button.BackColor = markedButtonBgColor;
                     }
                 }
         }
@@ -400,9 +400,9 @@ namespace BrailleIO
                     Control button = getButtonFromGenericName(buttonName.ToString().Trim());
                     if (button != null)
                     {
-                        button.BackColor = ReleasingButtonBgColor;
+                        button.BackColor = releasingButtonBgColor;
                         System.Threading.Thread.Sleep(100);
-                        button.BackColor = NormalButtonBgColor;
+                        button.BackColor = normalButtonBgColor;
                     }
                 }
         }

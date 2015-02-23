@@ -11,7 +11,7 @@ using System.Collections.Concurrent;
 
 namespace BrailleIO
 {
-    public partial class ShowOff : Form
+    public partial class ShowOff : Form, IBrailleIOShowOffMonitor
     {
         //TODO: make gesture emulation
         #region Mouse events
@@ -123,8 +123,6 @@ namespace BrailleIO
         #endregion
 
         #endregion
-
-
 
         void fireTouchEvent(List<Touch> touches)
         {

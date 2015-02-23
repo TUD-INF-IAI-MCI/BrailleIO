@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BrailleIO
 {
-    public partial class ShowOff : Form
+    public partial class ShowOff : Form, IBrailleIOShowOffMonitor
     {
         #region GUI rendering
 
@@ -128,7 +128,7 @@ namespace BrailleIO
         /// Paints the specified matrix to the GUI.
         /// </summary>
         /// <param name="m">The pin matrix.</param>
-        public void paint(bool[,] m)
+        public void Paint(bool[,] m)
         {
             MartixStack.Push(m);
             //FIXME: for fixing

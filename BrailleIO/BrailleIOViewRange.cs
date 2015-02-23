@@ -173,7 +173,8 @@ namespace BrailleIO
         {
             try
             {
-                SetBitmap(new Bitmap(img));
+                if (img != null) SetBitmap(new Bitmap(img));
+                else SetBitmap(null);
             }
             catch (ArgumentException) { }
         }
