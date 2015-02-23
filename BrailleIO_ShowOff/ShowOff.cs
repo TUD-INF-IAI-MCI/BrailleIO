@@ -9,6 +9,7 @@ using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using BrailleIO.Interface;
+using System.Threading.Tasks;
 
 
 namespace BrailleIO
@@ -31,7 +32,7 @@ namespace BrailleIO
             try
             {
                 Application.EnableVisualStyles();
-}
+            }
             catch (System.InvalidOperationException e)
             {
                 //System.Diagnostics.Debug.WriteLine("Exception  in Init show off form\n" + e);
@@ -124,6 +125,7 @@ namespace BrailleIO
 
         #region Touch Image Overlay
 
+
         /// <summary>
         /// Paints the touch matrix over the matrix image.
         /// </summary>
@@ -131,33 +133,46 @@ namespace BrailleIO
         public void PaintTouchMatrix(double[,] touchMatrix)
         {
             addMatrixToStack(touchMatrix);
-            Thread.Sleep(2);
-            Bitmap touchImage = null;
-
-            try
-            {
-                touchImage = getTouchImage();
-            }
-            catch (System.Exception ex)
-            {
-
-            }
-            int trys = 0;
-            while (++trys < 5)
-                try
-                {
-                    if (touchImage != null)
-                    {
-                        this.pictureBoxTouch.Image = touchImage;
-                        break;
-                    }
-                }
-                catch
-                {
-                    Thread.Sleep(1);
-                }
+            Task pT = new Task(() => { paintTouchImage(); });
+            pT.Start();
         }
 
+        private readonly Object touchMatrixLock = new Object();
+        private void paintTouchImage()
+        {
+            lock (touchMatrixLock)
+            {
+                Bitmap touchImage = null;
+                try
+                {
+                    touchImage = getTouchImage();
+                }
+                catch (System.Exception ex)
+                {
+
+                }
+                int trys = 0;
+                while (++trys < 5)
+                    try
+                    {
+                        if (touchImage != null )
+                        {
+                            this.pictureBoxTouch.BeginInvoke(
+                                (MethodInvoker)delegate { 
+                                    if(this.pictureBoxTouch != null && this.pictureBoxTouch.Handle != null && this.pictureBoxTouch.Visible && !this.IsDisposed && !this.pictureBoxTouch.IsDisposed)
+                                        this.pictureBoxTouch.Image = touchImage;}
+                                );
+                            break;
+                        }
+                        else { return; }
+                    }
+                    catch
+                    {
+                        Thread.Sleep(1);
+                    }
+            }
+
+        }
         private void addMatrixToStack(double[,] touchMatrix)
         {
             if (touchMatrix != null)
@@ -234,7 +249,7 @@ namespace BrailleIO
 
                 }
             }
-            catch {  }
+            catch { }
         }
 
         void resetPictureOverlay()
@@ -325,7 +340,7 @@ namespace BrailleIO
                     }
                 }
             }
-            catch {}
+            catch { }
         }
 
         private void setStatusText(string text)
@@ -335,7 +350,7 @@ namespace BrailleIO
                 if (this.toolStripStatusLabel_Messages != null)
                 {
                     this.toolStripStatusLabel_Messages.Text = text;
-                } 
+                }
             }
         }
 
@@ -370,7 +385,7 @@ namespace BrailleIO
                 }
             }
         }
-        
+
         #endregion
 
         #endregion

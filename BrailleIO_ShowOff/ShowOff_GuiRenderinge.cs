@@ -44,6 +44,25 @@ namespace BrailleIO
 
         #endregion
 
+        private readonly Object _renderLock = new Object();
+
+        readonly object _pbPinsLock = new Object();
+        Image pictureBoxImage
+        {
+            get
+            {
+                lock (_pbPinsLock)
+                {
+                    return this.pictureBoxPins.Image;  
+                }
+            }
+            set
+            {
+                lock (_pbPinsLock)
+                { this.pictureBoxPins.Image = value; }
+            }
+        }
+
         /// <summary>
         /// Handles the Elapsed event of the renderTimer control.
         /// </summary>
@@ -66,7 +85,20 @@ namespace BrailleIO
 
                             if (this.pictureBoxMatrix.Image == null)
                                 this.pictureBoxMatrix.Image = generateBaseImage(120, 60);
-                            this.pictureBoxPins.Image = getPinMatrixImage(rm);
+                            var image = getPinMatrixImage(rm);
+                            if (image != null)
+                            {
+                                int trys = 0;
+                                while (trys++ < 5)
+                                {
+                                    try
+                                    {
+                                        pictureBoxImage = image;
+                                        break;
+                                    }
+                                    catch (Exception) { Thread.Sleep(5); }
+                                } 
+                            }
                             MartixStack.Clear();
                         }
 

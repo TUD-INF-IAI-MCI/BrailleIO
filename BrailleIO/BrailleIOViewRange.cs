@@ -157,6 +157,8 @@ namespace BrailleIO
             {
                 //clean up the memory
                 if (this.image != null) this.image.Dispose();
+                if (img == null) img = new Bitmap(1, 1);
+
                 this.image = img.Clone() as Bitmap;
                 imageSize = new Size(img.Width, img.Height);
                 this.is_image = true;
