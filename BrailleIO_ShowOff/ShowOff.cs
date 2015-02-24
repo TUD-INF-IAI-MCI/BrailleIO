@@ -160,7 +160,8 @@ namespace BrailleIO
                             this.pictureBoxTouch.BeginInvoke(
                                 (MethodInvoker)delegate { 
                                     if(this.pictureBoxTouch != null && this.pictureBoxTouch.Handle != null && this.pictureBoxTouch.Visible && !this.IsDisposed && !this.pictureBoxTouch.IsDisposed)
-                                        this.pictureBoxTouch.Image = touchImage;}
+                                        pictureBoxTouchImage = touchImage;
+                                }
                                 );
                             break;
                         }
@@ -223,7 +224,7 @@ namespace BrailleIO
                     if (this.pictureBox_overAllOverlay != null)
                     {
                         this.pictureBox_overAllOverlay.Enabled = true;
-                        this.pictureBox_overAllOverlay.Image = image;
+                        pictureBoxOverlayImage = image;
                     }
                 }
                 catch (Exception e) { }
@@ -261,7 +262,7 @@ namespace BrailleIO
                     if (this.pictureBox_overAllOverlay != null)
                     {
                         this.pictureBox_overAllOverlay.Enabled = false;
-                        this.pictureBox_overAllOverlay.Image = null;
+                        pictureBoxOverlayImage = null;
                         this.pictureBox_overAllOverlay.BackColor = Color.Transparent;
                     }
                 }
@@ -281,9 +282,9 @@ namespace BrailleIO
                 {
                     if (this.pictureBox_overAllOverlay != null)
                     {
-                        if (this.pictureBox_overAllOverlay.Image != null)
+                        if (pictureBoxOverlayImage != null)
                         {
-                            return this.pictureBox_overAllOverlay.Image.Clone() as Image;
+                            return pictureBoxOverlayImage.Clone() as Image;
                         }
                     }
                 }

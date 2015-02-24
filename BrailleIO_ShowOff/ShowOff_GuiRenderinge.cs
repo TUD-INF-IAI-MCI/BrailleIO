@@ -42,12 +42,12 @@ namespace BrailleIO
         /// </summary>
         readonly static System.Timers.Timer renderTimer = new System.Timers.Timer(50);
 
-        #endregion
-
         private readonly Object _renderLock = new Object();
 
+        #region Picture Box Images
+
         readonly object _pbPinsLock = new Object();
-        Image pictureBoxImage
+        Image pictureBoxPinsImage
         {
             get
             {
@@ -62,6 +62,44 @@ namespace BrailleIO
                 { this.pictureBoxPins.Image = value; }
             }
         }
+
+        readonly object _pbTouchLock = new Object();
+        Image pictureBoxTouchImage
+        {
+            get
+            {
+                lock (_pbTouchLock)
+                {
+                    return this.pictureBoxTouch.Image;
+                }
+            }
+            set
+            {
+                lock (_pbTouchLock)
+                { this.pictureBoxTouch.Image = value; }
+            }
+        }
+
+        readonly object _pbOverlayLock = new Object();
+        Image pictureBoxOverlayImage
+        {
+            get
+            {
+                lock (_pbOverlayLock)
+                {
+                    return this.pictureBox_overAllOverlay.Image;
+                }
+            }
+            set
+            {
+                lock (_pbOverlayLock)
+                { this.pictureBox_overAllOverlay.Image = value; }
+            }
+        }
+
+        #endregion
+
+        #endregion
 
         /// <summary>
         /// Handles the Elapsed event of the renderTimer control.
@@ -93,7 +131,7 @@ namespace BrailleIO
                                 {
                                     try
                                     {
-                                        pictureBoxImage = image;
+                                        pictureBoxPinsImage = image;
                                         break;
                                     }
                                     catch (Exception) { Thread.Sleep(5); }
@@ -160,14 +198,9 @@ namespace BrailleIO
         /// Paints the specified matrix to the GUI.
         /// </summary>
         /// <param name="m">The pin matrix.</param>
-        public void Paint(bool[,] m)
+        public new void Paint(bool[,] m)
         {
             MartixStack.Push(m);
-            //FIXME: for fixing
-            //BrailleIO.Renderer.GraphicUtils.PaintBoolMatrixToImage(m, @"C:\Users\Admin\Desktop\tmp\matrixes\m_" + DateTime.UtcNow.ToString("yyyy_MM_dd-HH_mm_ss_fff",
-            //                                System.Globalization.CultureInfo.InvariantCulture) + ".bmp" );
-
-
         }
 
         #region Matrix Image
@@ -182,7 +215,7 @@ namespace BrailleIO
         {
             lock (matrixPaintLock)
             {
-                Bitmap _matrixbmp = new Bitmap(this.pictureBoxTouch.Width, this.pictureBoxTouch.Height);
+                Bitmap _matrixbmp = new Bitmap(pictureBoxMatrix.Width, pictureBoxMatrix.Height);
                 if (_matrixbmp != null)
                 {
                     using (Graphics matrixGraphics = Graphics.FromImage(_matrixbmp))
@@ -219,7 +252,6 @@ namespace BrailleIO
 
         #region Touch Image
 
-        //TODO: make this configurable
         int rows = 60;
         int cols = 120;
 
@@ -243,7 +275,7 @@ namespace BrailleIO
                     {
                         touchStack.Clear(); // clear the stack because a touch image will be created now
 
-                        Bitmap _touchbmp = new Bitmap(this.pictureBoxTouch.Width, this.pictureBoxTouch.Height);
+                        Bitmap _touchbmp = new Bitmap(pictureBoxMatrix.Width, pictureBoxMatrix.Height);
 
                         if (_touchbmp != null)
                         {
