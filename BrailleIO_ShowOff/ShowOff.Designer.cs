@@ -29,6 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShowOff));
             this.button_KEY_RIGHT_ROCKER_SWITCH_UP = new System.Windows.Forms.Button();
             this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN = new System.Windows.Forms.Button();
             this.button_KEY_DOT1 = new System.Windows.Forms.Button();
@@ -66,11 +67,11 @@
             this.button_KEY_NAV_DOWN_2 = new System.Windows.Forms.Button();
             this.button_KEY_NAV_DOWN = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel_Messages = new System.Windows.Forms.ToolStripStatusLabel();
             this.pictureBoxTouch = new System.Windows.Forms.PictureBox();
             this.pictureBoxPins = new System.Windows.Forms.PictureBox();
             this.pictureBoxMatrix = new System.Windows.Forms.PictureBox();
             this.pictureBox_overAllOverlay = new System.Windows.Forms.PictureBox();
-            this.toolStripStatusLabel_Messages = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).BeginInit();
@@ -446,11 +447,17 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel_Messages});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 509);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 508);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(919, 22);
             this.statusStrip1.TabIndex = 43;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel_Messages
+            // 
+            this.toolStripStatusLabel_Messages.Name = "toolStripStatusLabel_Messages";
+            this.toolStripStatusLabel_Messages.Size = new System.Drawing.Size(16, 17);
+            this.toolStripStatusLabel_Messages.Text = "...";
             // 
             // pictureBoxTouch
             // 
@@ -494,18 +501,12 @@
             this.pictureBox_overAllOverlay.TabIndex = 50;
             this.pictureBox_overAllOverlay.TabStop = false;
             // 
-            // toolStripStatusLabel_Messages
-            // 
-            this.toolStripStatusLabel_Messages.Name = "toolStripStatusLabel_Messages";
-            this.toolStripStatusLabel_Messages.Size = new System.Drawing.Size(16, 17);
-            this.toolStripStatusLabel_Messages.Text = "...";
-            // 
             // ShowOff
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(919, 531);
+            this.ClientSize = new System.Drawing.Size(919, 530);
             this.Controls.Add(this.pictureBox_overAllOverlay);
             this.Controls.Add(this.pictureBoxTouch);
             this.Controls.Add(this.pictureBoxPins);
@@ -547,6 +548,7 @@
             this.Controls.Add(this.button_KEY_DOT1);
             this.Controls.Add(this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN);
             this.Controls.Add(this.button_KEY_RIGHT_ROCKER_SWITCH_UP);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximumSize = new System.Drawing.Size(935, 569);
             this.MinimumSize = new System.Drawing.Size(100, 80);
