@@ -14,17 +14,17 @@ namespace BrailleIO
         /// <summary>
         /// The Windows Forms Application that should display the matrix. It is the Emulation of the presenting hardware.
         /// </summary>
-        public ShowOff form = ShowOff.ActiveForm as ShowOff;
+        public IBrailleIOShowOffMonitor Monitor = ShowOff.ActiveForm as IBrailleIOShowOffMonitor;
         public MockDriver() { }
-        public MockDriver(ShowOff gui) { form = gui; }
+        public MockDriver(ShowOff gui) { Monitor = gui; }
         /// <summary>
         /// Sends the Matrix to the windows forms application to display
         /// </summary>
         /// <param name="m">The m.</param>
         public void SetMatrix(bool[,] m)
         {
-            if (form != null && m != null)
-                form.paint(m);
+            if (Monitor != null && m != null)
+                Monitor.Paint(m);
         }
     }
 
@@ -49,7 +49,7 @@ namespace BrailleIO
         public BrailleIOAdapter_ShowOff(IBrailleIOAdapterManager manager, ShowOff gui)
             : this(manager)
         {
-            driver.form = gui;
+            driver.Monitor = gui;
         }
 
         /// <summary>

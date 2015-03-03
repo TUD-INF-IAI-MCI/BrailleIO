@@ -49,7 +49,7 @@ namespace BrailleIO.Renderer
             int l = cb.X;
 
             int r = view.ViewBox.Width - view.ViewBox.Right;
-            int b = Math.Abs(view.ViewBox.Bottom - cb.Bottom);
+            int b = Math.Abs(view.ViewBox.Bottom - (cb.Bottom-(cb.Height + cb.Y))); //TODO: semms to be wrong
 
             int oX = 0;
             int oY = 0;

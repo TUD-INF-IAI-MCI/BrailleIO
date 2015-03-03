@@ -66,18 +66,16 @@
             this.button_KEY_NAV_DOWN_2 = new System.Windows.Forms.Button();
             this.button_KEY_NAV_DOWN = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.label1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.zoom_level = new System.Windows.Forms.ToolStripStatusLabel();
             this.pictureBoxTouch = new System.Windows.Forms.PictureBox();
             this.pictureBoxPins = new System.Windows.Forms.PictureBox();
             this.pictureBoxMatrix = new System.Windows.Forms.PictureBox();
+            this.pictureBox_overAllOverlay = new System.Windows.Forms.PictureBox();
+            this.toolStripStatusLabel_Messages = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMatrix)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_overAllOverlay)).BeginInit();
             this.SuspendLayout();
             // 
             // button_KEY_RIGHT_ROCKER_SWITCH_UP
@@ -447,46 +445,12 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.label1,
-            this.toolStripStatusLabel2,
-            this.toolStripStatusLabel3,
-            this.zoom_level});
+            this.toolStripStatusLabel_Messages});
             this.statusStrip1.Location = new System.Drawing.Point(0, 509);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(919, 22);
             this.statusStrip1.TabIndex = 43;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(45, 17);
-            this.toolStripStatusLabel1.Text = "Status: ";
-            // 
-            // label1
-            // 
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(16, 17);
-            this.label1.Text = "...";
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(40, 17);
-            this.toolStripStatusLabel2.Text = "     |     ";
-            // 
-            // toolStripStatusLabel3
-            // 
-            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(69, 17);
-            this.toolStripStatusLabel3.Text = "Zoomlevel: ";
-            // 
-            // zoom_level
-            // 
-            this.zoom_level.Name = "zoom_level";
-            this.zoom_level.Size = new System.Drawing.Size(25, 17);
-            this.zoom_level.Text = "100";
             // 
             // pictureBoxTouch
             // 
@@ -518,12 +482,31 @@
             this.pictureBoxMatrix.TabIndex = 47;
             this.pictureBoxMatrix.TabStop = false;
             // 
+            // pictureBox_overAllOverlay
+            // 
+            this.pictureBox_overAllOverlay.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_overAllOverlay.Cursor = System.Windows.Forms.Cursors.Default;
+            this.pictureBox_overAllOverlay.Enabled = false;
+            this.pictureBox_overAllOverlay.InitialImage = null;
+            this.pictureBox_overAllOverlay.Location = new System.Drawing.Point(93, 98);
+            this.pictureBox_overAllOverlay.Name = "pictureBox_overAllOverlay";
+            this.pictureBox_overAllOverlay.Size = new System.Drawing.Size(721, 363);
+            this.pictureBox_overAllOverlay.TabIndex = 50;
+            this.pictureBox_overAllOverlay.TabStop = false;
+            // 
+            // toolStripStatusLabel_Messages
+            // 
+            this.toolStripStatusLabel_Messages.Name = "toolStripStatusLabel_Messages";
+            this.toolStripStatusLabel_Messages.Size = new System.Drawing.Size(16, 17);
+            this.toolStripStatusLabel_Messages.Text = "...";
+            // 
             // ShowOff
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(919, 531);
+            this.Controls.Add(this.pictureBox_overAllOverlay);
             this.Controls.Add(this.pictureBoxTouch);
             this.Controls.Add(this.pictureBoxPins);
             this.Controls.Add(this.pictureBoxMatrix);
@@ -574,6 +557,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMatrix)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_overAllOverlay)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -618,14 +602,11 @@
         private System.Windows.Forms.Button button_KEY_NAV_DOWN_2;
         private System.Windows.Forms.Button button_KEY_NAV_DOWN;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel label1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
-        private System.Windows.Forms.ToolStripStatusLabel zoom_level;
         private System.Windows.Forms.PictureBox pictureBoxTouch;
         private System.Windows.Forms.PictureBox pictureBoxPins;
         private System.Windows.Forms.PictureBox pictureBoxMatrix;
+        private System.Windows.Forms.PictureBox pictureBox_overAllOverlay;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_Messages;
 
 
     }

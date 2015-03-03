@@ -250,8 +250,6 @@ namespace BrailleIO
                     else { }
                 }
 
-                BrailleIO.Renderer.GraphicUtils.PaintBoolMatrixToImage(this.Matrix, @"C:\Users\Admin\Desktop\temp\sent_.bmp");
-
                 this.Matrix = Matrix;
 
                 pins_locked = false;

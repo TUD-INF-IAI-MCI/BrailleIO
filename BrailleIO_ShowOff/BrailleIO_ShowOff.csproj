@@ -53,7 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Hotkey.cs" />
+    <Compile Include="IBrailleIOShowOffMonitor.cs" />
     <Compile Include="ShowOff_Buttons.cs">
       <SubType>Form</SubType>
     </Compile>

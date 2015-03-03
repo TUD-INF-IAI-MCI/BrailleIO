@@ -9,11 +9,12 @@ using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using BrailleIO.Interface;
+using System.Threading.Tasks;
 
 
 namespace BrailleIO
 {
-    public partial class ShowOff : Form
+    public partial class ShowOff : Form, IBrailleIOShowOffMonitor
     {
         #region Members
         internal readonly ConcurrentStack<double[,]> touchStack = new ConcurrentStack<double[,]>();
@@ -26,12 +27,11 @@ namespace BrailleIO
         /// <summary>
         /// Important function! Call this if you don't rum the ShowOffAdapter out of an windows form application.
         /// </summary>
-        public static void InitForm()
+        public void InitForm()
         {
             try
             {
                 Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
             }
             catch (System.InvalidOperationException e)
             {
@@ -41,6 +41,7 @@ namespace BrailleIO
 
         public ShowOff()
         {
+            InitForm();
             InitializeComponent();
 
             this.pictureBoxMatrix.BackColor = Color.White;
@@ -53,6 +54,12 @@ namespace BrailleIO
             pictureBoxTouch.Location = new Point(0, 0);
             pictureBoxTouch.Image = null;
 
+
+            this.pictureBox_overAllOverlay.BackColor = Color.Transparent;
+            pictureBox_overAllOverlay.Parent = pictureBoxTouch;
+            pictureBox_overAllOverlay.Location = new Point(0, 0);
+            pictureBox_overAllOverlay.Image = null;
+
             renderTimer.Elapsed += new System.Timers.ElapsedEventHandler(renderTimer_Elapsed);
             renderTimer.Start();
 
@@ -61,8 +68,8 @@ namespace BrailleIO
 
             //register Ctr. Button listener
             this.KeyPreview = true;
-            this.KeyDown += new KeyEventHandler(ShowOff_KeyDown);
-            this.KeyUp += new KeyEventHandler(ShowOff_KeyUp);
+            this.KeyDown += new KeyEventHandler(showOff_KeyDown);
+            this.KeyUp += new KeyEventHandler(showOff_KeyUp);
 
             //TODO: Register hotkeys;
         }
@@ -116,25 +123,57 @@ namespace BrailleIO
 
         #region Public Functions
 
+        #region Touch Image Overlay
+
+
         /// <summary>
         /// Paints the touch matrix over the matrix image.
         /// </summary>
         /// <param name="touchMatrix">The touch matrix.</param>
         public void PaintTouchMatrix(double[,] touchMatrix)
         {
-            if (!mouseToGetureMode) // maybe show the modules in background?!
+            addMatrixToStack(touchMatrix);
+            Task pT = new Task(() => { paintTouchImage(); });
+            pT.Start();
+        }
+
+        private readonly Object touchMatrixLock = new Object();
+        private void paintTouchImage()
+        {
+            lock (touchMatrixLock)
             {
-                addMatrixToStack(touchMatrix); try
+                Bitmap touchImage = null;
+                try
                 {
-                    this.pictureBoxTouch.Image = getTouchImage();
+                    touchImage = getTouchImage();
                 }
                 catch (System.Exception ex)
                 {
 
                 }
+                int trys = 0;
+                while (++trys < 5)
+                    try
+                    {
+                        if (touchImage != null )
+                        {
+                            this.pictureBoxTouch.BeginInvoke(
+                                (MethodInvoker)delegate { 
+                                    if(this.pictureBoxTouch != null && this.pictureBoxTouch.Handle != null && this.pictureBoxTouch.Visible && !this.IsDisposed && !this.pictureBoxTouch.IsDisposed)
+                                        pictureBoxTouchImage = touchImage;
+                                }
+                                );
+                            break;
+                        }
+                        else { return; }
+                    }
+                    catch
+                    {
+                        Thread.Sleep(1);
+                    }
             }
-        }
 
+        }
         private void addMatrixToStack(double[,] touchMatrix)
         {
             if (touchMatrix != null)
@@ -143,10 +182,213 @@ namespace BrailleIO
             }
         }
 
+        #endregion
+
+        #region Picture Overlay
+
+        private readonly object overlayLock = new Object();
+        /// <summary>
+        /// Sets an overlay picture will be displayed as topmost 
+        /// - so beware to use a transparent background when using this 
+        /// overlay functionality.
+        /// </summary>
+        /// <param name="image">The image to be displayed as an overlay.</param>
+        /// <returns><c>true</c> if the image could been set, otherwise <c>false</c></returns>
+        public bool SetPictureOverlay(Image image)
+        {
+            try
+            {
+                if (this.pictureBox_overAllOverlay != null)
+                {
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            setPictureOverlay(image);
+                        });
+                    }
+
+                }
+                return true;
+            }
+            catch (Exception) { return false; }
+        }
+
+
+        void setPictureOverlay(Image image)
+        {
+            lock (overlayLock)
+            {
+                try
+                {
+                    if (this.pictureBox_overAllOverlay != null)
+                    {
+                        this.pictureBox_overAllOverlay.Enabled = true;
+                        pictureBoxOverlayImage = image;
+                    }
+                }
+                catch (Exception e) { }
+            }
+        }
+
+        /// <summary>
+        /// Resets the picture overlay to an invisible overlay.
+        /// </summary>
+        public void ResetPictureOverlay()
+        {
+            try
+            {
+                if (this.pictureBox_overAllOverlay != null)
+                {
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            resetPictureOverlay();
+                        });
+                    }
+
+                }
+            }
+            catch { }
+        }
+
+        void resetPictureOverlay()
+        {
+            lock (overlayLock)
+            {
+                try
+                {
+                    if (this.pictureBox_overAllOverlay != null)
+                    {
+                        this.pictureBox_overAllOverlay.Enabled = false;
+                        pictureBoxOverlayImage = null;
+                        this.pictureBox_overAllOverlay.BackColor = Color.Transparent;
+                    }
+                }
+                catch { }
+            }
+        }
+
+        /// <summary>
+        /// Gets the current overlay image.
+        /// </summary>
+        /// <returns>the current set overlay image or <c>null</c></returns>
+        public Image GetPictureOverlay()
+        {
+            lock (overlayLock)
+            {
+                try
+                {
+                    if (this.pictureBox_overAllOverlay != null)
+                    {
+                        if (pictureBoxOverlayImage != null)
+                        {
+                            return pictureBoxOverlayImage.Clone() as Image;
+                        }
+                    }
+                }
+                catch { }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the size of the picture overlay image.
+        /// </summary>
+        /// <value>The size of the overlay image.</value>
+        public Size PictureOverlaySize
+        {
+            get
+            {
+                lock (overlayLock)
+                {
+                    try
+                    {
+                        if (this.pictureBox_overAllOverlay != null)
+                        {
+                            return this.pictureBox_overAllOverlay.Size;
+                        }
+                    }
+                    catch { }
+                    return new Size(-1, -1);
+                }
+            }
+        }
 
         #endregion
 
+        #region Status Text
 
+        private readonly object statusLock = new Object();
 
+        /// <summary>
+        /// Sets the text in the status bar.
+        /// </summary>
+        /// <param name="text">The text to display in the status bar.</param>
+        public void SetStatusText(string text)
+        {
+            try
+            {
+                if (this.toolStripStatusLabel_Messages != null)
+                {
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            setStatusText(text);
+                        });
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private void setStatusText(string text)
+        {
+            lock (statusLock)
+            {
+                if (this.toolStripStatusLabel_Messages != null)
+                {
+                    this.toolStripStatusLabel_Messages.Text = text;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets the text in the status bar.
+        /// </summary>
+        public void ResetStatusText()
+        {
+            try
+            {
+                if (this.toolStripStatusLabel_Messages != null)
+                {
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            resetStatusText();
+                        });
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private void resetStatusText()
+        {
+            lock (statusLock)
+            {
+                if (this.toolStripStatusLabel_Messages != null)
+                {
+                    this.toolStripStatusLabel_Messages.Text = string.Empty;
+                }
+            }
+        }
+
+        #endregion
+
+        #endregion
     }
 }

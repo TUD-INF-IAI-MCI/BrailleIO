@@ -6,7 +6,7 @@ namespace BrailleIO
     {
         #region Members
 
-        public ShowOff Monitor { get; private set; }
+        public IBrailleIOShowOffMonitor Monitor { get; private set; }
 
         #endregion
 
