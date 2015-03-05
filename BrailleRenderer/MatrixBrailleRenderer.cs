@@ -16,13 +16,23 @@ namespace BrailleRenderer
         /// </summary>
         public readonly IBraileInterpreter BrailleInterpreter;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the last line should also has inter line space or not.
+        /// Default this is set to false, so the last line has also some space to the bottom of the content region.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if [ignore last line space]; otherwise, <c>false</c>.
+        /// </value>
+        public bool IgnoreLastLineSpace { get; set; }
+
         #endregion
 
         #region Constructor
 
-        public MatrixBrailleRenderer(IBraileInterpreter brailleInterpreter)
+        public MatrixBrailleRenderer(IBraileInterpreter brailleInterpreter, bool ignoreLastLineSpace = false)
         {
             BrailleInterpreter = brailleInterpreter;
+            IgnoreLastLineSpace = ignoreLastLineSpace;
         }
 
         #endregion
@@ -54,7 +64,7 @@ namespace BrailleRenderer
                         }
 
                         // build start matrix
-                        bool[,] matrix = buildMatrixFromLines(lines, width);
+                        bool[,] matrix = buildMatrixFromLines(lines, width, IgnoreLastLineSpace);
 
                         return matrix;
                     }
@@ -290,12 +300,13 @@ namespace BrailleRenderer
 
         #region Build Bool/Dot Matrix
 
-        private bool[,] buildMatrixFromLines(List<List<List<int>>> lines, int width)
+        private bool[,] buildMatrixFromLines(List<List<List<int>>> lines, int width, bool ignoreLastInterline = false)
         {
             int height = 0;
             if (lines != null)
             {
                 height = lines.Count * (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
+                if (ignoreLastInterline) { height -= INTER_LINE_HEIGHT; }
             }
 
             bool[,] m = new bool[height, width];

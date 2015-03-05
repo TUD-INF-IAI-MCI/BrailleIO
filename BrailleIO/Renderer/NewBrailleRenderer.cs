@@ -11,7 +11,7 @@ namespace BrailleIO.Renderer
     /// <summary>
     /// A new Basic Braille renderer wrapping the external BrailleRendereProject so it can be used as default text renderer 
     /// </summary>
-    class NewBrailleRenderer : BrailleIOHookableRendererBase, IBrailleIOContentRenderer
+    class NewBrailleRenderer : BrailleIOHookableRendererBase, IBrailleIOContentRenderer, IBrailleIOBrailleRenderer
     {
 
         #region Members
@@ -85,5 +85,18 @@ namespace BrailleIO.Renderer
         }
 
         #endregion
+
+        bool IBrailleIOBrailleRenderer.IgnoreLastLineSpace
+        {
+            get
+            {
+                if (renderer != null) return renderer.IgnoreLastLineSpace;
+                return false;
+            }
+            set
+            {
+                if (renderer != null) renderer.IgnoreLastLineSpace = value;
+            }
+        }
     }
 }

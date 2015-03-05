@@ -25,7 +25,7 @@ namespace BrailleIO.Interface
     }
 
     /// <summary>
-    /// Generic interface a renderer for content of a <see cref="BrailleIOViewRange"/> has to implement. 
+    /// Generic interface for a renderer for content of a <see cref="BrailleIOViewRange"/> has to implement. 
     /// Then the instance can be added as a content renderer.
     /// </summary>
     public interface IBrailleIOContentRenderer
@@ -45,6 +45,22 @@ namespace BrailleIO.Interface
         /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowerd pins</returns>
         bool[,] RenderMatrix(IViewBoxModel view, object content);
     }
+
+    /// <summary>
+    /// Generic interface for a renderer for Braille text content.
+    /// </summary>
+    public interface IBrailleIOBrailleRenderer
+    {
+        /// <summary>
+        /// Gets or sets a value indicating whether the last line should also has inter line space or not.
+        /// Default this is set to false, so the last line has also some space to the bottom of the content region.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if [ignore last line space]; otherwise, <c>false</c>.
+        /// </value>
+        bool IgnoreLastLineSpace { get; set; }
+    }
+
 
     #region Hook
 
