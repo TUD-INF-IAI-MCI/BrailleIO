@@ -69,6 +69,7 @@ namespace BrailleIO
             }
             catch (System.Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine("Exception in resetting the mouse position " + ex);
             }
         }
 
@@ -96,7 +97,9 @@ namespace BrailleIO
 
                 //this.pictureBoxTouch.Image = _touchbmp;
             }
-            catch (Exception) { }
+            catch (Exception ex) {
+                System.Diagnostics.Debug.WriteLine("Exception in painting mouse position " + ex);
+            }
         }
 
         /// <summary>

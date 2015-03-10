@@ -461,6 +461,7 @@
             // 
             // pictureBoxTouch
             // 
+            this.pictureBoxTouch.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.touch_error;
             this.pictureBoxTouch.Location = new System.Drawing.Point(116, 97);
             this.pictureBoxTouch.Name = "pictureBoxTouch";
             this.pictureBoxTouch.Size = new System.Drawing.Size(721, 363);
@@ -474,6 +475,7 @@
             // 
             // pictureBoxPins
             // 
+            this.pictureBoxPins.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.pin_error;
             this.pictureBoxPins.Location = new System.Drawing.Point(106, 88);
             this.pictureBoxPins.Name = "pictureBoxPins";
             this.pictureBoxPins.Size = new System.Drawing.Size(721, 363);
@@ -483,6 +485,7 @@
             // pictureBoxMatrix
             // 
             this.pictureBoxMatrix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxMatrix.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.base_error;
             this.pictureBoxMatrix.Location = new System.Drawing.Point(93, 77);
             this.pictureBoxMatrix.Name = "pictureBoxMatrix";
             this.pictureBoxMatrix.Size = new System.Drawing.Size(721, 363);
@@ -494,6 +497,7 @@
             this.pictureBox_overAllOverlay.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_overAllOverlay.Cursor = System.Windows.Forms.Cursors.Default;
             this.pictureBox_overAllOverlay.Enabled = false;
+            this.pictureBox_overAllOverlay.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.overlay_error;
             this.pictureBox_overAllOverlay.InitialImage = null;
             this.pictureBox_overAllOverlay.Location = new System.Drawing.Point(93, 98);
             this.pictureBox_overAllOverlay.Name = "pictureBox_overAllOverlay";

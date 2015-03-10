@@ -46,6 +46,8 @@ namespace BrailleIO
 
         #region Picture Box Images
 
+        const int MAX_TRYS = 3;
+
         readonly object _pbPinsLock = new Object();
         Image pictureBoxPinsImage
         {
@@ -59,7 +61,21 @@ namespace BrailleIO
             set
             {
                 lock (_pbPinsLock)
-                { this.pictureBoxPins.Image = value; }
+                {
+                    int i = 0;
+                    while (i++ < MAX_TRYS)
+                    {
+                        try
+                        {
+                        	this.pictureBoxPins.Image = value;
+                            return;
+                        }
+                        catch (Exception e)
+                        {
+                            System.Diagnostics.Debug.WriteLine("Exception in setting the pins image " + e);
+                        }
+                    }
+                }
             }
         }
 
@@ -76,7 +92,21 @@ namespace BrailleIO
             set
             {
                 lock (_pbTouchLock)
-                { this.pictureBoxTouch.Image = value; }
+                {
+                    int i = 0;
+                    while (i++ < MAX_TRYS)
+                    {
+                        try
+                        {
+                            this.pictureBoxTouch.Image = value;
+                            return;
+                        }
+                        catch (Exception e)
+                        {
+                            System.Diagnostics.Debug.WriteLine("Exception in setting the touch image " + e);
+                        }
+                    }
+                }
             }
         }
 
@@ -93,7 +123,21 @@ namespace BrailleIO
             set
             {
                 lock (_pbOverlayLock)
-                { this.pictureBox_overAllOverlay.Image = value; }
+                {
+                    int i = 0;
+                    while (i++ < MAX_TRYS)
+                    {
+                        try
+                        {
+                            this.pictureBox_overAllOverlay.Image = value;
+                            return;
+                        }
+                        catch (Exception e)
+                        {
+                            System.Diagnostics.Debug.WriteLine("Exception in setting the overlay image " + e);
+                        }
+                    }
+                }
             }
         }
 
@@ -134,7 +178,10 @@ namespace BrailleIO
                                         pictureBoxPinsImage = image;
                                         break;
                                     }
-                                    catch (Exception) { Thread.Sleep(5); }
+                                    catch (Exception ex) {
+                                        System.Diagnostics.Debug.WriteLine("Exception in setting pins image " + ex);
+                                        Thread.Sleep(5); 
+                                    }
                                 } 
                             }
                             MartixStack.Clear();
@@ -241,6 +288,7 @@ namespace BrailleIO
                         }
                         catch (System.InvalidOperationException ex)
                         {
+                            System.Diagnostics.Debug.WriteLine("Exception in rendering the pin matrix image: " + ex);
                         }
                     }
                 }
@@ -300,7 +348,10 @@ namespace BrailleIO
                                             }
                                         }
                                 }
-                                catch {}
+                                catch (Exception ex)
+                                {
+                                    System.Diagnostics.Debug.WriteLine("Exception in rendering touch image " + ex);
+                                }
                             }
                             return _touchbmp;
                         }

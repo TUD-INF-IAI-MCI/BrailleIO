@@ -104,6 +104,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\base_error.png" />
+    <None Include="Resources\overlay_error.png" />
+    <None Include="Resources\pin_error.png" />
+    <None Include="Resources\touch_error.png" />
     <Content Include="TangramT.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
