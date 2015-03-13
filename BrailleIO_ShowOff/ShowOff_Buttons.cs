@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using BrailleIO.Interface;
+using System.Windows.Input;
 
 namespace BrailleIO
 {
@@ -233,28 +234,33 @@ namespace BrailleIO
         #region key combinations
 
         #region Application keys
+        private volatile bool _ctr = false;
+        protected bool Ctr { 
+            get {
+                return _ctr || Keyboard.IsKeyDown(System.Windows.Input.Key.LeftCtrl) || Keyboard.IsKeyDown(System.Windows.Input.Key.RightCtrl);
+            } 
+            set { _ctr = value; } 
+        }
 
-        protected volatile bool ctr = false;
-
-        void showOff_KeyUp(object sender, KeyEventArgs e)
+        void showOff_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             if (e != null)
             {
-                if (!e.Control && ctr)
+                if (!e.Control)
                 {
-                    ctr = false;
+                    Ctr = false;
                     fireKeyStateChangeEvent(BrailleIO_DeviceButtonStates.None, null, null, 0);
                 }
             }
         }
 
-        void showOff_KeyDown(object sender, KeyEventArgs e)
+        void showOff_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             if (e != null)
             {
-                if (e.Control && !ctr)
+                if (e.Control)
                 {
-                    ctr = true;
+                    Ctr = true;
                 }
             }
         }
@@ -276,7 +282,7 @@ namespace BrailleIO
             List<string> releasedKeys,
             int timeStampTickCount)
         {
-            if (ctr)
+            if (Ctr)
             {
                 //check if pressed or released
                 if (releasedKeys == null || releasedKeys.Count < 1) //pressed keys
@@ -333,7 +339,7 @@ namespace BrailleIO
             if (ShowOffAdapter != null && pressedKeys != null && pressedKeys.Count > 0)
                 ShowOffAdapter.firekeyStateChangedEvent(ps, _pressedButtons, new List<String>(), timeStampTickCount);
 
-            if (ctr) return; // break the release or reset functions 
+            if (Ctr) return; // break the release or reset functions 
 
 
             if (states == BrailleIO_DeviceButtonStates.None && pressedKeys == null && releasedKeys == null && timeStampTickCount == 0)
