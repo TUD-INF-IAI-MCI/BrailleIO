@@ -60,6 +60,7 @@ namespace BrailleIO
             pictureBox_overAllOverlay.Location = new Point(0, 0);
             pictureBox_overAllOverlay.Image = null;
 
+
             renderTimer.Elapsed += new System.Timers.ElapsedEventHandler(renderTimer_Elapsed);
             renderTimer.Start();
 
@@ -155,19 +156,20 @@ namespace BrailleIO
                 while (++trys < 5)
                     try
                     {
-                        if (touchImage != null )
+                        if (touchImage != null)
                         {
                             this.pictureBoxTouch.BeginInvoke(
-                                (MethodInvoker)delegate { 
-                                    if(this.pictureBoxTouch != null && this.pictureBoxTouch.Handle != null && this.pictureBoxTouch.Visible && !this.IsDisposed && !this.pictureBoxTouch.IsDisposed)
-                                        pictureBoxTouchImage = touchImage;
-                                }
+                                (MethodInvoker)delegate
+                            {
+                                if (this.pictureBoxTouch != null && this.pictureBoxTouch.Handle != null && this.pictureBoxTouch.Visible && !this.IsDisposed && !this.pictureBoxTouch.IsDisposed)
+                                    pictureBoxTouchImage = touchImage;
+                            }
                                 );
                             break;
                         }
                         else { return; }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         System.Diagnostics.Debug.WriteLine("Exception in paint touch image " + ex);
                         Thread.Sleep(1);
@@ -212,9 +214,10 @@ namespace BrailleIO
                 }
                 return true;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 System.Diagnostics.Debug.WriteLine("Exception in setting picture overlay");
-                return false; 
+                return false;
             }
         }
 
@@ -257,8 +260,9 @@ namespace BrailleIO
 
                 }
             }
-            catch (Exception e) {
-                System.Diagnostics.Debug.WriteLine("Exception in reset picture overlay " +e );
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception in reset picture overlay " + e);
             }
         }
 
@@ -275,7 +279,8 @@ namespace BrailleIO
                         this.pictureBox_overAllOverlay.BackColor = Color.Transparent;
                     }
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     System.Diagnostics.Debug.WriteLine("Exception in private reset picture overlay " + ex);
                 }
             }
@@ -299,7 +304,8 @@ namespace BrailleIO
                         }
                     }
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     System.Diagnostics.Debug.WriteLine("Exception in getting picture overlay " + ex);
                 }
             }
@@ -357,7 +363,8 @@ namespace BrailleIO
                     }
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 System.Diagnostics.Debug.WriteLine("Exception in setting the status text message " + ex);
             }
         }

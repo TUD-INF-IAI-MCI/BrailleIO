@@ -55,26 +55,38 @@ namespace BrailleIO
             {
                 lock (_pbPinsLock)
                 {
-                    return this.pictureBoxPins.Image;  
+                    Image im = null; ;
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        im = this.pictureBoxPins.Image;
+                    });
+                    return im;
                 }
             }
             set
             {
                 lock (_pbPinsLock)
                 {
-                    int i = 0;
-                    while (i++ < MAX_TRYS)
-                    {
-                        try
-                        {
-                        	this.pictureBoxPins.Image = value;
-                            return;
-                        }
-                        catch (Exception e)
-                        {
-                            System.Diagnostics.Debug.WriteLine("Exception in setting the pins image " + e);
-                        }
-                    }
+                    this.Invoke((MethodInvoker)delegate{
+                          int i = 0;
+                          while (i++ < MAX_TRYS)
+                          {
+                              try
+                              {
+                                  if (this.pictureBoxPins.Image != null) this.pictureBoxPins.Image.Dispose();
+                                  this.pictureBoxPins.Image = value;
+                                  pictureBoxPins.Refresh();
+                                  return;
+                              }
+                              catch (ObjectDisposedException) { return; }
+                              catch (Exception e)
+                              {
+                                  System.Diagnostics.Debug.WriteLine("Exception in setting the pins image " + e);
+                                  pictureBoxPins.Image = pictureBoxPins.ErrorImage; 
+                                  pictureBoxPins.Update();
+                              }
+                          }
+                      });
                 }
             }
         }
@@ -85,27 +97,39 @@ namespace BrailleIO
             get
             {
                 lock (_pbTouchLock)
+                {Image im = null; ;
+                this.Invoke((MethodInvoker)delegate
                 {
-                    return this.pictureBoxTouch.Image;
+                    im = this.pictureBoxTouch.Image;
+                });
+                return im;
                 }
             }
             set
             {
                 lock (_pbTouchLock)
                 {
-                    int i = 0;
-                    while (i++ < MAX_TRYS)
+                    this.Invoke((MethodInvoker)delegate
                     {
-                        try
+                        int i = 0;
+                        while (i++ < MAX_TRYS)
                         {
-                            this.pictureBoxTouch.Image = value;
-                            return;
+                            try
+                            {
+                                if (this.pictureBoxTouch.Image != null) this.pictureBoxTouch.Image.Dispose();
+                                this.pictureBoxTouch.Image = value;
+                                pictureBoxTouch.Refresh();
+                                return;
+                            }
+                            catch (ObjectDisposedException) { return; }
+                            catch (Exception e)
+                            {
+                                System.Diagnostics.Debug.WriteLine("Exception in setting the touch image " + e);
+                                pictureBoxTouch.Image = pictureBoxTouch.ErrorImage; 
+                                pictureBoxTouch.Update();
+                            }
                         }
-                        catch (Exception e)
-                        {
-                            System.Diagnostics.Debug.WriteLine("Exception in setting the touch image " + e);
-                        }
-                    }
+                    });
                 }
             }
         }
@@ -117,26 +141,39 @@ namespace BrailleIO
             {
                 lock (_pbOverlayLock)
                 {
-                    return this.pictureBox_overAllOverlay.Image;
+                    Image im = null; ;
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        im = this.pictureBox_overAllOverlay.Image;
+                    });
+                    return im;
                 }
             }
             set
             {
                 lock (_pbOverlayLock)
                 {
-                    int i = 0;
-                    while (i++ < MAX_TRYS)
+                    this.Invoke((MethodInvoker)delegate
                     {
-                        try
+                        int i = 0;
+                        while (i++ < MAX_TRYS)
                         {
-                            this.pictureBox_overAllOverlay.Image = value;
-                            return;
+                            try
+                            {
+                                if (this.pictureBox_overAllOverlay.Image != null) this.pictureBox_overAllOverlay.Image.Dispose();
+                                this.pictureBox_overAllOverlay.Image = value;
+                                 pictureBox_overAllOverlay.Refresh();
+                                return;
+                            }
+                            catch (ObjectDisposedException) { return; }
+                            catch (Exception e)
+                            {
+                                System.Diagnostics.Debug.WriteLine("Exception in setting the overlay image " + e);
+                                pictureBox_overAllOverlay.Image = pictureBox_overAllOverlay.ErrorImage; 
+                                pictureBox_overAllOverlay.Update();
+                            }
                         }
-                        catch (Exception e)
-                        {
-                            System.Diagnostics.Debug.WriteLine("Exception in setting the overlay image " + e);
-                        }
-                    }
+                    });
                 }
             }
         }
@@ -159,14 +196,17 @@ namespace BrailleIO
                     {
                         if (MartixStack.Count > 0)
                         {
-
                             bool[,] rm;
                             int c = 0;
 
                             while (!MartixStack.TryPop(out rm) && (++c < 10)) { rm = null; }
 
-                            if (this.pictureBoxMatrix.Image == null)
-                                this.pictureBoxMatrix.Image = generateBaseImage(120, 60);
+                            Image im = null; ;
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                if (this.pictureBoxMatrix.Image == null)
+                                    this.pictureBoxMatrix.Image = generateBaseImage(120, 60);
+                            });
                             var image = getPinMatrixImage(rm);
                             if (image != null)
                             {
@@ -178,16 +218,18 @@ namespace BrailleIO
                                         pictureBoxPinsImage = image;
                                         break;
                                     }
-                                    catch (Exception ex) {
+                                    catch (ObjectDisposedException) { return; }
+                                    catch (Exception ex)
+                                    {
                                         System.Diagnostics.Debug.WriteLine("Exception in setting pins image " + ex);
-                                        Thread.Sleep(5); 
+                                        Thread.Sleep(5);
                                     }
-                                } 
+                                }
                             }
                             MartixStack.Clear();
                         }
-
                     }
+                    catch (ObjectDisposedException) { return; }
                     catch (Exception ex)
                     {
                         _baseImg = null;
@@ -235,7 +277,7 @@ namespace BrailleIO
                         }
                     }
                 }
-                return _baseImg != null ? _baseImg.Clone() as Bitmap : null; 
+                return _baseImg != null ? _baseImg.Clone() as Bitmap : null;
             }
         }
 
@@ -292,7 +334,7 @@ namespace BrailleIO
                         }
                     }
                 }
-                return _matrixbmp; 
+                return _matrixbmp;
             }
         }
 
@@ -357,7 +399,7 @@ namespace BrailleIO
                         }
                     }
                 }
-                return null; 
+                return null;
             }
 
         }
