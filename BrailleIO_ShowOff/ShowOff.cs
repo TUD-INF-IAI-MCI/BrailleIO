@@ -43,24 +43,10 @@ namespace BrailleIO
         {
             InitForm();
             InitializeComponent();
+            AddContextMenu();
 
-            this.pictureBoxMatrix.BackColor = Color.White;
-            this.pictureBoxMatrix.Image = generateBaseImage(120, 60);
-            this.pictureBoxPins.BackColor = Color.Transparent;
-            pictureBoxPins.Parent = pictureBoxMatrix;
-            pictureBoxPins.Location = new Point(0, 0);
-            this.pictureBoxTouch.BackColor = Color.Transparent;
-            pictureBoxTouch.Parent = pictureBoxPins;
-            pictureBoxTouch.Location = new Point(0, 0);
-            pictureBoxTouch.Image = null;
-
-
-            this.pictureBox_overAllOverlay.BackColor = Color.Transparent;
-            pictureBox_overAllOverlay.Parent = pictureBoxTouch;
-            pictureBox_overAllOverlay.Location = new Point(0, 0);
-            pictureBox_overAllOverlay.Image = null;
-
-
+            initPictureBoxes();
+            
             renderTimer.Elapsed += new System.Timers.ElapsedEventHandler(renderTimer_Elapsed);
             renderTimer.Start();
 
@@ -75,6 +61,23 @@ namespace BrailleIO
             //TODO: Register hotkeys;
         }
 
+        private void initPictureBoxes()
+        {
+            this.pictureBoxMatrix.BackColor = Color.White;
+            this.pictureBoxMatrix.Image = generateBaseImage(120, 60);
+            this.pictureBoxPins.BackColor = Color.Transparent;
+            pictureBoxPins.Parent = pictureBoxMatrix;
+            pictureBoxPins.Location = new Point(0, 0);
+            this.pictureBoxTouch.BackColor = Color.Transparent;
+            pictureBoxTouch.Parent = pictureBoxPins;
+            pictureBoxTouch.Location = new Point(0, 0);
+            pictureBoxTouch.Image = null;
+
+            this.pictureBox_overAllOverlay.BackColor = Color.Transparent;
+            pictureBox_overAllOverlay.Parent = pictureBoxTouch;
+            pictureBox_overAllOverlay.Location = new Point(0, 0);
+            pictureBox_overAllOverlay.Image = null;
+        }
         // has to be called in ShowOff.Designer.cs -> protected override void Dispose(bool disposing)
         partial void _dispose();
 
@@ -418,5 +421,31 @@ namespace BrailleIO
         #endregion
 
         #endregion
+
+        #region Context Menu
+
+        public void AddContextMenu()
+        {
+            ContextMenu mnuContextMenu = new ContextMenu();
+            this.ContextMenu = mnuContextMenu;
+            //add menu item
+            MenuItem mnuItemReset = new MenuItem();
+            mnuItemReset.Text = "&Reset Monitor";
+            mnuContextMenu.MenuItems.Add(mnuItemReset);
+
+            mnuItemReset.Select += new EventHandler(mnuItemReset_Select);
+
+        }
+
+        void mnuItemReset_Select(object sender, EventArgs e)
+        {
+            InitializeComponent();
+            initPictureBoxes();
+        }
+
+
+        #endregion
+
+
     }
 }
