@@ -46,7 +46,7 @@ namespace BrailleIO
             AddContextMenu();
 
             initPictureBoxes();
-            
+
             renderTimer.Elapsed += new System.Timers.ElapsedEventHandler(renderTimer_Elapsed);
             renderTimer.Start();
 
@@ -433,14 +433,111 @@ namespace BrailleIO
             mnuItemReset.Text = "&Reset Monitor";
             mnuContextMenu.MenuItems.Add(mnuItemReset);
 
-            mnuItemReset.Select += new EventHandler(mnuItemReset_Select);
+            mnuItemReset.Click += new EventHandler(mnuItemReset_Click);
 
         }
 
-        void mnuItemReset_Select(object sender, EventArgs e)
+        void mnuItemReset_Click(object sender, EventArgs e)
         {
-            InitializeComponent();
-            initPictureBoxes();
+            //InitializeComponent();
+
+            try
+            {
+                //save for killing the picture boxes afterwards
+                System.Windows.Forms.PictureBox pb1 = this.pictureBox_overAllOverlay;
+                System.Windows.Forms.PictureBox pb2 = this.pictureBoxMatrix;
+                System.Windows.Forms.PictureBox pb3 = this.pictureBoxPins;
+                System.Windows.Forms.PictureBox pb4 = this.pictureBoxTouch;
+
+                //rebuild the picture boxes
+                this.pictureBoxPins = new System.Windows.Forms.PictureBox();
+                this.pictureBoxMatrix = new System.Windows.Forms.PictureBox();
+                this.pictureBox_overAllOverlay = new System.Windows.Forms.PictureBox();
+                this.statusStrip1.SuspendLayout();
+                ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).BeginInit();
+                ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).BeginInit();
+                ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMatrix)).BeginInit();
+                ((System.ComponentModel.ISupportInitialize)(this.pictureBox_overAllOverlay)).BeginInit();
+                this.SuspendLayout();
+
+                // 
+                // pictureBoxTouch
+                // 
+                this.pictureBoxTouch.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.touch_error;
+                this.pictureBoxTouch.Location = new System.Drawing.Point(116, 97);
+                this.pictureBoxTouch.Name = "pictureBoxTouch";
+                this.pictureBoxTouch.Size = new System.Drawing.Size(721, 363);
+                this.pictureBoxTouch.TabIndex = 49;
+                this.pictureBoxTouch.TabStop = false;
+                this.pictureBoxTouch.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseDown);
+                this.pictureBoxTouch.MouseEnter += new System.EventHandler(this.pictureBoxTouch_MouseEnter);
+                this.pictureBoxTouch.MouseLeave += new System.EventHandler(this.pictureBoxTouch_MouseLeave);
+                this.pictureBoxTouch.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseMove);
+                this.pictureBoxTouch.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseUp);
+                // 
+                // pictureBoxPins
+                // 
+                this.pictureBoxPins.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.pin_error;
+                this.pictureBoxPins.Location = new System.Drawing.Point(106, 88);
+                this.pictureBoxPins.Name = "pictureBoxPins";
+                this.pictureBoxPins.Size = new System.Drawing.Size(721, 363);
+                this.pictureBoxPins.TabIndex = 48;
+                this.pictureBoxPins.TabStop = false;
+                // 
+                // pictureBoxMatrix
+                // 
+                this.pictureBoxMatrix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                this.pictureBoxMatrix.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.base_error;
+                this.pictureBoxMatrix.Location = new System.Drawing.Point(93, 77);
+                this.pictureBoxMatrix.Name = "pictureBoxMatrix";
+                this.pictureBoxMatrix.Size = new System.Drawing.Size(721, 363);
+                this.pictureBoxMatrix.TabIndex = 47;
+                this.pictureBoxMatrix.TabStop = false;
+                // 
+                // pictureBox_overAllOverlay
+                // 
+                this.pictureBox_overAllOverlay.BackColor = System.Drawing.Color.Transparent;
+                this.pictureBox_overAllOverlay.Cursor = System.Windows.Forms.Cursors.Default;
+                this.pictureBox_overAllOverlay.Enabled = false;
+                this.pictureBox_overAllOverlay.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.overlay_error;
+                this.pictureBox_overAllOverlay.InitialImage = null;
+                this.pictureBox_overAllOverlay.Location = new System.Drawing.Point(93, 98);
+                this.pictureBox_overAllOverlay.Name = "pictureBox_overAllOverlay";
+                this.pictureBox_overAllOverlay.Size = new System.Drawing.Size(721, 363);
+                this.pictureBox_overAllOverlay.TabIndex = 50;
+                this.pictureBox_overAllOverlay.TabStop = false;
+
+                this.Controls.Add(this.pictureBox_overAllOverlay);
+                this.Controls.Add(this.pictureBoxTouch);
+                this.Controls.Add(this.pictureBoxPins);
+                this.Controls.Add(this.pictureBoxMatrix);
+
+                this.statusStrip1.PerformLayout();
+                ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).EndInit();
+                ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).EndInit();
+                ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMatrix)).EndInit();
+                ((System.ComponentModel.ISupportInitialize)(this.pictureBox_overAllOverlay)).EndInit();
+                this.ResumeLayout(false);
+                this.PerformLayout();
+
+                initPictureBoxes();
+
+                // kill all old picture boxes
+                try
+                {
+                    pb1.Dispose();
+                    pb2.Dispose();
+                    pb3.Dispose();
+                    pb4.Dispose();
+                }
+                catch { }
+
+            }
+            catch { }
+
+
+
+            //    this.Show();
         }
 
 
