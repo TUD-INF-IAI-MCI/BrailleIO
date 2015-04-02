@@ -172,6 +172,7 @@ namespace BrailleIO
                         }
                         else { return; }
                     }
+                    catch (InvalidOperationException ex) { if (this.Disposing) break; }
                     catch (Exception ex)
                     {
                         System.Diagnostics.Debug.WriteLine("Exception in paint touch image " + ex);
@@ -217,11 +218,12 @@ namespace BrailleIO
                 }
                 return true;
             }
+            catch (InvalidOperationException ex) { }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Exception in setting picture overlay");
-                return false;
             }
+            return false;
         }
 
 
@@ -357,13 +359,10 @@ namespace BrailleIO
             {
                 if (this.toolStripStatusLabel_Messages != null)
                 {
-                    if (this.InvokeRequired)
+                    this.Invoke((MethodInvoker)delegate
                     {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            setStatusText(text);
-                        });
-                    }
+                        setStatusText(text);
+                    });
                 }
             }
             catch (Exception ex)

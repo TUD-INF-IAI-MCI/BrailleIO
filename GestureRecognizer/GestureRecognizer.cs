@@ -11,14 +11,14 @@ namespace Gestures.Recognition
     public class GestureRecognizer : IRecognizeGestures
     {
         #region private fields
-        private ITrackBlobs blobTracker;
+        ITrackBlobs blobTracker;
         private readonly object synchLock = new object();
-        
+
         private List<IClassify> classifiers = new List<IClassify>();
         #endregion
-        
+
         #region Constructor
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GestureRecognizer"/> class.
         /// </summary>
@@ -27,9 +27,9 @@ namespace Gestures.Recognition
         {
             this.blobTracker = blobTracker;
         }
-        
+
         #endregion
-        
+
         #region public members
         #region ISynchronizable
         /// <summary>
@@ -64,31 +64,27 @@ namespace Gestures.Recognition
         public IClassificationResult FinishEvaluation()
         {
             TrackedGesture trackedGesture = blobTracker.TrackedBlobs;
-            IClassificationResult classificationResult=null;
+            IClassificationResult classificationResult = null;
             RecognitionMode = false;
+
             foreach (IClassify classifier in classifiers)
             {
-               
+
                 classificationResult = classifier.Classify(trackedGesture);
-                if (classificationResult != null) { 
-//                    Console.WriteLine("++++++++++++++++++ " +
-//    (classificationResult == null || classificationResult.Name == null ? "null" :
-//    classificationResult.Name)
-//+ " +++++++++++++++++++++++");
-                    
-                    return classificationResult; }
+                if (classificationResult != null)
+                {
+                    blobTracker.InitiateTracking();
+                    return classificationResult;
+                }
             }
-//            Console.WriteLine("++++++++++++++++++ " +
-//    (classificationResult == null || classificationResult.Name == null ? "null" :
-//    classificationResult.Name)
-//+ " +++++++++++++++++++++++");
+
+            blobTracker.InitiateTracking();
             return classificationResult;
         }
         #endregion
 
-  
         #endregion
- 
+
         /// <summary>
         /// Gets a value indicating whether recognizer actually is classifying.
         /// </summary>
@@ -105,8 +101,8 @@ namespace Gestures.Recognition
             //}
             //blobTracker.StartTracking();
         }
-       
+
         #endregion
-    
+
     }
 }
