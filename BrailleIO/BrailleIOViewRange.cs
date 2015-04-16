@@ -29,8 +29,7 @@ namespace BrailleIO
         private String text;
         private Object otherContent;
 
-
-        // zoom multiplicator
+        // zoom multiplier
         private double zoom = 1.0;
 
         public const double MAX_ZOOM_LEVEL = 2;
@@ -39,7 +38,21 @@ namespace BrailleIO
 
         public String Name { get; set; }
 
-        public BrailleIOScreen Parent { get; private set; }
+        public BrailleIOScreen Parent { get; protected set; }
+
+        volatile bool _render = true;
+
+        /// <summary>
+        /// Gets or sets a flag indicating whether this <see cref="BrailleIOViewRange"/> should be rerendered bacause of the content was changed.
+        /// </summary>
+        /// <value><c>true</c> if the renderer should rerender the content; otherwise, <c>false</c>.</value>
+        public bool Render { 
+            get { return _render; }
+            set
+            {
+                _render = true;
+            }
+        }
 
         #region for sorting
 
@@ -50,6 +63,7 @@ namespace BrailleIO
         #endregion
 
         #region Renderers
+
         private readonly BrailleIO.Renderer.BrailleIOImageToMatrixRenderer _ir = new Renderer.BrailleIOImageToMatrixRenderer();
         private readonly BrailleIO.Renderer.BrailleIOViewMatixRenderer _mr = new BrailleIO.Renderer.BrailleIOViewMatixRenderer();
         private readonly BrailleIO.Renderer.NewBrailleRenderer _tr = new BrailleIO.Renderer.NewBrailleRenderer();
@@ -62,12 +76,23 @@ namespace BrailleIO
             {
                 bool fire = _cr != value;
                 _cr = value;
-                if(fire) fireRendererChanged();
+                if (fire) fireRendererChanged();
+            }
+        }
+
+        public void UpdateContentSize()
+        {
+            if (Render)
+            {
+                if (ContentRender != null)
+                {
+                    ContentRender.RenderMatrix(this, GetContent());
+                }
             }
         }
 
         #endregion
-
+        
         #endregion
 
         #region Constructors
@@ -135,6 +160,7 @@ namespace BrailleIO
             this.is_matrix = true;
             this.is_text = this.is_image = this.is_other = false;
             this.ContentRender = _mr;
+            Render = true;
         }
 
         /// <summary>
@@ -165,6 +191,7 @@ namespace BrailleIO
                 this.is_text = this.is_matrix = this.is_other = false;
                 this.ContentRender = _ir;
                 img.Dispose();
+                Render = true;
             }
             catch { }
         }
@@ -178,6 +205,7 @@ namespace BrailleIO
             {
                 if (img != null) SetBitmap(new Bitmap(img));
                 else SetBitmap(null);
+                Render = true;
             }
             catch (ArgumentException) { }
         }
@@ -263,28 +291,31 @@ namespace BrailleIO
             this.is_text = true;
             this.is_image = this.is_matrix = this.is_other = false;
             this.ContentRender = _tr;
+            Render = true;
         }
 
         /// <summary>
         /// Sets an generic content and a related renderer for this type.
         /// </summary>
-        /// <param name="contet">The contet.</param>
+        /// <param name="content">The contet.</param>
         /// <param name="renderer">The renderer - can not be null.</param>
-        public void SetOtherContent(Object contet, IBrailleIOContentRenderer renderer)
+        public void SetOtherContent(Object content, IBrailleIOContentRenderer renderer)
         {
             if (renderer == null)
             {
                 throw new ArgumentException("No content render set! The content renderer can not be null.", "renderer");
             }
-
-            this.otherContent = contet;
+            //bool update = !this.is_other || !this.otherContent.Equals(content);
+            this.otherContent = content;
             if (renderer != null) this.ContentRender = renderer;
             this.is_other = true;
             this.is_image = this.is_matrix = this.is_text = false;
+            Render = true;
+            //if (update) UpdateContentSize();
         }
 
         /// <summary>
-        /// Gets the content that is not of the standart types.
+        /// Gets the content that is not of the standard types.
         /// </summary>
         /// <returns></returns>
         public object GetOtherContent()
@@ -329,7 +360,10 @@ namespace BrailleIO
         public void SetZoom(double zoom)
         {
             if (zoom > MAX_ZOOM_LEVEL) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than " + MAX_ZOOM_LEVEL + ".", "zoom");
+            //TODO: update the content size
             this.zoom = zoom;
+            Render = true;
+            UpdateContentSize();
         }
 
         /// <summary>
@@ -345,6 +379,7 @@ namespace BrailleIO
         {
             if (threshold <= 0) threshold = 1;
             if (threshold > 255) threshold = 255;
+            Render = true;
             return this.threshold = Math.Max(Math.Min(threshold, 255), 0);
         }
 
@@ -369,6 +404,31 @@ namespace BrailleIO
         /// <returns>the z-index of the viewRange.</returns>
         public int GetZIndex() { return this.zIndex; }
 
+        /// <summary>
+        /// Get the Generic content
+        /// </summary>
+        /// <returns>the untyped content of this view range</returns>
+        public Object GetContent()
+        {
+            object cnt = null;
+            if (is_image)
+            {
+                cnt = GetImage();
+            }
+            else if (is_matrix)
+            {
+                cnt = GetMatrix();
+            }
+            else if (is_text)
+            {
+                cnt = GetText();
+            }
+            else
+            {
+                cnt = GetOtherContent();
+            }
+            return cnt;
+        }
 
         /// <summary>
         /// Occurs when the renderer was changed.

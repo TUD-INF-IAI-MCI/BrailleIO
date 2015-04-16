@@ -161,7 +161,8 @@ namespace BrailleIO.Renderer
             }
             //call post hooks
             callAllPostHooks(view, img, ref m, offset, invert, zoom);
-            img.Dispose();
+            //try { if (img != null) img.Dispose(); }
+            //catch { }
             return m;
         }
 
@@ -169,7 +170,7 @@ namespace BrailleIO.Renderer
 
         public bool[,] RenderMatrix(IViewBoxModel view, object content)
         {
-            return RenderImage(content as Bitmap, view, 1);
+            return RenderImage(content as Bitmap, view, view is IZoomable ? ((IZoomable)view).GetZoom(): 1);
         }
 
         #endregion
