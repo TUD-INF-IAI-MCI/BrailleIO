@@ -164,6 +164,7 @@ namespace BrailleIO
                 this.is_image = true;
                 this.is_text = this.is_matrix = this.is_other = false;
                 this.ContentRender = _ir;
+                img.Dispose();
             }
             catch { }
         }

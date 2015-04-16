@@ -161,7 +161,7 @@ namespace BrailleIO.Renderer
             }
             //call post hooks
             callAllPostHooks(view, img, ref m, offset, invert, zoom);
-
+            img.Dispose();
             return m;
         }
 

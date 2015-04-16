@@ -172,7 +172,17 @@ namespace BrailleIO
                         }
                         else { return; }
                     }
-                    catch (InvalidOperationException ex) { if (this.Disposing) break; }
+                    catch (InvalidOperationException ex)
+                    {
+                        if (this.Disposing) { break; }
+                        else
+                        {
+                            if (this.pictureBoxTouch.IsDisposed)
+                            {
+                                this.mnuItemReset_Click(null, null);
+                            }
+                        }
+                    }
                     catch (Exception ex)
                     {
                         System.Diagnostics.Debug.WriteLine("Exception in paint touch image " + ex);
