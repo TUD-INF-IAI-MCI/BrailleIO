@@ -179,6 +179,7 @@ namespace BrailleIO
 
                 AdapterManager.Synchronize(this.Matrix.Clone() as bool[,]);
             }
+            System.GC.Collect();
         }
 
         /// <summary>
