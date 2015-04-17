@@ -144,52 +144,54 @@ namespace BrailleIO
         private readonly Object touchMatrixLock = new Object();
         private void paintTouchImage()
         {
-            lock (touchMatrixLock)
+            if (!this.Disposing)
             {
-                Bitmap touchImage = null;
-                try
+                lock (touchMatrixLock)
                 {
-                    touchImage = getTouchImage();
-                }
-                catch (System.Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("Exception in getting touch image " + ex);
-                }
-                int trys = 0;
-                while (++trys < 5)
+                    Bitmap touchImage = null;
                     try
                     {
-                        if (touchImage != null)
-                        {
-                            this.pictureBoxTouch.BeginInvoke(
-                                (MethodInvoker)delegate
-                            {
-                                if (this.pictureBoxTouch != null && this.pictureBoxTouch.Handle != null && this.pictureBoxTouch.Visible && !this.IsDisposed && !this.pictureBoxTouch.IsDisposed)
-                                    pictureBoxTouchImage = touchImage;
-                            }
-                                );
-                            break;
-                        }
-                        else { return; }
+                        touchImage = getTouchImage();
                     }
-                    catch (InvalidOperationException ex)
+                    catch (System.Exception ex)
                     {
-                        if (this.Disposing) { break; }
-                        else
+                        System.Diagnostics.Debug.WriteLine("Exception in getting touch image " + ex);
+                    }
+                    int trys = 0;
+                    while (++trys < 5)
+                        try
                         {
-                            if (this.pictureBoxTouch.IsDisposed)
+                            if (touchImage != null)
                             {
-                                this.mnuItemReset_Click(null, null);
+                                this.pictureBoxTouch.BeginInvoke(
+                                    (MethodInvoker)delegate
+                                {
+                                    if (this.pictureBoxTouch != null && this.pictureBoxTouch.Handle != null && this.pictureBoxTouch.Visible && !this.IsDisposed && !this.pictureBoxTouch.IsDisposed)
+                                        pictureBoxTouchImage = touchImage;
+                                }
+                                    );
+                                break;
+                            }
+                            else { return; }
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            if (this.Disposing) { break; }
+                            else
+                            {
+                                if (this.pictureBoxTouch.IsDisposed)
+                                {
+                                    this.mnuItemReset_Click(null, null);
+                                }
                             }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine("Exception in paint touch image " + ex);
-                        Thread.Sleep(1);
-                    }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine("Exception in paint touch image " + ex);
+                            Thread.Sleep(1);
+                        }
+                }
             }
-
         }
         private void addMatrixToStack(double[,] touchMatrix)
         {
@@ -365,19 +367,22 @@ namespace BrailleIO
         /// <param name="text">The text to display in the status bar.</param>
         public void SetStatusText(string text)
         {
-            try
+            if (!this.Disposing)
             {
-                if (this.toolStripStatusLabel_Messages != null)
+                try
                 {
-                    this.Invoke((MethodInvoker)delegate
+                    if (this.toolStripStatusLabel_Messages != null)
                     {
-                        setStatusText(text);
-                    });
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            setStatusText(text);
+                        });
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Exception in setting the status text message " + ex);
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Exception in setting the status text message " + ex);
+                } 
             }
         }
 
@@ -397,22 +402,25 @@ namespace BrailleIO
         /// </summary>
         public void ResetStatusText()
         {
-            try
+            if (!this.Disposing)
             {
-                if (this.toolStripStatusLabel_Messages != null)
+                try
                 {
-                    if (this.InvokeRequired)
+                    if (this.toolStripStatusLabel_Messages != null)
                     {
-                        this.Invoke((MethodInvoker)delegate
+                        if (this.InvokeRequired)
                         {
-                            resetStatusText();
-                        });
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                resetStatusText();
+                            });
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Exception in resetting status text. " + ex);
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Exception in resetting status text. " + ex);
+                } 
             }
         }
 
@@ -433,7 +441,7 @@ namespace BrailleIO
 
         #region Context Menu
 
-        public void AddContextMenu()
+        private void AddContextMenu()
         {
             ContextMenu mnuContextMenu = new ContextMenu();
             this.ContextMenu = mnuContextMenu;
@@ -450,99 +458,102 @@ namespace BrailleIO
         {
             //InitializeComponent();
 
-            try
+            if (!this.Disposing)
             {
-                //save for killing the picture boxes afterwards
-                System.Windows.Forms.PictureBox pb1 = this.pictureBox_overAllOverlay;
-                System.Windows.Forms.PictureBox pb2 = this.pictureBoxMatrix;
-                System.Windows.Forms.PictureBox pb3 = this.pictureBoxPins;
-                System.Windows.Forms.PictureBox pb4 = this.pictureBoxTouch;
-
-                //rebuild the picture boxes
-                this.pictureBoxPins = new System.Windows.Forms.PictureBox();
-                this.pictureBoxMatrix = new System.Windows.Forms.PictureBox();
-                this.pictureBox_overAllOverlay = new System.Windows.Forms.PictureBox();
-                this.statusStrip1.SuspendLayout();
-                ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).BeginInit();
-                ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).BeginInit();
-                ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMatrix)).BeginInit();
-                ((System.ComponentModel.ISupportInitialize)(this.pictureBox_overAllOverlay)).BeginInit();
-                this.SuspendLayout();
-
-                // 
-                // pictureBoxTouch
-                // 
-                this.pictureBoxTouch.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.touch_error;
-                this.pictureBoxTouch.Location = new System.Drawing.Point(116, 97);
-                this.pictureBoxTouch.Name = "pictureBoxTouch";
-                this.pictureBoxTouch.Size = new System.Drawing.Size(721, 363);
-                this.pictureBoxTouch.TabIndex = 49;
-                this.pictureBoxTouch.TabStop = false;
-                this.pictureBoxTouch.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseDown);
-                this.pictureBoxTouch.MouseEnter += new System.EventHandler(this.pictureBoxTouch_MouseEnter);
-                this.pictureBoxTouch.MouseLeave += new System.EventHandler(this.pictureBoxTouch_MouseLeave);
-                this.pictureBoxTouch.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseMove);
-                this.pictureBoxTouch.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseUp);
-                // 
-                // pictureBoxPins
-                // 
-                this.pictureBoxPins.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.pin_error;
-                this.pictureBoxPins.Location = new System.Drawing.Point(106, 88);
-                this.pictureBoxPins.Name = "pictureBoxPins";
-                this.pictureBoxPins.Size = new System.Drawing.Size(721, 363);
-                this.pictureBoxPins.TabIndex = 48;
-                this.pictureBoxPins.TabStop = false;
-                // 
-                // pictureBoxMatrix
-                // 
-                this.pictureBoxMatrix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-                this.pictureBoxMatrix.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.base_error;
-                this.pictureBoxMatrix.Location = new System.Drawing.Point(93, 77);
-                this.pictureBoxMatrix.Name = "pictureBoxMatrix";
-                this.pictureBoxMatrix.Size = new System.Drawing.Size(721, 363);
-                this.pictureBoxMatrix.TabIndex = 47;
-                this.pictureBoxMatrix.TabStop = false;
-                // 
-                // pictureBox_overAllOverlay
-                // 
-                this.pictureBox_overAllOverlay.BackColor = System.Drawing.Color.Transparent;
-                this.pictureBox_overAllOverlay.Cursor = System.Windows.Forms.Cursors.Default;
-                this.pictureBox_overAllOverlay.Enabled = false;
-                this.pictureBox_overAllOverlay.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.overlay_error;
-                this.pictureBox_overAllOverlay.InitialImage = null;
-                this.pictureBox_overAllOverlay.Location = new System.Drawing.Point(93, 98);
-                this.pictureBox_overAllOverlay.Name = "pictureBox_overAllOverlay";
-                this.pictureBox_overAllOverlay.Size = new System.Drawing.Size(721, 363);
-                this.pictureBox_overAllOverlay.TabIndex = 50;
-                this.pictureBox_overAllOverlay.TabStop = false;
-
-                this.Controls.Add(this.pictureBox_overAllOverlay);
-                this.Controls.Add(this.pictureBoxTouch);
-                this.Controls.Add(this.pictureBoxPins);
-                this.Controls.Add(this.pictureBoxMatrix);
-
-                this.statusStrip1.PerformLayout();
-                ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).EndInit();
-                ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).EndInit();
-                ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMatrix)).EndInit();
-                ((System.ComponentModel.ISupportInitialize)(this.pictureBox_overAllOverlay)).EndInit();
-                this.ResumeLayout(false);
-                this.PerformLayout();
-
-                initPictureBoxes();
-
-                // kill all old picture boxes
                 try
                 {
-                    pb1.Dispose();
-                    pb2.Dispose();
-                    pb3.Dispose();
-                    pb4.Dispose();
-                }
-                catch { }
+                    //save for killing the picture boxes afterwards
+                    System.Windows.Forms.PictureBox pb1 = this.pictureBox_overAllOverlay;
+                    System.Windows.Forms.PictureBox pb2 = this.pictureBoxMatrix;
+                    System.Windows.Forms.PictureBox pb3 = this.pictureBoxPins;
+                    System.Windows.Forms.PictureBox pb4 = this.pictureBoxTouch;
 
+                    //rebuild the picture boxes
+                    this.pictureBoxPins = new System.Windows.Forms.PictureBox();
+                    this.pictureBoxMatrix = new System.Windows.Forms.PictureBox();
+                    this.pictureBox_overAllOverlay = new System.Windows.Forms.PictureBox();
+                    this.statusStrip1.SuspendLayout();
+                    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).BeginInit();
+                    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).BeginInit();
+                    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMatrix)).BeginInit();
+                    ((System.ComponentModel.ISupportInitialize)(this.pictureBox_overAllOverlay)).BeginInit();
+                    this.SuspendLayout();
+
+                    // 
+                    // pictureBoxTouch
+                    // 
+                    this.pictureBoxTouch.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.touch_error;
+                    this.pictureBoxTouch.Location = new System.Drawing.Point(116, 97);
+                    this.pictureBoxTouch.Name = "pictureBoxTouch";
+                    this.pictureBoxTouch.Size = new System.Drawing.Size(721, 363);
+                    this.pictureBoxTouch.TabIndex = 49;
+                    this.pictureBoxTouch.TabStop = false;
+                    this.pictureBoxTouch.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseDown);
+                    this.pictureBoxTouch.MouseEnter += new System.EventHandler(this.pictureBoxTouch_MouseEnter);
+                    this.pictureBoxTouch.MouseLeave += new System.EventHandler(this.pictureBoxTouch_MouseLeave);
+                    this.pictureBoxTouch.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseMove);
+                    this.pictureBoxTouch.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseUp);
+                    // 
+                    // pictureBoxPins
+                    // 
+                    this.pictureBoxPins.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.pin_error;
+                    this.pictureBoxPins.Location = new System.Drawing.Point(106, 88);
+                    this.pictureBoxPins.Name = "pictureBoxPins";
+                    this.pictureBoxPins.Size = new System.Drawing.Size(721, 363);
+                    this.pictureBoxPins.TabIndex = 48;
+                    this.pictureBoxPins.TabStop = false;
+                    // 
+                    // pictureBoxMatrix
+                    // 
+                    this.pictureBoxMatrix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    this.pictureBoxMatrix.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.base_error;
+                    this.pictureBoxMatrix.Location = new System.Drawing.Point(93, 77);
+                    this.pictureBoxMatrix.Name = "pictureBoxMatrix";
+                    this.pictureBoxMatrix.Size = new System.Drawing.Size(721, 363);
+                    this.pictureBoxMatrix.TabIndex = 47;
+                    this.pictureBoxMatrix.TabStop = false;
+                    // 
+                    // pictureBox_overAllOverlay
+                    // 
+                    this.pictureBox_overAllOverlay.BackColor = System.Drawing.Color.Transparent;
+                    this.pictureBox_overAllOverlay.Cursor = System.Windows.Forms.Cursors.Default;
+                    this.pictureBox_overAllOverlay.Enabled = false;
+                    this.pictureBox_overAllOverlay.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.overlay_error;
+                    this.pictureBox_overAllOverlay.InitialImage = null;
+                    this.pictureBox_overAllOverlay.Location = new System.Drawing.Point(93, 98);
+                    this.pictureBox_overAllOverlay.Name = "pictureBox_overAllOverlay";
+                    this.pictureBox_overAllOverlay.Size = new System.Drawing.Size(721, 363);
+                    this.pictureBox_overAllOverlay.TabIndex = 50;
+                    this.pictureBox_overAllOverlay.TabStop = false;
+
+                    this.Controls.Add(this.pictureBox_overAllOverlay);
+                    this.Controls.Add(this.pictureBoxTouch);
+                    this.Controls.Add(this.pictureBoxPins);
+                    this.Controls.Add(this.pictureBoxMatrix);
+
+                    this.statusStrip1.PerformLayout();
+                    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).EndInit();
+                    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).EndInit();
+                    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMatrix)).EndInit();
+                    ((System.ComponentModel.ISupportInitialize)(this.pictureBox_overAllOverlay)).EndInit();
+                    this.ResumeLayout(false);
+                    this.PerformLayout();
+
+                    initPictureBoxes();
+
+                    // kill all old picture boxes
+                    try
+                    {
+                        pb1.Dispose();
+                        pb2.Dispose();
+                        pb3.Dispose();
+                        pb4.Dispose();
+                    }
+                    catch { }
+
+                }
+                catch { } 
             }
-            catch { }
 
 
 

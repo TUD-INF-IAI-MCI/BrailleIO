@@ -109,8 +109,8 @@ namespace BrailleIO.Renderer
                             {
                                 using (Graphics grMatrix = Graphics.FromImage(viewRangeImage))
                                 {
-                                    grMatrix.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-                                    grMatrix.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                                    grMatrix.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bilinear;
+                                    grMatrix.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
                                     grMatrix.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
                                     grMatrix.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
 
