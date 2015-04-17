@@ -25,6 +25,18 @@ namespace BrailleIO
             set;
         }
 
+        /// <summary>
+        /// Gets or sets a flag indicating whether the pins should bee locked.
+        /// This means no more synchronization should be possible. 
+        /// The last pin state stays as set until the lock is released and Synchronize(bool[,] matrix) is called.
+        /// </summary>
+        /// <value><c>true</c> if [lock pins]; otherwise, <c>false</c>.</value>
+        public bool LockPins
+        {
+            get;
+            set;
+        }
+
         BrailleIODevice _device;
         /// <summary>
         /// Gets or sets the device.
@@ -65,7 +77,7 @@ namespace BrailleIO
         {
             get { return _dpiY; }
         }
-        
+
         private bool _connected = false;
         /// <summary>
         /// Gets a value indicating whether this <see cref="AbstractBrailleIOAdapterBase"/> is connected or not.
@@ -112,6 +124,7 @@ namespace BrailleIO
         public virtual bool Disconnect()
         {
             manager.ActiveAdapter = null;
+            fireClosed();
             return true;
         }
 
@@ -126,6 +139,7 @@ namespace BrailleIO
         public event EventHandler<BrailleIO_KeyPressed_EventArgs> keyPressed;
         public event EventHandler<BrailleIO_KeyStateChanged_EventArgs> keyStateChanged;
         public event EventHandler<BrailleIO_Initialized_EventArgs> initialized;
+        public event EventHandler<BrailleIO_Initialized_EventArgs> closed;
         public event EventHandler<BrailleIO_InputChanged_EventArgs> inputChanged;
         public event EventHandler<BrailleIO_TouchValuesChanged_EventArgs> touchValuesChanged;
         public event EventHandler<BrailleIO_PinStateChanged_EventArgs> pinStateChanged;
@@ -135,10 +149,26 @@ namespace BrailleIO
         /// Fires an initialized event.
         /// </summary>
         /// <param name="e">The <see cref="BrailleIO.Interface.BrailleIO_Initialized_EventArgs"/> instance containing the event data.</param>
-        protected virtual void fireInitialized(BrailleIO_Initialized_EventArgs e)
+        protected virtual void fireInitialized(BrailleIO_Initialized_EventArgs e = null)
         {
             if (initialized != null)
-                initialized(this, e);
+            {
+                if (e == null) e = new BrailleIO_Initialized_EventArgs(this.Device);
+                initialized(this, new BrailleIO_Initialized_EventArgs(this.Device));
+            }
+        }
+
+        /// <summary>
+        /// Fires an initialized event.
+        /// </summary>
+        /// <param name="e">The <see cref="BrailleIO.Interface.BrailleIO_Initialized_EventArgs"/> instance containing the event data.</param>
+        protected virtual void fireClosed(BrailleIO_Initialized_EventArgs e = null)
+        {
+            if (closed != null)
+            {
+                if (e == null) e = new BrailleIO_Initialized_EventArgs(this.Device);
+                closed(this, e);
+            }
         }
 
         /// <summary>
@@ -195,11 +225,11 @@ namespace BrailleIO
         /// <param name="matrix">The matrix.</param>
         public virtual void Synchronize(bool[,] matrix)
         {
-            manager.ActiveAdapter.Synchronize(matrix);
+           if(!LockPins) manager.ActiveAdapter.Synchronize(matrix);
         }
 
         #region Touch
-        
+
         /// <summary>
         /// Recalibrate the Touch detection Adapter with the specified threshold.
         /// //FIXME: BAD-HACK function to find bad detectors. Make this real working
@@ -217,27 +247,47 @@ namespace BrailleIO
                 touchCorrectionMatrix = new double[Device.DeviceSizeY, Device.DeviceSizeX];
 
                 System.Threading.Thread.Sleep(1000);
+                LockPins = false;
                 Synchronize(empty);
+                LockPins = true;
                 System.Threading.Thread.Sleep(1000);
+                LockPins = false;
                 Synchronize(full);
+                LockPins = true;
                 System.Threading.Thread.Sleep(1000);
+                LockPins = false;
                 Synchronize(empty);
+                LockPins = true;
                 System.Threading.Thread.Sleep(1000);
+                LockPins = false;
                 Synchronize(full);
+                LockPins = true;
                 System.Threading.Thread.Sleep(1000);
+                LockPins = false;
                 Synchronize(empty);
+                LockPins = true;
                 System.Threading.Thread.Sleep(1000);
+                LockPins = false; 
                 Synchronize(full);
+                LockPins = true;
                 System.Threading.Thread.Sleep(1000);
+                LockPins = false;
                 Synchronize(empty);
+                LockPins = true;
                 System.Threading.Thread.Sleep(1000);
+                LockPins = false;
                 Synchronize(full);
+                LockPins = true;
                 System.Threading.Thread.Sleep(1000);
+                LockPins = false;
                 Synchronize(empty);
+                LockPins = true;
                 System.Threading.Thread.Sleep(3000);
 
                 touchValuesChanged -= new EventHandler<BrailleIO_TouchValuesChanged_EventArgs>(AbstractBrailleIOAdapterBase_touchValuesChanged);
                 touchCorrectionMatrix = tempTouchCorrectionMatrix;
+
+                LockPins = false;
             }
 
             return true;
@@ -316,8 +366,9 @@ namespace BrailleIO
                 int rows = Device.DeviceSizeY;
                 int cols = Device.DeviceSizeX;
                 _fullMatrix = new bool[rows, cols];
-                Parallel.For(0, rows, i => {
-                    Parallel.For(0, cols, j => { try { _fullMatrix[i, j] = true; } catch{} });
+                Parallel.For(0, rows, i =>
+                {
+                    Parallel.For(0, cols, j => { try { _fullMatrix[i, j] = true; } catch { } });
                 });
             }
             return _fullMatrix;

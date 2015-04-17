@@ -66,7 +66,7 @@ namespace BrailleIO
 
         public override void Synchronize(bool[,] m)
         {
-            driver.SetMatrix(m);
+            if(!LockPins)driver.SetMatrix(m);
         }
 
         public override bool Connect()
