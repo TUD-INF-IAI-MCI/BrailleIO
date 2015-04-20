@@ -179,7 +179,7 @@ namespace BrailleIO
 
                 AdapterManager.Synchronize(this.Matrix.Clone() as bool[,]);
             }
-            System.GC.Collect();
+            //System.GC.Collect();
         }
 
         /// <summary>
@@ -204,6 +204,7 @@ namespace BrailleIO
 
         #region private Rendering
 
+        private static int _elapsedTimes = 0;
         /// <summary>
         /// Event handler for the refresh timer elapsed event.
         /// Refreshes the display.
@@ -213,11 +214,19 @@ namespace BrailleIO
         private static void refreshDisplayEvent(object source, ElapsedEventArgs e)
         {
             BrailleIOMediator.Instance.RefreshDisplay();
+            if (++_elapsedTimes >= 50)
+            {
+                System.Threading.Tasks.Task t = new System.Threading.Tasks.Task(
+                    () => { System.GC.Collect(); }
+                    );
+                t.Start();
+                _elapsedTimes = 0;
+            }
         }
 
         /// <summary>
         /// helping stack that helps to determine if a rendering is necessary.
-        /// Collects all render calls and the rendering thread cann decide if to render or not.
+        /// Collects all render calls and the rendering thread can decide if to render or not.
         /// </summary>
         private readonly ConcurrentStack<object> stack = new ConcurrentStack<Object>();
         /// <summary>
