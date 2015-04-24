@@ -214,11 +214,14 @@ namespace BrailleIO
         private static void refreshDisplayEvent(object source, ElapsedEventArgs e)
         {
             BrailleIOMediator.Instance.RefreshDisplay();
-            if (++_elapsedTimes >= 50)
+            if (++_elapsedTimes >= 500)
             {
                 System.Threading.Tasks.Task t = new System.Threading.Tasks.Task(
-                    () => { System.GC.Collect(); }
-                    );
+                    () => { 
+                        System.GC.Collect();
+                        //System.Diagnostics.Debug.WriteLine("_______________________ GarbageCollection");
+                    }
+                );
                 t.Start();
                 _elapsedTimes = 0;
             }
@@ -234,7 +237,7 @@ namespace BrailleIO
         /// </summary>
         private Thread renderingTread;
         /// <summary>
-        /// Builds the resulting matrix that will be send to the adapters by calling the renderers for each view range.
+        /// Builds the resulting matrix that will be send to the adapters by calling the renderer for each view range.
         /// </summary>
         void renderDisplay()
         {
@@ -316,7 +319,7 @@ namespace BrailleIO
                     }
                     else
                     {
-                        contentMatrix = vr.ContentRender.RenderMatrix(vr, vr.GetImage());
+                        contentMatrix = vr.ContentRender.RenderMatrix(vr, img);
                     }
                 }
                 handlePanning = false;

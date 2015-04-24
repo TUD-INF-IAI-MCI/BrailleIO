@@ -168,6 +168,9 @@ namespace BrailleIO.Renderer
         {
             unlockBits();
             this.source.Dispose();
+            this.bitmapData = null;
+            this.Iptr = IntPtr.Zero;
+            this.Pixels = null;
         }
     }
 }

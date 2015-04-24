@@ -56,20 +56,10 @@ namespace BrailleIO.Renderer
 
             if (renderer != null)
             {
-
                 int width = view.ContentBox.Width;
                 if (renderer != null)
                 {
                     bool scrolleBars = false;
-
-                    //if (view is IPannable && ((IPannable)view).ShowScrollbars)
-                    //{
-                    //    if (renderer.EstimateNeedOfScrollBar(content.ToString(), view.ContentBox.Width, view.ContentBox.Height))
-                    //    {
-                    //        //scrolleBars = true;
-                    //    }
-                    //}
-
                     var matrix = renderer.RenderMatrix(width, content, scrolleBars);
 
                     view.ContentHeight = matrix.GetLength(0);
