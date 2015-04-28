@@ -214,17 +214,17 @@ namespace BrailleIO
         private static void refreshDisplayEvent(object source, ElapsedEventArgs e)
         {
             BrailleIOMediator.Instance.RefreshDisplay();
-            if (++_elapsedTimes >= 500)
-            {
-                System.Threading.Tasks.Task t = new System.Threading.Tasks.Task(
-                    () => { 
-                        System.GC.Collect();
-                        //System.Diagnostics.Debug.WriteLine("_______________________ GarbageCollection");
-                    }
-                );
-                t.Start();
-                _elapsedTimes = 0;
-            }
+            //if (++_elapsedTimes >= 500)
+            //{
+            //    System.Threading.Tasks.Task t = new System.Threading.Tasks.Task(
+            //        () => { 
+            //            System.GC.Collect();
+            //            //System.Diagnostics.Debug.WriteLine("_______________________ GarbageCollection");
+            //        }
+            //    );
+            //    t.Start();
+            //    _elapsedTimes = 0;
+            //}
         }
 
         /// <summary>
