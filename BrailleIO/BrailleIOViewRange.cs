@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using BrailleIO.Interface;
+using System.Threading;
 
 namespace BrailleIO
 {
@@ -46,7 +47,8 @@ namespace BrailleIO
         /// Gets or sets a flag indicating whether this <see cref="BrailleIOViewRange"/> should be rerendered bacause of the content was changed.
         /// </summary>
         /// <value><c>true</c> if the renderer should rerender the content; otherwise, <c>false</c>.</value>
-        public bool Render { 
+        public bool Render
+        {
             get { return _render; }
             set
             {
@@ -80,19 +82,27 @@ namespace BrailleIO
             }
         }
 
+        /// <summary>
+        /// Updates the size of the content.
+        /// </summary>
         public void UpdateContentSize()
         {
             if (Render)
             {
                 if (ContentRender != null)
                 {
-                    ContentRender.RenderMatrix(this, GetContent());
+                    Object cnt = GetContent();
+                    ContentRender.RenderMatrix(this, cnt);
+
+                    //clean up the cloned elements (e.g. images)
+                    if (cnt is IDisposable) { ((IDisposable)cnt).Dispose(); }
+                    else { cnt = null; }
                 }
             }
         }
 
         #endregion
-        
+
         #endregion
 
         #region Constructors
@@ -216,14 +226,20 @@ namespace BrailleIO
         /// <returns></returns>
         public Bitmap GetImage()
         {
-            try
+            int i = 0;
+            while (i++ < 5)
             {
-                return this.image.Clone() as Bitmap;
+                try
+                {
+                    return this.image.Clone() as Bitmap;
+                }
+                catch (InvalidOperationException)
+                {
+                    Thread.Sleep(10);
+                }
+                catch (System.Exception ex){ break; }
             }
-            catch (System.Exception ex)
-            {
-                return null;
-            }
+            return null;
         }
 
         /// <summary>
