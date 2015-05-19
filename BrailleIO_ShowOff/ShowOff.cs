@@ -464,20 +464,18 @@ namespace BrailleIO
                 {
                     this.Invoke((MethodInvoker)delegate
                         {
+
                             //save for killing the picture boxes afterwards
                             System.Windows.Forms.PictureBox pb1 = this.pictureBox_overAllOverlay;
                             System.Windows.Forms.PictureBox pb2 = this.pictureBoxMatrix;
                             System.Windows.Forms.PictureBox pb3 = this.pictureBoxPins;
                             System.Windows.Forms.PictureBox pb4 = this.pictureBoxTouch;
 
-
-
-
-
                             //rebuild the picture boxes
                             this.pictureBoxPins = new System.Windows.Forms.PictureBox();
                             this.pictureBoxMatrix = new System.Windows.Forms.PictureBox();
                             this.pictureBox_overAllOverlay = new System.Windows.Forms.PictureBox();
+                            this.pictureBoxTouch = new System.Windows.Forms.PictureBox();
                             this.statusStrip1.SuspendLayout();
                             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).BeginInit();
                             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).BeginInit();
@@ -545,8 +543,21 @@ namespace BrailleIO
                             this.ResumeLayout(false);
                             this.PerformLayout();
 
+                            this.pictureBoxTouch.CreateControl();
+                            this.pictureBoxPins.CreateControl();
+                            this.pictureBoxMatrix.CreateControl();
+                            this.pictureBox_overAllOverlay.CreateControl();
+
                             initPictureBoxes();
 
+                            try
+                            {
+                                pb1.Dispose();
+                                pb2.Dispose();
+                                pb3.Dispose();
+                                pb4.Dispose();
+                            }
+                            catch { }
 
                         });
                 }
@@ -554,15 +565,9 @@ namespace BrailleIO
                 catch (InvalidOperationException) { }
                 catch { }
             }
-
-
-
-            //    this.Show();
         }
 
-
         #endregion
-
 
     }
 }
