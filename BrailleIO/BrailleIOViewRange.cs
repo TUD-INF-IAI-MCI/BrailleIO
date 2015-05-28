@@ -393,8 +393,6 @@ namespace BrailleIO
         /// <returns>the new threshold</returns>
         public int SetContrastThreshold(int threshold)
         {
-            if (threshold <= 0) threshold = 1;
-            if (threshold > 255) threshold = 255;
             Render = true;
             return this.threshold = Math.Max(Math.Min(threshold, 255), 0);
         }

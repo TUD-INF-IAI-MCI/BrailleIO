@@ -13,12 +13,12 @@ namespace BrailleIO.Renderer
         /// A low threshold leads darker pins to stay lowered.
         /// Have to be between 0 and 255.
         /// </summary>
-        private float Threshold = 130;
+        private float Threshold = 210;
         /// <summary>
         /// Resets the threshold.
         /// </summary>
         /// <returns>the new threshold</returns>
-        public float ResetThreshold() { return this.Threshold = 130; }
+        public float ResetThreshold() { return this.Threshold = 210; }
         public float SetThreshold(float threshold) { return this.Threshold = Math.Min(Math.Max(threshold, 0), 255); }
 
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, double zoom, float threshold) { return RenderImage(img, view, null, zoom, threshold); }
@@ -109,9 +109,11 @@ namespace BrailleIO.Renderer
                             {
                                 using (Graphics grMatrix = Graphics.FromImage(viewRangeImage))
                                 {
-                                    grMatrix.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bilinear;
+                                    // good results with a Threshold of 210 but smooths the edges
+                                    grMatrix.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
+                                    grMatrix.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighSpeed;
+                                    
                                     grMatrix.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
-                                    grMatrix.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
                                     grMatrix.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
 
                                     Rectangle sourceRectangle = new Rectangle(offsetX * -1, offsetY * -1, zoomedVrWidth, zoomedVrHeight);
@@ -146,7 +148,10 @@ namespace BrailleIO.Renderer
                                                     {
                                                         Color c = lockBitmap.GetPixel(x, y);
                                                         var l = GraphicUtils.GetLightness(c);
-                                                        m[cY, cX] = (l > Threshold) ? invert ? true : false : invert ? false : true;
+                                                        m[cY, cX] = (l >= Threshold) ?
+                                                            (invert ? true : false)
+                                                            :
+                                                            (invert ? false : true);
                                                     }
                                                 }
                                             }
@@ -170,7 +175,7 @@ namespace BrailleIO.Renderer
 
         public bool[,] RenderMatrix(IViewBoxModel view, object content)
         {
-            return RenderImage(content as Bitmap, view, view is IZoomable ? ((IZoomable)view).GetZoom(): 1);
+            return RenderImage(content as Bitmap, view, view is IZoomable ? ((IZoomable)view).GetZoom() : 1);
         }
 
         #endregion
@@ -200,11 +205,14 @@ namespace BrailleIO.Renderer
         public static float GetLightness(Color c)
         {
             float aw, ar, ab, ag;
-            aw = (255F * (1F - ((float)c.A / 255F)));
-            ar = ((c.R * (c.A / 255F)) + aw) * 0.3F;
-            ab = ((c.B * (c.A / 255F)) + aw) * 0.11F;
-            ag = ((c.G * (c.A / 255F)) + aw) * 0.59F;
-            float b = ar + ab + ag;
+            float correction = (float)c.A / 255F;
+            aw = (255F * (1F - correction));
+
+            ar = (((float)c.R * correction) + aw) * 0.3F;
+            ab = (((float)c.B * correction) + aw) * 0.11F;
+            ag = (((float)c.G * correction) + aw) * 0.59F;
+            float b = (ar + ab + ag);
+
             return b;
         }
 
