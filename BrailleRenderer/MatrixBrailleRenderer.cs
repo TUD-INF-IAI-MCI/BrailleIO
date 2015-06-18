@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using BrailleRenderer.BrailleInterpreter;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace BrailleRenderer
 {
@@ -17,22 +18,21 @@ namespace BrailleRenderer
         public readonly IBraileInterpreter BrailleInterpreter;
 
         /// <summary>
-        /// Gets or sets a value indicating whether the last line should also has inter line space or not.
-        /// Default this is set to false, so the last line has also some space to the bottom of the content region.
+        /// Gets or sets the rendering properties.
         /// </summary>
-        /// <value>
-        /// 	<c>true</c> if [ignore last line space]; otherwise, <c>false</c>.
-        /// </value>
-        public bool IgnoreLastLineSpace { get; set; }
+        /// <value>The rendering properties.</value>
+        public RenderingProperties RenderingProperties { get; set; }
+
 
         #endregion
 
         #region Constructor
 
-        public MatrixBrailleRenderer(IBraileInterpreter brailleInterpreter, bool ignoreLastLineSpace = false)
+        public MatrixBrailleRenderer(IBraileInterpreter brailleInterpreter, RenderingProperties renderingProperties = RenderingProperties.NONE)
         {
             BrailleInterpreter = brailleInterpreter;
-            IgnoreLastLineSpace = ignoreLastLineSpace;
+            //IgnoreLastLineSpace = ignoreLastLineSpace;
+            RenderingProperties = renderingProperties;
         }
 
         #endregion
@@ -47,7 +47,9 @@ namespace BrailleRenderer
                 if (BrailleInterpreter != null)
                 {
                     //reduce the with if scrollbars should been shown
-                    width -= scrollbars ? 3 : 0;
+                    width -= scrollbars | RenderingProperties.HasFlag(RenderingProperties.ADD_SPACE_FOR_SCROLLBARS) ? 3 : 0;
+
+                    int maxUsedWidth = 0;
 
                     //check available width
                     if (width > 0)
@@ -55,16 +57,27 @@ namespace BrailleRenderer
                         List<List<List<int>>> lines = new List<List<List<int>>>();
 
                         // split text into paragraphs/lines
-                        string[] paragraphs = getLinesOfString(text);
+                        string[] paragraphs = GetLinesOfString(text);
 
                         foreach (var p in paragraphs)
                         {
-                            var paragraphLines = renderParagraph(p, width);
+                            var paragraphLines = renderParagraph(p, width, ref maxUsedWidth);
                             lines.AddRange(paragraphLines);
                         }
 
                         // build start matrix
-                        bool[,] matrix = buildMatrixFromLines(lines, width, IgnoreLastLineSpace);
+                        bool[,] matrix = buildMatrixFromLines(lines, width);
+
+
+                        //reduce matrix if requested to minimum width
+                        if (this.RenderingProperties.HasFlag(RenderingProperties.RETURN_REAL_WIDTH))
+                        {
+
+                            matrix = GetSubMatrix(matrix, matrix.GetLength(0),
+                                maxUsedWidth +
+                                (scrollbars ? 3 : 0)
+                                );
+                        }
 
                         return matrix;
                     }
@@ -82,9 +95,9 @@ namespace BrailleRenderer
             return Regex.Split(text, @"\s");
         }
 
-        private readonly Regex paragraphSplitter = new Regex("\r\n|\r|\n");
+        private static readonly Regex paragraphSplitter = new Regex("\r\n|\r|\n");
 
-        private string[] getLinesOfString(string text)
+        public static string[] GetLinesOfString(string text)
         {
             return paragraphSplitter.Split(text);
         }
@@ -106,7 +119,7 @@ namespace BrailleRenderer
 
         #region Lenght Calculations
 
-        public bool EstimateNeedOfScrollBar(string content, int width, int height)
+        public static bool EstimateNeedOfScrollBar(string content, int width, int height)
         {
             if (!String.IsNullOrEmpty(content) && width > 0 && height > 0)
             {
@@ -116,14 +129,13 @@ namespace BrailleRenderer
             return false;
         }
 
-
         /// <summary>
         /// Gets the max width consumed by an rendered string including inter character
         /// space without inter character space at the end of the String.
         /// </summary>
         /// <param name="brailleChars">The braille chars.</param>
         /// <returns>the minimum width consumed by the string</returns>
-        int getMinWidthOfString(List<List<int>> brailleChars)
+        static int getMinWidthOfString(List<List<int>> brailleChars)
         {
             return getMaxWidthOfString(brailleChars) - INTER_CHAR_WIDTH;
         }
@@ -134,7 +146,7 @@ namespace BrailleRenderer
         /// </summary>
         /// <param name="brailleChars">The braille chars.</param>
         /// <returns>the maximum width consumed by the string including separating space at the end of the string</returns>
-        int getMaxWidthOfString(List<List<int>> brailleChars)
+        static int getMaxWidthOfString(List<List<int>> brailleChars)
         {
             return (brailleChars.Count * BRAILLE_CHAR_WIDTH) + (brailleChars.Count * INTER_CHAR_WIDTH);
         }
@@ -145,7 +157,7 @@ namespace BrailleRenderer
         /// </summary>
         /// <param name="width">The width.</param>
         /// <returns>the number of chars that would fit</returns>
-        int getMaxCountOfChars(int width)
+        static int getMaxCountOfChars(int width)
         {
             double ratio = (double)(width + INTER_CHAR_WIDTH) / (double)(BRAILLE_CHAR_WIDTH + INTER_CHAR_WIDTH);
             return (int)Math.Floor(ratio);
@@ -156,7 +168,7 @@ namespace BrailleRenderer
         /// </summary>
         /// <param name="width">The width.</param>
         /// <returns>the number of chars that would fit</returns>
-        int getMaxCountOfLines(int height)
+        static int getMaxCountOfLines(int height)
         {
             double ratio = (double)(height + INTER_LINE_HEIGHT) / (double)(BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
             return (int)Math.Floor(ratio);
@@ -183,7 +195,7 @@ namespace BrailleRenderer
         /// </summary>
         /// <param name="text">The text to render.</param>
         /// //TODO: make the rendering Positions available
-        private List<List<List<int>>> renderParagraph(string text, int width)
+        private List<List<List<int>>> renderParagraph(string text, int width, ref int maxUsedWidth)
         {
             List<List<List<int>>> lines = new List<List<List<int>>>();
             if (width > 0)
@@ -205,7 +217,7 @@ namespace BrailleRenderer
                         // check if the line is full
                         if (getMaxWidthOfString(currentLine) >= width)
                         {
-                            makeNewLine(ref lines, ref currentLine, ref availableWidth, width);
+                            makeNewLine(ref lines, ref currentLine, ref availableWidth, width, ref maxUsedWidth);
                         }
                         else
                         {
@@ -218,7 +230,7 @@ namespace BrailleRenderer
                     //check if it fits into the available space
                     if (!fitsWordInRestOfLine(dots, availableWidth)) //no
                     {
-                        makeNewLine(ref lines, ref currentLine, ref availableWidth, width);
+                        makeNewLine(ref lines, ref currentLine, ref availableWidth, width, ref maxUsedWidth);
                     }
 
                     int minWidth = getMinWidthOfString(dots);
@@ -251,11 +263,15 @@ namespace BrailleRenderer
                     }
                 }
                 lines.Add(currentLine);
+
+                // update the maxUsed Width
+                maxUsedWidth = Math.Max(maxUsedWidth, (width - availableWidth));
+
             }
             return lines;
         }
 
-        private List<List<List<int>>> splitWordOverLines(List<List<int>> dots, int width)
+        private static List<List<List<int>>> splitWordOverLines(List<List<int>> dots, int width)
         {
             List<List<List<int>>> lines = new List<List<List<int>>>();
 
@@ -286,11 +302,13 @@ namespace BrailleRenderer
         /// <param name="currentLine">The current line to fill with chars.</param>
         /// <param name="availableWidth">Current available space for chars on the current line.</param>
         /// <param name="width">The max width of a line.</param>
-        private void makeNewLine(ref List<List<List<int>>> lines, ref List<List<int>> currentLine, ref int availableWidth, int width)
+        private static void makeNewLine(ref List<List<List<int>>> lines, ref List<List<int>> currentLine, ref int availableWidth, int width, ref int maxUsedWidth)
         {
             //save the line and open a new one
             lines.Add(currentLine);
             currentLine = new List<List<int>>();
+
+            maxUsedWidth = Math.Max(maxUsedWidth, (width - availableWidth));
 
             //reset available with
             availableWidth = width;
@@ -300,13 +318,13 @@ namespace BrailleRenderer
 
         #region Build Bool/Dot Matrix
 
-        private bool[,] buildMatrixFromLines(List<List<List<int>>> lines, int width, bool ignoreLastInterline = false)
+        private bool[,] buildMatrixFromLines(List<List<List<int>>> lines, int width)
         {
             int height = 0;
             if (lines != null)
             {
                 height = lines.Count * (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
-                if (ignoreLastInterline) { height -= INTER_LINE_HEIGHT; }
+                if (this.RenderingProperties.HasFlag(RenderingProperties.IGNORE_LAST_LINESPACE)) { height -= INTER_LINE_HEIGHT; }
             }
 
             bool[,] m = new bool[height, width];
@@ -314,21 +332,26 @@ namespace BrailleRenderer
             if (lines != null)
             {
                 //do each line
-                for (int lineNumber = 0; lineNumber < lines.Count; lineNumber++) // do this as a parallel for?!
+                //for (int lineNumber = 0; lineNumber < lines.Count; lineNumber++) // do this as a parallel for?!
+                Parallel.For(0, lines.Count, (lineNumber) =>
                 {
                     List<List<int>> line = lines[lineNumber];
                     int yoffset = lineNumber * (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
 
                     // do every char
-                    for (int charNumber = 0; charNumber < line.Count; charNumber++)
+                    //for (int charNumber = 0; charNumber < line.Count; charNumber++)
+                    Parallel.For(0, line.Count, (charNumber) =>
                     {
                         List<int> brailleChar = line[charNumber];
                         int xOffset = charNumber * (BRAILLE_CHAR_WIDTH + INTER_CHAR_WIDTH);
 
                         addDotPatternToMatrix(ref m, brailleChar, xOffset, yoffset);
                     }
+                    );
                 }
+                );
             }
+
             return m;
         }
 
@@ -339,7 +362,7 @@ namespace BrailleRenderer
         /// <param name="brailleChar">The braille char to add.</param>
         /// <param name="xOffset">The x offset for the chr to place.</param>
         /// <param name="yoffset">The yoffset for the char to place.</param>
-        private void addDotPatternToMatrix(ref bool[,] m, List<int> brailleChar, int xOffset, int yoffset)
+        private static void addDotPatternToMatrix(ref bool[,] m, List<int> brailleChar, int xOffset, int yoffset)
         {
             if (brailleChar != null
                 && m != null && m.GetLength(0) > 0 && m.GetLength(1) > 0)
@@ -414,5 +437,61 @@ namespace BrailleRenderer
 
         #endregion
 
+        #region Submatrix
+
+        public static bool[,] GetSubMatrix(bool[,] m, int height, int width)
+        {
+            bool[,] sM = null;
+
+            if (m != null && width > 0 && height > 0)
+            {
+                sM = new bool[height, width];
+
+                int cols = Math.Min(width, m.GetLength(1));
+                int rows = Math.Min(height, m.GetLength(0));
+
+                Parallel.For(0, cols, (i) =>
+                {
+                    Parallel.For(0, rows, (j) =>
+                        {
+                            try
+                            {
+                                sM[j, i] = m[j, i];
+                            }
+                            catch { }
+                        });
+                });
+            }
+
+            return sM;
+        }
+
+        #endregion
     }
+
+    [Flags]
+    public enum RenderingProperties
+    {
+        /// <summary>
+        /// No special rendering 
+        /// </summary>
+        NONE = 0,
+        /// <summary>
+        /// The last line space should be ignored. Normally after each line 
+        /// a spacing line is rendered. To remove this spacing line from 
+        /// the last line activate this flag.
+        /// </summary>
+        IGNORE_LAST_LINESPACE = 1,
+        /// <summary>
+        /// Return the matrix with the real used width instead of the given width.
+        /// will maybe reduce the returned matrix in number of columns.
+        /// </summary>
+        RETURN_REAL_WIDTH = 2,
+        /// <summary>
+        /// Adds some free space on the right side of the returned matrix to place scrollbars.
+        /// Should not combined with <see cref="RenderingProperties.RETURN_REAL_WIDTH"/>.
+        /// </summary>
+        ADD_SPACE_FOR_SCROLLBARS = 4,
+    }
+
 }

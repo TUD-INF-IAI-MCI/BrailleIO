@@ -447,7 +447,32 @@ namespace BrailleIO.Interface
         private readonly object _contLock = new object();
         private Rectangle _contBox = new Rectangle();
         /// <summary>
-        /// Rectangle given dimensions and position of the view range or screen that can be used for displaying content. 
+        /// Rectangle given dimensions and position of the view range or screen that can be used for displaying content.
+        /// 
+        /// 
+        /// BrailleIOScreen                                     ViewBox
+        /// ┌────────────────────────────────────────────────╱─┐
+        /// │              BrailleIOViewRange              ╱   │
+        /// │╔═ Margin ════════════════════════════════════════╗│
+        /// │║   Border                                        ║│
+        /// │║    Padding                                      ║│
+        /// │║  ┌╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┐ ║│
+        /// │║  │                                            │ ║│
+        /// │║  │                                            │ ║│
+        /// │║  │                                            │ ║│
+        /// │║  │              ContentBox                    │ ║│
+        /// │║  │      = space to present content            │ ║│
+        /// │║  │                                            │ ║│
+        /// │║  │                                            │ ║│
+        /// │║  │                                            │ ║│
+        /// │║  └╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┘ ║│
+        /// │║                                                 ║│
+        /// │╚═════════════════════════════════════════════════╝│
+        /// │╔═════════════════════════════════════════════════╗│
+        /// │║           another BrailleIOViewRange            ║│
+        /// │╚═════════════════════════════════════════════════╝│
+        /// └───────────────────────────────────────────────────┘
+        /// 
         /// </summary>
         public Rectangle ContentBox
         {
@@ -675,13 +700,6 @@ namespace BrailleIO.Interface
         /// <returns>The new ViewBox</returns>
         public Point MoveTo(Point point)
         {
-            // geht so nicht richtig - z.B. wenn man relativ weit links ist und von kleiner Zoomstufe auf 1:1 Zoom geht
-            //int maxXOffset = -(Math.Max(ContentWidth - ContentBox.Width, 0));
-            //int maxYOffset = -(Math.Max(ContentHeight - ContentBox.Height, 0));
-            //OffsetPosition.X = Math.Max(point.X, maxXOffset);
-            //OffsetPosition.Y = Math.Max(point.Y, maxYOffset);
-
-            // so gehts besser
             OffsetPosition.X = Math.Min(point.X, 0);
             OffsetPosition.Y = Math.Min(point.Y, 0);
 

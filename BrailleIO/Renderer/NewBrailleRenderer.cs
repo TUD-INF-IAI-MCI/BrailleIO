@@ -80,12 +80,18 @@ namespace BrailleIO.Renderer
         {
             get
             {
-                if (renderer != null) return renderer.IgnoreLastLineSpace;
+                if (renderer != null) return renderer.RenderingProperties.HasFlag(RenderingProperties.IGNORE_LAST_LINESPACE);
                 return false;
             }
             set
             {
-                if (renderer != null) renderer.IgnoreLastLineSpace = value;
+                if (renderer != null) {
+                  if(value) {
+                      renderer.RenderingProperties |= RenderingProperties.IGNORE_LAST_LINESPACE;
+                  }else{
+                      renderer.RenderingProperties |= ~RenderingProperties.IGNORE_LAST_LINESPACE;
+                  }
+                }
             }
         }
     }
