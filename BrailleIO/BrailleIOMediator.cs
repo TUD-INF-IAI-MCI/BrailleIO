@@ -145,37 +145,18 @@ namespace BrailleIO
 
         /// <summary>
         /// Trys to sent the actual build matrix to all devices, that are active.
-        /// To enable a sending, the pins have to be unlocked (still rendering or maybe locked ba user)
-        /// and at an Adapter has to be active.
-        /// </summary>
-        /// <param name="rerender">if set to <c>true</c> it forces the rendering thread to rebuild the matrix by calling all renderers.</param>
-        public void RefreshDisplay(bool rerender)
-        {
-            if (rerender)
-            {
-                if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
-                {
-                    //if (instance.device_update_timer.Interval != AdapterManager.ActiveAdapter.Device.RefreshRate * 10)
-                    //    instance.device_update_timer.Interval = AdapterManager.ActiveAdapter.Device.RefreshRate * 10;
-                    RenderDisplay();
-                }
-            }
-            else RefreshDisplay();
-        }
-
-        /// <summary>
-        /// Trys to sent the actual build matrix to all devices, that are active.
         /// To enable a sending, the pins have to be unlocked (still rendering or maybe locked by the user)
         /// and at an Adapter has to be active.
         /// </summary>
-        public void RefreshDisplay()
+        public void RefreshDisplay(bool rerender = true)
         {
             if (ArePinsLocked()) return;
             if (AdapterManager != null && AdapterManager.ActiveAdapter != null && Matrix != null)
             {
-
-                //if (instance.device_update_timer.Interval != AdapterManager.ActiveAdapter.Device.RefreshRate * 10)
-                //    instance.device_update_timer.Interval = AdapterManager.ActiveAdapter.Device.RefreshRate * 10;
+                if (Matrix == null || rerender)
+                {
+                    RenderDisplay();
+                }
 
                 AdapterManager.Synchronize(this.Matrix.Clone() as bool[,]);
             }
@@ -212,19 +193,16 @@ namespace BrailleIO
         /// <param name="source">The source.</param>
         /// <param name="e">The <see cref="System.Timers.ElapsedEventArgs"/> instance containing the event data.</param>
         private static void refreshDisplayEvent(object source, ElapsedEventArgs e)
-        {
-            BrailleIOMediator.Instance.RefreshDisplay();
-            //if (++_elapsedTimes >= 500)
-            //{
-            //    System.Threading.Tasks.Task t = new System.Threading.Tasks.Task(
-            //        () => { 
-            //            System.GC.Collect();
-            //            //System.Diagnostics.Debug.WriteLine("_______________________ GarbageCollection");
-            //        }
-            //    );
-            //    t.Start();
-            //    _elapsedTimes = 0;
-            //}
+        {            
+            if (++_elapsedTimes > 10)
+            {
+                _elapsedTimes = 0;
+                BrailleIOMediator.Instance.RefreshDisplay();                
+            }
+            else
+            {
+                BrailleIOMediator.Instance.RefreshDisplay(false);
+            }
         }
 
         /// <summary>
