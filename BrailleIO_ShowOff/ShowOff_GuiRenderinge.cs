@@ -46,7 +46,7 @@ namespace BrailleIO
 
         #region Picture Box Images
 
-        const int MAX_TRYS = 3;
+        // const int MAX_TRYS = 3;
 
         readonly object _pbPinsLock = new Object();
         Image pictureBoxPinsImage
@@ -55,20 +55,7 @@ namespace BrailleIO
             {
                 lock (_pbPinsLock)
                 {
-                    Image im = null; ;
-                    try
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                {
-                    im = this.pictureBoxPins.Image;
-                });
-                    }
-                    catch (Exception)
-                    {
-                        //TODO:
-                        System.Diagnostics.Debug.WriteLine(" --> #### ShowOff GUI ERROR: get pictureBoxPinsImage");
-                    }
-                    return im;
+                    return invokeGetImageOfPictureBox(pictureBoxPins);
                 }
             }
             set
@@ -77,36 +64,7 @@ namespace BrailleIO
                 {
                     lock (_pbPinsLock)
                     {
-
-                        try
-                        {
-                            this.Invoke((MethodInvoker)delegate
-                                            {
-                                                int i = 0;
-                                                while (i++ < MAX_TRYS)
-                                                {
-                                                    try
-                                                    {
-                                                        if (this.pictureBoxPins.Image != null) this.pictureBoxPins.Image.Dispose();
-                                                        this.pictureBoxPins.Image = value;
-                                                        pictureBoxPins.Refresh();
-                                                        return;
-                                                    }
-                                                    catch (ObjectDisposedException) { return; }
-                                                    catch (Exception e)
-                                                    {
-                                                        System.Diagnostics.Debug.WriteLine("Exception in setting the pins image " + e);
-                                                        pictureBoxPins.Image = pictureBoxPins.ErrorImage;
-                                                        pictureBoxPins.Update();
-                                                    }
-                                                }
-                                            });
-                        }
-                        catch (Exception)
-                        {
-                            //TODO:
-                            System.Diagnostics.Debug.WriteLine(" --> #### ShowOff GUI ERROR: set pictureBoxPinsImage");
-                        }
+                        invokePictureBoxImageChange(this.pictureBoxPins, value);
                     }
                 }
             }
@@ -119,20 +77,7 @@ namespace BrailleIO
             {
                 lock (_pbTouchLock)
                 {
-                    Image im = null;
-                    try
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                {
-                    im = this.pictureBoxTouch.Image;
-                });
-                    }
-                    catch (Exception)
-                    {
-                        //TODO:
-                        System.Diagnostics.Debug.WriteLine(" --> #### ShowOff GUI ERROR: get pictureBoxTouchImage");
-                    }
-                    return im;
+                    return invokeGetImageOfPictureBox(this.pictureBoxTouch);
                 }
             }
             set
@@ -141,35 +86,7 @@ namespace BrailleIO
                 {
                     lock (_pbTouchLock)
                     {
-                        try
-                        {
-                            this.Invoke((MethodInvoker)delegate
-                                            {
-                                                int i = 0;
-                                                while (i++ < MAX_TRYS)
-                                                {
-                                                    try
-                                                    {
-                                                        if (this.pictureBoxTouch.Image != null) this.pictureBoxTouch.Image.Dispose();
-                                                        this.pictureBoxTouch.Image = value;
-                                                        pictureBoxTouch.Refresh();
-                                                        return;
-                                                    }
-                                                    catch (ObjectDisposedException) { return; }
-                                                    catch (Exception e)
-                                                    {
-                                                        System.Diagnostics.Debug.WriteLine("Exception in setting the touch image " + e);
-                                                        pictureBoxTouch.Image = pictureBoxTouch.ErrorImage;
-                                                        pictureBoxTouch.Update();
-                                                    }
-                                                }
-                                            });
-                        }
-                        catch (Exception)
-                        {
-                            //TODO:
-                            System.Diagnostics.Debug.WriteLine(" --> #### ShowOff GUI ERROR: set pictureBoxTouchImage");
-                        }
+                        invokePictureBoxImageChange(pictureBoxTouch, value);
                     }
                 }
             }
@@ -182,20 +99,7 @@ namespace BrailleIO
             {
                 lock (_pbOverlayLock)
                 {
-                    Image im = null; ;
-                    try
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                                    {
-                                        im = this.pictureBox_overAllOverlay.Image;
-                                    });
-                    }
-                    catch (Exception)
-                    {
-                        //TODO:
-                        System.Diagnostics.Debug.WriteLine(" --> #### ShowOff GUI ERROR: get pictureBoxOverlayImage");
-                    }
-                    return im;
+                    return invokeGetImageOfPictureBox(this.pictureBox_overAllOverlay);
                 }
             }
             set
@@ -204,38 +108,79 @@ namespace BrailleIO
                 {
                     lock (_pbOverlayLock)
                     {
-                        try
-                        {
-                            this.Invoke((MethodInvoker)delegate
-                                            {
-                                                int i = 0;
-                                                while (i++ < MAX_TRYS)
-                                                {
-                                                    try
-                                                    {
-                                                        if (this.pictureBox_overAllOverlay.Image != null) this.pictureBox_overAllOverlay.Image.Dispose();
-                                                        this.pictureBox_overAllOverlay.Image = value;
-                                                        pictureBox_overAllOverlay.Refresh();
-                                                        return;
-                                                    }
-                                                    catch (ObjectDisposedException) { return; }
-                                                    catch (Exception e)
-                                                    {
-                                                        System.Diagnostics.Debug.WriteLine("Exception in setting the overlay image " + e);
-                                                        pictureBox_overAllOverlay.Image = pictureBox_overAllOverlay.ErrorImage;
-                                                        pictureBox_overAllOverlay.Update();
-                                                    }
-                                                }
-                                            });
-                        }
-                        catch (Exception)
-                        {
-                            //TODO:
-                            System.Diagnostics.Debug.WriteLine(" --> #### ShowOff GUI ERROR: set pictureBoxOverlayImage");
-                        }
+                        invokePictureBoxImageChange(pictureBox_overAllOverlay, value);
                     }
                 }
             }
+        }
+
+
+
+        /// <summary>
+        /// Invokes the picture box image change.
+        /// </summary>
+        /// <param name="picBox">The picturebox.</param>
+        /// <param name="im">The image to show.</param>
+        /// <returns></returns>
+        private bool invokePictureBoxImageChange(PictureBox picBox, Image im)
+        {
+            bool success = true;
+            this.Invoke((MethodInvoker)delegate
+            {
+                try
+                {
+                    //Set the image into the picture box
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        try
+                        {
+                            Image bitmap = picBox.Image;
+
+                            if (bitmap != null)
+                            {
+                                bitmap.Dispose(); //Without this, memory goes nuts
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            success = false;
+                        }
+
+                        picBox.Image = im;
+
+                    });
+
+                    GC.Collect(); //Without this, memory goes nuts          
+                }
+                catch (Exception)
+                {
+                    success = false;
+                }
+            });
+
+            return success;
+        }
+
+        /// <summary>
+        /// Invokes the getter  for the image of a picture box.
+        /// </summary>
+        /// <param name="picBox">The picture box.</param>
+        /// <returns>the image of the picture box or <c>null</c></returns>
+        private Image invokeGetImageOfPictureBox(PictureBox picBox)
+        {
+            Image bitmap = null;
+            //Set the image into the picture box
+            this.Invoke((MethodInvoker)delegate
+            {
+                try
+                {
+                    bitmap = picBox.Image;
+                }
+                catch (Exception)
+                {
+                }
+            });
+            return bitmap;
         }
 
         #endregion
