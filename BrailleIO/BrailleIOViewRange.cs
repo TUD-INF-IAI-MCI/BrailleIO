@@ -235,6 +235,10 @@ namespace BrailleIO
                 }
                 catch (InvalidOperationException)
                 {
+                    Thread.Sleep(5);
+                }
+                catch (AccessViolationException)
+                {
                     Thread.Sleep(10);
                 }
                 catch (System.Exception ex){ break; }
