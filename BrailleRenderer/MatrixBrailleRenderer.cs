@@ -5,10 +5,11 @@ using System.Text;
 using BrailleRenderer.BrailleInterpreter;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using BrailleRenderer.Structs;
 
 namespace BrailleRenderer
 {
-    public class MatrixBrailleRenderer
+    public partial class MatrixBrailleRenderer
     {
         #region Members
 
@@ -28,10 +29,14 @@ namespace BrailleRenderer
 
         #region Constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MatrixBrailleRenderer"/> class.
+        /// </summary>
+        /// <param name="brailleInterpreter">The braille interpreter. Interprets characters and turn them into dott patterns.</param>
+        /// <param name="renderingProperties">The rendering properties to indiviualize the rendering result.</param>
         public MatrixBrailleRenderer(IBraileInterpreter brailleInterpreter, RenderingProperties renderingProperties = RenderingProperties.NONE)
         {
             BrailleInterpreter = brailleInterpreter;
-            //IgnoreLastLineSpace = ignoreLastLineSpace;
             RenderingProperties = renderingProperties;
         }
 
@@ -41,67 +46,86 @@ namespace BrailleRenderer
 
         public bool[,] RenderMatrix(int width, object content, bool scrollbars = false)
         {
-            if (content != null && content is String)
+            lock (_rendererLock)
             {
-                String text = content.ToString();
-                if (BrailleInterpreter != null)
+                clearRenderElements();
+
+                if (content != null && content is String)
                 {
-                    //reduce the with if scrollbars should been shown
-                    width -= scrollbars | RenderingProperties.HasFlag(RenderingProperties.ADD_SPACE_FOR_SCROLLBARS) ? 3 : 0;
-
-                    int maxUsedWidth = 0;
-
-                    //check available width
-                    if (width > 0)
+                    String text = content.ToString();
+                    if (BrailleInterpreter != null)
                     {
-                        List<List<List<int>>> lines = new List<List<List<int>>>();
+                        //reduce the with if scrollbars should been shown
+                        width -= scrollbars | RenderingProperties.HasFlag(RenderingProperties.ADD_SPACE_FOR_SCROLLBARS) ? 3 : 0;
 
-                        // split text into paragraphs/lines
-                        string[] paragraphs = GetLinesOfString(text);
+                        int maxUsedWidth = 0;
 
-                        foreach (var p in paragraphs)
+                        //check available width
+                        if (width > 0)
                         {
-                            var paragraphLines = renderParagraph(p, width, ref maxUsedWidth);
-                            lines.AddRange(paragraphLines);
+                            List<List<List<int>>> lines = new List<List<List<int>>>();
+
+                            // split text into paragraphs/lines
+                            string[] paragraphs = GetLinesOfString(text);
+
+                            foreach (var p in paragraphs)
+                            {
+                                int offset = lines.Count * (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
+                                var paragraphLines = renderParagraph(p, width, ref maxUsedWidth, offset);
+                                lines.AddRange(paragraphLines);
+                            }
+
+                            //reduce matrix if requested to minimum width
+                            if (this.RenderingProperties.HasFlag(RenderingProperties.RETURN_REAL_WIDTH))
+                            {
+                                width = maxUsedWidth + (scrollbars ? 3 : 0);
+                            }
+
+                            // build start matrix
+                            bool[,] matrix = buildMatrixFromLines(lines, width);
+
+                            return matrix;
                         }
-
-                        // build start matrix
-                        bool[,] matrix = buildMatrixFromLines(lines, width);
-
-
-                        //reduce matrix if requested to minimum width
-                        if (this.RenderingProperties.HasFlag(RenderingProperties.RETURN_REAL_WIDTH))
-                        {
-
-                            matrix = GetSubMatrix(matrix, matrix.GetLength(0),
-                                maxUsedWidth +
-                                (scrollbars ? 3 : 0)
-                                );
-                        }
-
-                        return matrix;
                     }
                 }
+                return null; 
             }
-            return null;
         }
 
         #endregion
 
         #region String Handling
 
-        private string[] getWordsOfString(string text)
+        /// <summary>
+        /// Split the given String into word by searching for 'spacing characters'.
+        /// </summary>
+        /// <param name="text">The text to split into words.</param>
+        /// <returns>An array of separated words without space characters.</returns>
+        public static string[] GetWordsOfString(string text)
         {
             return Regex.Split(text, @"\s");
         }
 
         private static readonly Regex paragraphSplitter = new Regex("\r\n|\r|\n");
 
+        /// <summary>
+        /// Gets the lines of string. Which means to split the given String into his paragraphs.
+        /// </summary>
+        /// <param name="text">The text to split hat his 'line change characters'.</param>
+        /// <returns>An array of separated lines/paragraphs.</returns>
         public static string[] GetLinesOfString(string text)
         {
             return paragraphSplitter.Split(text);
         }
 
+        /// <summary>
+        /// Gets the Braille interpretation for the string.
+        /// </summary>
+        /// <param name="text">The text to convert into Braille.</param>
+        /// <returns>The Braille dot patterns for the string. 
+        /// The result is a list of Braille-character dot patterns. 
+        /// Each sublist stands for one Braille cell, containing a list 
+        /// of raised pin positions inside a Braille cell. </returns>
         List<List<int>> getBrailleFromString(String text)
         {
             return BrailleInterpreter.GetDotsFromString(text);
@@ -111,14 +135,33 @@ namespace BrailleRenderer
 
         #region Rendering
 
+        /// <summary>
+        /// predefined with of one Braille cell (without spacing)
+        /// </summary>
         public const int BRAILLE_CHAR_WIDTH = 2;
+        /// <summary>
+        /// predefined height for one Braille cell (without spacing)
+        /// </summary>
         public const int BRAILLE_CHAR_HEIGHT = 4;
 
+        /// <summary>
+        /// predefined space between two adjacent Braille cells in one line
+        /// </summary>
         public const int INTER_CHAR_WIDTH = 1;
+        /// <summary>
+        /// predefined spacing between two adjacent lines.
+        /// </summary>
         public const int INTER_LINE_HEIGHT = 1;
 
         #region Lenght Calculations
 
+        /// <summary>
+        /// Tries to estimates the need for scroll bar.
+        /// </summary>
+        /// <param name="content">The content to render.</param>
+        /// <param name="width">The available width for the result.</param>
+        /// <param name="height">The available height for the result.</param>
+        /// <returns><c>true</c> if the given space is not enough and vertical scrollbars are needed, otherwise <c>false</c>.</returns>
         public static bool EstimateNeedOfScrollBar(string content, int width, int height)
         {
             if (!String.IsNullOrEmpty(content) && width > 0 && height > 0)
@@ -130,7 +173,7 @@ namespace BrailleRenderer
         }
 
         /// <summary>
-        /// Gets the max width consumed by an rendered string including inter character
+        /// Gets the minimal width consumed by an rendered string including inter character
         /// space without inter character space at the end of the String.
         /// </summary>
         /// <param name="brailleChars">The braille chars.</param>
@@ -150,7 +193,6 @@ namespace BrailleRenderer
         {
             return (brailleChars.Count * BRAILLE_CHAR_WIDTH) + (brailleChars.Count * INTER_CHAR_WIDTH);
         }
-
 
         /// <summary>
         /// Gets the max count of chars that would fit into the given width.
@@ -195,18 +237,28 @@ namespace BrailleRenderer
         /// </summary>
         /// <param name="text">The text to render.</param>
         /// //TODO: make the rendering Positions available
-        private List<List<List<int>>> renderParagraph(string text, int width, ref int maxUsedWidth)
+        private List<List<List<int>>> renderParagraph(string text, int width, ref int maxUsedWidth, int yOffset = 0)
         {
             List<List<List<int>>> lines = new List<List<List<int>>>();
             if (width > 0)
             {
-                string[] words = getWordsOfString(text);
+                string[] words = GetWordsOfString(text);
 
                 List<List<int>> currentLine = new List<List<int>>();
                 int availableWidth = width;
 
                 foreach (var word in words)
                 {
+                    #region Rendering Element
+
+                    int eX, eY, eW, eH = 0;
+                    eX = eY = eW = eH;
+                    eY = yOffset + lines.Count * (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
+                    eX = width - availableWidth;
+                    RenderElement e = new RenderElement(eX, eY, eW, eH, word);
+
+                    #endregion
+
                     // get the dot patterns for that word
                     List<List<int>> dots = getBrailleFromString(word);
 
@@ -233,14 +285,25 @@ namespace BrailleRenderer
                         makeNewLine(ref lines, ref currentLine, ref availableWidth, width, ref maxUsedWidth);
                     }
 
+                    e.X = width - availableWidth;
+
                     int minWidth = getMinWidthOfString(dots);
                     if (minWidth > width)
                     {
+                        //this will start a new line, so add a new line to the y position
+                        e.Y += BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT;
+                        
                         //split the word into several lines
-                        List<List<List<int>>> wordLines = splitWordOverLines(dots, width);
-
+                        List<List<List<int>>> wordLines = splitWordOverLines(dots, width, ref e);
+                       
                         if (wordLines != null && wordLines.Count > 0)
                         {
+                            //remove empty line if generated twice
+                            if (lines.Count > 0 && lines[lines.Count-1].Count == 0)
+                            {
+                                lines.Remove(lines[Math.Max(0,lines.Count - 1)]);
+                            }
+
                             // add them to the lines
                             lines.AddRange(wordLines);
                             //set the current line
@@ -258,9 +321,19 @@ namespace BrailleRenderer
                         //fill the word into the line
                         currentLine.AddRange(dots);
 
+                        //TODO: set width ad height
+                        e.Width = minWidth;
+                        e.Height = BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT;
+
                         //update the available width
                         availableWidth -= getMinWidthOfString(dots) + INTER_CHAR_WIDTH;
                     }
+
+                    #region Rendering Element
+
+                    elements.AddLast(e);
+
+                    #endregion
                 }
                 lines.Add(currentLine);
 
@@ -271,22 +344,57 @@ namespace BrailleRenderer
             return lines;
         }
 
-        private static List<List<List<int>>> splitWordOverLines(List<List<int>> dots, int width)
+        /// <summary>
+        /// Splits one word over several lines if it is to long to fit in one line.
+        /// </summary>
+        /// <param name="dots">The dot patterns of the word. 
+        ///     (List of characters) List [
+        ///         (List of raised pins in one Braille cell) List [dot pattern]
+        ///     ]
+        /// </param>
+        /// <param name="width">The width.</param>
+        /// <returns>
+        /// A list of lines for the split word.
+        /// (List of lines) List [
+        ///     (List of characters) List [
+        ///         (List of raised pins in one Braille cell) List [dot pattern]
+        ///     ]
+        /// ]
+        /// </returns>
+        private static List<List<List<int>>> splitWordOverLines(List<List<int>> dots, int width, ref RenderElement parentElement)
         {
             List<List<List<int>>> lines = new List<List<List<int>>>();
-
             if (dots != null && width > BRAILLE_CHAR_WIDTH)
             {
                 //Split the word char list in peaces width max length of 'width'
                 int count = getMaxCountOfChars(width);
                 if (count > 0)
                 {
+                    string parVal = parentElement.GetValue() != null ? parentElement.GetValue().ToString() : String.Empty;
                     int i = 0;
 
                     while (i < dots.Count)
                     {
                         int l = (i + count) < dots.Count ? count : (dots.Count - i);
                         List<List<int>> subList = dots.GetRange(i, l);
+
+                        // create sub value
+                        string val = !String.IsNullOrEmpty(parVal) && parVal.Length > i ? 
+                            parVal.Substring(i,
+                                (parVal.Length > (i+l) ? l : parVal.Length-i)
+                            ) : String.Empty; 
+ 
+                        // create sub element for each part
+                        RenderElement se = new RenderElement(
+                            parentElement.X,
+                            parentElement.Y + (lines.Count * (BRAILLE_CHAR_HEIGHT+INTER_LINE_HEIGHT)),
+                            getMinWidthOfString(subList),
+                            (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT),
+                            val,
+                            parentElement
+                            );
+                        parentElement.AddSubPart(se);
+
                         lines.Add(subList);
                         i += count;
                     }
@@ -298,10 +406,19 @@ namespace BrailleRenderer
         /// <summary>
         /// Saves the current line to the lines list and opens a new line
         /// </summary>
-        /// <param name="lines">The list of filled lines.</param>
-        /// <param name="currentLine">The current line to fill with chars.</param>
+        /// <param name="lines">The list of filled lines.
+        /// (List of lines) List [
+        ///     (List of characters) List [
+        ///         (List of raised pins in one Braille cell) List [dot pattern]
+        ///     ]
+        /// ]</param>
+        /// <param name="currentLine">The current line to fill with chars.
+        /// (List of characters) List [
+        /// (List of raised pins in one Braille cell) List [dot pattern]
+        /// ]</param>
         /// <param name="availableWidth">Current available space for chars on the current line.</param>
         /// <param name="width">The max width of a line.</param>
+        /// <param name="maxUsedWidth">maximum occupied width.</param>
         private static void makeNewLine(ref List<List<List<int>>> lines, ref List<List<int>> currentLine, ref int availableWidth, int width, ref int maxUsedWidth)
         {
             //save the line and open a new one
@@ -318,6 +435,18 @@ namespace BrailleRenderer
 
         #region Build Bool/Dot Matrix
 
+        /// <summary>
+        /// Converts the interpreted Lines into a bool matrix.
+        /// </summary>
+        /// <param name="lines">The lines containing dot patterns.
+        /// (List of lines) List [
+        ///     (List of characters) List [
+        ///         (List of raised pins in one Braille cell) List [dot pattern]
+        ///     ]
+        /// ]
+        /// </param>
+        /// <param name="width">The width of the matrix to build out of the lines.</param>
+        /// <returns>A two dimensional matrix of the given width and the needed height.</returns>
         private bool[,] buildMatrixFromLines(List<List<List<int>>> lines, int width)
         {
             int height = 0;
@@ -359,7 +488,8 @@ namespace BrailleRenderer
         /// Adds the dots of a char dot pattern to a matrix.
         /// </summary>
         /// <param name="m">The matrix to fill.</param>
-        /// <param name="brailleChar">The braille char to add.</param>
+        /// <param name="brailleChar">The braille char to add. 
+        /// (List of raised pins in one Braille cell) List [dot pattern]</param>
         /// <param name="xOffset">The x offset for the chr to place.</param>
         /// <param name="yoffset">The yoffset for the char to place.</param>
         private static void addDotPatternToMatrix(ref bool[,] m, List<int> brailleChar, int xOffset, int yoffset)
@@ -434,37 +564,6 @@ namespace BrailleRenderer
         }
 
         #endregion
-
-        #endregion
-
-        #region Submatrix
-
-        public static bool[,] GetSubMatrix(bool[,] m, int height, int width)
-        {
-            bool[,] sM = null;
-
-            if (m != null && width > 0 && height > 0)
-            {
-                sM = new bool[height, width];
-
-                int cols = Math.Min(width, m.GetLength(1));
-                int rows = Math.Min(height, m.GetLength(0));
-
-                Parallel.For(0, cols, (i) =>
-                {
-                    Parallel.For(0, rows, (j) =>
-                        {
-                            try
-                            {
-                                sM[j, i] = m[j, i];
-                            }
-                            catch { }
-                        });
-                });
-            }
-
-            return sM;
-        }
 
         #endregion
     }

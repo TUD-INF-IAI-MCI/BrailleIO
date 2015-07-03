@@ -11,7 +11,7 @@ namespace BrailleIO.Renderer
     /// <summary>
     /// A new Basic Braille renderer wrapping the external BrailleRendereProject so it can be used as default text renderer 
     /// </summary>
-    class NewBrailleRenderer : BrailleIOHookableRendererBase, IBrailleIOContentRenderer, IBrailleIOBrailleRenderer
+    public class NewBrailleRenderer : BrailleIOHookableRendererBase, IBrailleIOContentRenderer, IBrailleIOBrailleRenderer
     {
 
         #region Members
@@ -19,18 +19,18 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Interpreter for wrapping string in Braille dot pattern and vise versa
         /// </summary>
-        readonly IBraileInterpreter brailleInterpreter;
+        public readonly IBraileInterpreter BrailleInterpreter;
         /// <summary>
         /// the new basic braille renderer
         /// </summary>
-        readonly MatrixBrailleRenderer renderer;
+        public readonly MatrixBrailleRenderer brailleRenderer;
 
         #endregion
 
         public NewBrailleRenderer()
         {
-            brailleInterpreter = new SimpleBrailleInterpreter();
-            renderer = new MatrixBrailleRenderer(brailleInterpreter);
+            BrailleInterpreter = new SimpleBrailleInterpreter();
+            brailleRenderer = new MatrixBrailleRenderer(BrailleInterpreter);
         }
 
 
@@ -54,13 +54,13 @@ namespace BrailleIO.Renderer
         {
             callAllPreHooks(ref view, ref content);
 
-            if (renderer != null)
+            if (brailleRenderer != null)
             {
                 int width = view.ContentBox.Width;
-                if (renderer != null)
+                if (brailleRenderer != null)
                 {
                     bool scrolleBars = false;
-                    var matrix = renderer.RenderMatrix(width, content, scrolleBars);
+                    var matrix = brailleRenderer.RenderMatrix(width, content, scrolleBars);
 
                     view.ContentHeight = matrix.GetLength(0);
                     view.ContentWidth = matrix.GetLength(1);
@@ -80,16 +80,16 @@ namespace BrailleIO.Renderer
         {
             get
             {
-                if (renderer != null) return renderer.RenderingProperties.HasFlag(RenderingProperties.IGNORE_LAST_LINESPACE);
+                if (brailleRenderer != null) return brailleRenderer.RenderingProperties.HasFlag(RenderingProperties.IGNORE_LAST_LINESPACE);
                 return false;
             }
             set
             {
-                if (renderer != null) {
+                if (brailleRenderer != null) {
                   if(value) {
-                      renderer.RenderingProperties |= RenderingProperties.IGNORE_LAST_LINESPACE;
+                      brailleRenderer.RenderingProperties |= RenderingProperties.IGNORE_LAST_LINESPACE;
                   }else{
-                      renderer.RenderingProperties |= ~RenderingProperties.IGNORE_LAST_LINESPACE;
+                      brailleRenderer.RenderingProperties |= ~RenderingProperties.IGNORE_LAST_LINESPACE;
                   }
                 }
             }

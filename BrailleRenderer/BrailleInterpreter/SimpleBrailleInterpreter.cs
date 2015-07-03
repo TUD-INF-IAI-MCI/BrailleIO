@@ -137,10 +137,15 @@ namespace BrailleRenderer.BrailleInterpreter
         }
 
         /// <summary>
-        /// Converts the dot string (e.g. 1278) to an list of integer.
+        /// Converts the dot string (e.g. 1278) to a list of integer.
         /// </summary>
         /// <param name="dots">The dot pattern as String.</param>
-        /// <returns>a List of integer indicating the raised dots as a Position in a Braille cell</returns>
+        /// <returns>a List of integer indicating the raised dots as a position in a Braille cell.
+        ///     1 4
+        ///     2 5
+        ///     3 6
+        ///     7 8
+        /// </returns>
         public static List<int> ConvertDotPatternStringToIntList(String dotPattern)
         {
             List<int> dots = new List<int>();
@@ -162,8 +167,9 @@ namespace BrailleRenderer.BrailleInterpreter
                 }
             }
 
-            dots.Sort();
+            //dots.Sort();
             //TODO: sort?
+
             return dots;
         }
 
@@ -172,6 +178,18 @@ namespace BrailleRenderer.BrailleInterpreter
 
         #region IBraileInterpreter
 
+        /// <summary>
+        /// Converts a character (e.g. T) to a list of integer (e.g. 2,3,4,5,7) that
+        /// indicates the positions of raised pins in a Braille cell.
+        /// </summary>
+        /// <param name="c">The character to interpret.</param>
+        /// <returns>
+        /// a List of integer indicating the raised dots as a position in a Braille cell.
+        /// 1 4
+        /// 2 5
+        /// 3 6
+        /// 7 8
+        /// </returns>
         public List<int> GetDotsFromChar(char c)
         {
             if (charToDotsList.ContainsKey(c))
@@ -181,6 +199,16 @@ namespace BrailleRenderer.BrailleInterpreter
             return new List<int>();
         }
 
+        /// <summary>
+        /// Gets the dot pattern lists from string.
+        /// </summary>
+        /// <param name="text">The text to convert.</param>
+        /// <returns>
+        /// A list of interpreted characters. Each child list of this list
+        /// stands for one Braille cell.
+        /// The Braille cell is given as a sublist, containing a list of
+        /// raised pin positions inside a Braille cell.
+        /// </returns>
         public List<List<int>> GetDotsFromString(string text)
         {
             List<List<int>> result = new List<List<int>>();
@@ -196,6 +224,14 @@ namespace BrailleRenderer.BrailleInterpreter
             return result;
         }
 
+        /// <summary>
+        /// Gets the char from a dot pattern. Only one-cell patterns can be interpreted.
+        /// </summary>
+        /// <param name="dots">The dot pattern to interpret as a list of raised pin-positions
+        /// inside a Braille cell . E.g. 2,3,4,5,7 will become a 'T'</param>
+        /// <returns>
+        /// The correlated character to the requested dot pattern for one Braille cell.
+        /// </returns>
         public char GetCharFromDots(List<int> dots)
         {
             if (dots != null)
@@ -209,6 +245,16 @@ namespace BrailleRenderer.BrailleInterpreter
             return ' ';
         }
 
+        /// <summary>
+        /// Gets the string form a list of dot patterns.
+        /// Each sublist stands for one Braille cell.
+        /// </summary>
+        /// <param name="dots">The dot patterns to interpret.
+        /// Each sublist is one Braille cell. The Sublist is a list of raised
+        /// pin positions inside one Braille cell.</param>
+        /// <returns>
+        /// A string of interpreted Braille dot patterns.
+        /// </returns>
         public string GetStringFormDots(List<List<int>> dots)
         {
             String result = String.Empty;

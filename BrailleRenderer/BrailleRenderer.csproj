@@ -43,13 +43,16 @@
     <Compile Include="BrailleInterpreter\CtiFileLoader.cs" />
     <Compile Include="BrailleInterpreter\IBraileInterpreter.cs" />
     <Compile Include="BrailleInterpreter\SimpleBrailleInterpreter.cs" />
+    <Compile Include="ITouchableRenderer.cs" />
     <Compile Include="MatrixBrailleRenderer.cs" />
+    <Compile Include="MatrixBrailleRenderer_Touch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Structs\RenderElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -114,8 +114,6 @@ namespace BrailleIO
             }
         }
 
-
-
         /// <summary>
         /// Invokes the picture box image change.
         /// </summary>

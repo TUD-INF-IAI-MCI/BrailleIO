@@ -31,6 +31,8 @@ namespace BrailleIO
         {
             try
             {
+                this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+
                 Application.EnableVisualStyles();
             }
             catch (System.InvalidOperationException e)

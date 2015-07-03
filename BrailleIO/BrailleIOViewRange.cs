@@ -2,6 +2,7 @@
 using System.Drawing;
 using BrailleIO.Interface;
 using System.Threading;
+using System.Runtime.ExceptionServices;
 
 namespace BrailleIO
 {
@@ -25,7 +26,25 @@ namespace BrailleIO
 
         // raw data
         private bool[,] matrix;
-        private Bitmap image;
+        private Bitmap _img;
+        private readonly Object _imgLock = new Object();
+        private Bitmap image
+        {
+            get
+            {
+                lock (_imgLock)
+                {
+                    return _img; 
+                }
+            }
+            set
+            {
+                lock (_imgLock)
+                {
+                    _img = value;  
+                }
+            }
+        }
         private Size imageSize = new Size();
         private String text;
         private Object otherContent;
@@ -187,6 +206,7 @@ namespace BrailleIO
         /// Sets the bitmap that should be rendered.
         /// </summary>
         /// <param name="_img">The imgage.</param>
+        [HandleProcessCorruptedStateExceptions]
         public void SetBitmap(Bitmap img)
         {
             try
@@ -195,7 +215,20 @@ namespace BrailleIO
                 if (this.image != null) this.image.Dispose();
                 if (img == null) img = new Bitmap(1, 1);
 
-                this.image = img.Clone() as Bitmap;
+                int tries = 0;
+                while (tries++ < 5)
+                {
+                    try
+                    {
+                        this.image = img.Clone() as Bitmap;
+                    }
+                    catch (InvalidOperationException) { Thread.Sleep(5); }
+                    catch (AccessViolationException) { Thread.Sleep(5); }
+                    catch (Exception)
+                    {
+                        break;
+                    } 
+                }
                 imageSize = new Size(img.Width, img.Height);
                 this.is_image = true;
                 this.is_text = this.is_matrix = this.is_other = false;
@@ -224,6 +257,7 @@ namespace BrailleIO
         /// Gets the image to render.
         /// </summary>
         /// <returns></returns>
+        [HandleProcessCorruptedStateExceptions]
         public Bitmap GetImage()
         {
             int i = 0;
@@ -239,7 +273,7 @@ namespace BrailleIO
                 }
                 catch (AccessViolationException)
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(5);
                 }
                 catch (System.Exception ex){ break; }
             }
