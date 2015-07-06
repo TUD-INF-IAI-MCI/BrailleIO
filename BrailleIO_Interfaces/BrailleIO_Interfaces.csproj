@@ -41,20 +41,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract_Implementations\AbstractViewBorderBase.cs" />
+    <Compile Include="Abstract_Implementations\AbstractViewBoxModelBase.cs" />
+    <Compile Include="Abstract_Implementations\AbstractViewMarginBase.cs" />
+    <Compile Include="Abstract_Implementations\AbstractViewPaddingBase.cs" />
     <Compile Include="Adapter\BrailleIOAdapter.cs" />
     <Compile Include="BrailleIODevice.cs" />
     <Compile Include="Interface\AbstractBrailleIOHookableRendererBase.cs" />
-    <Compile Include="Interface\BrailleIOInterfaces.cs" />
     <Compile Include="Interface\IBraileInterpreter.cs" />
     <Compile Include="Interface\IBrailleIOAdapter.cs" />
     <Compile Include="Interface\IBrailleIOAdapterManager.cs" />
+    <Compile Include="Interface\IBrailleIOContentChangedEventSupplier.cs" />
+    <Compile Include="Interface\IBrailleIOPropertiesChangedEventSupplier.cs" />
     <Compile Include="Interface\IBrailleIORendererInterfaces.cs" />
+    <Compile Include="Interface\IContrastThreshold.cs" />
+    <Compile Include="Interface\IPannable.cs" />
+    <Compile Include="Interface\IPosition.cs" />
+    <Compile Include="Interface\IViewable.cs" />
+    <Compile Include="Interface\IViewBorder.cs" />
+    <Compile Include="Interface\IViewBoxModel.cs" />
+    <Compile Include="Interface\IViewMargin.cs" />
+    <Compile Include="Interface\IViewPadding.cs" />
+    <Compile Include="Interface\IZoomable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer\ITouchableRenderer.cs" />
     <Compile Include="Renderer\LockBitmap.cs" />
     <Compile Include="Structs\BoxModel.cs" />
     <Compile Include="Structs\RenderElement.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
