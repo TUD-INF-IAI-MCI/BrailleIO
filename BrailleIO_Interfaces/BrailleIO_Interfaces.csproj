@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FC472E01-7C5A-4982-9825-59589AAADCCB}</ProjectGuid>
+    <ProjectGuid>{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BrailleIO.BrailleRenderer</RootNamespace>
-    <AssemblyName>BrailleRenderer</AssemblyName>
+    <RootNamespace>BrailleIO</RootNamespace>
+    <AssemblyName>BrailleIO_Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,39 +41,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrailleInterpreter\CtiFileLoader.cs" />
-    <Compile Include="BrailleInterpreter\SimpleBrailleInterpreter.cs" />
-    <Compile Include="MatrixBrailleRenderer.cs" />
-    <Compile Include="MatrixBrailleRenderer_Touch.cs" />
+    <Compile Include="Adapter\BrailleIOAdapter.cs" />
+    <Compile Include="BrailleIODevice.cs" />
+    <Compile Include="Interface\AbstractBrailleIOHookableRendererBase.cs" />
+    <Compile Include="Interface\BrailleIOInterfaces.cs" />
+    <Compile Include="Interface\IBraileInterpreter.cs" />
+    <Compile Include="Interface\IBrailleIOAdapter.cs" />
+    <Compile Include="Interface\IBrailleIOAdapterManager.cs" />
+    <Compile Include="Interface\IBrailleIORendererInterfaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\de-chardefs8.cti">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\digits6DotsPlusDot6.uti">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\unicode.dis">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BrailleIO_Interfaces\BrailleIO_Interfaces.csproj">
-      <Project>{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}</Project>
-      <Name>BrailleIO_Interfaces</Name>
-    </ProjectReference>
+    <Compile Include="Renderer\ITouchableRenderer.cs" />
+    <Compile Include="Renderer\LockBitmap.cs" />
+    <Compile Include="Structs\BoxModel.cs" />
+    <Compile Include="Structs\RenderElement.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

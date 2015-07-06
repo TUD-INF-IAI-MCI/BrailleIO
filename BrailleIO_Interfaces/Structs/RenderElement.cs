@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace BrailleRenderer.Structs
+namespace BrailleIO.Renderer.Structs
 {
     /// <summary>
-    /// Element that represent a rendered Element an can be used for collision testings and other stuf
+    /// Element that represent a rendered Element an can be used for collision testings and other stuff
     /// </summary>
     public struct RenderElement
     {

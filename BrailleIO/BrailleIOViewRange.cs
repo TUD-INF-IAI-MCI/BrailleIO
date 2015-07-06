@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using BrailleIO.Interface;
-using System.Threading;
 using System.Runtime.ExceptionServices;
+using System.Threading;
+using BrailleIO.Interface;
 
 namespace BrailleIO
 {
@@ -87,7 +87,7 @@ namespace BrailleIO
 
         private readonly BrailleIO.Renderer.BrailleIOImageToMatrixRenderer _ir = new Renderer.BrailleIOImageToMatrixRenderer();
         private readonly BrailleIO.Renderer.BrailleIOViewMatixRenderer _mr = new BrailleIO.Renderer.BrailleIOViewMatixRenderer();
-        private readonly BrailleIO.Renderer.NewBrailleRenderer _tr = new BrailleIO.Renderer.NewBrailleRenderer();
+        private readonly BrailleIO.Renderer.MatrixBrailleRenderer _tr = new BrailleIO.Renderer.MatrixBrailleRenderer();
 
         private IBrailleIOContentRenderer _cr;
         public IBrailleIOContentRenderer ContentRender

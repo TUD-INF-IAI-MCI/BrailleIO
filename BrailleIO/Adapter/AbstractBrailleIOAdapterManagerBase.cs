@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
 using System.Collections.Concurrent;
+using System.Linq;
 using BrailleIO.Interface;
 
 namespace BrailleIO

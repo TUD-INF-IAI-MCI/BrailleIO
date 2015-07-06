@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BrailleRenderer.Structs;
 using System.Collections;
+using System.Collections.Generic;
+using BrailleIO.Renderer.Structs;
 
-namespace BrailleRenderer
+namespace BrailleIO.Renderer
 {
     public partial class MatrixBrailleRenderer : ITouchableRenderer
     {

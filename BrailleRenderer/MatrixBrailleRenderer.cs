@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BrailleRenderer.BrailleInterpreter;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using BrailleRenderer.Structs;
+using BrailleIO.Renderer.BrailleInterpreter;
+using BrailleIO.Renderer.Structs;
+using BrailleIO.Interface;
 
-namespace BrailleRenderer
+namespace BrailleIO.Renderer
 {
-    public partial class MatrixBrailleRenderer
+    public partial class MatrixBrailleRenderer : BrailleIOHookableRendererBase, IBrailleIOContentRenderer
     {
         #region Members
 
@@ -29,6 +28,9 @@ namespace BrailleRenderer
 
         #region Constructor
 
+        public MatrixBrailleRenderer(RenderingProperties renderingProperties = RenderingProperties.NONE)
+            : this(new SimpleBrailleInterpreter(), renderingProperties){}
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MatrixBrailleRenderer"/> class.
         /// </summary>
@@ -43,6 +45,39 @@ namespace BrailleRenderer
         #endregion
 
         #region IBrailleIOContentRenderer
+
+
+        /// <summary>
+        /// Renders a content object into an boolean matrix;
+        /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowerd pins
+        /// </summary>
+        /// <param name="view">The frame to render in. This gives acces to the space to render and other paramenters. Normaly this is a <see cref="BrailleIOViewRange"/>.</param>
+        /// <param name="content">The content to render.</param>
+        /// <returns>
+        /// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
+        /// and N is the count of columns (which is the width).
+        /// Positions in the Matrix are of type [i,j]
+        /// while i is the index of the row (is the y position)
+        /// and j is the index of the column (is the x position).
+        /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowerd pins
+        /// </returns>
+        public bool[,] RenderMatrix(IViewBoxModel view, object content)
+        {
+            callAllPreHooks(ref view, ref content);
+
+            int width = view.ContentBox.Width;
+            bool scrolleBars = false;
+            var matrix = RenderMatrix(width, content, scrolleBars);
+
+            view.ContentHeight = matrix.GetLength(0);
+            view.ContentWidth = matrix.GetLength(1);
+
+            callAllPostHooks(view, content, ref matrix);
+
+            return matrix;
+
+        }
+
 
         public bool[,] RenderMatrix(int width, object content, bool scrollbars = false)
         {
@@ -88,7 +123,7 @@ namespace BrailleRenderer
                         }
                     }
                 }
-                return null; 
+                return null;
             }
         }
 
@@ -292,16 +327,16 @@ namespace BrailleRenderer
                     {
                         //this will start a new line, so add a new line to the y position
                         e.Y += BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT;
-                        
+
                         //split the word into several lines
                         List<List<List<int>>> wordLines = splitWordOverLines(dots, width, ref e);
-                       
+
                         if (wordLines != null && wordLines.Count > 0)
                         {
                             //remove empty line if generated twice
-                            if (lines.Count > 0 && lines[lines.Count-1].Count == 0)
+                            if (lines.Count > 0 && lines[lines.Count - 1].Count == 0)
                             {
-                                lines.Remove(lines[Math.Max(0,lines.Count - 1)]);
+                                lines.Remove(lines[Math.Max(0, lines.Count - 1)]);
                             }
 
                             // add them to the lines
@@ -379,15 +414,15 @@ namespace BrailleRenderer
                         List<List<int>> subList = dots.GetRange(i, l);
 
                         // create sub value
-                        string val = !String.IsNullOrEmpty(parVal) && parVal.Length > i ? 
+                        string val = !String.IsNullOrEmpty(parVal) && parVal.Length > i ?
                             parVal.Substring(i,
-                                (parVal.Length > (i+l) ? l : parVal.Length-i)
-                            ) : String.Empty; 
- 
+                                (parVal.Length > (i + l) ? l : parVal.Length - i)
+                            ) : String.Empty;
+
                         // create sub element for each part
                         RenderElement se = new RenderElement(
                             parentElement.X,
-                            parentElement.Y + (lines.Count * (BRAILLE_CHAR_HEIGHT+INTER_LINE_HEIGHT)),
+                            parentElement.Y + (lines.Count * (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT)),
                             getMinWidthOfString(subList),
                             (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT),
                             val,

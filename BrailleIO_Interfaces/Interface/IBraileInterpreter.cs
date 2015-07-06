@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BrailleRenderer.BrailleInterpreter
+namespace BrailleIO.Renderer.BrailleInterpreter
 {
     public interface IBraileInterpreter
     {

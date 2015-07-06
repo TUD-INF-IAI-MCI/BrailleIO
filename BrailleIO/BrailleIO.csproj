@@ -69,25 +69,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrailleIOMediator.cs" />
-    <Compile Include="Adapter\BrailleIOAdapter.cs" />
     <Compile Include="Adapter\AbstractBrailleIOAdapterManagerBase.cs" />
-    <Compile Include="BrailleIODevice.cs" />
+    <Compile Include="BrailleIOMediator.cs" />
     <Compile Include="BrailleIOScreen.cs" />
-    <Compile Include="BrailleIOViewRange.cs" />
-    <Compile Include="Interface\AbstractBrailleIOHookableRendererBase.cs" />
-    <Compile Include="Interface\IBrailleIOAdapter.cs" />
-    <Compile Include="Interface\IBrailleIOAdapterManager.cs" />
-    <Compile Include="Interface\IBrailleIORendererInterfaces.cs" />
-    <Compile Include="Interface\BrailleIOInterfaces.cs" />
+    <Compile Include="BrailleIOViewRange.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer\BrailleIOBorderRenderer.cs" />
     <Compile Include="Renderer\BrailleIOImageToMatrixRenderer.cs" />
     <Compile Include="Renderer\BrailleIOScrollbarRenderer.cs" />
     <Compile Include="Renderer\BrailleIOViewMatixRenderer.cs" />
-    <Compile Include="Renderer\LockBitmap.cs" />
-    <Compile Include="Renderer\NewBrailleRenderer.cs" />
-    <Compile Include="Structs\BoxModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -131,6 +123,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BrailleIO_Interfaces\BrailleIO_Interfaces.csproj">
+      <Project>{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}</Project>
+      <Name>BrailleIO_Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BrailleRenderer\BrailleRenderer.csproj">
       <Project>{FC472E01-7C5A-4982-9825-59589AAADCCB}</Project>
       <Name>BrailleRenderer</Name>

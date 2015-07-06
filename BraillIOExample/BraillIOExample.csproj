@@ -89,6 +89,10 @@
       <Project>{623E618C-F034-473E-A5AF-280B20A5BA8F}</Project>
       <Name>BrailleIO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BrailleIO_Interfaces\BrailleIO_Interfaces.csproj">
+      <Project>{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}</Project>
+      <Name>BrailleIO_Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BrailleIO_ShowOff\BrailleIO_ShowOff.csproj">
       <Project>{9CF455A0-B3B8-4D16-B54C-8EAF6BC97E06}</Project>
       <Name>BrailleIO_ShowOff</Name>

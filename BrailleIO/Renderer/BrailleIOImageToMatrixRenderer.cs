@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
-using BrailleIO.Interface;
 using System.Drawing.Imaging;
+using BrailleIO.Interface;
 
 namespace BrailleIO.Renderer
 {

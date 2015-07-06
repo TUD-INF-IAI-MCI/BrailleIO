@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrailleRenderer", "..\Brail
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestureRecognizer", "..\GestureRecognizer\GestureRecognizer.csproj", "{73BD1F41-CE19-40DE-A0EC-A70A9F003DEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrailleIO_Interfaces", "..\BrailleIO_Interfaces\BrailleIO_Interfaces.csproj", "{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,21 @@ Global
 		{73BD1F41-CE19-40DE-A0EC-A70A9F003DEC}.Setup_x64|Mixed Platforms.ActiveCfg = Setup_x64|Any CPU
 		{73BD1F41-CE19-40DE-A0EC-A70A9F003DEC}.Setup_x64|Mixed Platforms.Build.0 = Setup_x64|Any CPU
 		{73BD1F41-CE19-40DE-A0EC-A70A9F003DEC}.Setup_x64|x86.ActiveCfg = Setup_x64|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Release|x86.ActiveCfg = Release|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Setup_x64|Any CPU.ActiveCfg = Release|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Setup_x64|Any CPU.Build.0 = Release|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Setup_x64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Setup_x64|Mixed Platforms.Build.0 = Release|Any CPU
+		{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}.Setup_x64|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

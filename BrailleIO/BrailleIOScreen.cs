@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Specialized;
-using BrailleIO.Interface;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections;
+using System.Collections.Specialized;
 using System.Linq;
+using BrailleIO.Interface;
 
 namespace BrailleIO
 {
