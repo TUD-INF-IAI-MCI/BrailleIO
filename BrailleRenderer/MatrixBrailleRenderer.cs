@@ -276,11 +276,20 @@ namespace BrailleIO.Renderer
         {
             List<List<List<int>>> lines = new List<List<List<int>>>();
             if (width > 0)
-            {
+            {              
                 string[] words = GetWordsOfString(text);
 
                 List<List<int>> currentLine = new List<List<int>>();
                 int availableWidth = width;
+
+
+                int peX, peY, peW, peH = 0;
+                peX = peY = peW = peH;
+                peY = yOffset + lines.Count * (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
+                peX = width - availableWidth;
+                RenderElement pe = new RenderElement(peX, peY, peW, peH, text);
+                pe.Type = BrailleRendererPartType.PARAGRAPH;
+
 
                 foreach (var word in words)
                 {
@@ -291,6 +300,7 @@ namespace BrailleIO.Renderer
                     eY = yOffset + lines.Count * (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
                     eX = width - availableWidth;
                     RenderElement e = new RenderElement(eX, eY, eW, eH, word);
+                    e.Type = BrailleRendererPartType.WORD;
 
                     #endregion
 
@@ -366,7 +376,7 @@ namespace BrailleIO.Renderer
 
                     #region Rendering Element
 
-                    elements.AddLast(e);
+                    pe.AddSubPart(e);
 
                     #endregion
                 }
@@ -374,8 +384,9 @@ namespace BrailleIO.Renderer
 
                 // update the maxUsed Width
                 maxUsedWidth = Math.Max(maxUsedWidth, (width - availableWidth));
-
+                elements.AddLast(pe);
             }
+
             return lines;
         }
 
@@ -429,6 +440,7 @@ namespace BrailleIO.Renderer
                             parentElement
                             );
                         parentElement.AddSubPart(se);
+                        se.Type = BrailleRendererPartType.WORD_PART;
 
                         lines.Add(subList);
                         i += count;

@@ -40,7 +40,6 @@ namespace BrailleIO.Renderer
 
         #endregion
 
-
         #region ITouchableRenderer
 
         /// <summary>
@@ -101,7 +100,7 @@ namespace BrailleIO.Renderer
     /// <summary>
     /// Enum to specify the RenderElements
     /// </summary>
-    public enum BrailleRendererPartTYpe
+    public enum BrailleRendererPartType
     {
         NONE,
         UNKOWN,

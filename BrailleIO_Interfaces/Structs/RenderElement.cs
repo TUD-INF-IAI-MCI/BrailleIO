@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace BrailleIO.Renderer.Structs
 {
     /// <summary>
-    /// Element that represent a rendered Element an can be used for collision testings and other stuff
+    /// Element that represent a rendered Element an can be used for collision testings, building tree structures and other stuff
     /// </summary>
     public struct RenderElement
     {
@@ -222,10 +222,42 @@ namespace BrailleIO.Renderer.Structs
             return false;
         }
 
+        /// <summary>
+        /// Get the subparts at a specific point.
+        /// </summary>
+        /// <param name="x">The horizontal position of the point.</param>
+        /// <param name="y">The vertical position of the point.</param>
+        /// <returns>a list of sub elements containing this point.</returns>
+        public List<RenderElement> GetSubPartsAtPoint(int x, int y)
+        {
+            List<RenderElement> result = new List<RenderElement>();
+
+            if (Subparts != null && Subparts.Count > 0)
+            {
+                foreach (RenderElement subPart in Subparts)
+                {
+                    if (subPart.ContainsPoint(x, y))
+                    {
+                        result.Add(subPart);
+                    }
+                }
+            }
+            
+            return result;
+        }
 
         #endregion
 
         #region SubPart Handling
+
+        /// <summary>
+        /// Determine if this element has subparts registered.
+        /// </summary>
+        /// <returns><c>true</c> it some subparts are registered for this elment, otherwise <c>false</c>.</returns>
+        public bool HasSubParts()
+        {
+            return Subparts.Count > 0;
+        }
 
         /// <summary>
         /// Get a copy of the list of subparts.
@@ -464,7 +496,7 @@ namespace BrailleIO.Renderer.Structs
 
         public override string ToString()
         {
-            return "RenderElement '" + Value.ToString() + "'- BBox [X:" + X + ", Y:" + Y + ", Width:" + Width + ", Height:" + Height + "]";
+            return "RenderElement '" + Value.ToString() + "' ("+Type.ToString()+") - BBox [X:" + X + ", Y:" + Y + ", Width:" + Width + ", Height:" + Height + "]";
         }
 
         public override bool Equals(object obj)
@@ -474,7 +506,13 @@ namespace BrailleIO.Renderer.Structs
                 && ((RenderElement)obj).X == X
                 && ((RenderElement)obj).Y == Y
                 && ((RenderElement)obj).Width == Width
-                && ((RenderElement)obj).Height == Height;
+                && ((RenderElement)obj).Height == Height
+                && ((RenderElement)obj).Type == Type;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion
