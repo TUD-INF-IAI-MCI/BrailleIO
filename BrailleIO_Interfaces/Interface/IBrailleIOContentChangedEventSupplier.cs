@@ -5,8 +5,11 @@ using System.Text;
 
 namespace BrailleIO.Interface
 {
-    interface IBrailleIOContentChangedEventSupplier
+    public interface IBrailleIOContentChangedEventSupplier
     {
+        /// <summary>
+        /// Occurs when the content has been changed.
+        /// </summary>
         event EventHandler<EventArgs> ContentChanged;
     }
 }

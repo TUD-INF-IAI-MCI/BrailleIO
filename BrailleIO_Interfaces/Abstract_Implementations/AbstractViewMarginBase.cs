@@ -16,7 +16,7 @@ namespace BrailleIO.Interface
         /// Sets the margin.
         /// </summary>
         /// <param name="box">The margin box model.</param>
-        public void SetMargin(BoxModel box)
+        public virtual void SetMargin(BoxModel box)
         {
             this.HasMargin = true;
             this.Margin = box;
@@ -26,7 +26,7 @@ namespace BrailleIO.Interface
         /// Sets all margins.
         /// </summary>
         /// <param name="width">The margin in all direction.</param>
-        public void SetMargin(uint width) { SetMargin(new BoxModel(width)); }
+        public virtual void SetMargin(uint width) { SetMargin(new BoxModel(width)); }
         /// <summary>
         /// Sets the margins.
         /// </summary>
@@ -34,20 +34,20 @@ namespace BrailleIO.Interface
         /// <param name="right">The right margin.</param>
         /// <param name="bottom">The bottom margin.</param>
         /// <param name="left">The left margin.</param>
-        public void SetMargin(uint top, uint right, uint bottom, uint left) { SetMargin(new BoxModel(top, right, bottom, left)); }
+        public virtual void SetMargin(uint top, uint right, uint bottom, uint left) { SetMargin(new BoxModel(top, right, bottom, left)); }
         /// <summary>
         /// Sets the margins.
         /// </summary>
         /// <param name="top">The top margin.</param>
         /// <param name="horizontal">The horizontal margins (left + right).</param>
         /// <param name="bottom">The bottom margin.</param>
-        public void SetMargin(uint top, uint horizontal, uint bottom) { SetMargin(new BoxModel(top, horizontal, bottom)); }
+        public virtual void SetMargin(uint top, uint horizontal, uint bottom) { SetMargin(new BoxModel(top, horizontal, bottom)); }
         /// <summary>
         /// Sets the horizontal and vertical margins.
         /// </summary>
         /// <param name="vertical">The vertical margins (top + bottom).</param>
         /// <param name="horizontal">The horizontal margins (left + right).</param>
-        public void SetMargin(uint vertical, uint horizontal) { SetMargin(new BoxModel(vertical, horizontal)); }
+        public virtual void SetMargin(uint vertical, uint horizontal) { SetMargin(new BoxModel(vertical, horizontal)); }
 
         private bool _hasMargin;
         /// <summary>
@@ -56,12 +56,12 @@ namespace BrailleIO.Interface
         /// <value>
         /// 	<c>true</c> if this instance has a margin; otherwise, <c>false</c>.
         /// </value>
-        public bool HasMargin { get { return _hasMargin && Margin.HasBox(); } set { _hasMargin = value; } }
+        public virtual bool HasMargin { get { return _hasMargin && Margin.HasBox(); } set { _hasMargin = value; } }
         /// <summary>
         /// Gets or sets the margin. The margin is the outer space around an area. Space between the objects and the border.
         /// </summary>
         /// <value>The margin.</value>
-        public BoxModel Margin { get; set; }
+        public virtual BoxModel Margin { get; set; }
     }
 
 }

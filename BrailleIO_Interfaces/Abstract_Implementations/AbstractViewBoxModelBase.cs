@@ -24,7 +24,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Rectangle given dimensions and position of the whole view range or screen including the ContentBox, margin, padding and border (see BoxModel).
         /// </summary>
-        public Rectangle ViewBox { get { return _viewBox; } set { lock (_viewLock) { _viewBox = value; updateContentBoxFromViewBox(); } } }
+        public virtual Rectangle ViewBox { get { return _viewBox; } set { lock (_viewLock) { _viewBox = value; updateContentBoxFromViewBox(); } } }
         private readonly object _contLock = new object();
         private Rectangle _contBox = new Rectangle();
         /// <summary>
@@ -55,7 +55,7 @@ namespace BrailleIO.Interface
         /// └───────────────────────────────────────────────────┘
         /// 
         /// </summary>
-        public Rectangle ContentBox
+        public virtual Rectangle ContentBox
         {
             get { updateContentBoxFromViewBox(); return _contBox; }
             set
@@ -145,7 +145,7 @@ namespace BrailleIO.Interface
         /// <param name="left">
         /// new x offset
         /// </param>
-        public void SetLeft(int left)
+        public virtual void SetLeft(int left)
         {
             var nVB = ViewBox;
             nVB.X = Math.Abs(left);
@@ -158,7 +158,7 @@ namespace BrailleIO.Interface
         /// <returns>
         /// int x_offset
         /// </returns>
-        public int GetLeft()
+        public virtual int GetLeft()
         {
             return ViewBox.Left;
         }
@@ -169,7 +169,7 @@ namespace BrailleIO.Interface
         /// <param name="top">
         /// new y position
         /// </param>
-        public void SetTop(int top)
+        public virtual void SetTop(int top)
         {
             var nVB = ViewBox;
             nVB.Y = Math.Abs(top);
@@ -182,7 +182,7 @@ namespace BrailleIO.Interface
         /// <returns>
         /// int y_offset on device
         /// </returns>
-        public int GetTop()
+        public virtual int GetTop()
         {
             return ViewBox.Top;
         }
@@ -191,7 +191,7 @@ namespace BrailleIO.Interface
         /// set Width on Device
         /// </summary>
         /// <param name="width">width on device</param>
-        public void SetWidth(int width)
+        public virtual void SetWidth(int width)
         {
             var nVB = ViewBox;
             nVB.Width = Math.Abs(width);
@@ -202,7 +202,7 @@ namespace BrailleIO.Interface
         /// get Width on device
         /// </summary>
         /// <returns></returns>
-        public int GetWidth()
+        public virtual int GetWidth()
         {
             return ViewBox.Width;
         }
@@ -211,7 +211,7 @@ namespace BrailleIO.Interface
         /// set Height on device
         /// </summary>
         /// <param name="height">height on device</param>
-        public void SetHeight(int height)
+        public virtual void SetHeight(int height)
         {
             var nVB = ViewBox;
             nVB.Height = Math.Abs(height);
@@ -222,22 +222,27 @@ namespace BrailleIO.Interface
         /// get Height on Device
         /// </summary>
         /// <returns></returns>
-        public int GetHeight()
+        public virtual int GetHeight()
         {
             return ViewBox.Height;
         }
         #endregion
 
         #region IPannable Member
-        public Point OffsetPosition = new Point();
-        public bool ShowScrollbars { get; set; }
-        public int GetXOffset() { return OffsetPosition.X; }
 
-        public void SetXOffset(int x) { OffsetPosition.X = x; }
+        private Point _offsetPosition = new Point();
+        public virtual Point OffsetPosition { get { return _offsetPosition; } set { _offsetPosition = value; } }
 
-        public int GetYOffset() { return OffsetPosition.Y; }
+        private bool _show_scrollbars = false;
+        public bool ShowScrollbars { get { return _show_scrollbars; } set { _show_scrollbars = value; } }
 
-        public void SetYOffset(int y) { OffsetPosition.Y = y; }
+        public virtual int GetXOffset() { return OffsetPosition.X; }
+
+        public virtual void SetXOffset(int x) { OffsetPosition = new Point(x, GetYOffset()); }
+
+        public virtual int GetYOffset() { return OffsetPosition.Y; }
+
+        public virtual void SetYOffset(int y) { OffsetPosition = new Point(GetXOffset(), y); }
 
         #endregion
 
@@ -246,32 +251,34 @@ namespace BrailleIO.Interface
         /// </summary>
         /// <param name="steps">The steps (pins) to move.</param>
         /// <returns>The new ViewBox</returns>
-        public Point MoveVertical(int steps) { return Move(new Point(0, steps)); }
+        public virtual Point MoveVertical(int steps) { return Move(new Point(0, steps)); }
         /// <summary>
         /// Moves the viewBox in horizontal direction.
         /// </summary>
         /// <param name="steps">The steps (pins) to move.</param>
         /// <returns>The new ViewBox</returns>
-        public Point MoveHorizontal(int steps) { return Move(new Point(steps, 0)); }
+        public virtual Point MoveHorizontal(int steps) { return Move(new Point(steps, 0)); }
         /// <summary>
         /// Moves the viewBox in the given directions.
         /// </summary>
         /// <param name="stepsX">The steps (pins) to move in horizontal direction.</param>
         /// <param name="stepsY">The steps (pins) to move in vertical direction.</param>
         /// <returns></returns>
-        public Point Move(int stepsX, int stepsY) { return Move(new Point(stepsX, stepsY)); }
+        public virtual Point Move(int stepsX, int stepsY) { return Move(new Point(stepsX, stepsY)); }
         /// <summary>
         /// Moves the viewBox in the given directions.
         /// </summary>
         /// <param name="direktions">The steps (pins) to move.</param>
         /// <returns>The new ViewBox</returns>
-        public Point Move(Point direktions)
+        public virtual Point Move(Point direktions)
         {
             int maxXOffset = -(Math.Max(ContentWidth - ContentBox.Width, 0));
             int maxYOffset = -(Math.Max(ContentHeight - ContentBox.Height, 0));
 
-            OffsetPosition.X = Math.Max(Math.Min(OffsetPosition.X + direktions.X, 0), maxXOffset);
-            OffsetPosition.Y = Math.Max(Math.Min(OffsetPosition.Y + direktions.Y, 0), maxYOffset);
+            OffsetPosition = new Point(
+                Math.Max(Math.Min(OffsetPosition.X + direktions.X, 0), maxXOffset),
+                Math.Max(Math.Min(OffsetPosition.Y + direktions.Y, 0), maxYOffset));
+
             return OffsetPosition;
         }
         /// <summary>
@@ -279,10 +286,10 @@ namespace BrailleIO.Interface
         /// </summary>
         /// <param name="point">Position to which the viewBox should be moved.</param>
         /// <returns>The new ViewBox</returns>
-        public Point MoveTo(Point point)
+        public virtual Point MoveTo(Point point)
         {
-            OffsetPosition.X = Math.Min(point.X, 0);
-            OffsetPosition.Y = Math.Min(point.Y, 0);
+            SetXOffset(Math.Min(point.X, 0));
+            SetYOffset(Math.Min(point.Y, 0));
 
             return OffsetPosition;
         }

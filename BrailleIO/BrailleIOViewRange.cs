@@ -3,13 +3,14 @@ using System.Drawing;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using BrailleIO.Interface;
+using BrailleIO.Structs;
 
 namespace BrailleIO
 {
     /// <summary>
     /// Basic structure to hold content that should been displayed on an output device
     /// </summary>
-    public class BrailleIOViewRange : AbstractViewBoxModelBase, IViewable, IContrastThreshold, IZoomable
+    public class BrailleIOViewRange : AbstractViewBoxModelBase, IViewable, IContrastThreshold, IZoomable, IBrailleIOPropertiesChangedEventSupplier, IBrailleIOContentChangedEventSupplier
     {
         #region Members
 
@@ -34,14 +35,14 @@ namespace BrailleIO
             {
                 lock (_imgLock)
                 {
-                    return _img; 
+                    return _img;
                 }
             }
             set
             {
                 lock (_imgLock)
                 {
-                    _img = value;  
+                    _img = value;
                 }
             }
         }
@@ -54,11 +55,41 @@ namespace BrailleIO
 
         public const double MAX_ZOOM_LEVEL = 2;
 
-        public bool InvertImage { get; set; }
+        private bool _invert_image = false;
+        public bool InvertImage
+        {
+            get { return _invert_image; }
+            set
+            {
+                bool fire = _invert_image != value;
+                _invert_image = value;
+                if (fire) firePropertyChangedEvent("InvertImage");
+            }
+        }
 
-        public String Name { get; set; }
+        private string _name = String.Empty;
+        public String Name
+        {
+            get { return _name; }
+            set
+            {
+                bool fire = !_name.Equals(value);
+                _name = value;
+                if (fire) firePropertyChangedEvent("Name");
+            }
+        }
 
-        public BrailleIOScreen Parent { get; protected set; }
+        private BrailleIOScreen _parent = null;
+        public BrailleIOScreen Parent
+        {
+            get { return _parent; }
+            protected set
+            {
+                bool fire = _parent != value;
+                _parent = value;
+                if (fire) firePropertyChangedEvent("Parent");
+            }
+        }
 
         volatile bool _render = true;
 
@@ -173,6 +204,7 @@ namespace BrailleIO
                     parent.AddViewRange(this.Name, this);
                 Parent = parent;
                 success = true;
+                firePropertyChangedEvent("Parent");
             }
             return success;
         }
@@ -190,6 +222,7 @@ namespace BrailleIO
             this.is_text = this.is_image = this.is_other = false;
             this.ContentRender = _mr;
             Render = true;
+            fireContentChangedEvent();
         }
 
         /// <summary>
@@ -227,7 +260,7 @@ namespace BrailleIO
                     catch (Exception)
                     {
                         break;
-                    } 
+                    }
                 }
                 imageSize = new Size(img.Width, img.Height);
                 this.is_image = true;
@@ -235,6 +268,7 @@ namespace BrailleIO
                 this.ContentRender = _ir;
                 img.Dispose();
                 Render = true;
+                fireContentChangedEvent();
             }
             catch { }
         }
@@ -247,8 +281,12 @@ namespace BrailleIO
             try
             {
                 if (img != null) SetBitmap(new Bitmap(img));
-                else SetBitmap(null);
-                Render = true;
+                else
+                {
+                    SetBitmap(null);
+                    Render = true;
+                    fireContentChangedEvent();
+                }
             }
             catch (ArgumentException) { }
         }
@@ -275,7 +313,7 @@ namespace BrailleIO
                 {
                     Thread.Sleep(5);
                 }
-                catch (System.Exception ex){ break; }
+                catch (System.Exception ex) { break; }
             }
             return null;
         }
@@ -288,7 +326,9 @@ namespace BrailleIO
         /// </param>
         public void SetVisibility(bool visible)
         {
+            bool fire = this.is_visible != visible;
             this.is_visible = visible;
+            if (fire) firePropertyChangedEvent("Visibility");
         }
 
         public bool IsVisible() { return this.is_visible; }
@@ -346,6 +386,7 @@ namespace BrailleIO
             this.is_image = this.is_matrix = this.is_other = false;
             this.ContentRender = _tr;
             Render = true;
+            fireContentChangedEvent();
         }
 
         /// <summary>
@@ -365,6 +406,7 @@ namespace BrailleIO
             this.is_other = true;
             this.is_image = this.is_matrix = this.is_text = false;
             Render = true;
+            fireContentChangedEvent();
             //if (update) UpdateContentSize();
         }
 
@@ -378,7 +420,7 @@ namespace BrailleIO
         }
 
         /// <summary>
-        /// Determines whether this instance has a special type of content taht can not been rendered with one of the standard renderer.
+        /// Determines whether this instance has a special type of content that can not been rendered with one of the standard renderer.
         /// </summary>
         /// <returns>
         /// 	<c>true</c> if this instance has an specialized content type other; otherwise, <c>false</c>.
@@ -418,6 +460,7 @@ namespace BrailleIO
             this.zoom = zoom;
             Render = true;
             UpdateContentSize();
+            firePropertyChangedEvent("Zoom");
         }
 
         /// <summary>
@@ -449,7 +492,11 @@ namespace BrailleIO
         /// Sets the z-index of the view range. A lager z-index overlays a smaller.
         /// </summary>
         /// <param name="zIndex">the z-index of the viewRange.</param>
-        public void SetZIndex(int zIndex) { this.zIndex = zIndex; }
+        public void SetZIndex(int zIndex)
+        {
+            this.zIndex = zIndex;
+            firePropertyChangedEvent("ZIndex");
+        }
         /// <summary>
         /// Gets the z-index of the view range. A lager z-index overlays a smaller.
         /// </summary>
@@ -494,6 +541,118 @@ namespace BrailleIO
                 RendererChanged.DynamicInvoke(this, null);
             }
         }
+
+        #region IBrailleIOPropertiesChangedEventSupplier
+
+        public event EventHandler<BrailleIOPropertieCHangedEventArgs> PropertyChanged;
+
+        private void firePropertyChangedEvent(string propertyName)
+        {
+            //System.Diagnostics.Debug.WriteLine("Property changed : " + propertyName);
+            if (PropertyChanged != null)
+            {
+                PropertyChanged.DynamicInvoke(this, new BrailleIOPropertieCHangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion
+
+        #region IBrailleIOContentChangedEventSupplier
+
+        public event EventHandler<EventArgs> ContentChanged;
+
+        private void fireContentChangedEvent()
+        {
+            if (ContentChanged != null)
+            {
+                ContentChanged.DynamicInvoke(this, null);
+            }
+        }
+
+        #endregion
+
+        #region Override
+        /*
+         * Overrides setters for firing property changed events 
+         */
+
+        #region AbstractViewBoxModelBase
+
+        public override Rectangle ViewBox
+        {
+            set
+            {
+                bool fire = !ViewBox.Equals(value);
+                base.ViewBox = value;
+                firePropertyChangedEvent("ViewBox");
+            }
+        }
+
+        public override Rectangle ContentBox
+        {
+            set
+            {
+                bool fire = !ContentBox.Equals(value);
+                base.ContentBox = value;
+                if (fire) firePropertyChangedEvent("ContentBox");
+            }
+        }
+
+        public override Point OffsetPosition
+        {
+            set
+            {
+                bool fire = !OffsetPosition.Equals(value);
+                base.OffsetPosition = value;
+                if (fire) firePropertyChangedEvent("OffsetPosition");
+            }
+        }
+
+        #endregion
+
+        #region AbstractViewBorderBase
+
+        public override BoxModel Border
+        {
+            set
+            {
+                bool fire = !Border.Equals(value);
+                base.Border = value;
+                if (fire) firePropertyChangedEvent("Border");
+            }
+        }
+
+        #endregion
+
+        #region AbstractViewPaddingBase
+
+        public override BoxModel Padding
+        {
+            set
+            {
+                bool fire = !Padding.Equals(value);
+                base.Padding = value;
+                if (fire) firePropertyChangedEvent("Padding");
+            }
+        }
+
+        #endregion
+
+        #region AbstractViewMarginBase
+
+        public override BoxModel Margin
+        {
+            set
+            {
+                bool fire = !Margin.Equals(value);
+                base.Margin = value;
+                if (fire) firePropertyChangedEvent("Margin");
+            }
+        }
+
+        #endregion
+
+        #endregion
 
     }
 }
