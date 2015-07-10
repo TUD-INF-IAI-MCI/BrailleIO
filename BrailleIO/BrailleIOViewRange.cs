@@ -339,7 +339,7 @@ namespace BrailleIO
         /// <returns>
         /// 	<c>true</c> if this instance renders a matrix; otherwise, <c>false</c>.
         /// </returns>
-        internal bool IsMatrix()
+        public bool IsMatrix()
         {
             return this.is_matrix;
         }
@@ -350,7 +350,7 @@ namespace BrailleIO
         /// <returns>
         /// 	<c>true</c> if this instance renders an image; otherwise, <c>false</c>.
         /// </returns>
-        internal bool IsImage()
+        public bool IsImage()
         {
             return this.is_image;
         }
@@ -361,7 +361,7 @@ namespace BrailleIO
         /// <returns>
         /// 	<c>true</c> if this instance renders a text; otherwise, <c>false</c>.
         /// </returns>
-        internal bool IsText()
+        public bool IsText()
         {
             return this.is_text;
         }

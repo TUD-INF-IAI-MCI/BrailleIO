@@ -326,10 +326,7 @@ namespace BrailleIO
                     }
                 }
 
-                //FIXME: check why this is not working proper
                 MarkButtonAsPressed(_pressedButtons);
-
-                //return;
             }
 
             BrailleIO_DeviceButtonStates ps = BrailleIO_DeviceButtonStates.None;
