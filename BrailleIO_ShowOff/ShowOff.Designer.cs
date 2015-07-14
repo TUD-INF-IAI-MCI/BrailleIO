@@ -504,15 +504,20 @@
             this.pictureBox_overAllOverlay.Size = new System.Drawing.Size(721, 363);
             this.pictureBox_overAllOverlay.TabIndex = 50;
             this.pictureBox_overAllOverlay.TabStop = false;
+            this.pictureBox_overAllOverlay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseDown);
+            this.pictureBox_overAllOverlay.MouseEnter += new System.EventHandler(this.pictureBoxTouch_MouseEnter);
+            this.pictureBox_overAllOverlay.MouseLeave += new System.EventHandler(this.pictureBoxTouch_MouseLeave);
+            this.pictureBox_overAllOverlay.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseMove);
+            this.pictureBox_overAllOverlay.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseUp);
             // 
             // ShowOff
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(919, 530);
-            this.Controls.Add(this.pictureBox_overAllOverlay);
+            this.ClientSize = new System.Drawing.Size(919, 530);            
             this.Controls.Add(this.pictureBoxTouch);
+            this.Controls.Add(this.pictureBox_overAllOverlay);
             this.Controls.Add(this.pictureBoxPins);
             this.Controls.Add(this.pictureBoxMatrix);
             this.Controls.Add(this.statusStrip1);

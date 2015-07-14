@@ -492,7 +492,7 @@ namespace BrailleIO
                             this.pictureBoxTouch.Location = new System.Drawing.Point(116, 97);
                             this.pictureBoxTouch.Name = "pictureBoxTouch";
                             this.pictureBoxTouch.Size = new System.Drawing.Size(721, 363);
-                            this.pictureBoxTouch.TabIndex = 49;
+                            this.pictureBoxTouch.TabIndex = 52;
                             this.pictureBoxTouch.TabStop = false;
                             this.pictureBoxTouch.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseDown);
                             this.pictureBoxTouch.MouseEnter += new System.EventHandler(this.pictureBoxTouch_MouseEnter);
@@ -531,6 +531,11 @@ namespace BrailleIO
                             this.pictureBox_overAllOverlay.Size = new System.Drawing.Size(721, 363);
                             this.pictureBox_overAllOverlay.TabIndex = 50;
                             this.pictureBox_overAllOverlay.TabStop = false;
+                            this.pictureBox_overAllOverlay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseDown);
+                            this.pictureBox_overAllOverlay.MouseEnter += new System.EventHandler(this.pictureBoxTouch_MouseEnter);
+                            this.pictureBox_overAllOverlay.MouseLeave += new System.EventHandler(this.pictureBoxTouch_MouseLeave);
+                            this.pictureBox_overAllOverlay.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseMove);
+                            this.pictureBox_overAllOverlay.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseUp);
 
                             this.Controls.Add(this.pictureBox_overAllOverlay);
                             this.Controls.Add(this.pictureBoxTouch);
@@ -570,6 +575,5 @@ namespace BrailleIO
         }
 
         #endregion
-
     }
 }

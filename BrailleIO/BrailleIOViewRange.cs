@@ -578,6 +578,10 @@ namespace BrailleIO
 
         #region AbstractViewBoxModelBase
 
+        /// <summary>
+        /// Rectangle given dimensions and position of the whole view range or screen including the ContentBox, margin, padding and border (see BoxModel).
+        /// </summary>
+        /// <value></value>
         public override Rectangle ViewBox
         {
             set
@@ -588,6 +592,32 @@ namespace BrailleIO
             }
         }
 
+        /// <summary>
+        /// Rectangle given dimensions and position of the view range or screen that can be used for displaying content.
+        /// BrailleIOScreen                                     ViewBox
+        /// ┌────────────────────────────────────────────────╱─┐
+        /// │              BrailleIOViewRange              ╱   │
+        /// │╔═ Margin ════════════════════════════════════════╗│
+        /// │║   Border                                        ║│
+        /// │║    Padding                                      ║│
+        /// │║  ┌╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┐ ║│
+        /// │║  │                                            │ ║│
+        /// │║  │                                            │ ║│
+        /// │║  │                                            │ ║│
+        /// │║  │              ContentBox                    │ ║│
+        /// │║  │      = space to present content            │ ║│
+        /// │║  │                                            │ ║│
+        /// │║  │                                            │ ║│
+        /// │║  │                                            │ ║│
+        /// │║  └╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┘ ║│
+        /// │║                                                 ║│
+        /// │╚═════════════════════════════════════════════════╝│
+        /// │╔═════════════════════════════════════════════════╗│
+        /// │║           another BrailleIOViewRange            ║│
+        /// │╚═════════════════════════════════════════════════╝│
+        /// └───────────────────────────────────────────────────┘
+        /// </summary>
+        /// <value></value>
         public override Rectangle ContentBox
         {
             set

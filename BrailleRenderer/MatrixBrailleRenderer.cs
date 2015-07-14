@@ -331,6 +331,7 @@ namespace BrailleIO.Renderer
                     }
 
                     e.X = width - availableWidth;
+                    e.Y = yOffset + lines.Count * (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
 
                     int minWidth = getMinWidthOfString(dots);
                     if (minWidth > width)
@@ -366,8 +367,7 @@ namespace BrailleIO.Renderer
                         //fill the word into the line
                         currentLine.AddRange(dots);
 
-                        //TODO: set width ad height
-                        e.Width = minWidth;
+                        e.Width = minWidth + INTER_CHAR_WIDTH;
                         e.Height = BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT;
 
                         //update the available width

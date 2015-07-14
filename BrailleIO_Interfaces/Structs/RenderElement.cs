@@ -174,9 +174,9 @@ namespace BrailleIO.Renderer.Structs
         public bool IsCompletelyInArea(int left, int right, int top, int bottom)
         {
             return X >= left
-                && (X + Width) <= right
+                && (X + Width-1) <= right
                 && Y >= top
-                && (Y + Height) <= bottom;
+                && (Y + Height-1) <= bottom;
         }
 
         /// <summary>
@@ -189,8 +189,8 @@ namespace BrailleIO.Renderer.Structs
         /// <returns><c>true</c> if the element is at least partly inside the tested region, otherwise <c>false</c></returns>
         public bool IsInArea(int left, int right, int top, int bottom)
         {
-            int Bottom = Y + Height;
-            int Right = X + Width;
+            int Bottom = Y + Height-1;
+            int Right = X + Width-1;
 
             if (Height > 0 && Width > 0)
             {
