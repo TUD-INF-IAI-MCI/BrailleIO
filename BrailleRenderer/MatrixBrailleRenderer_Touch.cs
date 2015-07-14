@@ -50,9 +50,10 @@ namespace BrailleIO.Renderer
         /// <returns></returns>
         public object GetContentAtPosition(int x, int y)
         {
-            if (elements != null && elements.Count > 0)
+            LinkedList<RenderElement> elementsCopy = GetAllRenderElements();
+            if (elementsCopy != null && elementsCopy.Count > 0)
             {
-                foreach (RenderElement e in elements)
+                foreach (RenderElement e in elementsCopy)
                 {
                     if (e.ContainsPoint(x, y))
                     {
@@ -78,10 +79,11 @@ namespace BrailleIO.Renderer
         public IList GetAllContentInArea(int left, int right, int top, int bottom)
         {
             List<RenderElement> eL = new List<RenderElement>();
-
-            if (elements != null && elements.Count > 0)
+            LinkedList<RenderElement> elementsCopy = GetAllRenderElements();
+            
+            if (elementsCopy != null && elementsCopy.Count > 0)
             {
-                foreach (RenderElement e in elements)
+                foreach (RenderElement e in elementsCopy)
                 {
                     if (e.IsInArea(left, right, top, bottom))
                     {
