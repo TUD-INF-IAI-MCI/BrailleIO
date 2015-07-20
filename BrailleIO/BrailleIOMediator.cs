@@ -37,23 +37,39 @@ namespace BrailleIO
         /// /// </summary>
         private ConcurrentDictionary<String, Object> views = new ConcurrentDictionary<String, Object>();
         private readonly object vvLock = new object();
-        private ConcurrentDictionary<String, Object> _visibleViews = new ConcurrentDictionary<String, Object>();
+        //private ConcurrentDictionary<String, Object> _visibleViews = new ConcurrentDictionary<String, Object>();
         private ConcurrentDictionary<String, Object> VisibleViews
         {
             get
             {
                 lock (vvLock)
                 {
-                    return _visibleViews;
+                    return getVisibleViews();
                 }
             }
-            set
+        }
+
+        private ConcurrentDictionary<string, object> getVisibleViews()
+        {
+            ConcurrentDictionary<string, object> vvs = new ConcurrentDictionary<string, object>();
+            if (views != null && views.Count > 0)
             {
-                lock (vvLock)
+                foreach (var item in views)
                 {
-                    _visibleViews = value;
+                    if (item.Value != null)
+                    {
+                        if (item.Value is IViewable && ((IViewable)item.Value).IsVisible())
+                        {
+                            vvs.AddOrUpdate(item.Key, item.Value, (key, oldValue) => item.Value);
+                        }
+                    }
+                    else
+                    {
+                        //TODO: delete?
+                    }
                 }
             }
+            return vvs;
         }
 
         /// <summary>
@@ -469,9 +485,8 @@ namespace BrailleIO
                         }
                     }
                 }
-
-                if (!this.VisibleViews.ContainsKey(name))
-                    this.VisibleViews.TryAdd(name, true);
+                //if (!this.VisibleViews.ContainsKey(name))
+                //    this.VisibleViews.TryAdd(name, true);
             }
             else throw new ArgumentException("View '" + name + "' is unknown", "name");
         }
@@ -492,9 +507,9 @@ namespace BrailleIO
                     ((IViewable)views[name]).SetVisibility(false);
                 }
 
-                object trash;
-                if (this.VisibleViews.ContainsKey(name))
-                    this.VisibleViews.TryRemove(name, out trash);
+                //object trash;
+                //if (this.VisibleViews.ContainsKey(name))
+                //    this.VisibleViews.TryRemove(name, out trash);
             }
             else throw new ArgumentException("View '" + name + "' is unknown", "name");
         }
