@@ -61,6 +61,10 @@ namespace BrailleIO
         {
             this.manager = manager;
             this.Device = new BrailleIODevice(120, 60, "ShowOFF_" + this.GetHashCode(), true, false, 30, this);
+            if (manager != null)
+            {
+                manager.AddAdapter(this);
+            }
             Connect();
         }
 
@@ -94,24 +98,6 @@ namespace BrailleIO
             fireInitialized(new BrailleIO_Initialized_EventArgs(device));
         }
 
-        //private void driver_inputChangedEvent(
-        //    bool touchInputAvailable,
-        //    int[,] valueMatrix,
-        //    HyperBraille.HBBrailleDis.BrailleDisKeyboard keyboardState,
-        //    int timeStampTickCount)
-        //{
-        //    OrderedDictionary raw = new OrderedDictionary();
-        //    raw.Add("touchInputAvailable", touchInputAvailable);
-        //    raw.Add("valueMatrix", valueMatrix);
-        //    raw.Add("keyBoardState", keyboardState);
-        //    raw.Add("timeStampTickCount", timeStampTickCount);
-        //    bool[,] touches = new bool[valueMatrix.GetLength(0), valueMatrix.GetLength(1)];
-        //    for (int i = 0; i < valueMatrix.GetLength(0); i++)
-        //        for (int j = 0; j < valueMatrix.GetLength(1); j++)
-        //            touches[i, j] = ((double)Math.Round((double)valueMatrix[i, j]) != 0) ? true : false;
-        //    fireInputChanged(touches, timeStampTickCount, ref raw);
-        //}
-
         internal void firekeyStateChangedEvent(BrailleIO_DeviceButtonStates states,
             List<string> pressedKeys,
             List<string> releasedKeys,
@@ -124,17 +110,6 @@ namespace BrailleIO
             fireKeyStateChanged(states, ref raw);
         }
 
-        //private void driver_pinStateChangedEvent(HyperBraille.HBBrailleDis.BrailleDisPinState[] changedPins)
-        //{
-        //    OrderedDictionary raw = new OrderedDictionary();
-        //    raw.Add("changedPins", changedPins);
-
-        //    foreach (HyperBraille.HBBrailleDis.BrailleDisPinState p in changedPins)
-        //    {
-
-        //    }
-        //}
-
         internal void firetouchValuesChangedEvent(
             double[,] touches,
             int timeStampTickCount)
@@ -145,7 +120,6 @@ namespace BrailleIO
 
         public void startTouch()
         {
-            //TODO: do touches
         }
     }
 }

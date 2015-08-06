@@ -88,13 +88,18 @@ namespace BrailleIO
         /// <returns></returns>
         public bool Synchronize(bool[,] matrix)
         {
+            bool success = true;
             ActiveAdapter.Synchronize(matrix);
             foreach (var item in Adapters)
             {
-                if (item != null && item != ActiveAdapter && item is AbstractBrailleIOAdapterBase && ((AbstractBrailleIOAdapterBase)item).Synch)
-                    item.Synchronize(matrix);
+                try
+                {
+                    if (item != null && item != ActiveAdapter && item is AbstractBrailleIOAdapterBase && ((AbstractBrailleIOAdapterBase)item).Synch)
+                        item.Synchronize(matrix);
+                }
+                catch { success = false; }
             }
-            return false;
+            return success;
         }
 
 

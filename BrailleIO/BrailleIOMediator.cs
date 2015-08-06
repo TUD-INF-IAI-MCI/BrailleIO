@@ -37,7 +37,6 @@ namespace BrailleIO
         /// /// </summary>
         private ConcurrentDictionary<String, Object> views = new ConcurrentDictionary<String, Object>();
         private readonly object vvLock = new object();
-        //private ConcurrentDictionary<String, Object> _visibleViews = new ConcurrentDictionary<String, Object>();
         private ConcurrentDictionary<String, Object> VisibleViews
         {
             get
@@ -100,7 +99,6 @@ namespace BrailleIO
             }
         }
 
-
         #endregion
 
         #region Public Members
@@ -160,7 +158,7 @@ namespace BrailleIO
         #region Public Available Calls 
 
         /// <summary>
-        /// Trys to sent the actual build matrix to all devices, that are active.
+        /// Tries to sent the actual build matrix to all devices, that are active.
         /// To enable a sending, the pins have to be unlocked (still rendering or maybe locked by the user)
         /// and at an Adapter has to be active.
         /// </summary>
@@ -269,99 +267,110 @@ namespace BrailleIO
         /// <param name="vr">ViewRange</param>
         private bool drawViewRange(BrailleIOViewRange vr)
         {
-            if (vr == null || vr.ViewBox == null || !vr.IsVisible()) return false;
-
-            //Stopwatch sw = new Stopwatch();
-            //sw.Start();            
-
-            bool[,] viewBoxMatrix = new bool[vr.ViewBox.Height, vr.ViewBox.Width];
-
-            // View Range bounds
-            int srcOffsetX = vr.GetLeft();
-            int scrOffsetY = vr.GetTop();
-            bool handlePanning = true;
-
-            bool[,] contentMatrix = new bool[1, 1];
-            // Matrix rendering
-            if (vr.IsMatrix())
+            try
             {
-                if (vr.GetMatrix() != null)
-                {
-                    contentMatrix = vr.GetMatrix();
-                    //set content size in vr
-                    vr.ContentHeight = contentMatrix.GetLength(0);
-                    vr.ContentWidth = contentMatrix.GetLength(1);
-                }
-            }
-            // Image rendering
-            else if (vr.IsImage())
-            {
-                int th = (vr is IContrastThreshold) ? ((IContrastThreshold)vr).GetContrastThreshold() : -1;
+                if (vr == null || vr.ViewBox == null || !vr.IsVisible()) return false;
 
-                using (System.Drawing.Bitmap img = vr.GetImage())
+                //Stopwatch sw = new Stopwatch();
+                //sw.Start();            
+
+                bool[,] viewBoxMatrix = new bool[vr.ViewBox.Height, vr.ViewBox.Width];
+
+                // View Range bounds
+                int srcOffsetX = vr.GetLeft();
+                int scrOffsetY = vr.GetTop();
+                bool handlePanning = true;
+
+                bool[,] contentMatrix = new bool[1, 1];
+                // Matrix rendering
+                if (vr.IsMatrix())
                 {
-                    if (vr.ContentRender is BrailleIOImageToMatrixRenderer)
+                    if (vr.GetMatrix() != null)
                     {
-                        if (th >= 0)
+                        contentMatrix = vr.GetMatrix();
+                        //set content size in vr
+                        vr.ContentHeight = contentMatrix.GetLength(0);
+                        vr.ContentWidth = contentMatrix.GetLength(1);
+                    }
+                }
+                // Image rendering
+                else if (vr.IsImage())
+                {
+                    int th = (vr is IContrastThreshold) ? ((IContrastThreshold)vr).GetContrastThreshold() : -1;
+
+                    using (System.Drawing.Bitmap img = vr.GetImage())
+                    {
+                        if (vr.ContentRender is BrailleIOImageToMatrixRenderer)
                         {
-                            contentMatrix = ((BrailleIOImageToMatrixRenderer)vr.ContentRender).RenderImage(img, vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), th);
+                            if (th >= 0)
+                            {
+                                contentMatrix = ((BrailleIOImageToMatrixRenderer)vr.ContentRender).RenderImage(img, vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), th);
+                            }
+                            else
+                            {
+                                contentMatrix = ((BrailleIOImageToMatrixRenderer)vr.ContentRender).RenderImage(img, vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), true);
+                            }
                         }
                         else
                         {
-                            contentMatrix = ((BrailleIOImageToMatrixRenderer)vr.ContentRender).RenderImage(img, vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), true);
+                            contentMatrix = vr.ContentRender.RenderMatrix(vr, img);
                         }
                     }
-                    else
+                    handlePanning = false;
+                }
+                // Text rendering
+                else if (vr.IsText())
+                {
+                    if (!string.IsNullOrEmpty(vr.GetText()))
                     {
-                        contentMatrix = vr.ContentRender.RenderMatrix(vr, img);
+                        contentMatrix = vr.ContentRender.RenderMatrix(vr, vr.GetText());
                     }
                 }
-                handlePanning = false;
-            }
-            // Text rendering
-            else if (vr.IsText())
-            {
-                if (!string.IsNullOrEmpty(vr.GetText()))
+                // Generic renderer
+                else if (vr.IsOther())
                 {
-                    contentMatrix = vr.ContentRender.RenderMatrix(vr, vr.GetText());
-                }
-            }
-            // Generic renderer
-            else if (vr.IsOther())
-            {
-                if (vr.GetOtherContent() != null && vr.ContentRender != null)
-                {
-                    contentMatrix = vr.ContentRender.RenderMatrix(vr, vr.GetOtherContent());
+                    if (vr.GetOtherContent() != null && vr.ContentRender != null)
+                    {
+                        contentMatrix = vr.ContentRender.RenderMatrix(vr, vr.GetOtherContent());
+                    }
+                    else return false;
                 }
                 else return false;
-            }
-            else return false;
-            //place the content matrix (contentMatrix) in the view range matrix with aware of the box model 
-            viewBoxMatrix = (new BrailleIO.Renderer.BrailleIOViewMatixRenderer()).RenderMatrix(vr, contentMatrix, handlePanning);
-            // Border rendering
-            viewBoxMatrix = BrailleIO.Renderer.BrailleIOBorderRenderer.renderMatrix(vr, viewBoxMatrix);
-            bool pl = pins_locked;
-            pins_locked = true;
+                //place the content matrix (contentMatrix) in the view range matrix with aware of the box model 
+                viewBoxMatrix = (new BrailleIO.Renderer.BrailleIOViewMatixRenderer()).RenderMatrix(vr, contentMatrix, handlePanning);
+                // Border rendering
+                viewBoxMatrix = BrailleIO.Renderer.BrailleIOBorderRenderer.renderMatrix(vr, viewBoxMatrix);
+                bool pl = pins_locked;
+                pins_locked = true;
 
 
-            // draw content and borders to main matrix
-            System.Threading.Tasks.Parallel.For(srcOffsetX, srcOffsetX + viewBoxMatrix.GetLength(1), x =>
-            {
-                if (x >= 0 && x < Matrix.GetLength(1))
+                // draw content and borders to main matrix
+                System.Threading.Tasks.Parallel.For(srcOffsetX, srcOffsetX + viewBoxMatrix.GetLength(1), x =>
                 {
-                    System.Threading.Tasks.Parallel.For(scrOffsetY, scrOffsetY + viewBoxMatrix.GetLength(0), y =>
+                    if (x >= 0 && x < Matrix.GetLength(1))
                     {
-                        if (y < Matrix.GetLength(0)) { Matrix[y, x] = viewBoxMatrix[y - scrOffsetY, x - srcOffsetX]; }
-                    });
-                }
-            });
+                        System.Threading.Tasks.Parallel.For(scrOffsetY, scrOffsetY + viewBoxMatrix.GetLength(0), y =>
+                        {
+                            if (y < Matrix.GetLength(0)) { Matrix[y, x] = viewBoxMatrix[y - scrOffsetY, x - srcOffsetX]; }
+                        });
+                    }
+                });
 
-            //sw.Stop();
-            //Console.WriteLine("Elapsed={0}", sw.Elapsed);
+                //sw.Stop();
+                //Console.WriteLine("Elapsed={0}", sw.Elapsed);
 
-            pins_locked = pl;
+                pins_locked = pl;
 
-            return true;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                GC.Collect();
+            }
         }
 
         #endregion
@@ -378,57 +387,6 @@ namespace BrailleIO
         {
             return Matrix;
         }
-
-        ///// <summary>
-        ///// put all pins down.
-        ///// (clear screen)
-        ///// </summary>
-        //public void AllPinsDown() // TODO: handle that
-        //{
-        //    this.pins_locked = true;
-        //    //foreach (String key in views.Keys)
-        //    //{
-        //    //    this.HideView(key);
-        //    //}
-        //    //for (int i = 0; i < AdapterManager.ActiveAdapter.DeviceSizeX; i++)
-        //    //    for (int j = 0; j < AdapterManager.ActiveAdapter.DeviceSizeY; j++)
-        //    //        this.Matrix[j, i] = false;
-
-        //    Matrix = new bool[1, 1];
-
-        //    if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
-        //        AdapterManager.Synchronize(Matrix);
-        //}
-
-        ///// <summary>
-        ///// put all Pins Up.
-        ///// (black screen)
-        ///// </summary>
-        //public void AllPinsUp()
-        //{
-        //    this.pins_locked = true;
-        //    foreach (String key in views.Keys)
-        //    {
-        //        this.HideView(key);
-        //    }
-        //    for (int i = 0; i < AdapterManager.ActiveAdapter.Device.DeviceSizeX; i++)
-        //        for (int j = 0; j < AdapterManager.ActiveAdapter.Device.DeviceSizeY; j++)
-        //            this.Matrix[j, i] = true;
-
-        //    Matrix = Matrix;
-
-        //    if (AdapterManager != null && AdapterManager.ActiveAdapter != null)
-        //        AdapterManager.Synchronize(Matrix.Clone() as bool[,]);
-        //}
-
-        ///// <summary>
-        ///// release allUp or allDown and show ViewRanges again
-        ///// </summary>
-        //public void RestoreLastRendering()
-        //{
-        //    this.pins_locked = false;
-        //    this.RenderDisplay();
-        //}
 
         /// <summary>
         /// check if pins are locked. This indicates that a rendering is still going on 
