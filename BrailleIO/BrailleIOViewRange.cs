@@ -544,14 +544,14 @@ namespace BrailleIO
 
         #region IBrailleIOPropertiesChangedEventSupplier
 
-        public event EventHandler<BrailleIOPropertieCHangedEventArgs> PropertyChanged;
+        public event EventHandler<BrailleIOPropertyChangedEventArgs> PropertyChanged;
 
         private void firePropertyChangedEvent(string propertyName)
         {
             //System.Diagnostics.Debug.WriteLine("Property changed : " + propertyName);
             if (PropertyChanged != null)
             {
-                PropertyChanged.DynamicInvoke(this, new BrailleIOPropertieCHangedEventArgs(propertyName));
+                PropertyChanged.DynamicInvoke(this, new BrailleIOPropertyChangedEventArgs(propertyName));
             }
         }
 
