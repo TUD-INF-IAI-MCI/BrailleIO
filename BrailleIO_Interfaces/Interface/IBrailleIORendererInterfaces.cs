@@ -5,9 +5,9 @@ namespace BrailleIO.Interface
     {
         /// <summary>
         /// Renders a content object into an boolean matrix;
-        /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowerd pins
+        /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
-        /// <param name="view">The frame to render in. This gives acces to the space to render and other paramenters. Normaly this is a <see cref="BrailleIOViewRange"/>.</param>
+        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange"/>.</param>
         /// <param name="matrix">The content to render.</param>
         /// <returns>
         /// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
@@ -15,7 +15,7 @@ namespace BrailleIO.Interface
         /// Positions in the Matrix are of type [i,j] 
         /// while i is the index of the row (is the y position) 
         /// and j is the index of the column (is the x position). 
-        /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowerd pins</returns>
+        /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins</returns>
         bool[,] RenderMatrix(IViewBoxModel view, bool[,] matrix);
     }
 
@@ -27,9 +27,9 @@ namespace BrailleIO.Interface
     {
         /// <summary>
         /// Renders a content object into an boolean matrix;
-        /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowerd pins
+        /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
-        /// <param name="view">The frame to render in. This gives acces to the space to render and other paramenters. Normaly this is a <see cref="BrailleIOViewRange"/>.</param>
+        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange"/>.</param>
         /// <param name="content">The content to render.</param>
         /// <returns>
         /// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
@@ -37,7 +37,7 @@ namespace BrailleIO.Interface
         /// Positions in the Matrix are of type [i,j] 
         /// while i is the index of the row (is the y position) 
         /// and j is the index of the column (is the x position). 
-        /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowerd pins</returns>
+        /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins</returns>
         bool[,] RenderMatrix(IViewBoxModel view, object content);
     }
 
@@ -93,7 +93,7 @@ namespace BrailleIO.Interface
         /// </summary>
         /// <param name="view">The view.</param>
         /// <param name="content">The content.</param>
-        /// <param name="result">The result matrix, may be manipulated. Adressed in [y, x] notation.</param>
+        /// <param name="result">The result matrix, may be manipulated. Addressed in [y, x] notation.</param>
         /// <param name="additionalParams">Additional parameters.</param>
         void PostRenderHook(IViewBoxModel view, object content, ref bool[,] result, params object[] additionalParams);
     }
