@@ -201,3 +201,8 @@ This is an example application showing for the usage of several basic functions 
 ![The abstract tactile displays should contain of a display area and 9 general buttons: ok, esc, gesture, 4 direction buttons, zoom-in and zoom-out](/doc_imgs/general_device.png)
 
 ![An hardware abstracting adapter implementation has to implement the interface IBrailleIOAdapter and has to fill his fields to enable to proper usage of the hardware.](/doc_imgs/UML-Adapter.png)
+
+
+## You want to know more?
+For getting a very detailed overview use the [code documentaion section](/Help/index.html) of this project.
+
