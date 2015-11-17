@@ -33,7 +33,7 @@ In this component the renderers for the currently active screens and visible vie
 
 This is a container for several views that can contain content. Only one screen can be visible at the same time. You can build an unlimited number of screens and fill them with content. This makes it easy to switch between different views or different applications.
 
-![BrailleIO can build applications with several screens. A screen can contain several viewRanges that can have independent controlled content](/doc_imgs/sreens-and-viewRange.svg)
+![BrailleIO can build applications with several screens. A screen can contain several viewRanges that can have independent controlled content](/doc_imgs/sreens-and-viewRange.png)
 
 #### BrailleIOViewRange
 
@@ -42,11 +42,11 @@ Several viewRanges can be combined in a screen to build a complex view. ViewRang
 
 A viewRange has a complex box model with margin padding and boarder. All properties of the box model are independently definable in all four dimensions. 
 
-![BrailleIO view ranges have a full box model consisting of margin, border and padding](/doc_imgs/viewBox.svg)
+![BrailleIO view ranges have a full box model consisting of margin, border and padding](/doc_imgs/viewBox.png)
 
 A view Range has a view Box – which defines the position, size and look on the screen – and a content box which holds the rendered content. This Content box can be larger than the view box. Through offsets in x- and y-direction the content can be moved to become visible inside the vie box. So the content box is moved under the view box to show hidden content. Therefore the offsets have to get negative.
 
-![The content of a view range can be larger as the visible area. The content can be moved underneath the viewable area controlled by offset-properties](/doc_imgs/ContentBox.svg)
+![The content of a view range can be larger as the visible area. The content can be moved underneath the viewable area controlled by offset-properties](/doc_imgs/ContentBox.png)
 
 Content can be zoomed if the currently active renderer allows for zoomed rendering.
 
@@ -56,7 +56,7 @@ Content can be zoomed if the currently active renderer allows for zoomed renderi
 
 The adapter manager is an abstract implementation for a component that manages the connection of different specific hardware abstractions. Adapters can be registered and unregistered at this component. The Adapatermanager that is linked to the BrailleIOMediator will be requested for all active hardware displays.
 
-![The abstract tactile displays should contain of a display area and 9 general buttons: ok, esc, gesture, 4 direction buttons, zoom-in and zoom-out](/doc_imgs/general_device.svg)
+![The abstract tactile displays should contain of a display area and 9 general buttons: ok, esc, gesture, 4 direction buttons, zoom-in and zoom-out](/doc_imgs/general_device.png)
 
 ![An hardware abstracting adapter implementation has to implement the interface IBrailleIOAdapter and has to fill his fields to enable to proper usage of the hardware.](/doc_imgs/UML-Adapter.png)
 
@@ -198,6 +198,6 @@ This is an example application showing for the usage of several basic functions 
 
 ### How to build a hardware abstraction
 
-![The abstract tactile displays should contain of a display area and 9 general buttons: ok, esc, gesture, 4 direction buttons, zoom-in and zoom-out](/doc_imgs/general_device.svg)
+![The abstract tactile displays should contain of a display area and 9 general buttons: ok, esc, gesture, 4 direction buttons, zoom-in and zoom-out](/doc_imgs/general_device.png)
 
 ![An hardware abstracting adapter implementation has to implement the interface IBrailleIOAdapter and has to fill his fields to enable to proper usage of the hardware.](/doc_imgs/UML-Adapter.png)
