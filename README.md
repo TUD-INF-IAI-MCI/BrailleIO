@@ -19,7 +19,7 @@ The BrailleIO framework is spitted into several small parts, so the usage and ex
 
 This is the main project linking all other projects together. It is used to initialize the main component of the framework (see usage and example) and holds basic class implementations and basic renderers for general content types.
 
-In the following the main components will be named and explained
+In the following the main components will be named and explained.
 
 #### BrailleIOMediator
 
@@ -27,11 +27,13 @@ Central instance for the BrailleIO Framework.  It connects the hardware abstract
 
 In this component the renderers for the currently active screens and visible views will be called. The rendered content will be sent to all the connected hardware adapters.
 
-[Figure for basic structure]
+![Basic UML structure of the BrailleIO framework showing the BraillIOMediator connecting the UI elements with the Hardware abstraction part](/doc_imgs/UML-Basic-Structure.png)
 
 #### BrailleIOScreen
 
 This is a container for several views that can contain content. Only one screen can be visible at the same time. You can build an unlimited number of screens and fill them with content. This makes it easy to switch between different views or different applications.
+
+![BrailleIO can build applications with several screens. A screen can contain several viewRanges that can have independent controlled content](/doc_imgs/sreens-and-viewRange.svg)
 
 #### BrailleIOViewRange
 
@@ -40,11 +42,11 @@ Several viewRanges can be combined in a screen to build a complex view. ViewRang
 
 A viewRange has a complex box model with margin padding and boarder. All properties of the box model are independently definable in all four dimensions. 
 
-[Figure box model]
+![BrailleIO view ranges have a full box model consisting of margin, border and padding](/doc_imgs/viewBox.svg)
 
 A view Range has a view Box – which defines the position, size and look on the screen – and a content box which holds the rendered content. This Content box can be larger than the view box. Through offsets in x- and y-direction the content can be moved to become visible inside the vie box. So the content box is moved under the view box to show hidden content. Therefore the offsets have to get negative.
 
-[figure relation between content and view]
+![The content of a view range can be larger as the visible area. The content can be moved underneath the viewable area controlled by offset-properties](/doc_imgs/ContentBox.svg)
 
 Content can be zoomed if the currently active renderer allows for zoomed rendering.
 
@@ -53,6 +55,10 @@ Content can be zoomed if the currently active renderer allows for zoomed renderi
 ##### AbstractBrailleIOAdapterManagerBase
 
 The adapter manager is an abstract implementation for a component that manages the connection of different specific hardware abstractions. Adapters can be registered and unregistered at this component. The Adapatermanager that is linked to the BrailleIOMediator will be requested for all active hardware displays.
+
+![The abstract tactile displays should contain of a display area and 9 general buttons: ok, esc, gesture, 4 direction buttons, zoom-in and zoom-out](/doc_imgs/general_device.svg)
+
+![An hardware abstracting adapter implementation has to implement the interface IBrailleIOAdapter and has to fill his fields to enable to proper usage of the hardware.](/doc_imgs/UML-Adapter.png)
 
 #### Renderer
 
@@ -153,7 +159,7 @@ This project is an implementation of a specialized hardware abstraction of a cer
 
 ### BrailleRenderer
 
-This project builds the currently used renderer to transform a given string input into a representation in computer-braille by applying a defined translation table. The translation tables are built by the “XXX” project. Currently the German translation tables are used but of course others can be defined and loaded trough the constructor.
+This project builds the currently used renderer to transform a given string input into a representation in computer-braille by applying a defined translation table. The translation tables are built by the “Liblouis” project. Currently the German translation tables are used but of course others can be defined and loaded trough the constructor.
 
 This render builds the standard render for String content of the BrailleIo framework. It also implements the ITouchableRenderer interface in a very detailed manner. This allows for highly interactive touchable interface build on this simple text-to-Braille-renderer.
 
@@ -185,4 +191,13 @@ This is an example application showing for the usage of several basic functions 
 
 --	TODO: build a small workflow
 
+![An application using BrailleIO can be set up in a view steps ](/doc_imgs/Usage.png)
+
+
+
+
 ### How to build a hardware abstraction
+
+![The abstract tactile displays should contain of a display area and 9 general buttons: ok, esc, gesture, 4 direction buttons, zoom-in and zoom-out](/doc_imgs/general_device.svg)
+
+![An hardware abstracting adapter implementation has to implement the interface IBrailleIOAdapter and has to fill his fields to enable to proper usage of the hardware.](/doc_imgs/UML-Adapter.png)
