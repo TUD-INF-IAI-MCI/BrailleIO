@@ -238,7 +238,7 @@ namespace BrailleIO
         /// <summary>
         /// Sets the bitmap that should be rendered.
         /// </summary>
-        /// <param name="_img">The imgage.</param>
+        /// <param name="_img">The image.</param>
         [HandleProcessCorruptedStateExceptions]
         public void SetBitmap(Bitmap img)
         {
@@ -275,7 +275,7 @@ namespace BrailleIO
         /// <summary>
         /// Sets the bitmap that should be rendered.
         /// </summary>
-        /// <param name="_img">The imgage.</param>
+        /// <param name="_img">The image.</param>
         public void SetBitmap(Image img)
         {
             try
@@ -392,7 +392,7 @@ namespace BrailleIO
         /// <summary>
         /// Sets an generic content and a related renderer for this type.
         /// </summary>
-        /// <param name="content">The contet.</param>
+        /// <param name="content">The content.</param>
         /// <param name="renderer">The renderer - can not be null.</param>
         public void SetOtherContent(Object content, IBrailleIOContentRenderer renderer)
         {

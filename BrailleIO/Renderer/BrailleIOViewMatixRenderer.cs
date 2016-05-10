@@ -18,7 +18,7 @@ namespace BrailleIO.Renderer
         /// This renderer takes also care about the panning, which is set in the view if they is IPannable.
         /// </summary>
         /// <param name="view">The view witch holds the BoxModel. If the view is IPannable than the offset is also considered.</param>
-        /// <param name="contentMatrix">The content matrix. Holds the conten that should be placed in the view.</param>
+        /// <param name="contentMatrix">The content matrix. Holds the content that should be placed in the view.</param>
         /// <returns>a bool[view.ViewBox.Width,view.ViewBox.Height] matrix holding the content with aware of the views' BoxModel.</returns>
         public bool[,] RenderMatrix(IViewBoxModel view, bool[,] contentMatrix) { return RenderMatrix(view, contentMatrix, false); }
 
@@ -31,7 +31,7 @@ namespace BrailleIO.Renderer
         /// This renderer takes also care about the panning, which is set in the view if they is IPannable.
         /// </summary>
         /// <param name="view">The view with holds the BoxModel. If the view is IPannable than the offset is also considered.</param>
-        /// <param name="contentMatrix">The content matrix. Holds the conten that should be placed in the view.</param>
+        /// <param name="contentMatrix">The content matrix. Holds the content that should be placed in the view.</param>
         /// <param name="handlePanning">Handle the panning of the content matrix or not</param>
         /// <returns>a bool[view.ViewBox.Width,view.ViewBox.Height] matrix holding the content with aware of the views' BoxModel.</returns>
         public bool[,] RenderMatrix(IViewBoxModel view, bool[,] contentMatrix, bool handlePanning)
@@ -101,9 +101,9 @@ namespace BrailleIO.Renderer
 
         /// <summary>
         /// Renders a content object into an boolean matrix;
-        /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowerd pins
+        /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
-        /// <param name="view">The frame to render in. This gives acces to the space to render and other paramenters. Normaly this is a <see cref="BrailleIOViewRange"/>.</param>
+        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange"/>.</param>
         /// <param name="content">The content to render.</param>
         /// <returns>
         /// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
@@ -111,7 +111,7 @@ namespace BrailleIO.Renderer
         /// Positions in the Matrix are of type [i,j]
         /// while i is the index of the row (is the y position)
         /// and j is the index of the column (is the x position).
-        /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowerd pins
+        /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </returns>
         public bool[,] RenderMatrix(IViewBoxModel view, object content)
         {
