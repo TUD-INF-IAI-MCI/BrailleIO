@@ -81,7 +81,7 @@ namespace BrailleIO.Renderer
                 // Unlock bitmap data
                 source.UnlockBits(bitmapData);
             }
-            catch (Exception ex){}
+            catch (Exception){}
         }
 
         /// <summary>

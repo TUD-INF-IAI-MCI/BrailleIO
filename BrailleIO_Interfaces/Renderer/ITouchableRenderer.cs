@@ -20,7 +20,7 @@ namespace BrailleIO.Renderer
         /// <param name="left">Left border of the region to test (X).</param>
         /// <param name="right">Right border of the region to test (X + width).</param>
         /// <param name="top">Top border of the region to test (Y).</param>
-        /// <param name="bottom">Bottom border of the region to test (Y + heigh).</param>
+        /// <param name="bottom">Bottom border of the region to test (Y + height).</param>
         /// <returns>A list of elements inside or at least partial inside the requested area.</returns>
         IList GetAllContentInArea(int left, int right, int top, int bottom);
     }

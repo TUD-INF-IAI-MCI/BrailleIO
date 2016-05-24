@@ -94,9 +94,9 @@ namespace BrailleIO
         volatile bool _render = true;
 
         /// <summary>
-        /// Gets or sets a flag indicating whether this <see cref="BrailleIOViewRange"/> should be rerendered bacause of the content was changed.
+        /// Gets or sets a flag indicating whether this <see cref="BrailleIOViewRange"/> should be re-rendered because of the content was changed.
         /// </summary>
-        /// <value><c>true</c> if the renderer should rerender the content; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> if the renderer should re-render the content; otherwise, <c>false</c>.</value>
         public bool Render
         {
             get { return _render; }
@@ -114,7 +114,7 @@ namespace BrailleIO
 
         #endregion
 
-        #region Renderers
+        #region Renderer
 
         private readonly BrailleIO.Renderer.BrailleIOImageToMatrixRenderer _ir = new Renderer.BrailleIOImageToMatrixRenderer();
         private readonly BrailleIO.Renderer.BrailleIOViewMatixRenderer _mr = new BrailleIO.Renderer.BrailleIOViewMatixRenderer();
@@ -313,7 +313,7 @@ namespace BrailleIO
                 {
                     Thread.Sleep(5);
                 }
-                catch (System.Exception ex) { break; }
+                catch (System.Exception) { break; }
             }
             return null;
         }
@@ -563,6 +563,10 @@ namespace BrailleIO
 
         private void fireContentChangedEvent()
         {
+            if (ContentRender != null && ContentRender is BrailleIO.Renderer.ICacheingRenderer)
+            {
+                ((BrailleIO.Renderer.ICacheingRenderer)ContentRender).ContentOrViewHasChanged(this, GetContent());
+            }
             if (ContentChanged != null)
             {
                 ContentChanged.DynamicInvoke(this, null);

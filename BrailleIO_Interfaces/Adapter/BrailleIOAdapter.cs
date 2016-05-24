@@ -332,10 +332,7 @@ namespace BrailleIO
                             temp += Math.Max(tMatrix[i, j], ftm[i, j]);
                             ftm[i, j] = temp;
                         }
-                        catch (System.Exception ex)
-                        {
-
-                        }
+                        catch (System.Exception){}
 
                     }); // Parallel.For cols
 

@@ -41,22 +41,6 @@ namespace BrailleIO.Interface
         bool[,] RenderMatrix(IViewBoxModel view, object content);
     }
 
-    ///// <summary>
-    ///// Generic interface for a renderer for Braille text content.
-    ///// </summary>
-    //public interface IBrailleIOBrailleRenderer
-    //{
-    //    /// <summary>
-    //    /// Gets or sets a value indicating whether the last line should also has inter line space or not.
-    //    /// Default this is set to false, so the last line has also some space to the bottom of the content region.
-    //    /// </summary>
-    //    /// <value>
-    //    /// 	<c>true</c> if [ignore last line space]; otherwise, <c>false</c>.
-    //    /// </value>
-    //    bool IgnoreLastLineSpace { get; set; }
-    //}
-
-
     #region Hook
 
     /// <summary>

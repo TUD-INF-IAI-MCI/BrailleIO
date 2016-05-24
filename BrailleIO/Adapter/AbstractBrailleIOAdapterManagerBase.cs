@@ -89,7 +89,7 @@ namespace BrailleIO
         public bool Synchronize(bool[,] matrix)
         {
             bool success = true;
-            ActiveAdapter.Synchronize(matrix);
+            if (ActiveAdapter != null) ActiveAdapter.Synchronize(matrix);
             foreach (var item in Adapters)
             {
                 try
@@ -101,7 +101,7 @@ namespace BrailleIO
             }
             return success;
         }
-
+        
 
     }
 
