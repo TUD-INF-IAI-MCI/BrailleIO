@@ -164,6 +164,8 @@ namespace BrailleIO.Renderer
         /// </returns>
         public bool[,] RenderMatrix(IViewBoxModel view, object content)
         {
+            callAllPreHooks(ref view, ref content, null);
+
             if (!ViewBoxModelEquals(lastView, view))
             {
                 //System.Diagnostics.Debug.WriteLine("[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) + "]************** +++ View differs");
@@ -174,10 +176,9 @@ namespace BrailleIO.Renderer
                 //System.Diagnostics.Debug.WriteLine("[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) + "]************** +++ Content differs");
                 ContentOrViewHasChanged(view, content);
             }
-
-            callAllPreHooks(ref view, ref content, null);
             
-            if (ContentChanged)
+
+            if (ContentChanged )
             {
                 //System.Diagnostics.Debug.WriteLine("[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) + "]************** --- Caching rendering call");
                 _cachedMatrix = RenderMatrix(view, content, CallHooksOnCacherendering);
@@ -185,7 +186,7 @@ namespace BrailleIO.Renderer
                 ContentChanged = false;
             }
 
-            bool[,] output = GetCachedMatrix();
+            bool[,] output = GetCachedMatrix().Clone() as bool[,];
             callAllPostHooks(view, content, ref output, null);
 
             return output;
