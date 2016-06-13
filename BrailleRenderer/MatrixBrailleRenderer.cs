@@ -75,7 +75,7 @@ namespace BrailleIO.Renderer
             if(callHooks)callAllPreHooks(ref view, ref content);
 
             int width = view.ContentBox.Width;
-            bool scrolleBars = false;
+            bool scrolleBars =  (view is AbstractViewBoxModelBase) ? ((AbstractViewBoxModelBase)view).ShowScrollbars : false;
             var matrix = RenderMatrix(width, content, scrolleBars);
 
             view.ContentHeight = matrix.GetLength(0);
