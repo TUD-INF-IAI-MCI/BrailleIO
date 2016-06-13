@@ -40,6 +40,10 @@ namespace Gestures.Recognition
         #endregion
 
         #region IRecognizeGestures
+        /// <summary>
+        /// Adds a classifier for a specific gesture.
+        /// </summary>
+        /// <param name="classifier">The classifier.</param>
         public void AddClassifier(IClassify classifier)
         {
             classifiers.Add(classifier);
@@ -56,11 +60,19 @@ namespace Gestures.Recognition
             //blobTracker.TrackNextFrame(new Frame(frame));
         }
 
+        /// <summary>
+        /// Adds a frame of touch value states.
+        /// </summary>
+        /// <param name="frame">The frame.</param>
         public void AddFrame(Frame frame)
         {
             blobTracker.AddFrame(frame);
         }
 
+        /// <summary>
+        /// Finishes the evaluation of gesture inputs.
+        /// </summary>
+        /// <returns>a classification result for gestures or null</returns>
         public IClassificationResult FinishEvaluation()
         {
             TrackedGesture trackedGesture = blobTracker.TrackedBlobs;

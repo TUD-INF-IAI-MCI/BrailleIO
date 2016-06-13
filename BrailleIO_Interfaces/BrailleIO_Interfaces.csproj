@@ -71,6 +71,7 @@
     <Compile Include="Renderer\LockBitmap.cs" />
     <Compile Include="Structs\BoxModel.cs" />
     <Compile Include="Structs\RenderElement.cs" />
+    <Compile Include="Structs\Touch.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

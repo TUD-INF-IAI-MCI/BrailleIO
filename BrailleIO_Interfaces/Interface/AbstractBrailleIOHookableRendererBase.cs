@@ -9,6 +9,9 @@ namespace BrailleIO.Interface
     {
         #region Member
 
+        /// <summary>
+        /// The hooks that should be called when rendering the content.
+        /// </summary>
         protected readonly ConcurrentDictionary<int, IBailleIORendererHook> hooks = new ConcurrentDictionary<int, IBailleIORendererHook>();
 
         #endregion

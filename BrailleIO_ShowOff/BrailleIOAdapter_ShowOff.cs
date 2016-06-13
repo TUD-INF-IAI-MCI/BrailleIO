@@ -15,7 +15,14 @@ namespace BrailleIO
         /// The Windows Forms Application that should display the matrix. It is the Emulation of the presenting hardware.
         /// </summary>
         public IBrailleIOShowOffMonitor Monitor = ShowOff.ActiveForm as IBrailleIOShowOffMonitor;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockDriver"/> class. This is a simple wrapper for the software adapter itself connected to this GUI.
+        /// </summary>
         public MockDriver() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockDriver"/> class. This is a simple wrapper for the software adapter itself connected to this GUI.
+        /// </summary>
+        /// <param name="gui">The GUI.</param>
         public MockDriver(ShowOff gui) { Monitor = gui; }
         /// <summary>
         /// Sends the Matrix to the windows forms application to display
@@ -39,7 +46,6 @@ namespace BrailleIO
         /// The driver emulator that send the matrix to the windows forms application
         /// </summary>
         public MockDriver driver = new MockDriver();
-        IBrailleIOAdapterManager manager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIOAdapter_ShowOff"/> class.
@@ -68,11 +74,23 @@ namespace BrailleIO
             Connect();
         }
 
+        /// <summary>
+        /// Synchronizes the specified matrix. 
+        /// That means the Adapter try to sent the given Matrix to the real hardware 
+        /// device as an output.
+        /// </summary>
+        /// <param name="m">The matrix.</param>
         public override void Synchronize(bool[,] m)
         {
             if(!LockPins)driver.SetMatrix(m);
         }
 
+        /// <summary>
+        /// Connects this instance.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if connected successfully; otherwise, <c>false</c>.
+        /// </returns>
         public override bool Connect()
         {
             if (base.Connect())
@@ -84,6 +102,12 @@ namespace BrailleIO
             return false;
         }
 
+        /// <summary>
+        /// Disconnects this instance.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if disconnected successfully; otherwise, <c>false</c>.
+        /// </returns>
         public override bool Disconnect()
         {
             if (base.Disconnect())
@@ -118,8 +142,11 @@ namespace BrailleIO
             fireTouchValuesChanged(touches, timeStampTickCount, ref raw);
         }
 
-        public void startTouch()
-        {
-        }
+        ///// <summary>
+        ///// Starts the touch evaluation.
+        ///// </summary>
+        //public void StartTouch()
+        //{
+        //}
     }
 }

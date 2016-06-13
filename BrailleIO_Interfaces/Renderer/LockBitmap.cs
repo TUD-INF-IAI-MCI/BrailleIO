@@ -14,11 +14,39 @@ namespace BrailleIO.Renderer
         IntPtr Iptr = IntPtr.Zero;
         BitmapData bitmapData = null;
 
+        /// <summary>
+        /// Gets or sets the pixels of the bitmap.
+        /// </summary>
+        /// <value>
+        /// The pixels.
+        /// </value>
         public byte[] Pixels { get; set; }
+        /// <summary>
+        /// Gets the color depth.
+        /// </summary>
+        /// <value>
+        /// The depth.
+        /// </value>
         public int Depth { get; private set; }
+        /// <summary>
+        /// Gets the width of the bitmap.
+        /// </summary>
+        /// <value>
+        /// The width.
+        /// </value>
         public int Width { get; private set; }
+        /// <summary>
+        /// Gets the height of the bitmap.
+        /// </summary>
+        /// <value>
+        /// The height.
+        /// </value>
         public int Height { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LockBitmap"/> class.
+        /// </summary>
+        /// <param name="source">The source bitmap.</param>
         public LockBitmap(Bitmap source)
         {
             this.source = source;
@@ -161,6 +189,9 @@ namespace BrailleIO.Renderer
             }
         }
 
+        /// <summary>
+        /// Dispose this instance.
+        /// </summary>
         public void Dispose()
         {
             unlockBits();

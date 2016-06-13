@@ -8,6 +8,11 @@ using BrailleIO.Interface;
 
 namespace BrailleIO.Renderer
 {
+    /// <summary>
+    /// Renders a String object into a dot pattern using a braille renderer. 
+    /// </summary>
+    /// <seealso cref="BrailleIO.Renderer.AbstractCachingRendererBase" />
+    /// <seealso cref="BrailleIO.Interface.IBrailleIOContentRenderer" />
     public partial class MatrixBrailleRenderer : AbstractCachingRendererBase, IBrailleIOContentRenderer
     {
         #region Members
@@ -28,6 +33,10 @@ namespace BrailleIO.Renderer
 
         #region Constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MatrixBrailleRenderer"/> class.
+        /// </summary>
+        /// <param name="renderingProperties">The rendering properties.</param>
         public MatrixBrailleRenderer(RenderingProperties renderingProperties = RenderingProperties.NONE)
             : this(new SimpleBrailleInterpreter(), renderingProperties){}
 
@@ -50,8 +59,9 @@ namespace BrailleIO.Renderer
         /// Renders a content object into an boolean matrix;
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
-        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange"/>.</param>
+        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a BrailleIOViewRange/&gt;.</param>
         /// <param name="content">The content to render.</param>
+        /// <param name="callHooks">if set to <c>true</c> [call the pre- and post-rendering hooks].</param>
         /// <returns>
         /// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
         /// and N is the count of columns (which is the width).
@@ -247,8 +257,10 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets the max count of chars that would fit into the given width.
         /// </summary>
-        /// <param name="width">The width.</param>
-        /// <returns>the number of chars that would fit</returns>
+        /// <param name="height">The height.</param>
+        /// <returns>
+        /// the number of chars that would fit
+        /// </returns>
         static int getMaxCountOfLines(int height)
         {
             double ratio = (double)(height + INTER_LINE_HEIGHT) / (double)(BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
@@ -275,7 +287,10 @@ namespace BrailleIO.Renderer
         /// Renders a paragraph.
         /// </summary>
         /// <param name="text">The text to render.</param>
-        /// //TODO: make the rendering Positions available
+        /// <param name="width">The available width.</param>
+        /// <param name="maxUsedWidth">Maximum width of the used.</param>
+        /// <param name="yOffset">The y offset.</param>
+        /// <returns></returns>
         private List<List<List<int>>> renderParagraph(string text, int width, ref int maxUsedWidth, int yOffset = 0)
         {
             List<List<List<int>>> lines = new List<List<List<int>>>();
@@ -397,18 +412,18 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Splits one word over several lines if it is to long to fit in one line.
         /// </summary>
-        /// <param name="dots">The dot patterns of the word. 
-        ///     (List of characters) List [
-        ///         (List of raised pins in one Braille cell) List [dot pattern]
-        ///     ]
-        /// </param>
+        /// <param name="dots">The dot patterns of the word.
+        /// (List of characters) List [
+        /// (List of raised pins in one Braille cell) List [dot pattern]
+        /// ]</param>
         /// <param name="width">The width.</param>
+        /// <param name="parentElement">The parent element.</param>
         /// <returns>
         /// A list of lines for the split word.
         /// (List of lines) List [
-        ///     (List of characters) List [
-        ///         (List of raised pins in one Braille cell) List [dot pattern]
-        ///     ]
+        /// (List of characters) List [
+        /// (List of raised pins in one Braille cell) List [dot pattern]
+        /// ]
         /// ]
         /// </returns>
         private static List<List<List<int>>> splitWordOverLines(List<List<int>> dots, int width, ref RenderElement parentElement)
@@ -619,6 +634,9 @@ namespace BrailleIO.Renderer
         #endregion
     }
 
+    /// <summary>
+    /// Specifies how the renderer handles some special objects and properties
+    /// </summary>
     [Flags]
     public enum RenderingProperties
     {

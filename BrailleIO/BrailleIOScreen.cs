@@ -190,7 +190,7 @@ namespace BrailleIO
         /// <summary>
         /// set Visibility of Screen
         /// </summary>
-        /// <param name="which">
+        /// <param name="visible">
         /// bool desired visibility
         /// </param>
         public void SetVisibility(bool visible)

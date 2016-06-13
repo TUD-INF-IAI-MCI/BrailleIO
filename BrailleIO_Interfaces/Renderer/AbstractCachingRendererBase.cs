@@ -8,6 +8,15 @@ using System.Threading.Tasks;
 
 namespace BrailleIO.Renderer
 {
+    /// <summary>
+    /// Abstract implementation for renderer that allow for a caching. 
+    /// This renderer can hold a prerendered result. If the content doesn't change and a 
+    /// rendering request force them for a rendering, they will return the cached result 
+    /// without any new rendering.
+    /// </summary>
+    /// <seealso cref="BrailleIO.Interface.BrailleIOHookableRendererBase" />
+    /// <seealso cref="BrailleIO.Renderer.ICacheingRenderer" />
+    /// <seealso cref="BrailleIO.Interface.IBrailleIORendererInterfaces" />
     public class AbstractCachingRendererBase : BrailleIOHookableRendererBase, ICacheingRenderer, IBrailleIORendererInterfaces
     {
 
@@ -133,7 +142,7 @@ namespace BrailleIO.Renderer
         /// Renders a content object into an boolean matrix;
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
-        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange" />.</param>
+        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a BrailleIOViewRange.</param>
         /// <param name="matrix">The content to render.</param>
         /// <returns>
         /// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
@@ -152,7 +161,7 @@ namespace BrailleIO.Renderer
         /// Renders a content object into an boolean matrix;
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
-        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange" />.</param>
+        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a BrailleIOViewRange.</param>
         /// <param name="content">The content to render.</param>
         /// <returns>
         /// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
@@ -197,7 +206,7 @@ namespace BrailleIO.Renderer
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// ATTENTION: have to be implemented. check for the 
         /// </summary>
-        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange" />.</param>
+        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a BrailleIOViewRange.</param>
         /// <param name="content">The content to render.</param>
         /// <param name="callHooks">if set to <c>true</c> [call the pre- and post-rendering hooks].</param>
         /// <returns>

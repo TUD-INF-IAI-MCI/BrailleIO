@@ -311,7 +311,7 @@ namespace BrailleIO.Renderer.Structs
         /// Adds a subpart before a specific one.
         /// </summary>
         /// <param name="subPart">The element to add.</param>
-        /// <param name="previousSibling">An element to add this before. 
+        /// <param name="nextSibling">An element to add after this. 
         /// If the element does not exist or is not inserted in the list, 
         /// the element will be added as first element.
         /// </param>
@@ -434,6 +434,10 @@ namespace BrailleIO.Renderer.Structs
 
         #region Value
 
+        /// <summary>
+        /// Gets the value object the rendering result is based on.
+        /// </summary>
+        /// <returns>An object that is transformed into the bool matrix by a renderer.</returns>
         public Object GetValue()
         {
             return Value;
@@ -494,11 +498,24 @@ namespace BrailleIO.Renderer.Structs
 
         #region Override
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             return "RenderElement '" + Value.ToString() + "' ("+Type.ToString()+") - BBox [X:" + X + ", Y:" + Y + ", Width:" + Width + ", Height:" + Height + "]";
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
         public override bool Equals(object obj)
         {
             return obj is RenderElement
@@ -510,6 +527,12 @@ namespace BrailleIO.Renderer.Structs
                 && ((RenderElement)obj).Type == Type;
         }
 
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();

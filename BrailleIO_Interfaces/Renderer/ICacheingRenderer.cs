@@ -6,6 +6,9 @@ using System.Text;
 
 namespace BrailleIO.Renderer
 {
+    /// <summary>
+    /// Interface for caching rendering results.
+    /// </summary>
     public interface ICacheingRenderer
     {
 

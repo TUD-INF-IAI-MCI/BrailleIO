@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Concurrent;
+using BrailleIO.Structs;
 
 namespace BrailleIO
 {
@@ -150,20 +151,26 @@ namespace BrailleIO
                 foreach (var p in touches)
                 {
                     if (p.X >= 0 && p.Y >= 0 && p.X < cols && p.Y < rows)
-                    { touchM[p.Y, p.X] = p.Intense; }
+                    { touchM[p.PinY, p.PinX] = p.Intense; }
                 }
             }
             return touchM;
         }
 
+        /// <summary>
+        /// The radius for an simulated touch in horizontal dimension.
+        /// </summary>
         public double TouchSizeRadiusX = 1;
+        /// <summary>
+        /// The radius for an simulated touch in vertical dimension.
+        /// </summary>
         public double TouchSizeRadiusY = 1;
 
         /// <summary>
         /// Handles the ellipse points.
         /// </summary>
         /// <param name="p">The touch.</param>
-        /// <param name="matrix">The matrix where the points where added.</param>
+        /// <returns>List of touched points</returns>
         private List<Touch> handleEllipsePoints(Point p)
         {
             ConcurrentBag<Touch> touchValues = new ConcurrentBag<Touch>();
@@ -196,27 +203,25 @@ namespace BrailleIO
         /// <summary>
         /// Determines whether [the specified pointToCheck] [is inside the ellipse].
         /// The region (disk) bounded by the ellipse is given by the equation:
-        /// 
-        /// having an ellipse centered at (c_x,c_y), with semi-major axis r_x, semi-minor axis r_y, 
+        /// having an ellipse centered at (c_x,c_y), with semi-major axis r_x, semi-minor axis r_y,
         /// both aligned with the Cartesian plane.
-        /// 
-        ///     (x−c_x)^2         (y−c_y)^2
-        ///    ___________   +   ___________   ≤   1      (1)
-        ///      r_x ^2            r_y ^2     
-        /// 
-        /// So given a test point (x,y), plug it in (1). If the inequality is satisfied, 
-        /// then it is inside the ellipse; otherwise it is outside the ellipse. 
-        /// 
-        /// Moreover, the point is on the boundary of the region (i.e., on the ellipse) 
-        /// if and only if the inequality is satisfied tightly 
+        /// (x−c_x)^2         (y−c_y)^2
+        /// ___________   +   ___________   ≤   1      (1)
+        /// r_x ^2            r_y ^2
+        /// So given a test point (x,y), plug it in (1). If the inequality is satisfied,
+        /// then it is inside the ellipse; otherwise it is outside the ellipse.
+        /// Moreover, the point is on the boundary of the region (i.e., on the ellipse)
+        /// if and only if the inequality is satisfied tightly
         /// (i.e., the left hand side evaluates to 1)
-        /// 
         /// </summary>
         /// <param name="pointToCheck">The point to check.</param>
-        /// <param name="ellipsePos">The ellipse pos.</param>
+        /// <param name="c_x">The center point x.</param>
+        /// <param name="c_y">The center point y.</param>
         /// <param name="r_x">1/2 width of the ellipse.</param>
         /// <param name="r_y">1/2 height of the ellipse.</param>
-        /// <returns>Value must be smaller or equal to 1 - than the point is inside the ellipse, otherwise it is outside</returns>
+        /// <returns>
+        /// Value must be smaller or equal to 1 - than the point is inside the ellipse, otherwise it is outside
+        /// </returns>
         public static double PointIsInsideEllipse(Point pointToCheck, double c_x, double c_y, double r_x, double r_y)
         {
             if (r_x == 0 || r_y == 0)
@@ -236,21 +241,4 @@ namespace BrailleIO
         }
 
     }
-
-
-    struct Touch
-    {
-        public readonly int X;
-        public readonly int Y;
-        public readonly double Intense;
-
-        public Touch(int x, int y, double intense)
-        {
-            this.X = x;
-            this.Y = y;
-            this.Intense = Math.Min(1, intense);
-        }
-
-    }
-
 }

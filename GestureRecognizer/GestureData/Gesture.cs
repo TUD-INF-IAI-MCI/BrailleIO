@@ -115,12 +115,23 @@ namespace Gestures.Recognition.GestureData
     public class TrackedGesture : Gesture
     {
         Frame[] frameList;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TrackedGesture"/> class.
+        /// </summary>
+        /// <param name="tokens">The tokens.</param>
+        /// <param name="frameList">The frame list.</param>
         public TrackedGesture(GestureToken[] tokens, params Frame[] frameList)
             : base(tokens)
         {
             this.frameList = frameList;
         }
 
+        /// <summary>
+        /// Gets the frame list.
+        /// </summary>
+        /// <value>
+        /// The frame list.
+        /// </value>
         public Frame[] FrameList { get { return frameList; } }
 
     }

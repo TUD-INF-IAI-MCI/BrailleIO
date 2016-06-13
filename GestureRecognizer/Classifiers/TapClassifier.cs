@@ -6,12 +6,21 @@ using Gestures.Recognition.Interfaces;
 
 namespace Gestures.Recognition
 {
+    /// <summary>
+    /// Gesture classifier for simple Tab gestures
+    /// </summary>
+    /// <seealso cref="Gestures.Recognition.Interfaces.IClassify" />
     public class TapClassifier : IClassify
     {
         private static double MAXTAPDISTANCE = 10;
 
         #region IClassify Members
 
+        /// <summary>
+        /// Classifies the specified gesture.
+        /// </summary>
+        /// <param name="gesture">The gesture.</param>
+        /// <returns></returns>
         public IClassificationResult Classify(TrackedGesture gesture)
         {
             int result;

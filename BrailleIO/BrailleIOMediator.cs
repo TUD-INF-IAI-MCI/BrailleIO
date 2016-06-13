@@ -146,6 +146,9 @@ namespace BrailleIO
             RenderingTimer.Enabled = true;
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="BrailleIOMediator"/> class.
+        /// </summary>
         ~BrailleIOMediator() { if (renderingTread != null) renderingTread.Abort(); }
 
         /// <summary>

@@ -104,14 +104,41 @@ namespace BrailleIO.Renderer
     /// </summary>
     public enum BrailleRendererPartType
     {
+        /// <summary>
+        /// nothing
+        /// </summary>
         NONE,
-        UNKOWN,
+        /// <summary>
+        /// unknown
+        /// </summary>
+        UNKNOWN,
+        /// <summary>
+        /// The basic document
+        /// </summary>
         DOCUMENT,
+        /// <summary>
+        /// A page
+        /// </summary>
         PAGE,
+        /// <summary>
+        /// A paragraph
+        /// </summary>
         PARAGRAPH,
+        /// <summary>
+        /// A line of text inside a paragraph
+        /// </summary>
         LINE,
+        /// <summary>
+        /// A word
+        /// </summary>
         WORD,
+        /// <summary>
+        /// The part of a word - if it is divided
+        /// </summary>
         WORD_PART,
+        /// <summary>
+        /// a character
+        /// </summary>
         CHAR
     }
 

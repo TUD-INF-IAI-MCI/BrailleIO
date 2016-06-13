@@ -13,7 +13,7 @@ namespace BrailleIO.Renderer
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
         /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange"/>.</param>
-        /// <param name="matrix">The content to render.</param>
+        /// <param name="contentMatrix">The content to render.</param>
         /// <returns>
         /// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
         /// and N is the count of columns (which is the width). 

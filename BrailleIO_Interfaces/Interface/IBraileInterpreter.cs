@@ -5,6 +5,10 @@ using System.Text;
 
 namespace BrailleIO.Renderer.BrailleInterpreter
 {
+    /// <summary>
+    /// Interface for Braille interpreters. 
+    /// They should transform strings or characters into dot patterns.
+    /// </summary>
     public interface IBraileInterpreter
     {
         /// <summary>

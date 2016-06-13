@@ -46,14 +46,14 @@ namespace BrailleIO.Interface
         /// E.g. a negative offset should move the content to up and the viewable
         /// region down.
         /// </summary>
-        /// <param name="x">The offset in vertical direction.</param>
+        /// <param name="y">The offset in vertical direction.</param>
         void SetYOffset(int y);
         /// <summary>
         /// Move the content in both direction simultaneous. 
         /// So the vertical and horizontal offset will been set at the same time.
         /// </summary>
         /// <param name="p">The offsets in vertical and horizontal direction to move.</param>
-        /// <returns></returns>
+        /// <returns>the new point</returns>
         Point Move(Point p);
     }
 }

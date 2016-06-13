@@ -5,6 +5,9 @@ using System.Text;
 
 namespace BrailleIO.Interface
 {
+    /// <summary>
+    /// Event supplier for property changed events.
+    /// </summary>
     public interface IBrailleIOPropertiesChangedEventSupplier
     {
         /// <summary>
@@ -13,6 +16,10 @@ namespace BrailleIO.Interface
         event EventHandler<BrailleIOPropertyChangedEventArgs> PropertyChanged;
     }
 
+    /// <summary>
+    /// Event arguments for changed properties.
+    /// </summary>
+    /// <seealso cref="System.EventArgs" />
     public class BrailleIOPropertyChangedEventArgs : EventArgs
     {
         /// <summary>
@@ -20,6 +27,10 @@ namespace BrailleIO.Interface
         /// </summary>
         public readonly String PropertyName = String.Empty;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIOPropertyChangedEventArgs"/> class.
+        /// </summary>
+        /// <param name="propertyName">Name of the property that has changed.</param>
         public BrailleIOPropertyChangedEventArgs(string propertyName)
         {
             PropertyName = propertyName;

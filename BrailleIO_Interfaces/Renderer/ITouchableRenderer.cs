@@ -3,6 +3,10 @@ using System.Collections;
 
 namespace BrailleIO.Renderer
 {
+    /// <summary>
+    /// Interface for renderer allowing for returning a complex object from a position inside the rendered output.
+    /// Back-tracking to the source object from the rendering result.
+    /// </summary>
     public interface ITouchableRenderer
     {
 

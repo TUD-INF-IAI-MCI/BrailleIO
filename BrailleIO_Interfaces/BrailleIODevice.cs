@@ -2,6 +2,9 @@
 
 namespace BrailleIO
 {
+    /// <summary>
+    /// A class collecting important features and properties of a specific hardware device.
+    /// </summary>
     public class BrailleIODevice
     {
         /// <summary>

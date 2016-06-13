@@ -123,14 +123,48 @@ namespace Gestures.Recognition.Interfaces
     /// </summary>
     public interface IClassificationResult
     {
+        /// <summary>
+        /// Gets the name of the result (gesture name).
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         String Name { get; }
+        /// <summary>
+        /// Gets the probability of the result (confidence). 
+        /// </summary>
+        /// <value>
+        /// The probability.
+        /// </value>
         double Probability { get; }
+        /// <summary>
+        /// Gets the node parameters.
+        /// </summary>
+        /// <value>
+        /// The node parameters.
+        /// </value>
         IList<Sample> NodeParameters { get; }
+        /// <summary>
+        /// Gets the additional parameters.
+        /// </summary>
+        /// <value>
+        /// The additional parameters.
+        /// </value>
         IList<Object> AdditionalParameters { get; }
     }
 
+    /// <summary>
+    /// Interfaces for classify something.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="R"></typeparam>
     public interface IClassify<T, R>
     {
+        /// <summary>
+        /// Classifies the specified input data.
+        /// </summary>
+        /// <param name="inputData">The input data.</param>
+        /// <returns></returns>
         R Classify(T inputData);
     }
 
@@ -146,9 +180,24 @@ namespace Gestures.Recognition.Interfaces
     /// </summary>
     public interface IRecognizeGestures : ISynchronizable
     {
+        /// <summary>
+        /// Adds a specific classifier.
+        /// </summary>
+        /// <param name="classifier">The classifier.</param>
         void AddClassifier(IClassify classifier);
+        /// <summary>
+        /// Starts the evaluation of the input data.
+        /// </summary>
         void StartEvaluation();
+        /// <summary>
+        /// Adds a sensory data frame to the frame set.
+        /// </summary>
+        /// <param name="frame">The frame.</param>
         void AddFrame(Frame frame);
+        /// <summary>
+        /// Finishes the evaluation.
+        /// </summary>
+        /// <returns>Classification result or null.</returns>
         IClassificationResult FinishEvaluation();
     }
 
@@ -162,9 +211,25 @@ namespace Gestures.Recognition.Interfaces
     /// </summary>
     public interface ITrackBlobs
     {
+        /// <summary>
+        /// Initiates the tracking.
+        /// </summary>
         void InitiateTracking();
+        /// <summary>
+        /// Adds a sensor data frame to the frame set.
+        /// </summary>
+        /// <param name="frame">The frame.</param>
         void AddFrame(Frame frame);
+        /// <summary>
+        /// Occurs when a frame is handled (tracked).
+        /// </summary>
         event TrackedTouchesDelegate OnTrackedFrame;
+        /// <summary>
+        /// Gets the tracked blobs (combined sensory date groups).
+        /// </summary>
+        /// <value>
+        /// The tracked blobs.
+        /// </value>
         TrackedGesture TrackedBlobs { get; }
     }     
 }

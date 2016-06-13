@@ -7,13 +7,20 @@ using System.Drawing;
 
 namespace BrailleIO
 {
+    /// <summary>
+    /// A interface for monitoring other adapterse.g. for debugging or monitoring / mirroring.
+    /// </summary>
+    /// <seealso cref="System.IDisposable" />
     public interface IBrailleIOShowOffMonitor : IDisposable
     {
         /// <summary>
         /// Initializes the BrailleIO framework. Build a new BrailleIOAdapter_ShowOff, and add it to the IBrailleIOAdapterManager.
         /// </summary>
         /// <param name="adapterManager">The adapter manager to use for managing devices.</param>
-        /// <returns>The created BrailleIOAdapter_ShowOff, that was build with this instance</returns>
+        /// <param name="setAsActiveAdapter">if set to <c>true</c> [set this as active adapter].</param>
+        /// <returns>
+        /// The created BrailleIOAdapter_ShowOff, that was build with this instance
+        /// </returns>
         AbstractBrailleIOAdapterBase InitializeBrailleIO(IBrailleIOAdapterManager adapterManager, bool setAsActiveAdapter = false);
 
         /// <summary>
@@ -85,7 +92,9 @@ namespace BrailleIO
         /// <param name="m">The pin matrix.</param>
         void Paint(bool[,] m);
 
-
+        /// <summary>
+        /// Occurs when this instance was disposed.
+        /// </summary>
         event EventHandler Disposed;
     }
 }
