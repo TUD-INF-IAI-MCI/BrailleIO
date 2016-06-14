@@ -28,7 +28,7 @@ namespace BrailleIO
         /// </summary>
         public readonly bool HasTouch;
         /// <summary>
-        /// rate for refreshing the display in hz = count/sec
+        /// rate for refreshing the display in Hz = count/sec
         /// </summary>
         public readonly int RefreshRate;
         /// <summary>
@@ -44,7 +44,7 @@ namespace BrailleIO
         /// <param name="device_name">Name of the device (try to keep it unique)</param>
         /// <param name="has_keys">indicates if the device has keys or not</param>
         /// <param name="has_touch">indicates if the device is touch sensitive or not</param>
-        /// <param name="hertz">rate for refreshing the display in hz = count/sec</param>
+        /// <param name="hertz">rate for refreshing the display in Hz = count/sec</param>
         /// <param name="adapterType">String representation for the Type of the adapter</param>
         public BrailleIODevice(int size_x, int size_y, String device_name, bool has_keys, bool has_touch, int hertz, string adapterType)
         {
@@ -64,7 +64,7 @@ namespace BrailleIO
         /// <param name="device_name">Name of the device (try to keep it unique)</param>
         /// <param name="has_keys">indicates if the device has keys or not</param>
         /// <param name="has_touch">indicates if the device is touch sensitive or not</param>
-        /// <param name="hertz">rate for refreshing the display in hz = count/sec</param>
+        /// <param name="hertz">rate for refreshing the display in Hz = count/sec</param>
         /// <param name="adapter">the implemented adapter for this device</param>
         public BrailleIODevice(int size_x, int size_y, String device_name, bool has_keys, bool has_touch, int hertz, object adapter)
         {
@@ -84,7 +84,7 @@ namespace BrailleIO
         /// <param name="device_name">Name of the device (try to keep it unique)</param>
         /// <param name="has_keys">indicates if the device has keys or not</param>
         /// <param name="has_touch">indicates if the device is touch sensitive or not</param>
-        /// <param name="hertz">rate for refreshing the display in hz = count/sec</param>
+        /// <param name="hertz">rate for refreshing the display in Hz = count/sec</param>
         /// <param name="adapterType">Type of the implemented adapter for this device</param>
         public BrailleIODevice(int size_x, int size_y, String device_name, bool has_keys, bool has_touch, int hertz, Type adapterType)
         {
@@ -104,7 +104,7 @@ namespace BrailleIO
         /// <param name="device_name">Name of the device (try to keep it unique)</param>
         /// <param name="has_keys">indicates if the device has keys or not</param>
         /// <param name="has_touch">indicates if the device is touch sensitive or not</param>
-        /// <param name="hertz">rate for refreshing the display in hz = count/sec</param>
+        /// <param name="hertz">rate for refreshing the display in Hz = count/sec</param>
         public BrailleIODevice(int size_x, int size_y, String device_name, bool has_keys, bool has_touch, int hertz)
         {
             this.DeviceSizeX = size_x;
