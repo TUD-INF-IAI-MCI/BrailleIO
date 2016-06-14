@@ -1,4 +1,4 @@
-BrailleIO
+﻿BrailleIO
 =========
 
 ## Intension:
@@ -177,7 +177,83 @@ This recognizer currently can identify the following gestures:
 
 The recognizer can be used as followed:
 
---	TODO: build example
+``` C#
+// set up a new blob tracker for tracking related finger blobs as continuous trajectory
+BlobTracker blobTracker = new BlobTracker();
+// create new gesture recognizer and hand over the blob tracker
+GestureRecognizer gestureRecognizer = new GestureRecognizer(blobTracker);
+```
+
+For different types of gestures, you have to give the gesture recognizer a classifier, that can recognize a gesture out of the given touch values.
+
+Two standard classifiers are available. If want to classifier more than the standard gestures or in a more stable or optimized way, you can provide your own classifier here. 
+
+``` C#
+// add several classifiers to interpret the tracked blobs
+gestureRecognizer.AddClassifier(new TapClassifier());
+gestureRecognizer.AddClassifier(new MultitouchClassifier());
+```
+
+So the gesture recognition is set up. To start a recognition you have to set the recognizer into evaluation mode and submit frames of touch values, which are analyzed by the blob tracker. After stopping the evaluation of the frames, the gesture recognizer will call the registered classifiers that will return a classification result, which will be finally returned as recognized gesture result.
+
+**ATTENTION:** Because of the so called Midas-Touch effect, you cannot make a continuous touch evaluation on a tactile display. This is because the non-visual reader does use touch interaction for retrieving the content on the display, so every time s/he tries to read an input would be triggered. It is better to use a button that switches the display into a gesture recognition mode. Here the system can rely on the given touch inputs as valid input commands. Therefore, a standard key has been defined you can listen for get pressed to start evaluation and stop evaluation when it is released.
+
+
+In the event handler function for button commands from an adapter, you can check for the gesture button down command and start sending touch value frames to the gesture recognizer.
+``` C#
+/// flag for sending touch values to the gesture recognizer or not
+bool interpretGesture = false;
+
+/// <summary>
+/// Handles the keyStateChanged event of the _bda control.
+/// </summary>
+/// <param name="sender">The source of the event.</param>
+/// <param name="e">The <see cref="BrailleIO.Interface.BrailleIO_KeyStateChanged_EventArgs"/> instance containing the event data.</param>
+void _keyStateChanged(object sender, BrailleIO.Interface.BrailleIO_KeyStateChanged_EventArgs e)
+{
+	if ((e.keyCode & BrailleIO_DeviceButtonStates.GestureDown) == BrailleIO_DeviceButtonStates.GestureDown)
+	{
+		// start sending touch values to the gesture recognizer
+		interpretGesture = true; 
+	}
+	else if ((e.keyCode & BrailleIO_DeviceButtonStates.GestureUp) == BrailleIO_DeviceButtonStates.GestureUp)
+	{ 
+		// stop sending touch values to the gesture recognizer
+		interpretGesture = false; 
+	}
+}
+```
+
+In the event handler for touch values the >>frames<< of touch values have to be hand over to the gesture recognizer.
+
+``` C#
+/// <summary>
+/// Handles the touchValuesChanged event of the _bda control.
+/// </summary>
+/// <param name="sender">The source of the event.</param>
+/// <param name="e">The <see cref="BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs"/> instance containing the event data.</param>
+void _touchValuesChanged(object sender, BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs e)
+{
+	if (e != null)
+      {
+		// add touches to the gesture recognizers
+           if (interpretGesture && gestureRecognizer != null)
+           {
+           		gestureRecognizer.AddFrame(new Frame(e.touches));
+		}
+	}
+}
+```
+
+In the end, you can stop the evaluation and request the gesture recognizer for an available classification result of one of the registered classifiers. 
+
+``` C#
+IClassificationResult gesture = null;
+if (gestureRecognizer != null)
+{
+      gesture = gestureRecognizer.FinishEvaluation();
+}
+```
 
 
 ### BrailleIOExample
@@ -205,4 +281,23 @@ This is an example application showing for the usage of several basic functions 
 
 ## You want to know more?
 For getting a very detailed overview use the [code documentaion section](/Help/index.html) of this project.
+
+# Examples
+
+
+
+## Set up a new Adapter
+
+If you want to create a new hardware abstraction, you have to supply a wrapper for the real hardware interface commands. In this wrapper class, you have to implement the `IBrailleIOApapter` interface. You can also use the abstract implementation of this interface `AbstractBrailleIOAdapterBase` for extension. This abstract class contains an additional property `Synch` that allows the adapter to receive a copy of the content sent to the main adapter – to mirror the display for example.
+
+### Recommendations for event data (raw data)
+
+In the event arguments, e.g. for the `KeyStateChanged` events, there is an integrated option to submit the raw device data. These are submitted in an `OrderedDictonary`. In my hardware abstractions, I use the dictionary to submit button states for hardware keys that go beyond the generalized 9 standard buttons. Therefore, I fill the dictionary as follows:
+
+Key| Content | Description
+------------ | ------------- | -------------
+allPressedKeys| `List<String>` | List of stings that represent all currently pressed buttons
+allReleasedKeys| `List<String>` | List of stings that represent all last released buttons
+newPressedKeys| `List<String>` | List of stings that represent all last newly pressed buttons
+
 
