@@ -175,7 +175,7 @@ This recognizer currently can identify the following gestures:
 * Circle
 * Half circle
 
-The recognizer can be used as followed:
+The recognizer can be used as following:
 
 ``` C#
 // set up a new blob tracker for tracking related finger blobs as continuous trajectory
