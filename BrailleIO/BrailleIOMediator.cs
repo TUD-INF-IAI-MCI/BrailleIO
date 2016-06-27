@@ -351,7 +351,7 @@ namespace BrailleIO
                     {
                         System.Threading.Tasks.Parallel.For(scrOffsetY, scrOffsetY + viewBoxMatrix.GetLength(0), y =>
                         {
-                            if (y < Matrix.GetLength(0)) { Matrix[y, x] = viewBoxMatrix[y - scrOffsetY, x - srcOffsetX]; }
+                            if (y >= 0 &&  y < Matrix.GetLength(0)) { Matrix[y, x] = viewBoxMatrix[y - scrOffsetY, x - srcOffsetX]; }
                         });
                     }
                 });

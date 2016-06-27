@@ -24,7 +24,7 @@ namespace BraillIOExample
         {
             io = BrailleIOMediator.Instance;
             io.AdapterManager = new ShowOffBrailleIOAdapterManager();
-            monitor = ((ShowOffBrailleIOAdapterManager)io.AdapterManager).Monitor ;
+            monitor = ((ShowOffBrailleIOAdapterManager)io.AdapterManager).Monitor;
             showOff = io.AdapterManager.ActiveAdapter as AbstractBrailleIOAdapterBase;
             showExample();
         }

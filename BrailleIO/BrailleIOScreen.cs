@@ -42,7 +42,7 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIOScreen"/> class.
         /// </summary>
-        /// <param name="name">The name of the screen. Shoulb be unique. Can be used to find the screen (view) 
+        /// <param name="name">The name of the screen. Should be unique. Can be used to find the screen (view) 
         /// in the list of all available screen of the <see cref="BrailleIOMediator"/> instance.</param>
         public BrailleIOScreen(String name) { Name = name; }
 
@@ -143,7 +143,7 @@ namespace BrailleIO
         /// <summary>
         /// Gets the view range width a specific name.
         /// </summary>
-        /// <param name="name">The name of the viewRange to seach for.</param>
+        /// <param name="name">The name of the viewRange to search for.</param>
         /// <returns>the view range or <c>null</c></returns>
         public BrailleIOViewRange GetViewRange(String name)
         {
