@@ -90,7 +90,7 @@ namespace BrailleIO
             protected set { _connected = value; }
         }
 
-        IBrailleIOAdapterManager manager = null;
+        protected IBrailleIOAdapterManager manager = null;
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractBrailleIOAdapterBase"/> class.
         /// </summary>
@@ -204,7 +204,7 @@ namespace BrailleIO
         }
 
         /// <summary>
-        /// Fires an error occured event.
+        /// Fires an error occurred event.
         /// </summary>
         /// <param name="errorCode">The error code.</param>
         /// <param name="raw">The raw.</param>
@@ -332,10 +332,7 @@ namespace BrailleIO
                             temp += Math.Max(tMatrix[i, j], ftm[i, j]);
                             ftm[i, j] = temp;
                         }
-                        catch (System.Exception ex)
-                        {
-
-                        }
+                        catch (System.Exception){}
 
                     }); // Parallel.For cols
 
