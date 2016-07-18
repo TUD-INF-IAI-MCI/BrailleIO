@@ -562,6 +562,65 @@ namespace BrailleIO
             return views != null ? views.Values.ToList() : new List<Object>();
         }
 
+
+        /// <summary>
+        /// Gets the active views.Can be a <see cref="BrailleIOViewRange"/> or <see cref="BrailleIOScreen"/>
+        /// </summary>
+        /// <returns>List of currently active views</returns>
+        public Object GetActiveViews()
+        {
+            var v = getVisibleViews();
+            return v != null ? new List<object>(v.Values) : null;
+        }
+
+
+        /// <summary>
+        /// Gets the view at a position.
+        /// </summary>
+        /// <param name="x">The horizontal position on the device.</param>
+        /// <param name="y">The vertical position on the device.</param>
+        /// <returns>The topmost view range that containing the point or <c>null</c></returns>
+        public BrailleIOViewRange GetViewAtPosition(int x, int y)
+        {
+            if (x >= 0 || y >= 0)
+            {
+                var views = getVisibleViews();
+                if (views != null && views.Count > 0)
+                {
+                    var keys = views.Keys;
+                    if (keys != null && keys.Count > 0)
+                    {
+                        var k = keys.ToArray();
+
+                        for (int i = keys.Count -1; i >= 0 ; i--)
+                        {
+                            var view = views[k[i]];
+                            if (view != null)
+                            {
+                                if (view is BrailleIOViewRange)
+                                {
+                                    // TODO: check if point is inside
+                                    if (((BrailleIOViewRange)view).ContainsPoint(x, y))
+                                        return ((BrailleIOViewRange)view);
+                                }
+                                else if (view is BrailleIOScreen)
+                                {
+                                    BrailleIOScreen s = (BrailleIOScreen)view;
+
+                                    // get all visible view ranges of the screen
+                                    var vv = s.GetVisibleViewRangeAtPosition(x, y);
+                                    if (vv != null)
+                                        return vv;                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// checks if there are any views yet
         /// </summary>

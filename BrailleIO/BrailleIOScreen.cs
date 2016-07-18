@@ -124,7 +124,7 @@ namespace BrailleIO
         public OrderedDictionary GetViewRanges()
         {
             //return this.view_ranges;
-            
+
             OrderedDictionary result = new OrderedDictionary();
             try
             {
@@ -166,6 +166,36 @@ namespace BrailleIO
         {
             return this.view_ranges.Contains(name);
         }
+
+        /// <summary>
+        /// Gets the visible view range at a position.
+        /// </summary>
+        /// <param name="x">The horizontal position on the device.</param>
+        /// <param name="y">The vertical position on the device.</param>
+        /// <returns></returns>
+        public BrailleIOViewRange GetVisibleViewRangeAtPosition(int x, int y)
+        {
+            if (!IsEmpty() && x >= 0 && y >= 0 && view_ranges != null && view_ranges.Count > 0)
+            {
+                try
+                {
+                    List<BrailleIOViewRange> views = new List<BrailleIOViewRange>(view_ranges.Values.Cast<BrailleIOViewRange>());
+
+                    if (views != null && views.Count > 0)
+                    {
+                        for (int i = views.Count -1; i >= 0; i--)
+                        {
+                            if (views[i] != null && views[i].IsVisible() && views[i].ContainsPoint(x, y))
+                                return views[i];
+                        }
+                    }
+                }
+                catch (Exception) { }
+            }
+
+            return null;
+        }
+
 
         /// <summary>
         /// has any ViewRanges?
