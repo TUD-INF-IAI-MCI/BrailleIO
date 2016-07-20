@@ -117,7 +117,7 @@ namespace BrailleIO
         /// <summary>
         /// Invokes the picture box image change.
         /// </summary>
-        /// <param name="picBox">The picturebox.</param>
+        /// <param name="picBox">The picture box.</param>
         /// <param name="im">The image to show.</param>
         /// <returns></returns>
         private bool invokePictureBoxImageChange(PictureBox picBox, Image im)
@@ -148,7 +148,8 @@ namespace BrailleIO
 
                     });
 
-                    GC.Collect(); //Without this, memory goes nuts          
+                    Task t = new Task(() => { GC.Collect(0, GCCollectionMode.Forced); });
+                    t.Start();//Without this, memory goes nuts          
                 }
                 catch (Exception)
                 {
@@ -250,10 +251,9 @@ namespace BrailleIO
         /// <summary>
         /// Generates a base image of this virtual pin matrix.
         /// </summary>
-        /// <param name="rerender">if set to <c>true</c> [rerender].</param>
         /// <param name="Width">The width.</param>
         /// <param name="height">The height.</param>
-        /// <returns></returns>
+        /// <returns>Basic Bitmap structure for an empty dot pattern simulating a pin-matrix surface.</returns>
         Bitmap generateBaseImage(int Width, int height)
         {
             lock (baseImgPaintLock)

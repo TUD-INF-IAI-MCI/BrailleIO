@@ -5,6 +5,10 @@ using BrailleIO.Interface;
 
 namespace BrailleIO
 {
+    /// <summary>
+    /// Basic abstract <see cref="IBrailleIOAdapterManager"/> implementation to handle all generic adapters.
+    /// </summary>
+    /// <seealso cref="BrailleIO.Interface.IBrailleIOAdapterManager" />
     abstract public class AbstractBrailleIOAdapterManagerBase : IBrailleIOAdapterManager
     {
         IBrailleIOAdapter _activeAdapter;
@@ -14,10 +18,16 @@ namespace BrailleIO
         public IBrailleIOAdapter ActiveAdapter
         {
             get { return _activeAdapter; }
-            set { AddAdapter(value); _activeAdapter = value; }
+            set { AddAdapter(value); _activeAdapter = value; fire_ActiveAdapterChanged(); }
         }
         private Object _adapterLock = new Object();
         private ConcurrentBag<IBrailleIOAdapter> _adapters = new ConcurrentBag<IBrailleIOAdapter>();
+        /// <summary>
+        /// Gets the adapters.
+        /// </summary>
+        /// <value>
+        /// The adapters.
+        /// </value>
         protected ConcurrentBag<IBrailleIOAdapter> Adapters
         {
             get
@@ -27,10 +37,20 @@ namespace BrailleIO
         }
 
 
+        /// <summary>
+        /// The BrailleIOMediator
+        /// </summary>
         protected BrailleIOMediator io;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AbstractBrailleIOAdapterManagerBase"/> class.
+        /// </summary>
         public AbstractBrailleIOAdapterManagerBase()
         {}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AbstractBrailleIOAdapterManagerBase"/> class.
+        /// </summary>
+        /// <param name="io">The <see cref="BrailleIOMediator"/> this manager is related to.</param>
         public AbstractBrailleIOAdapterManagerBase(ref BrailleIOMediator io)
             : this()
         {
@@ -48,6 +68,7 @@ namespace BrailleIO
             try
             {
                 Adapters.Add(adapter);
+                fire_NewAdapterRegistered(adapter);
             }
             catch { return false; }
             return true;
@@ -65,6 +86,7 @@ namespace BrailleIO
                 try
                 {
                     Adapters.TryTake(out adapter);
+                    fire_AdapterRemoved(adapter);
                     return true;
                 }
                 catch { }
@@ -89,7 +111,7 @@ namespace BrailleIO
         public bool Synchronize(bool[,] matrix)
         {
             bool success = true;
-            ActiveAdapter.Synchronize(matrix);
+            if (ActiveAdapter != null) ActiveAdapter.Synchronize(matrix);
             foreach (var item in Adapters)
             {
                 try
@@ -102,8 +124,70 @@ namespace BrailleIO
             return success;
         }
 
+        /// <summary>
+        /// Occurs when a new adapter was registered.
+        /// </summary>
+        public event EventHandler<IBrailleIOAdapterEventArgs> NewAdapterRegistered;
+        /// <summary>
+        /// Occurs when an adapter was removed.
+        /// </summary>
+        public event EventHandler<IBrailleIOAdapterEventArgs> AdapterRemoved;
+        /// <summary>
+        /// Occurs when the active adapter changed.
+        /// </summary>
+        public event EventHandler<IBrailleIOAdapterEventArgs> ActiveAdapterChanged;
 
+        /// <summary>
+        /// Fires the new adapter registered event.
+        /// </summary>
+        /// <param name="adapter">The adapter.</param>
+        protected virtual void fire_NewAdapterRegistered(IBrailleIOAdapter adapter)
+        {
+            if (NewAdapterRegistered != null)
+            {
+                try
+                {
+                    NewAdapterRegistered.Invoke(this, new IBrailleIOAdapterEventArgs(adapter));
+                }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("ERROR in AbstractBrailleIOAdapterManagerBase fire_NewAdapterRegistered:\r\n" + ex); }
+            }
+        }
+
+        /// <summary>
+        /// Fires the adapter removed event.
+        /// </summary>
+        /// <param name="adapter">The adapter.</param>
+        protected virtual void fire_AdapterRemoved(IBrailleIOAdapter adapter)
+        {
+            if (AdapterRemoved != null)
+            {
+                try
+                {
+                    AdapterRemoved.Invoke(this, new IBrailleIOAdapterEventArgs(adapter));
+                }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("ERROR in AbstractBrailleIOAdapterManagerBase fire_AdapterRemoved:\r\n" + ex); }
+            }
+        }
+
+        /// <summary>
+        /// Fires the active adapter changed event.
+        /// </summary>
+        protected virtual void fire_ActiveAdapterChanged()
+        {
+            if (ActiveAdapterChanged != null)
+            {
+                try
+                {
+                    ActiveAdapterChanged.Invoke(this, new IBrailleIOAdapterEventArgs(ActiveAdapter));
+                }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine("ERROR in AbstractBrailleIOAdapterManagerBase fire_ActiveAdapterChanged:\r\n" + ex); }
+            }
+        }        
     }
 
+    /// <summary>
+    /// Basic generic adapter manager for handling hardware or software adapters as in- and output for the <see cref="BrailleIOMediator"/>
+    /// </summary>
+    /// <seealso cref="BrailleIO.AbstractBrailleIOAdapterManagerBase" />
     public class BasicBrailleIOAdapterManager : AbstractBrailleIOAdapterManagerBase { }
 }

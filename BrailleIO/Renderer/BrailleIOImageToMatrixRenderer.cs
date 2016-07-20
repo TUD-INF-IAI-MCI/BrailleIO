@@ -5,7 +5,12 @@ using BrailleIO.Interface;
 
 namespace BrailleIO.Renderer
 {
-    public class BrailleIOImageToMatrixRenderer : BrailleIOHookableRendererBase, IBrailleIOContentRenderer
+    /// <summary>
+    /// A renderer that translates an image into an bool matrix by applying a threshold on the lighness of a color pixel.
+    /// </summary>
+    /// <seealso cref="BrailleIO.Renderer.AbstractCachingRendererBase" />
+    /// <seealso cref="BrailleIO.Interface.IBrailleIOContentRenderer" />
+    public class BrailleIOImageToMatrixRenderer : AbstractCachingRendererBase, IBrailleIOContentRenderer
     {
         /// <summary>
         /// If lightness of a color is lower than this threshold, the pin will be lowered. 
@@ -16,49 +21,209 @@ namespace BrailleIO.Renderer
         private float Threshold = 210;
         /// <summary>
         /// Resets the threshold.
+        /// If lightness of a color is lower than this threshold, the pin will be lowered. 
+        /// A higher threshold leads lighter points to raise pins. 
+        /// A low threshold leads darker pins to stay lowered.
+        /// Have to be between 0 and 255.
         /// </summary>
         /// <returns>the new threshold</returns>
         public float ResetThreshold() { return this.Threshold = 210; }
+        /// <summary>
+        /// Sets the threshold.
+        /// If lightness of a color is lower than this threshold, the pin will be lowered. 
+        /// A higher threshold leads lighter points to raise pins. 
+        /// A low threshold leads darker pins to stay lowered.
+        /// Have to be between 0 and 255.
+        /// </summary>
+        /// <param name="threshold">The threshold.</param>
+        /// <returns></returns>
         public float SetThreshold(float threshold) { return this.Threshold = Math.Min(Math.Max(threshold, 0), 255); }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="BrailleIOImageToMatrixRenderer"/> image should be rendered inverted.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if invert the image; otherwise, <c>false</c>.
+        /// </value>
+        public bool Invert { get; set; }
+
+        /// <summary>
+        /// Renders the image.
+        /// </summary>
+        /// <param name="img">The image.</param>
+        /// <param name="view">The view.</param>
+        /// <param name="zoom">The zoom factor.</param>
+        /// <param name="threshold">The threshold to apply (between 0 ans 255).</param>
+        /// <returns>a bool matrix</returns>
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, double zoom, float threshold) { return RenderImage(img, view, null, zoom, threshold); }
+        /// <summary>
+        /// Renders the image.
+        /// </summary>
+        /// <param name="img">The image.</param>
+        /// <param name="view">The view.</param>
+        /// <param name="offset">The offset for translation.</param>
+        /// <param name="zoom">The zoom factor.</param>
+        /// <param name="threshold">The threshold to apply (between 0 ans 255).</param>
+        /// <returns>
+        /// a bool matrix
+        /// </returns>
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, IPannable offset, double zoom, float threshold)
         {
             Threshold = threshold;
             return RenderImage(img, view, offset, zoom);
         }
+        /// <summary>
+        /// Renders the image.
+        /// </summary>
+        /// <param name="img">The image.</param>
+        /// <param name="view">The view.</param>
+        /// <param name="zoom">The zoom factor.</param>
+        /// <param name="autoThreshold">if set to <c>true</c> [automatic threshold] is applied.</param>
+        /// <returns>
+        /// a bool matrix
+        /// </returns>
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, double zoom, bool autoThreshold) { return RenderImage(img, view, null, zoom, autoThreshold); }
+        /// <summary>
+        /// Renders the image.
+        /// </summary>
+        /// <param name="img">The image.</param>
+        /// <param name="view">The view.</param>
+        /// <param name="offset">The offset for translation.</param>
+        /// <param name="zoom">The zoom factor.</param>
+        /// <param name="autoThreshold">if set to <c>true</c> [automatic threshold] is applied.</param>
+        /// <returns>
+        /// a bool matrix
+        /// </returns>
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, IPannable offset, double zoom, bool autoThreshold)
         {
             var vr = view.ContentBox;
             return RenderImage(img, view, offset, zoom, GraphicUtils.GetAverageGrayscale(vr.Width, vr.Height, new Bitmap(img, new Size((int)Math.Round(img.Width * zoom), (int)Math.Round(img.Height * zoom)))));
         }
+        /// <summary>
+        /// Renders the image.
+        /// </summary>
+        /// <param name="img">The image.</param>
+        /// <param name="view">The view.</param>
+        /// <param name="zoom">The zoom factor.</param>
+        /// <returns>
+        /// a bool matrix
+        /// </returns>
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, double zoom) { return RenderImage(img, view, null, zoom); }
+        /// <summary>
+        /// Renders the image.
+        /// </summary>
+        /// <param name="img">The image.</param>
+        /// <param name="view">The view.</param>
+        /// <param name="offset">The offset for translation.</param>
+        /// <param name="zoom">The zoom factor.</param>
+        /// <returns>
+        /// a bool matrix
+        /// </returns>
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, IPannable offset, double zoom) { return RenderImage(img, view, offset, false, zoom); }
 
         //possible invert
+        /// <summary>
+        /// Renders the image.
+        /// </summary>
+        /// <param name="img">The image.</param>
+        /// <param name="view">The view.</param>
+        /// <param name="invert">if set to <c>true</c> the result will be inverted.</param>
+        /// <param name="zoom">The zoom factor.</param>
+        /// <param name="threshold">The threshold.</param>
+        /// <returns>
+        /// a bool matrix
+        /// </returns>
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom, float threshold) { return RenderImage(img, view, null, invert, zoom, threshold); }
-        public bool[,] RenderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom, float threshold)
+        /// <summary>
+        /// Renders the image.
+        /// </summary>
+        /// <param name="img">The image.</param>
+        /// <param name="view">The view.</param>
+        /// <param name="offset">The offset for translation.</param>
+        /// <param name="invert">if set to <c>true</c>  the result will be inverted.</param>
+        /// <param name="zoom">The zoom factor.</param>
+        /// <param name="threshold">The threshold.</param>
+        /// <param name="callHooks">if set to <c>true</c> per- and post renderer hooks  are called.</param>
+        /// <returns>
+        /// a bool matrix
+        /// </returns>
+        public bool[,] RenderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom, float threshold, bool callHooks = true)
         {
             Threshold = threshold;
-            return RenderImage(img, view, offset, invert, zoom);
+            return RenderImage(img, view, offset, invert, zoom, callHooks);
         }
-        public bool[,] RenderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom, bool autoThreshold) { return RenderImage(img, view, null, invert, zoom, autoThreshold); }
-        public bool[,] RenderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom, bool autoThreshold)
+        /// <summary>
+        /// Renders the image.
+        /// </summary>
+        /// <param name="img">The image.</param>
+        /// <param name="view">The view.</param>
+        /// <param name="invert">if set to <c>true</c>  the result will be inverted.</param>
+        /// <param name="zoom">The zoom factor.</param>
+        /// <param name="autoThreshold">if set to <c>true</c> [automatic threshold] is applied.</param>
+        /// <param name="callHooks">if set to <c>true</c> per- and post renderer hooks  are called.</param>
+        /// <returns>
+        /// a bool matrix
+        /// </returns>
+        public bool[,] RenderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom, bool autoThreshold, bool callHooks = true) { return RenderImage(img, view, null, invert, zoom, autoThreshold, callHooks); }
+        /// <summary>
+        /// Renders the image.
+        /// </summary>
+        /// <param name="img">The image.</param>
+        /// <param name="view">The view.</param>
+        /// <param name="offset">The offset for translation.</param>
+        /// <param name="invert">if set to <c>true</c>  the result will be inverted.</param>
+        /// <param name="zoom">The zoom factor.</param>
+        /// <param name="autoThreshold">if set to <c>true</c> [automatic threshold] is applied.</param>
+        /// <param name="callHooks">if set to <c>true</c> per- and post renderer hooks  are called.</param>
+        /// <returns>
+        /// a bool matrix
+        /// </returns>
+        public bool[,] RenderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom, bool autoThreshold, bool callHooks = true)
         {
             // FIXME: check this (invalidoperationexception nach schwellwert mehrmals absenken)
             var vr = view.ContentBox;
             Bitmap img2 = img.Clone() as Bitmap;
             if (img2 != null)
-                return RenderImage(img2, view, offset, invert, zoom, GraphicUtils.GetAverageGrayscale(vr.Width, vr.Height, new Bitmap(img2, new Size((int)Math.Round(img2.Width * zoom), (int)Math.Round(img2.Height * zoom)))));
+                return RenderImage(img2, view, offset, invert, zoom,
+                   GraphicUtils.GetAverageGrayscale(vr.Width, vr.Height, new Bitmap(img2, new Size((int)Math.Round(img2.Width * zoom), (int)Math.Round(img2.Height * zoom))))
+                   , callHooks
+                    );
             return null;
         }
+        /// <summary>
+        /// Renders the image.
+        /// </summary>
+        /// <param name="img">The image.</param>
+        /// <param name="view">The view.</param>
+        /// <param name="invert">if set to <c>true</c>  the result will be inverted.</param>
+        /// <param name="zoom">The zoom factor.</param>
+        /// <returns>
+        /// a bool matrix
+        /// </returns>
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom) { return RenderImage(img, view, null, invert, zoom); }
-        public bool[,] RenderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom)
+
+        /// <summary>
+        /// Renders the image.
+        /// </summary>
+        /// <param name="img">The image.</param>
+        /// <param name="view">The view.</param>
+        /// <param name="offset">The offset for translation.</param>
+        /// <param name="invert">if set to <c>true</c>  the result will be inverted.</param>
+        /// <param name="zoom">The zoom factor.</param>
+        /// <param name="callHooks">if set to <c>true</c> per- and post renderer hooks  are called.</param>
+        /// <returns>
+        /// a bool matrix
+        /// </returns>
+        /// <exception cref="System.ArgumentException">
+        /// The zoom level is with a value of  + zoom + to high. The zoom level should not be more than 3.;zoom
+        /// or
+        /// The zoom level is with a value of  + zoom + to low. The zoom level should be between 0 and 3.;zoom
+        /// </exception>
+        public bool[,] RenderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom, bool callHooks = true)
         {
             //call pre hooks
             object cImg = img as object;
-            callAllPreHooks(ref view, ref cImg, offset, invert, zoom);
+            if (callHooks) callAllPreHooks(ref view, ref cImg, offset, invert, zoom);
             img = cImg as Bitmap;
 
             if (zoom > 3) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than 3.", "zoom");
@@ -85,9 +250,9 @@ namespace BrailleIO.Renderer
             }
             if (img != null)
             {
-                using (Bitmap _img = img.Clone() as Bitmap)
+                try
                 {
-                    try
+                    using (Bitmap _img = img.Clone() as Bitmap)
                     {
                         Int32 contentWidth = (Int32)Math.Max(Math.Round(_img.Width * zoom), 1);
                         Int32 contentHeight = (Int32)Math.Max(Math.Round(_img.Height * zoom), 1);
@@ -112,7 +277,7 @@ namespace BrailleIO.Renderer
                                     // good results with a Threshold of 210 but smooths the edges
                                     grMatrix.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
                                     grMatrix.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighSpeed;
-                                    
+
                                     grMatrix.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
                                     grMatrix.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
 
@@ -161,26 +326,60 @@ namespace BrailleIO.Renderer
                             }
                         }
                     }
-                    catch (ArgumentException) { }
                 }
+                catch (ArgumentException) { }
+                catch (InvalidOperationException) { }
             }
             //call post hooks
-            callAllPostHooks(view, img, ref m, offset, invert, zoom);
-            //try { if (img != null) img.Dispose(); }
-            //catch { }
+            if (callHooks) callAllPostHooks(view, img, ref m, offset, invert, zoom);
             return m;
         }
 
         #region IBrailleIOContentRenderer
 
-        public bool[,] RenderMatrix(IViewBoxModel view, object content)
+        /// <summary>
+        /// Renders a content object into an boolean matrix;
+        /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
+        /// ATTENTION: have to be implemented. check for the
+        /// </summary>
+        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange" />.</param>
+        /// <param name="content">The content to render.</param>
+        /// <param name="callHooks">if set to <c>true</c> [call the pre- and post-rendering hooks].</param>
+        /// <returns>
+        /// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
+        /// and N is the count of columns (which is the width).
+        /// Positions in the Matrix are of type [i,j]
+        /// while i is the index of the row (is the y position)
+        /// and j is the index of the column (is the x position).
+        /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
+        /// </returns>
+        public override bool[,] RenderMatrix(IViewBoxModel view, object content, bool callHooks = true)
         {
-            return RenderImage(content as Bitmap, view, view is IZoomable ? ((IZoomable)view).GetZoom() : 1);
+            return RenderImage(content as Bitmap, view, Invert, view is IZoomable ? ((IZoomable)view).GetZoom() : 1);
+        }
+
+        #endregion
+
+        #region Override AbstractCachingRendererBase
+
+        /// <summary>
+        /// Informs the renderer that the content the or view has changed.
+        /// You have to call the PrerenderMatrix function manually if you want to have a cached result.
+        /// </summary>
+        /// <param name="view">The view.</param>
+        /// <param name="content">The content.</param>
+        override public void ContentOrViewHasChanged(IViewBoxModel view, object content)
+        {
+            base.ContentOrViewHasChanged(view, content);
+            PrerenderMatrix(view, content);
         }
 
         #endregion
     }
 
+    /// <summary>
+    /// Class for useful Graphic utilities that are used by the BrailleIo framework.
+    /// </summary>
     public static class GraphicUtils
     {
         /// <summary>
@@ -277,6 +476,11 @@ namespace BrailleIO.Renderer
         const int pixel = 5;
 
         //paints display!
+        /// <summary>
+        /// Paints the bool matrix into an image.
+        /// </summary>
+        /// <param name="m">The matrix.</param>
+        /// <param name="filePath">The file path.</param>
         public static void PaintBoolMatrixToImage(bool[,] m, string filePath)
         {
             if (m == null || m.GetLength(0) < 1 || m.GetLength(1) < 1) return;

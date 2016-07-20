@@ -32,13 +32,17 @@ namespace BrailleIO.Renderer.BrailleInterpreter
         private String parentPath = "";
 
         /// <summary>
-        /// Loads a Braille translation table file. 
+        /// Loads a Braille translation table file.
         /// Based on the translation definitions of the 'liblouis' project [https://github.com/liblouis]
-        /// You can load as much files as you want. 
+        /// You can load as much files as you want.
         /// Double mappings of dot pattern will be overwritten by the last loaded definition.
         /// </summary>
         /// <param name="path">The path to the translation table file to load.</param>
-        /// <returns><c>true</c> if the file could be loaded and translated into mapping dictonaries.</returns>
+        /// <param name="suppressWarnings">if set to <c>true</c> warnings in the translation table loadings will be suppressed.</param>
+        /// <returns>
+        ///   <c>true</c> if the file could be loaded and translated into mapping contradictories.
+        /// </returns>
+        /// <exception cref="System.ArgumentException">Table file ' + path + ' does not exist!</exception>
         public bool LoadFile(String path, bool suppressWarnings = false)
         {
             if (File.Exists(path))
@@ -77,10 +81,12 @@ namespace BrailleIO.Renderer.BrailleInterpreter
         /// You can load as much files as you want.
         /// Double mappings of dot pattern will be overwritten by the last loaded definition.
         /// </summary>
-        /// <param name="table">The translation table file as byte array e.g. when the file is loades from the Recources.</param>
+        /// <param name="table">The translation table file as byte array e.g. when the file is loaded from the Recourses.</param>
+        /// <param name="suppressWarnings">if set to <c>true</c> warnings in the translation table loadings will be suppressed.</param>
         /// <returns>
-        /// 	<c>true</c> if the file could be loaded and translated into mapping dictonaries.
+        ///   <c>true</c> if the file could be loaded and translated into mapping contradictories.
         /// </returns>
+        /// <exception cref="System.ArgumentException">Table file Stream is not valid</exception>
         public bool LoadFile(byte[] table, bool suppressWarnings = false)
         {
             if (table != null && table.Length > 0)

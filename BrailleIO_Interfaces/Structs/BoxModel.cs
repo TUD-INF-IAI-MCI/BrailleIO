@@ -46,6 +46,12 @@ namespace BrailleIO.Structs
             return (obj is BoxModel) && (Top == ((BoxModel)obj).Top) && (Right == ((BoxModel)obj).Right) && (Bottom == ((BoxModel)obj).Bottom) && (Left == ((BoxModel)obj).Left);
         }
 
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
         public override int GetHashCode() { return base.GetHashCode(); }
 
         /// <summary>

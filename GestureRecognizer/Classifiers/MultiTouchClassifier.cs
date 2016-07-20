@@ -7,7 +7,7 @@ using Gestures.Recognition.Interfaces;
 namespace Gestures.Recognition
 {
     /// <summary>
-    /// A classifier to be used by a <see cref="HBGestureRecognizer"/> recognizer instance.
+    /// A classifier to be used by a GestureRecognizer instance.
     /// </summary>
     public class MultitouchClassifier : IClassify
     {

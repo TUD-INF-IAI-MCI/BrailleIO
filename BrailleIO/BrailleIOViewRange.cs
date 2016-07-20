@@ -53,9 +53,18 @@ namespace BrailleIO
         // zoom multiplier
         private double zoom = 1.0;
 
+        /// <summary>
+        /// The maximal zoom level that can be applied.
+        /// </summary>
         public const double MAX_ZOOM_LEVEL = 2;
 
         private bool _invert_image = false;
+        /// <summary>
+        /// Gets or sets a value indicating whether the image should be inverted or not.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [invert the image]; otherwise, <c>false</c>.
+        /// </value>
         public bool InvertImage
         {
             get { return _invert_image; }
@@ -68,6 +77,12 @@ namespace BrailleIO
         }
 
         private string _name = String.Empty;
+        /// <summary>
+        /// Gets or sets the name of this ViewRange - Some kind of UID.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         public String Name
         {
             get { return _name; }
@@ -80,6 +95,12 @@ namespace BrailleIO
         }
 
         private BrailleIOScreen _parent = null;
+        /// <summary>
+        /// Gets or sets the parent <see cref="BrailleIOScreen"/>.
+        /// </summary>
+        /// <value>
+        /// The parent Screen.
+        /// </value>
         public BrailleIOScreen Parent
         {
             get { return _parent; }
@@ -94,9 +115,9 @@ namespace BrailleIO
         volatile bool _render = true;
 
         /// <summary>
-        /// Gets or sets a flag indicating whether this <see cref="BrailleIOViewRange"/> should be rerendered bacause of the content was changed.
+        /// Gets or sets a flag indicating whether this <see cref="BrailleIOViewRange"/> should be re-rendered because of the content was changed.
         /// </summary>
-        /// <value><c>true</c> if the renderer should rerender the content; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> if the renderer should re-render the content; otherwise, <c>false</c>.</value>
         public bool Render
         {
             get { return _render; }
@@ -108,19 +129,25 @@ namespace BrailleIO
 
         #region for sorting
 
-        private volatile int tstamp;
+        //private volatile int tstamp;
 
         private int zIndex;
 
         #endregion
 
-        #region Renderers
+        #region Renderer
 
         private readonly BrailleIO.Renderer.BrailleIOImageToMatrixRenderer _ir = new Renderer.BrailleIOImageToMatrixRenderer();
         private readonly BrailleIO.Renderer.BrailleIOViewMatixRenderer _mr = new BrailleIO.Renderer.BrailleIOViewMatixRenderer();
         private readonly BrailleIO.Renderer.MatrixBrailleRenderer _tr = new BrailleIO.Renderer.MatrixBrailleRenderer();
 
         private IBrailleIOContentRenderer _cr;
+        /// <summary>
+        /// Gets the currently used render for the specific content.
+        /// </summary>
+        /// <value>
+        /// The content render.
+        /// </value>
         public IBrailleIOContentRenderer ContentRender
         {
             get { return _cr; }
@@ -158,6 +185,14 @@ namespace BrailleIO
         #region Constructors
 
         #region Image Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIOViewRange"/> class.
+        /// </summary>
+        /// <param name="left">The left position inside the parent Screen.</param>
+        /// <param name="top">The top position inside the parent screen.</param>
+        /// <param name="width">The overall width.</param>
+        /// <param name="height">The overall height.</param>
+        /// <param name="image">The content image.</param>
         public BrailleIOViewRange(int left, int top, int width, int height, Bitmap image)
         {
             this.ViewBox = new Rectangle(left, top, width, height);
@@ -167,7 +202,14 @@ namespace BrailleIO
         #endregion
 
         #region Text Constructors
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIOViewRange" /> class.
+        /// </summary>
+        /// <param name="left">The left position inside the parent Screen.</param>
+        /// <param name="top">The top position inside the parent screen.</param>
+        /// <param name="width">The overall width.</param>
+        /// <param name="height">The overall height.</param>
+        /// <param name="text">The content text.</param>
         public BrailleIOViewRange(int left, int top, int width, int height, String text)
         {
             this.ViewBox = new Rectangle(left, top, width, height);
@@ -177,10 +219,24 @@ namespace BrailleIO
         #endregion
 
         #region Matrix Constructors
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIOViewRange" /> class.
+        /// </summary>
+        /// <param name="left">The left position inside the parent Screen.</param>
+        /// <param name="top">The top position inside the parent screen.</param>
+        /// <param name="width">The overall width.</param>
+        /// <param name="height">The overall height.</param>
         public BrailleIOViewRange(int left, int top, int width, int height)
             : this(left, top, width, height, new bool[0, 0]) { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIOViewRange" /> class.
+        /// </summary>
+        /// <param name="left">The left position inside the parent Screen.</param>
+        /// <param name="top">The top position inside the parent screen.</param>
+        /// <param name="width">The overall width.</param>
+        /// <param name="height">The overall height.</param>
+        /// <param name="matrix">The content matrix.</param>
         public BrailleIOViewRange(int left, int top, int width, int height, bool[,] matrix)
         {
             this.ViewBox = new Rectangle(left, top, width, height);
@@ -238,7 +294,7 @@ namespace BrailleIO
         /// <summary>
         /// Sets the bitmap that should be rendered.
         /// </summary>
-        /// <param name="_img">The image.</param>
+        /// <param name="img">The image.</param>
         [HandleProcessCorruptedStateExceptions]
         public void SetBitmap(Bitmap img)
         {
@@ -275,7 +331,7 @@ namespace BrailleIO
         /// <summary>
         /// Sets the bitmap that should be rendered.
         /// </summary>
-        /// <param name="_img">The image.</param>
+        /// <param name="img">The content image.</param>
         public void SetBitmap(Image img)
         {
             try
@@ -313,7 +369,7 @@ namespace BrailleIO
                 {
                     Thread.Sleep(5);
                 }
-                catch (System.Exception ex) { break; }
+                catch (System.Exception) { break; }
             }
             return null;
         }
@@ -331,6 +387,12 @@ namespace BrailleIO
             if (fire) firePropertyChangedEvent("Visibility");
         }
 
+        /// <summary>
+        /// Determines whether this instance is visible.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance is visible; otherwise, <c>false</c> if the instance is hidden.
+        /// </returns>
         public bool IsVisible() { return this.is_visible; }
 
         /// <summary>
@@ -544,6 +606,9 @@ namespace BrailleIO
 
         #region IBrailleIOPropertiesChangedEventSupplier
 
+        /// <summary>
+        /// Occurs when a property has changed.
+        /// </summary>
         public event EventHandler<BrailleIOPropertyChangedEventArgs> PropertyChanged;
 
         private void firePropertyChangedEvent(string propertyName)
@@ -559,10 +624,17 @@ namespace BrailleIO
 
         #region IBrailleIOContentChangedEventSupplier
 
+        /// <summary>
+        /// Occurs when the content has been changed.
+        /// </summary>
         public event EventHandler<EventArgs> ContentChanged;
 
         private void fireContentChangedEvent()
         {
+            if (ContentRender != null && ContentRender is BrailleIO.Renderer.ICacheingRenderer)
+            {
+                ((BrailleIO.Renderer.ICacheingRenderer)ContentRender).ContentOrViewHasChanged(this, GetContent());
+            }
             if (ContentChanged != null)
             {
                 ContentChanged.DynamicInvoke(this, null);
@@ -628,6 +700,12 @@ namespace BrailleIO
             }
         }
 
+        /// <summary>
+        /// Sets the offset position of the viewport to the content. The view port is moved like a frame over the content.
+        /// </summary>
+        /// <value>
+        /// The offset position.
+        /// </value>
         public override Point OffsetPosition
         {
             set
@@ -642,6 +720,12 @@ namespace BrailleIO
 
         #region AbstractViewBorderBase
 
+        /// <summary>
+        /// Gets or sets the border.
+        /// </summary>
+        /// <value>
+        /// The border.
+        /// </value>
         public override BoxModel Border
         {
             set
@@ -656,6 +740,12 @@ namespace BrailleIO
 
         #region AbstractViewPaddingBase
 
+        /// <summary>
+        /// Gets or sets the padding. The padding is the inner space between the border and the content.
+        /// </summary>
+        /// <value>
+        /// The padding.
+        /// </value>
         public override BoxModel Padding
         {
             set
@@ -670,6 +760,12 @@ namespace BrailleIO
 
         #region AbstractViewMarginBase
 
+        /// <summary>
+        /// Gets or sets the margin. The margin is the outer space around an area. Space between the objects and the border.
+        /// </summary>
+        /// <value>
+        /// The margin.
+        /// </value>
         public override BoxModel Margin
         {
             set

@@ -4,6 +4,9 @@ using Gestures.Geometrie.Vertex;
 
 namespace Gestures.Geometrie.KdTree
 {
+    /// <summary>
+    /// Implementation for a KD-Tree structure
+    /// </summary>
     public class KdTree
     {
         #region private fields
@@ -38,6 +41,13 @@ namespace Gestures.Geometrie.KdTree
 
         #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KdTree"/> class.
+        /// </summary>
+        /// <param name="elements">The elements of the tree.</param>
+        /// <param name="dimension">The dimension of the tree.</param>
+        /// <param name="cutoff">The cutoff.</param>
+        /// <param name="bndslevel">The bndslevel.</param>
         public KdTree(IList<Vertex.Vertex> elements, int dimension, int cutoff, int bndslevel)
         {
             this.vertexes = elements;
@@ -247,6 +257,12 @@ namespace Gestures.Geometrie.KdTree
 
         #region Searching
 
+        /// <summary>
+        /// Try to find the nearest neighbor in the tree top down.
+        /// </summary>
+        /// <typeparam name="Vertex">The type of the vertex.</typeparam>
+        /// <param name="target">The target to start search.</param>
+        /// <returns>The nearest neighbor.</returns>
         public int TopDownNearestNeighbour<Vertex>(Vertex target) where Vertex : struct, IVertex
         {
             nndist = double.MaxValue;
@@ -374,6 +390,11 @@ namespace Gestures.Geometrie.KdTree
 
         #region Buttom-Up
 
+        /// <summary>
+        /// Sets the radius for bottom up search.
+        /// </summary>
+        /// <param name="nntarget">The nntarget.</param>
+        /// <param name="newRad">The new RAD.</param>
         public void SetRad(int nntarget, double newRad)
         {
             SetRad(nntarget, radii[nntarget], true);
@@ -409,6 +430,11 @@ namespace Gestures.Geometrie.KdTree
             }
         }
 
+        /// <summary>
+        /// Try to get the Nearest neighbor in bottom up search.
+        /// </summary>
+        /// <param name="j">The start position.</param>
+        /// <returns>the nearest neighbor in bottom up search.</returns>
         public int NearestNeighbour(int j)
         {
             nntarget = j;
@@ -456,6 +482,12 @@ namespace Gestures.Geometrie.KdTree
             return true;
         }
 
+        /// <summary>
+        /// Try to find the nearest neighbor in bottom up search but with a fixes search radius..
+        /// </summary>
+        /// <param name="ptnum">The start point.</param>
+        /// <param name="rad">The maximum radius.</param>
+        /// <returns>Th nearest neighbor in bottom up search with fixed search radius.</returns>
         public List<int> FixedRadiusNearestNeighbour(int ptnum, double rad)
         {
             List<int> results = new List<int>();
@@ -529,6 +561,11 @@ namespace Gestures.Geometrie.KdTree
             }
         }
 
+        /// <summary>
+        /// Performs a Ball search
+        /// </summary>
+        /// <param name="j">The start point.</param>
+        /// <returns></returns>
         public List<int> BallSearch(int j)
         {
             List<int> results = new List<int>();
@@ -554,6 +591,10 @@ namespace Gestures.Geometrie.KdTree
 
         #region Un-/Deleting
 
+        /// <summary>
+        /// Deletes the specified point from the tree.
+        /// </summary>
+        /// <param name="pointNum">The point number to delete.</param>
         public void Delete(int pointNum)
         {
             pointNum = idNumberAssignment[pointNum];
@@ -583,6 +624,10 @@ namespace Gestures.Geometrie.KdTree
             }
         }
 
+        /// <summary>
+        /// Undo a delete operation.
+        /// </summary>
+        /// <param name="pointNum">The point number.</param>
         public void Undelete(int pointNum)
         {
             pointNum = idNumberAssignment[pointNum];
@@ -616,14 +661,51 @@ namespace Gestures.Geometrie.KdTree
 
         #region Informative
 
+        /// <summary>
+        /// Check if the tree contains a specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns><c>true</c> if the index is included; otherwise <c>false</c>.</returns>
         public bool Included(int index)
         {
             return included[idNumberAssignment[index]];
         }
+        /// <summary>
+        /// Gets the amount of vertexes of this tree.
+        /// </summary>
+        /// <value>
+        /// The count of vertexes.
+        /// </value>
         public int Count { get { return vertexes.Count; } }
+        /// <summary>
+        /// Gets the dimension of this tree.
+        /// </summary>
+        /// <value>
+        /// The dimension.
+        /// </value>
         public int Dimension { get { return dimension; } }
+        /// <summary>
+        /// Gets the cut off value of this tree.
+        /// </summary>
+        /// <value>
+        /// The cut off value.
+        /// </value>
         public int CutOffValue { get { return cutoff; } }
+        /// <summary>
+        /// Gets the level for a bounds check.
+        /// </summary>
+        /// <value>
+        /// The level for a bounds check.
+        /// </value>
         public int Level4BoundsCheck { get { return bndslevel; } }
+        /// <summary>
+        /// Gets the <see cref="Vertex.Vertex"/> at the specified index.
+        /// </summary>
+        /// <value>
+        /// The <see cref="Vertex.Vertex"/>.
+        /// </value>
+        /// <param name="index">The index.</param>
+        /// <returns></returns>
         public Vertex.Vertex this[int index]
         {
             get { return vertexes[idNumberAssignment[index]]; }
@@ -693,10 +775,17 @@ namespace Gestures.Geometrie.KdTree
         #endregion
     }
 
+    /// <summary>
+    /// Class of a node inside a KD-tree
+    /// </summary>
     public class KdNode
     {
         int depth;
         LinkedList<int> intersectingBalls;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KdNode"/> class.
+        /// </summary>
+        /// <param name="depth">The depth.</param>
         public KdNode(int depth)
         {
             this.depth = depth;
@@ -704,17 +793,89 @@ namespace Gestures.Geometrie.KdTree
 
         }
 
+        /// <summary>
+        /// Gets the cut off dimension of this node.
+        /// </summary>
+        /// <value>
+        /// The cut dim.
+        /// </value>
         public int CutDim { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="KdNode"/> is bucket.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if bucket; otherwise, <c>false</c>.
+        /// </value>
         public bool Bucket { get; set; }
+        /// <summary>
+        /// Gets or sets the low point.
+        /// </summary>
+        /// <value>
+        /// The low point.
+        /// </value>
         public int LoPt { get; set; }
+        /// <summary>
+        /// Gets or sets the high point.
+        /// </summary>
+        /// <value>
+        /// The high point.
+        /// </value>
         public int HiPt { get; set; }
+        /// <summary>
+        /// Gets the cut off value of this node.
+        /// </summary>
+        /// <value>
+        /// The cut off value.
+        /// </value>
         public double CutVal { get; set; }
+        /// <summary>
+        /// Gets or sets the lower son.
+        /// </summary>
+        /// <value>
+        /// The lower son.
+        /// </value>
         public KdNode LoSon { get; set; }
+        /// <summary>
+        /// Gets or sets the higher son.
+        /// </summary>
+        /// <value>
+        /// The higher son.
+        /// </value>
         public KdNode HiSon { get; set; }
+        /// <summary>
+        /// Gets or sets the father of this node.
+        /// </summary>
+        /// <value>
+        /// The father.
+        /// </value>
         public KdNode Father { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="KdNode"/> is empty.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if empty; otherwise, <c>false</c>.
+        /// </value>
         public bool Empty { get; set; }
+        /// <summary>
+        /// Gets the depth.
+        /// </summary>
+        /// <value>
+        /// The depth.
+        /// </value>
         public int Depth { get { return depth; } }
+        /// <summary>
+        /// Gets or sets the bounds.
+        /// </summary>
+        /// <value>
+        /// The bounds.
+        /// </value>
         public List<double> Bound { get; set; }
+        /// <summary>
+        /// Gets the intersecting balls.
+        /// </summary>
+        /// <value>
+        /// The intersecting balls.
+        /// </value>
         public LinkedList<int> IntersectingBalls { get { return intersectingBalls; } }
 
     }

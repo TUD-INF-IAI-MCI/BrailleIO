@@ -65,10 +65,13 @@
     <Compile Include="Interface\IViewPadding.cs" />
     <Compile Include="Interface\IZoomable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderer\AbstractCachingRendererBase.cs" />
+    <Compile Include="Renderer\ICacheingRenderer.cs" />
     <Compile Include="Renderer\ITouchableRenderer.cs" />
     <Compile Include="Renderer\LockBitmap.cs" />
     <Compile Include="Structs\BoxModel.cs" />
     <Compile Include="Structs\RenderElement.cs" />
+    <Compile Include="Structs\Touch.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

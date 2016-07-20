@@ -20,6 +20,12 @@ namespace BrailleIO
         internal readonly ConcurrentStack<double[,]> touchStack = new ConcurrentStack<double[,]>();
 
         BrailleIOMediator io;
+        /// <summary>
+        /// Gets the show off adapter. This is the <see cref="IBrailleIOAdapter"/> implementation simulating a hardware in- output adapter.
+        /// </summary>
+        /// <value>
+        /// The show off adapter.
+        /// </value>
         public BrailleIOAdapter_ShowOff ShowOffAdapter { get; private set; }
 
         #endregion
@@ -37,10 +43,13 @@ namespace BrailleIO
             }
             catch (System.InvalidOperationException e)
             {
-                //System.Diagnostics.Debug.WriteLine("Exception  in Init show off form\n" + e);
+                System.Diagnostics.Debug.WriteLine("Exception  in Init show off form\n" + e);
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShowOff"/> class.
+        /// </summary>
         public ShowOff()
         {
             InitForm();
@@ -83,13 +92,16 @@ namespace BrailleIO
         // has to be called in ShowOff.Designer.cs -> protected override void Dispose(bool disposing)
         partial void _dispose();
 
-        #region initalization
+        #region initialization
 
         /// <summary>
         /// Initializes the BrailleIO framework. Build a new BrailleIOAdapter_ShowOff, and add it to the IBrailleIOAdapterManager.
         /// </summary>
         /// <param name="adapterManager">The adapter manager to use for managing devices.</param>
-        /// <returns>The created BrailleIOAdapter_ShowOff, that was build with this instance</returns>
+        /// <param name="setAsActiveAdapter">if set to <c>true</c> [set this as active adapter].</param>
+        /// <returns>
+        /// The created BrailleIOAdapter_ShowOff, that was build with this instance
+        /// </returns>
         public AbstractBrailleIOAdapterBase InitializeBrailleIO(IBrailleIOAdapterManager adapterManager, bool setAsActiveAdapter = false)
         {
             ShowOffAdapter = new BrailleIOAdapter_ShowOff(adapterManager, this);
@@ -119,6 +131,13 @@ namespace BrailleIO
             return null;
         }
 
+        /// <summary>
+        /// creates a new <see cref="BrailleIOAdapter_ShowOff" /> and returns it
+        /// </summary>
+        /// <param name="manager">the corresponding adapter manager</param>
+        /// <returns>
+        /// a new "BrailleIOAdapter_ShowOff adapter
+        /// </returns>
         public AbstractBrailleIOAdapterBase GetAdapter(IBrailleIOAdapterManager manager)
         {
             ShowOffAdapter = new BrailleIOAdapter_ShowOff(manager);
@@ -176,7 +195,7 @@ namespace BrailleIO
                             }
                             else { return; }
                         }
-                        catch (InvalidOperationException ex)
+                        catch (InvalidOperationException)
                         {
                             if (this.Disposing) { break; }
                             else
@@ -232,10 +251,10 @@ namespace BrailleIO
                 }
                 return true;
             }
-            catch (InvalidOperationException ex) { }
+            catch (InvalidOperationException) { }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Exception in setting picture overlay");
+                System.Diagnostics.Debug.WriteLine("Exception in setting picture overlay:\r\n" + ex);
             }
             return false;
         }

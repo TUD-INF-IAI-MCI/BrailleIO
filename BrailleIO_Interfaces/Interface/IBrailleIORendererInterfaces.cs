@@ -1,13 +1,17 @@
 ﻿
 namespace BrailleIO.Interface
 {
+    /// <summary>
+    /// Interface a renderer component have to implement to transform a specific content object into a bool matrix.
+    /// </summary>
+    /// <seealso cref="BrailleIO.Interface.IBrailleIOContentRenderer" />
     public interface IBrailleIORendererInterfaces : IBrailleIOContentRenderer
     {
         /// <summary>
         /// Renders a content object into an boolean matrix;
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
-        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange"/>.</param>
+        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a BrailleIOViewRange.</param>
         /// <param name="matrix">The content to render.</param>
         /// <returns>
         /// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
@@ -20,7 +24,7 @@ namespace BrailleIO.Interface
     }
 
     /// <summary>
-    /// Generic interface for a renderer for content of a <see cref="BrailleIOViewRange"/> has to implement. 
+    /// Generic interface for a renderer for content of a BrailleIOViewRange has to implement. 
     /// Then the instance can be added as a content renderer.
     /// </summary>
     public interface IBrailleIOContentRenderer
@@ -29,7 +33,7 @@ namespace BrailleIO.Interface
         /// Renders a content object into an boolean matrix;
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
-        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange"/>.</param>
+        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a IBrailleIOViewRange.</param>
         /// <param name="content">The content to render.</param>
         /// <returns>
         /// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
@@ -40,22 +44,6 @@ namespace BrailleIO.Interface
         /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins</returns>
         bool[,] RenderMatrix(IViewBoxModel view, object content);
     }
-
-    ///// <summary>
-    ///// Generic interface for a renderer for Braille text content.
-    ///// </summary>
-    //public interface IBrailleIOBrailleRenderer
-    //{
-    //    /// <summary>
-    //    /// Gets or sets a value indicating whether the last line should also has inter line space or not.
-    //    /// Default this is set to false, so the last line has also some space to the bottom of the content region.
-    //    /// </summary>
-    //    /// <value>
-    //    /// 	<c>true</c> if [ignore last line space]; otherwise, <c>false</c>.
-    //    /// </value>
-    //    bool IgnoreLastLineSpace { get; set; }
-    //}
-
 
     #region Hook
 

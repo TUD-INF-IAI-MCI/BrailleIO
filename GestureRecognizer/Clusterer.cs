@@ -7,7 +7,7 @@ using Gestures.Recognition.GestureData;
 namespace GestureRecognition
 {
     /// <summary>
-    /// Clusters sensor data made available to a braille display representation of type <typeparamref name="BrailleDisplay"/>.
+    /// Clusters sensor data.
     /// </summary>
     public class Clusterer
     {
@@ -123,7 +123,7 @@ namespace GestureRecognition
         }
         private bool CheckCriterion(double m1, double m2, double threshold)
         {
-            if (m2 == null) { return false; }
+            //if (m2 == null) { return false; }
             return (!((m1 > threshold) ^ (m2 > threshold)));
         }
         #endregion
@@ -131,6 +131,7 @@ namespace GestureRecognition
         /// <summary>
         /// Clusters the sensor data in the braille display representation regarding to some specified threshold.
         /// </summary>
+        /// <param name="sensorMatrix">The sensor data matrix.</param>
         /// <param name="threshold">The threshold.</param>
         /// <returns></returns>
         public IDictionary<int, Cluster> Cluster(double[,] sensorMatrix, double threshold)

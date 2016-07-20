@@ -9,6 +9,9 @@ namespace BrailleIO.Interface
     {
         #region Member
 
+        /// <summary>
+        /// The hooks that should be called when rendering the content.
+        /// </summary>
         protected readonly ConcurrentDictionary<int, IBailleIORendererHook> hooks = new ConcurrentDictionary<int, IBailleIORendererHook>();
 
         #endregion
@@ -42,7 +45,7 @@ namespace BrailleIO.Interface
         /// </summary>
         /// <param name="view">The view.</param>
         /// <param name="content">The content.</param>
-        /// <param name="additionalParams">The additional params.</param>
+        /// <param name="additionalParams">The additional parameters.</param>
         protected virtual void callAllPreHooks(ref IViewBoxModel view, ref object content, params object[] additionalParams)
         {
             if (hooks.Count > 0)
@@ -67,7 +70,7 @@ namespace BrailleIO.Interface
         /// <param name="view">The view.</param>
         /// <param name="content">The content.</param>
         /// <param name="result">The result.</param>
-        /// <param name="additionalParams">The additional params.</param>
+        /// <param name="additionalParams">The additional parameters.</param>
         protected virtual void callAllPostHooks(IViewBoxModel view, object content, ref bool[,] result, params object[] additionalParams)
         {
             if (hooks.Count > 0)

@@ -2,6 +2,8 @@
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using BrailleIO.Interface;
+using System.Collections.Generic;
+using BrailleIO.Structs;
 
 namespace BrailleIO
 {
@@ -90,7 +92,10 @@ namespace BrailleIO
             protected set { _connected = value; }
         }
 
-        IBrailleIOAdapterManager manager = null;
+        /// <summary>
+        /// The adapter manager this adapter is registered in.
+        /// </summary>
+        protected IBrailleIOAdapterManager manager = null;
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractBrailleIOAdapterBase"/> class.
         /// </summary>
@@ -103,7 +108,7 @@ namespace BrailleIO
         /// <summary>
         /// Connects this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns><c>true</c> if connected successfully; otherwise, <c>false</c>.</returns>
         public virtual bool Connect()
         {
             if (manager.ActiveAdapter == null)
@@ -117,7 +122,7 @@ namespace BrailleIO
         /// <summary>
         /// Disconnects this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns><c>true</c> if disconnected successfully; otherwise, <c>false</c>.</returns>
         public virtual bool Disconnect()
         {
             manager.ActiveAdapter = null;
@@ -133,13 +138,37 @@ namespace BrailleIO
         internal virtual void OnBrailleIO_ErrorOccured_EventHandler(BrailleIO_ErrorOccured_EventArgs e) { errorOccurred(this, e); }
         #endregion
 
+        /// <summary>
+        /// Occurs when a key was pressed.
+        /// </summary>
         public event EventHandler<BrailleIO_KeyPressed_EventArgs> keyPressed;
+        /// <summary>
+        /// Occurs when the state of a key has changed. This can be a pressed or a released
+        /// </summary>
         public event EventHandler<BrailleIO_KeyStateChanged_EventArgs> keyStateChanged;
+        /// <summary>
+        /// Occurs when the device was successfully initialized.
+        /// </summary>
         public event EventHandler<BrailleIO_Initialized_EventArgs> initialized;
+        /// <summary>
+        /// Occurs when the device was closed.
+        /// </summary>
         public event EventHandler<BrailleIO_Initialized_EventArgs> closed;
+        /// <summary>
+        /// Occurs when some properties of the input changes.
+        /// </summary>
         public event EventHandler<BrailleIO_InputChanged_EventArgs> inputChanged;
+        /// <summary>
+        /// Occurs when some touch values had changed.
+        /// </summary>
         public event EventHandler<BrailleIO_TouchValuesChanged_EventArgs> touchValuesChanged;
+        /// <summary>
+        /// Occurs when  some pin states had changed.
+        /// </summary>
         public event EventHandler<BrailleIO_PinStateChanged_EventArgs> pinStateChanged;
+        /// <summary>
+        /// Occurs when an error has occurred.
+        /// </summary>
         public event EventHandler<BrailleIO_ErrorOccured_EventArgs> errorOccurred;
 
         /// <summary>
@@ -198,13 +227,22 @@ namespace BrailleIO
         /// <param name="timestamp">The timestamp.</param>
         /// <param name="raw">The raw.</param>
         protected virtual void fireTouchValuesChanged(double[,] touches, int timestamp, ref OrderedDictionary raw)
+        { fireTouchValuesChanged(touches, timestamp, ref raw, null); }
+        /// <summary>
+        /// Fires a touch values changed event.
+        /// </summary>
+        /// <param name="touches">The touches.</param>
+        /// <param name="timestamp">The timestamp.</param>
+        /// <param name="raw">The raw.</param>
+        /// <param name="detailedTouch">An optional list of detailed touch information.</param>
+        protected virtual void fireTouchValuesChanged(double[,] touches, int timestamp, ref OrderedDictionary raw, List<Touch> detailedTouch = null)
         {
             if (touchValuesChanged != null)
-                touchValuesChanged(this, new BrailleIO_TouchValuesChanged_EventArgs(touches, timestamp, ref raw));
+                touchValuesChanged(this, new BrailleIO_TouchValuesChanged_EventArgs(touches, timestamp, ref raw, detailedTouch));
         }
 
         /// <summary>
-        /// Fires an error occured event.
+        /// Fires an error occurred event.
         /// </summary>
         /// <param name="errorCode">The error code.</param>
         /// <param name="raw">The raw.</param>
@@ -289,7 +327,8 @@ namespace BrailleIO
 
             return true;
         }
-        #region Touch matrix calibration Methodes -- ONLY A TRY
+        
+        #region Touch matrix calibration Methods -- ONLY A TRY
 
         void AbstractBrailleIOAdapterBase_touchValuesChanged(object sender, BrailleIO_TouchValuesChanged_EventArgs e)
         {
@@ -298,6 +337,14 @@ namespace BrailleIO
 
         double[,] _touchCorrectionMatrix;
         private static readonly object tcmLock = new object();
+        /// <summary>
+        /// Gets or sets the touch correction matrix.
+        /// This matrix will be subtracted from the incoming touch matrix to correct the 
+        /// sensory data.
+        /// </summary>
+        /// <value>
+        /// The touch correction matrix.
+        /// </value>
         protected double[,] touchCorrectionMatrix
         {
             get { return _touchCorrectionMatrix; }
@@ -332,10 +379,7 @@ namespace BrailleIO
                             temp += Math.Max(tMatrix[i, j], ftm[i, j]);
                             ftm[i, j] = temp;
                         }
-                        catch (System.Exception ex)
-                        {
-
-                        }
+                        catch (System.Exception){}
 
                     }); // Parallel.For cols
 
@@ -370,6 +414,7 @@ namespace BrailleIO
             }
             return _fullMatrix;
         }
+
         #endregion
 
     }

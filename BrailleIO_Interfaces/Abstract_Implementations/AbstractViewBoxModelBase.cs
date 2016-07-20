@@ -231,17 +231,65 @@ namespace BrailleIO.Interface
         #region IPannable Member
 
         private Point _offsetPosition = new Point();
+        /// <summary>
+        /// Gets or sets the offset position.
+        /// The offset position is the position of the content related to the view port - 
+        /// the visible part.
+        /// For handling panning the content is moved underneath view port - like a sheet
+        /// of paper under a fixed microscope. This means the offsets normally are negative values! 
+        /// </summary>
+        /// <value>
+        /// The offset position of the content related to the view port.
+        /// </value>
         public virtual Point OffsetPosition { get { return _offsetPosition; } set { _offsetPosition = value; } }
 
         private bool _show_scrollbars = false;
+        /// <summary>
+        /// Gets or sets a value indicating whether to show some scrollbars.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if to show scrollbars; otherwise, <c>false</c>.
+        /// </value>
         public bool ShowScrollbars { get { return _show_scrollbars; } set { _show_scrollbars = value; } }
 
+        /// <summary>
+        /// Gets the offset in horizontal direction.
+        /// Should normally be negative. Moves the position of the content by the offset.
+        /// E.g. a negative offset should move the content to the left and the viewable
+        /// region to the right.
+        /// </summary>
+        /// <returns>
+        /// the horizontal offset
+        /// </returns>
         public virtual int GetXOffset() { return OffsetPosition.X; }
 
+        /// <summary>
+        /// Sets the offset in horizontal direction.
+        /// Should normally be negative. Moves the position of the content by the offset.
+        /// E.g. a negative offset should move the content to the left and the viewable
+        /// region to the right.
+        /// </summary>
+        /// <param name="x">The offset in horizontal direction.</param>
         public virtual void SetXOffset(int x) { OffsetPosition = new Point(x, GetYOffset()); }
 
+        /// <summary>
+        /// Gets the offset in vertical direction.
+        /// Should normally be negative. Moves the position of the content by the offset.
+        /// E.g. a negative offset should move the content to up and the viewable
+        /// region down.
+        /// </summary>
+        /// <returns>
+        /// the vertical offset
+        /// </returns>
         public virtual int GetYOffset() { return OffsetPosition.Y; }
 
+        /// <summary>
+        /// Sets the offset in vertical direction.
+        /// Should normally be negative. Moves the position of the content by the offset.
+        /// E.g. a negative offset should move the content to up and the viewable
+        /// region down.
+        /// </summary>
+        /// <param name="y">The offset in vertical direction.</param>
         public virtual void SetYOffset(int y) { OffsetPosition = new Point(GetXOffset(), y); }
 
         #endregion

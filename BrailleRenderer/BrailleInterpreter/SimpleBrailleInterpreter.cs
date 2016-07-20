@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 namespace BrailleIO.Renderer.BrailleInterpreter
 {
+    /// <summary>
+    /// This is a basic Braille renderer. It converts a given Unicode sign into an dot pattern.
+    /// The translation is defined in simple translation table files. default the Eurobraille table with
+    /// German letters is loaded.
+    /// </summary>
+    /// <seealso cref="BrailleIO.Renderer.BrailleInterpreter.IBraileInterpreter" />
     public class SimpleBrailleInterpreter : IBraileInterpreter
     {
         #region Members
@@ -136,7 +142,7 @@ namespace BrailleIO.Renderer.BrailleInterpreter
         /// <summary>
         /// Converts the dot string (e.g. 1278) to a list of integer.
         /// </summary>
-        /// <param name="dots">The dot pattern as String.</param>
+        /// <param name="dotPattern">The dot pattern as String.</param>
         /// <returns>a List of integer indicating the raised dots as a position in a Braille cell.
         ///     1 4
         ///     2 5

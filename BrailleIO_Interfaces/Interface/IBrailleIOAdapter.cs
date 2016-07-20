@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BrailleIO.Structs;
+using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace BrailleIO.Interface
@@ -90,7 +92,27 @@ namespace BrailleIO.Interface
         /// <summary>
         /// the button for zooming out is pressed
         /// </summary>
-        ZoomOutDown = 262144
+        ZoomOutDown = 262144,
+
+
+        k1Up,
+        k1Down,
+        k2Up,
+        k2Down,
+        k3Up,
+        k3Down,
+        k4Up,
+        k4Down,
+        k5Up,
+        k5Down,
+        k6Up,
+        k6Down,
+        k7Up,
+        k7Down,
+        k8Up,
+        k8Down,
+
+
     }
 
     /// <summary>
@@ -221,6 +243,10 @@ namespace BrailleIO.Interface
     public class BrailleIO_TouchValuesChanged_EventArgs : System.EventArgs
     {
         /// <summary>
+        /// OPTIONAL list of more detailed touch information.
+        /// </summary>
+        public List<Touch> DetailedTouches { get; private set; }
+        /// <summary>
         /// the normalized matrix (from 0.0 to 1.0) of detected touch values per pin  
         /// </summary>
         public readonly double[,] touches;
@@ -236,13 +262,25 @@ namespace BrailleIO.Interface
         /// Initializes a new instance of the <see cref="BrailleIO_TouchValuesChanged_EventArgs"/> class.
         /// </summary>
         /// <param name="touches">the normalized matrix (from 0.0 to 1.0) of detected touch values per pin.</param>
-        /// <param name="timestamp">The original event args from the device in raw format without interpretation.</param>
+        /// <param name="timestamp">The original event args from the device in raw format without interpretation.
+        /// But could also be an own timestamp such as <c>(int)DateTime.UtcNow.Ticks</c>.
+        /// </param>
         /// <param name="raw">The original event args from the device in raw format without interpretation.</param>
-        public BrailleIO_TouchValuesChanged_EventArgs(double[,] touches, int timestamp, ref OrderedDictionary raw)
+        public BrailleIO_TouchValuesChanged_EventArgs(double[,] touches, int timestamp, ref OrderedDictionary raw):this(touches, timestamp, ref raw, null) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIO_TouchValuesChanged_EventArgs"/> class.
+        /// </summary>
+        /// <param name="touches">the normalized matrix (from 0.0 to 1.0) of detected touch values per pin.</param>
+        /// <param name="timestamp">The original event args from the device in raw format without interpretation.
+        /// But could also be an own timestamp such as <c>(int)DateTime.UtcNow.Ticks</c>.
+        /// </param>
+        /// <param name="raw">The original event args from the device in raw format without interpretation.</param>
+        public BrailleIO_TouchValuesChanged_EventArgs(double[,] touches, int timestamp, ref OrderedDictionary raw, List<Touch> detailedTouches)
         {
             this.touches = touches;
             this.timestamp = timestamp;
             this.raw = raw;
+            this.DetailedTouches = detailedTouches;
         }
     }
 
@@ -342,11 +380,35 @@ namespace BrailleIO.Interface
     {
         #region Properties
 
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="IBrailleIOAdapter"/> is connected.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if connected; otherwise, <c>false</c>.
+        /// </value>
         bool Connected { get; }
 
+        /// <summary>
+        /// Gets the horizontal resolution of this device in Dots Per Inch.
+        /// </summary>
+        /// <value>
+        /// The horizontal DPI.
+        /// </value>
         float DpiX { get; }
+        /// <summary>
+        /// Gets the vertical resolution of this device in Dots Per Inch.
+        /// </summary>
+        /// <value>
+        /// The vertical DPI.
+        /// </value>
         float DpiY { get; }
 
+        /// <summary>
+        /// Gets the corresponding hardware device to this wrapper.
+        /// </summary>
+        /// <value>
+        /// The device.
+        /// </value>
         BrailleIODevice Device { get; }
 
         #endregion

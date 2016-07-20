@@ -1,6 +1,10 @@
 ﻿
+using System;
 namespace BrailleIO.Interface
 {
+    /// <summary>
+    /// Interface an manager for in- and output adapters have to implement.
+    /// </summary>
     public interface IBrailleIOAdapterManager
     {
         /// <summary>
@@ -41,5 +45,40 @@ namespace BrailleIO.Interface
         /// <returns><c>true</c> if the matrix could been displayed successfully on the output device</returns>
         bool Synchronize(bool[,] matrix);
 
+        /// <summary>
+        /// Occurs when a new adapter was registered.
+        /// </summary>
+        event EventHandler<IBrailleIOAdapterEventArgs> NewAdapterRegistered;
+        /// <summary>
+        /// Occurs when an adapter was removed.
+        /// </summary>
+        event EventHandler<IBrailleIOAdapterEventArgs> AdapterRemoved;
+
+        /// <summary>
+        /// Occurs when the active adapter changed.
+        /// </summary>
+        event EventHandler<IBrailleIOAdapterEventArgs> ActiveAdapterChanged;
     }
+
+    /// <summary>
+    /// Event arguments for submitting <see cref="IBrailleIOAdapter"/> to event handler.
+    /// </summary>
+    /// <seealso cref="System.EventArgs" />
+    public class IBrailleIOAdapterEventArgs : EventArgs
+    {
+        /// <summary>
+        /// The adapter raising this event.
+        /// </summary>
+        public readonly IBrailleIOAdapter Adapter;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IBrailleIOAdapterEventArgs"/> class.
+        /// </summary>
+        /// <param name="adapter">The adapter.</param>
+        public IBrailleIOAdapterEventArgs(IBrailleIOAdapter adapter)
+        {
+            Adapter = adapter;
+        }
+    }
+
 }

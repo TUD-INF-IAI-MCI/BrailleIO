@@ -9,6 +9,11 @@ using System.Windows.Input;
 
 namespace BrailleIO
 {
+    /// <summary>
+    /// A software adapter simulating a Metec BarilleDis 7200.
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
+    /// <seealso cref="BrailleIO.IBrailleIOShowOffMonitor" />
     public partial class ShowOff : Form, IBrailleIOShowOffMonitor
     {
         #region buttons
@@ -235,6 +240,12 @@ namespace BrailleIO
 
         #region Application keys
         private volatile bool _ctr = false;
+        /// <summary>
+        /// determines if the CTR-key is pressed or not
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if CTR-Key is pressed; otherwise, <c>false</c>.
+        /// </value>
         protected bool Ctr { 
             get {
                 return _ctr || Keyboard.IsKeyDown(System.Windows.Input.Key.LeftCtrl) || Keyboard.IsKeyDown(System.Windows.Input.Key.RightCtrl);
