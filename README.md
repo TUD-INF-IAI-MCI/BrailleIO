@@ -282,9 +282,13 @@ This is an example application showing for the usage of several basic functions 
 ## You want to know more?
 For getting a very detailed overview use the [code documentaion section](/Help/index.html) of this project.
 
-# Examples
+# Examples 
 
+TODO: add a MWE.
 
+# Deep Dive
+
+Here, very special topics are explained.
 
 ## Set up a new Adapter
 
@@ -301,3 +305,107 @@ allReleasedKeys| `List<String>` | List of stings that represent all last release
 newPressedKeys| `List<String>` | List of stings that represent all last newly pressed buttons
 
 
+## Build your own renderer
+
+If you want to set up your own type of content that is beyond the currently available image and string-to-Braille possibilities, you have to provide your own specialized renderer.
+
+The basic type of content, any other content will be transformed to, is the two-dimensional Boolean matrix (ATTENTION: the matrix is a mathematical object (m[i,j]) in which the first dimension is the row – which corresponds to the y-value in an image, and the second dimension is the column – which corresponds to the x-value).
+If you have set up a ViewRange, you can add any kind of object as content, as long as you give a renderer that can transform it into a bool matrix.
+
+``` C#
+/// <summary>
+/// Sets an generic content and a related renderer for this type.
+/// </summary>
+/// <param name="content">The content.</param>
+/// <param name="renderer">The renderer - can not be null.</param>
+public void SetOtherContent(Object content, IBrailleIOContentRenderer renderer)
+```
+
+The render has to, at least, implement the `BrailleIO.Interface .IBrailleIOContentRenderer`. This only contains of the function:
+
+``` C#
+/// <summary>
+/// Renders a content object into an boolean matrix;
+/// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
+/// </summary>
+/// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange"/>.</param>
+/// <param name="content">The content to render.</param>
+/// <returns>
+/// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
+/// and N is the count of columns (which is the width). 
+/// Positions in the Matrix are of type [i,j] 
+/// while i is the index of the row (is the y position) 
+/// and j is the index of the column (is the x position). 
+/// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins</returns>
+bool[,] RenderMatrix(IViewBoxModel view, object content);
+``` 
+
+In the implementation of the function, the renderer get information about the view (normally this is a `BrailleIOViewRange`) and the content to transform.
+
+### Make the renderer hookable
+
+To enable developers to adapt the rendering results, the ability of hooking is implemented for the standard renders (image, text). This you can use as well for your own renderer.
+
+Hooking means that at a/some certain point/s the hooks are called to manipulate either the basic parameters or the result of a function. For renderers two points for hooking exist: 1) before rendering (manipulating the parameters) and 2) after the rendering (adapting the result). To enable your renderer to bee hook, you have to implement the interface:
+
+``` C#
+/// <summary>
+/// Interface that a renderer has to implement if he wants to allow hooking
+/// </summary>
+public interface IBrailleIOHookableRenderer
+{
+	/// <summary>
+	/// Register a hook.
+	/// </summary>
+	/// <param name="hook">The hook.</param>
+	void RegisterHook(IBailleIORendererHook hook);
+	/// <summary>
+	/// Unregisters a hook.
+	/// </summary>
+	/// <param name="hook">The hook.</param>
+	void UnregisterHook(IBailleIORendererHook hook);
+}
+```
+
+To make it easier to use and to handle all the hooking and hook calling stuff, an abstract implementation for the interface exists with the `BrailleIO.Interface.BrailleIOHookableRendererBase`. The only thing you have to do is to call the functions `protected virtual void callAllPreHooks(ref IViewBoxModel view, ref object content, params object[] additionalParams)` before starting the rendering and `protected virtual void callAllPostHooks(IViewBoxModel view, object content, ref bool[,] result, params object[] additionalParams)` before returning the result.
+
+ATTENTION: Be aware that calling hooks can damage your rendering result and can make the rendering inefficient and slow!
+
+
+### Make a renderer cacheable
+
+TODO: comes later
+
+### Make your renderer touchable
+
+To enable users to interact with your application via touch, the possibility of accessing the basic content objects out of the rendering result have to be provided. So auditory feedback or direct manipulation gets possible. 
+Therefore, the renderer have to keep information about which content object is rendered to which position in the resulting matrix. To make this feature available to the developers your renderer has to implement the interface:
+
+``` C#
+namespace BrailleIO.Renderer
+{
+    public interface ITouchableRenderer
+    {
+
+        /// <summary>
+        /// Gets the Object at position x,y in the content.
+        /// </summary>
+        /// <param name="x">The x position in the content matrix.</param>
+        /// <param name="y">The y position in the content matrix.</param>
+        /// <returns>An object at the requester position in the content or <c>null</c></returns>
+        Object GetContentAtPosition(int x, int y);
+
+        /// <summary>
+        /// Get all Objects inside (or at least partial) the given area.
+        /// </summary>
+        /// <param name="left">Left border of the region to test (X).</param>
+        /// <param name="right">Right border of the region to test (X + width).</param>
+        /// <param name="top">Top border of the region to test (Y).</param>
+        /// <param name="bottom">Bottom border of the region to test (Y + heigh).</param>
+        /// <returns>A list of elements inside or at least partial inside the requested area.</returns>
+        IList GetAllContentInArea(int left, int right, int top, int bottom);
+    }
+}
+```
+
+For content objects, such as texts, a helping structure called `BrailleIO.Renderer.Structs.RenderElement` is available. In this struct several features such as building a content tree. This struct is only usable for rectangular content types because of its bounding-box based metaphor.
