@@ -92,6 +92,7 @@ namespace BrailleIO
             protected set { _connected = value; }
         }
 
+        protected IBrailleIOAdapterManager manager = null;
         /// <summary>
         /// The adapter manager this adapter is registered in.
         /// </summary>

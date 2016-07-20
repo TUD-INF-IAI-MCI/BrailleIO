@@ -651,9 +651,10 @@ namespace BrailleIO
         #region AbstractViewBoxModelBase
 
         /// <summary>
-        /// Rectangle given dimensions and position of the whole view range or screen including the ContentBox, margin, padding and border (see BoxModel).
+        /// Rectangle given dimensions and position of the whole view range or screen 
+        /// including the ContentBox, margin, padding and border (see BoxModel).
         /// </summary>
-        /// <value></value>
+        /// <value>ViewBox of this view (position and size)</value>
         public override Rectangle ViewBox
         {
             set
@@ -666,6 +667,8 @@ namespace BrailleIO
 
         /// <summary>
         /// Rectangle given dimensions and position of the view range or screen that can be used for displaying content.
+        /// The position is the top-left position of ContentBox inside the viewRange.
+        /// The size is the visible size inside the view range --> ViewBox size without margin, border and padding.
         /// BrailleIOScreen                                     ViewBox
         /// ┌────────────────────────────────────────────────╱─┐
         /// │              BrailleIOViewRange              ╱   │
@@ -701,7 +704,16 @@ namespace BrailleIO
         }
 
         /// <summary>
-        /// Sets the offset position of the viewport to the content. The view port is moved like a frame over the content.
+        /// Sets the offset position. This is the relation between the 
+        /// content's position to the visible view. This value is added to the 
+        /// contents positions to compute the points rendered to the output.
+        /// Standard is 0,0 which is means, the content is started rendered in the 
+        /// top-left corner of the viewBox. To move the content to the top - which is 
+        /// something like a pan down - you have to set the y-position to a negative 
+        /// value. To move the content down, you have to add a positive offset. The 
+        /// same happens for horizontal movement. A negative value will move the 
+        /// content to the left - which is a pan to the right - and a positive value 
+        /// will move the content to the right.
         /// </summary>
         /// <value>
         /// The offset position.
@@ -715,6 +727,71 @@ namespace BrailleIO
                 if (fire) firePropertyChangedEvent("OffsetPosition");
             }
         }
+
+        #endregion
+
+        #region Collision Tests
+
+        /// <summary>
+        /// Determines whether this view contains a specific point on the display.
+        /// Attention: a <c>true</c> does not mean that the point is in the content. 
+        /// It can be on a spacing or the border.
+        /// </summary>
+        /// <param name="x">The horizontal position on the display.</param>
+        /// <param name="y">The vertical position on the display.</param>
+        /// <returns><c>true</c> if this view contain the point; otherwise <c>false</c>.</returns>
+        public bool ContainsPoint(int x, int y)
+        {
+            if (x >= ViewBox.X && x < ViewBox.X + ViewBox.Width
+                && y >= ViewBox.Y && y < ViewBox.Height + ViewBox.Y
+                ) 
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Contents the contains point.
+        /// </summary>
+        /// <param name="x">The x.</param>
+        /// <param name="y">The y.</param>
+        /// <returns></returns>
+        public bool ContentContainsPoint(int x, int y)
+        {
+            if (ContainsPoint(x,y))
+            {
+                int _x = x-ViewBox.X;
+                int _y = y - ViewBox.Y;
+
+                if(_x >= ContentBox.X && _x < ContentBox.Right
+                    && _y >= ContentBox.Y && _y < ContentBox.Bottom
+                    )
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Translates the device position into a position inside the content with respect to 
+        /// ViewRange-, ContenBox- and Offset-Position.
+        /// </summary>
+        /// <param name="x">The horizontal position on the device.</param>
+        /// <param name="y">The vertical position on the device.</param>
+        /// <returns>A point with the position inside the content if possible; otherwise a point with the coordinates -1,-1.</returns>
+        public Point TranslateDevicePositionToContentPosition(int x, int y)
+        {
+            Point p = new Point(-1, -1);
+
+            if (ContentContainsPoint(x, y))
+            {
+                int _x = x - ViewBox.X - ContentBox.X;
+                int _y = y - ViewBox.Y - ContentBox.Y;
+
+                p.X = _x + OffsetPosition.X;
+                p.Y = _y + OffsetPosition.Y;
+            }
+            return p;
+        } 
 
         #endregion
 
