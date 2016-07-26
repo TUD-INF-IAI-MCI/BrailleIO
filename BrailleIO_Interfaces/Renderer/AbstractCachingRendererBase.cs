@@ -93,9 +93,6 @@ namespace BrailleIO.Renderer
         {
             if (!ViewBoxModelEquals(lastView, view)) lastView = view; //Clone(view);
             lastContent = content;
-
-            //System.Diagnostics.Debug.WriteLine("_________ Cached Object changed: View is: " + lastView.ToString() + " Content is: " + lastContent);
-
             ContentChanged = true;
         }
 
@@ -110,7 +107,6 @@ namespace BrailleIO.Renderer
             while (IsRendering && trys++ < maxRenderingWaitTrys) { Thread.Sleep(renderingWaitTimeout); }
             Task t = new Task(() =>
             {
-                //System.Diagnostics.Debug.WriteLine("[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) + "]\t --> PreRenderer Call");
                 IsRendering = true;
                 ContentChanged = false;
                 _cachedMatrix = this.RenderMatrix(view, content, CallHooksOnCacherendering);
@@ -177,19 +173,15 @@ namespace BrailleIO.Renderer
 
             if (!ViewBoxModelEquals(lastView, view))
             {
-                //System.Diagnostics.Debug.WriteLine("[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) + "]************** +++ View differs");
                 ContentOrViewHasChanged(view, content);
             }
             else if (!lastContent.Equals(content))
             {
-                //System.Diagnostics.Debug.WriteLine("[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) + "]************** +++ Content differs");
                 ContentOrViewHasChanged(view, content);
             }
-            
 
             if (ContentChanged )
             {
-                //System.Diagnostics.Debug.WriteLine("[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) + "]************** --- Caching rendering call");
                 _cachedMatrix = RenderMatrix(view, content, CallHooksOnCacherendering);
                 LastRendered = DateTime.Now;
                 ContentChanged = false;

@@ -477,7 +477,7 @@ namespace BrailleIO.Renderer
 
         //paints display!
         /// <summary>
-        /// Paints the bool matrix into an image.
+        /// Paints the bool matrix into an BMP image.
         /// </summary>
         /// <param name="m">The matrix.</param>
         /// <param name="filePath">The file path.</param>
