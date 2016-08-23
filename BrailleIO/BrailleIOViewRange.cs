@@ -56,7 +56,7 @@ namespace BrailleIO
         /// <summary>
         /// The maximal zoom level that can be applied.
         /// </summary>
-        public const double MAX_ZOOM_LEVEL = 2;
+        public double MAX_ZOOM_LEVEL = 5;
 
         private bool _invert_image = false;
         /// <summary>

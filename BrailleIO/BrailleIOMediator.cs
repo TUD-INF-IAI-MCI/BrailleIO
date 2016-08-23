@@ -136,7 +136,7 @@ namespace BrailleIO
         /// The Adapter Manager that knows and handle the connected devices for the output
         /// </summary>
         public IBrailleIOAdapterManager AdapterManager { get; set; }
-
+        
         #endregion
 
         #endregion
@@ -236,6 +236,7 @@ namespace BrailleIO
         #region Synchronization win AdapterManager
 
         private static int _elapsedTimes = 0;
+        private static int maxTickbeforRefresh = 200; 
         /// <summary>
         /// Event handler for the refresh timer elapsed event.
         /// Refreshes the display.
@@ -247,7 +248,7 @@ namespace BrailleIO
             _elapsedTimes++;
             if (AdapterManager != null)
             {
-                if (_newMatrix || _elapsedTimes > 200)
+                if (_newMatrix || _elapsedTimes > maxTickbeforRefresh)
                 {
                     //System.Diagnostics.Debug.WriteLine(
                     //    "\t[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) 
@@ -468,6 +469,9 @@ namespace BrailleIO
         private double _defaultInterval = 10;
         /// <summary>
         /// Gets or sets the rendering timer interval.
+        /// Every tick of the timer the manager checks for
+        /// changed content by the renderers and submit it to the 
+        /// adapters.
         /// </summary>
         /// <value>
         /// The rendering timer interval.
@@ -479,6 +483,27 @@ namespace BrailleIO
             {
                 RenderingTimer.Interval = value;
                 RenderingTimer.Start();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum ticks before starting a synchronization.
+        /// If the <see cref="RenderingTimerInterval"/> has ticked this count times 
+        /// and the content wasn't changed yet, the matrix will be sent to all adapters
+        /// anyway for refreshing them.
+        /// The minimal refresh frequency is RenderingTimerInterval (ms) * MaxTicksToSynchronize.
+        /// </summary>
+        /// <value>
+        /// The maximum ticks before starting a synchronization anyway.
+        /// </value>
+        /// <exception cref="ArgumentException">Tick count must be larger then 0</exception>
+        public int MaxTicksToSynchronize
+        {
+            get { return maxTickbeforRefresh; }
+            set
+            {
+                if (value > 0) { maxTickbeforRefresh = value; }
+                else{throw new ArgumentException("Tick count must be larger then 0");}
             }
         }
 
