@@ -15,8 +15,30 @@ namespace BrailleIO.Interface
     /// Enables the direct usage of the reimplemented interface <seealso cref="IViewPadding"/> for defining a padding
     /// Enables the direct usage of the reimplemented interface <seealso cref="IViewMargin"/> for defining a margin
     /// </summary>
-    public abstract class AbstractViewBoxModelBase : AbstractViewBorderBase, IViewBoxModel, IPosition, IPannable
+    public abstract class AbstractViewBoxModelBase : AbstractViewBorderBase, IViewBoxModel, IPosition, IPannable, IBrailleIOPropertiesChangedEventSupplier, IViewable
     {
+        #region Members
+
+        private string _name = String.Empty;
+        /// <summary>
+        /// Gets or sets the name of this View - Some kind of UID.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        virtual public String Name
+        {
+            get { return _name; }
+            set
+            {
+                bool fire = !_name.Equals(value);
+                _name = value;
+                if (fire) firePropertyChangedEvent("Name");
+            }
+        }
+
+        #endregion
+
         #region IViewBoxModel Member
         private readonly object _viewLock = new object();
         private Rectangle _viewBox = new Rectangle();
@@ -24,7 +46,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Rectangle given dimensions and position of the whole view range or screen including the ContentBox, margin, padding and border (see BoxModel).
         /// </summary>
-        public virtual Rectangle ViewBox { get { return _viewBox; } set { lock (_viewLock) { _viewBox = value; updateContentBoxFromViewBox(); } } }
+        public virtual Rectangle ViewBox { get { return _viewBox; } set { lock (_viewLock) { _viewBox = value; updateContentBoxFromViewBox(); firePropertyChangedEvent("ViewBox"); } } }
         private readonly object _contLock = new object();
         private Rectangle _contBox = new Rectangle();
         /// <summary>
@@ -63,6 +85,7 @@ namespace BrailleIO.Interface
                 lock (_contLock)
                 {
                     _contBox = value; updateViewBoxFromContentBox();
+                    firePropertyChangedEvent("ContentBox");
                 }
             }
         }
@@ -120,7 +143,7 @@ namespace BrailleIO.Interface
         public virtual int ContentWidth
         {
             get { return _cw; }
-            set { _cw = Math.Max(0, value); }
+            set { _cw = Math.Max(0, value); firePropertyChangedEvent("ContentWidth"); }
         }
 
         int _ch = 0;
@@ -132,7 +155,7 @@ namespace BrailleIO.Interface
         public virtual int ContentHeight
         {
             get { return _ch; }
-            set { _ch = Math.Max(0, value); }
+            set { _ch = Math.Max(0, value); firePropertyChangedEvent("ContentHeight"); }
         }
 
         #endregion
@@ -241,7 +264,7 @@ namespace BrailleIO.Interface
         /// <value>
         /// The offset position of the content related to the view port.
         /// </value>
-        public virtual Point OffsetPosition { get { return _offsetPosition; } set { _offsetPosition = value; } }
+        public virtual Point OffsetPosition { get { return _offsetPosition; } set { _offsetPosition = value; firePropertyChangedEvent("OffsetPosition"); } }
 
         private bool _show_scrollbars = false;
         /// <summary>
@@ -250,7 +273,7 @@ namespace BrailleIO.Interface
         /// <value>
         ///   <c>true</c> if to show scrollbars; otherwise, <c>false</c>.
         /// </value>
-        public bool ShowScrollbars { get { return _show_scrollbars; } set { _show_scrollbars = value; } }
+        public bool ShowScrollbars { get { return _show_scrollbars; } set { _show_scrollbars = value; firePropertyChangedEvent("ShowScrollbars"); } }
 
         /// <summary>
         /// Gets the offset in horizontal direction.
@@ -341,6 +364,52 @@ namespace BrailleIO.Interface
 
             return OffsetPosition;
         }
+
+        #region IBrailleIOPropertiesChangedEventSupplier
+
+        /// <summary>
+        /// Occurs when a property has changed.
+        /// </summary>
+        public event EventHandler<BrailleIOPropertyChangedEventArgs> PropertyChanged;
+
+        protected virtual void firePropertyChangedEvent(string propertyName)
+        {
+            //System.Diagnostics.Debug.WriteLine("Property changed : " + propertyName);
+            if (PropertyChanged != null)
+            {
+                PropertyChanged.DynamicInvoke(this, new BrailleIOPropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion
+
+        #region IViewable
+        
+        private bool is_visible = true;
+        
+        /// <summary>
+        /// set Visibility of ViewRange
+        /// </summary>
+        /// <param name="visible">
+        /// bool desired visibility
+        /// </param>
+        public virtual void SetVisibility(bool visible)
+        {
+            bool fire = this.is_visible != visible;
+            this.is_visible = visible;
+            if (fire) firePropertyChangedEvent("Visibility");
+        }
+
+        /// <summary>
+        /// Determines whether this instance is visible.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance is visible; otherwise, <c>false</c> if the instance is hidden.
+        /// </returns>
+        public virtual bool IsVisible() { return this.is_visible; }
+
+        #endregion
+
     }
 
 }

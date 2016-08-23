@@ -13,7 +13,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Sets the visibility.
         /// </summary>
-        /// <param name="visible">if set to <c>true</c> the instance shoulb bee visible; otherwise the instance is hidden</param>
+        /// <param name="visible">if set to <c>true</c> the instance should bee visible; otherwise the instance is hidden</param>
         void SetVisibility(bool visible);
         /// <summary>
         /// Determines whether this instance is visible.

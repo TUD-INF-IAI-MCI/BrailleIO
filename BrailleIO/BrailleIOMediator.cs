@@ -25,7 +25,7 @@ namespace BrailleIO
         /// The singleton instance
         /// </summary>
         private static BrailleIOMediator instance;
-
+         
         /// <summary>
         /// Timer to enable a continuous refresh rate
         /// </summary>
@@ -46,18 +46,12 @@ namespace BrailleIO
         }
 
         /// <summary>
-        /// Basic hardware synchronization timer (ever 50 ms try to synch the Adapter manager)
-        /// </summary>
-        private System.Timers.Timer _synchTimer = new System.Timers.Timer(10);
-
-
-        /// <summary>
         /// views are either Screens (combined ViewRanges) or simply ViewRanges
         /// Screens should be more comfortable to use for the developer
-        /// /// </summary>
-        private ConcurrentDictionary<String, Object> views = new ConcurrentDictionary<String, Object>();
+        /// </summary>
+        private ConcurrentDictionary<String, AbstractViewBoxModelBase> views = new ConcurrentDictionary<String, AbstractViewBoxModelBase>();
         private readonly object vvLock = new object();
-        private ConcurrentDictionary<String, Object> VisibleViews
+        private ConcurrentDictionary<String, AbstractViewBoxModelBase> visibleViews
         {
             get
             {
@@ -68,9 +62,9 @@ namespace BrailleIO
             }
         }
 
-        private ConcurrentDictionary<string, object> getVisibleViews()
+        private ConcurrentDictionary<string, AbstractViewBoxModelBase> getVisibleViews()
         {
-            ConcurrentDictionary<string, object> vvs = new ConcurrentDictionary<string, object>();
+            ConcurrentDictionary<string, AbstractViewBoxModelBase> vvs = new ConcurrentDictionary<string, AbstractViewBoxModelBase>();
             if (views != null && views.Count > 0)
             {
                 foreach (var item in views)
@@ -236,7 +230,7 @@ namespace BrailleIO
         #region Synchronization win AdapterManager
 
         private static int _elapsedTimes = 0;
-        private static int maxTickbeforRefresh = 200; 
+        private static int _maxTickbeforRefresh = 200; 
         /// <summary>
         /// Event handler for the refresh timer elapsed event.
         /// Refreshes the display.
@@ -248,7 +242,7 @@ namespace BrailleIO
             _elapsedTimes++;
             if (AdapterManager != null)
             {
-                if (_newMatrix || _elapsedTimes > maxTickbeforRefresh)
+                if (_newMatrix || _elapsedTimes > _maxTickbeforRefresh)
                 {
                     //System.Diagnostics.Debug.WriteLine(
                     //    "\t[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) 
@@ -300,7 +294,7 @@ namespace BrailleIO
 
                 pins_locked = true;
                 bool[,] matrix = new bool[Matrix.GetLength(0), Matrix.GetLength(1)];
-                foreach (String key in this.VisibleViews.Keys)
+                foreach (String key in this.visibleViews.Keys)
                 {
                     if (this.views[key] is BrailleIOViewRange)
                     {
@@ -499,10 +493,10 @@ namespace BrailleIO
         /// <exception cref="ArgumentException">Tick count must be larger then 0</exception>
         public int MaxTicksToSynchronize
         {
-            get { return maxTickbeforRefresh; }
+            get { return _maxTickbeforRefresh; }
             set
             {
-                if (value > 0) { maxTickbeforRefresh = value; }
+                if (value > 0) { _maxTickbeforRefresh = value; }
                 else{throw new ArgumentException("Tick count must be larger then 0");}
             }
         }
@@ -546,6 +540,8 @@ namespace BrailleIO
 
         #region View Handling
 
+        ConcurrentDictionary<String, AbstractViewBoxModelBase> oldVisibleViews = new ConcurrentDictionary<string,AbstractViewBoxModelBase>();
+
         /// <summary>
         /// show a view.
         /// will be displayed with all other visible views at next display update.
@@ -557,6 +553,8 @@ namespace BrailleIO
         {
             if (views.ContainsKey(name))
             {
+                if (!oldVisibleViews.ContainsKey(name)) { oldVisibleViews = getVisibleViews(); }
+
                 if (views[name] is IViewable)
                 {
                     ((IViewable)views[name]).SetVisibility(true);
@@ -567,12 +565,14 @@ namespace BrailleIO
                     {
                         if (!item.Equals(name) && views[item] is BrailleIOScreen)
                         {
-                            HideView(item.ToString());
+                            hideView(item.ToString());
                         }
                     }
                 }
                 //if (!this.VisibleViews.ContainsKey(name))
                 //    this.VisibleViews.TryAdd(name, true);
+
+                fire_visibleViewChanged();
             }
             else throw new ArgumentException("View '" + name + "' is unknown", "name");
         }
@@ -586,16 +586,28 @@ namespace BrailleIO
         /// </param>
         public void HideView(String name)
         {
+            hideView(name, true);
+        }
+
+        /// <summary>
+        /// hide a view.
+        /// hidden views still exist but will not show on display
+        /// </summary>
+        /// <param name="name">name of view</param>
+        /// <param name="updateOldViewStates">if set to <c>true</c> [update old view states].</param>
+        /// <exception cref="ArgumentException">View '" + name + "' is unknown;name</exception>
+        private void hideView(String name, bool updateOldViewStates = false)
+        {
             if (views.ContainsKey(name))
             {
+                if (updateOldViewStates) { oldVisibleViews = getVisibleViews(); }
+
                 if (views[name] is IViewable)
                 {
                     ((IViewable)views[name]).SetVisibility(false);
                 }
 
-                //object trash;
-                //if (this.VisibleViews.ContainsKey(name))
-                //    this.VisibleViews.TryRemove(name, out trash);
+                if (updateOldViewStates) { fire_visibleViewChanged(); }                
             }
             else throw new ArgumentException("View '" + name + "' is unknown", "name");
         }
@@ -612,11 +624,18 @@ namespace BrailleIO
         /// <returns>
         /// bool success
         /// </returns>
-        public bool AddView(String name, Object view)
+        public bool AddView(String name, AbstractViewBoxModelBase view)
         {
             if (view is BrailleIOViewRange || view is BrailleIOScreen)
             {
-                return this.views.TryAdd(name, view);
+                bool success = this.views.TryAdd(name, view);
+
+                if (success)
+                {
+                    view.PropertyChanged += view_PropertyChanged;
+                }
+
+                return success;
             }
             return false;
         }
@@ -629,8 +648,16 @@ namespace BrailleIO
         /// </param>
         public bool RemoveView(String name)
         {
-            object trash;
-            return this.views.TryRemove(name, out trash);
+            AbstractViewBoxModelBase trash;
+            bool success = this.views.TryRemove(name, out trash);
+
+            if (success)
+            {
+                try { trash.PropertyChanged -= view_PropertyChanged; }
+                catch { }
+            }
+
+            return success;
         }
 
         /// <summary>
@@ -645,7 +672,7 @@ namespace BrailleIO
         public void RenameView(String from, String to)
         {
             this.views.TryAdd(to, this.views[from]);
-            object trash;
+            AbstractViewBoxModelBase trash;
             this.views.TryRemove(from, out trash);
         }
 
@@ -685,22 +712,20 @@ namespace BrailleIO
         /// Gets a list of all available top-level views.
         /// </summary>
         /// <returns>list of all available top-level views. Could be <see cref="BrailleIOScreen"/> or <see cref="BrailleIOViewRange"/></returns>
-        public List<Object> GetViews()
+        public List<AbstractViewBoxModelBase> GetViews()
         {
-            return views != null ? views.Values.ToList() : new List<Object>();
+            return views != null ? views.Values.ToList() : new List<AbstractViewBoxModelBase>();
         }
-
 
         /// <summary>
         /// Gets the active views.Can be a <see cref="BrailleIOViewRange"/> or <see cref="BrailleIOScreen"/>
         /// </summary>
         /// <returns>List of currently active views</returns>
-        public Object GetActiveViews()
+        public List<AbstractViewBoxModelBase> GetActiveViews()
         {
             var v = getVisibleViews();
-            return v != null ? new List<object>(v.Values) : null;
+            return v != null ? new List<AbstractViewBoxModelBase>(v.Values) : new List<AbstractViewBoxModelBase>();
         }
-
 
         /// <summary>
         /// Gets the view at a position.
@@ -771,6 +796,58 @@ namespace BrailleIO
             return this.views.Count;
         }
 
+        #region Property Events Handling
+
+        void view_PropertyChanged(object sender, BrailleIOPropertyChangedEventArgs e)
+        {
+            if (sender != null && sender is AbstractViewBoxModelBase && e != null && !String.IsNullOrWhiteSpace(e.PropertyName))
+            {
+                /// visibility of a view has changed
+                if (e.PropertyName.Equals("Visibility"))
+                {
+                    // check if update is necessary or not
+                    if (((AbstractViewBoxModelBase)sender).IsVisible())
+                    {
+                        if (!oldVisibleViews.ContainsKey(((AbstractViewBoxModelBase)sender).Name))
+                        {
+                            fire_visibleViewChanged();
+                        }
+                    }
+                    else // hide view 
+                    {
+                        if (oldVisibleViews.ContainsKey(((AbstractViewBoxModelBase)sender).Name))
+                        {
+                            fire_visibleViewChanged();
+                        }
+                    }
+
+                }
+                /// Name has changed
+                else if (e.PropertyName.Equals("Name"))
+                {
+                    string newName = ((AbstractViewBoxModelBase)sender).Name;
+                    var view = GetView(newName);
+                    if (view != sender)
+                    {
+                        lock (vvLock)
+                        {
+                            // try to find the old view in the list
+                            foreach (string key in views.Keys)
+                            {
+                                try
+                                {
+                                    if (views[key] == sender) { RenameView(key, newName); break; }
+                                }
+                                catch { }
+                            } 
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Adapter/Device Methodes
@@ -825,5 +902,53 @@ namespace BrailleIO
 
         #endregion
 
+        #region Events
+
+        /// <summary>
+        /// Occurs when the visibility of view changed.
+        /// </summary>
+        public event EventHandler<VisibilityChangedEventArgs> VisibleViewsChanged;
+
+        void fire_visibleViewChanged()
+        {
+            if (VisibleViewsChanged != null)
+            {
+                try {
+                    VisibleViewsChanged.Invoke(this, 
+                        new VisibilityChangedEventArgs(
+                            getVisibleViews().Values.ToList<AbstractViewBoxModelBase>(), 
+                            oldVisibleViews.Values.ToList<AbstractViewBoxModelBase>()));
+                }
+                catch { }
+            }
+        }
+
+        #endregion
     }
+
+    #region Event Args
+
+    /// <summary>
+    /// Event arguments for a visibility changed event in the list of visible views.
+    /// </summary>
+    /// <seealso cref="System.EventArgs" />
+    public class VisibilityChangedEventArgs : EventArgs
+    {
+        /// <summary>
+        /// list of all visible views
+        /// </summary>
+        public readonly List<AbstractViewBoxModelBase> VisibleViews;
+        /// <summary>
+        /// List of previously visible views
+        /// </summary>
+        public readonly List<AbstractViewBoxModelBase> PreviouslyVisibleViews;
+
+        public VisibilityChangedEventArgs(List<AbstractViewBoxModelBase> vvs, List<AbstractViewBoxModelBase> pvvs)
+        {
+            VisibleViews = vvs;
+            PreviouslyVisibleViews = pvvs;
+        }
+    }
+
+    #endregion
 }

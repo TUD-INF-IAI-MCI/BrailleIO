@@ -14,22 +14,14 @@ namespace BrailleIO
     /// But only one Screen can be visible at the same time.
     /// Width this container you can build multi screen applications
     /// </summary>
-    public class BrailleIOScreen : AbstractViewBoxModelBase, IViewable
+    public class BrailleIOScreen : AbstractViewBoxModelBase
     {
         #region Members
         //FIXME: remove this if we can trust the orderedConcurrentDictionarry 
         private OrderedDictionary view_ranges = new OrderedDictionary();
 
         private OrderedConcurentDictionary<String, BrailleIOViewRange> viewRanges = new OrderedConcurentDictionary<String, BrailleIOViewRange>(new BrailleIOViewRangeComparer());
-
-
-        private bool is_visible = true;
-        /// <summary>
-        /// Gets or sets the name of the Screen.
-        /// Can change when adding it with a different name to a collection
-        /// </summary>
-        /// <value>The name.</value>
-        public string Name { get; private set; }
+        
         #endregion
 
         /// <summary>
@@ -216,26 +208,6 @@ namespace BrailleIO
         {
             return this.view_ranges.Count;
         }
-
-        /// <summary>
-        /// set Visibility of Screen
-        /// </summary>
-        /// <param name="visible">
-        /// bool desired visibility
-        /// </param>
-        public void SetVisibility(bool visible)
-        {
-            this.is_visible = visible;
-        }
-
-        /// <summary>
-        /// Determines whether this instance is visible.
-        /// </summary>
-        /// <returns>
-        /// 	<c>true</c> if this instance is visible; otherwise, <c>false</c> if the instance is hidden.
-        /// </returns>
-        public bool IsVisible() { return this.is_visible; }
-
     }
 
     /// <summary>

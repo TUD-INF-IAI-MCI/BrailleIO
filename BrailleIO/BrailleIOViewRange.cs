@@ -10,14 +10,11 @@ namespace BrailleIO
     /// <summary>
     /// Basic structure to hold content that should been displayed on an output device
     /// </summary>
-    public class BrailleIOViewRange : AbstractViewBoxModelBase, IViewable, IContrastThreshold, IZoomable, IBrailleIOPropertiesChangedEventSupplier, IBrailleIOContentChangedEventSupplier
+    public class BrailleIOViewRange : AbstractViewBoxModelBase, IContrastThreshold, IZoomable, IBrailleIOContentChangedEventSupplier
     {
         #region Members
 
         private int threshold = 130;
-
-        // is visible?
-        private bool is_visible = true;
 
         // type of?
         private bool is_matrix = false;
@@ -74,25 +71,7 @@ namespace BrailleIO
                 _invert_image = value;
                 if (fire) firePropertyChangedEvent("InvertImage");
             }
-        }
-
-        private string _name = String.Empty;
-        /// <summary>
-        /// Gets or sets the name of this ViewRange - Some kind of UID.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        public String Name
-        {
-            get { return _name; }
-            set
-            {
-                bool fire = !_name.Equals(value);
-                _name = value;
-                if (fire) firePropertyChangedEvent("Name");
-            }
-        }
+        }      
 
         private BrailleIOScreen _parent = null;
         /// <summary>
@@ -375,27 +354,6 @@ namespace BrailleIO
         }
 
         /// <summary>
-        /// set Visibility of ViewRange
-        /// </summary>
-        /// <param name="visible">
-        /// bool desired visibility
-        /// </param>
-        public void SetVisibility(bool visible)
-        {
-            bool fire = this.is_visible != visible;
-            this.is_visible = visible;
-            if (fire) firePropertyChangedEvent("Visibility");
-        }
-
-        /// <summary>
-        /// Determines whether this instance is visible.
-        /// </summary>
-        /// <returns>
-        ///   <c>true</c> if this instance is visible; otherwise, <c>false</c> if the instance is hidden.
-        /// </returns>
-        public bool IsVisible() { return this.is_visible; }
-
-        /// <summary>
         /// Determines whether this instance should render a matrix.
         /// </summary>
         /// <returns>
@@ -604,23 +562,6 @@ namespace BrailleIO
             }
         }
 
-        #region IBrailleIOPropertiesChangedEventSupplier
-
-        /// <summary>
-        /// Occurs when a property has changed.
-        /// </summary>
-        public event EventHandler<BrailleIOPropertyChangedEventArgs> PropertyChanged;
-
-        private void firePropertyChangedEvent(string propertyName)
-        {
-            //System.Diagnostics.Debug.WriteLine("Property changed : " + propertyName);
-            if (PropertyChanged != null)
-            {
-                PropertyChanged.DynamicInvoke(this, new BrailleIOPropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion
 
         #region IBrailleIOContentChangedEventSupplier
 
