@@ -296,29 +296,32 @@ namespace BrailleIO
                 bool[,] matrix = new bool[Matrix.GetLength(0), Matrix.GetLength(1)];
                 foreach (String key in this.visibleViews.Keys)
                 {
-                    if (this.views[key] is BrailleIOViewRange)
+                    if (this.views.ContainsKey(key))
                     {
-                        matrix = this.drawViewRange(((BrailleIOViewRange)this.views[key]), matrix);
-                    }
-                    else if (this.views[key] is BrailleIOScreen)
-                    {
-                        ////FIXME: for debugging
-                        //TimeSpan last = sw.Elapsed;
-
-                        foreach (BrailleIOViewRange vr in ((BrailleIOScreen)this.views[key]).GetViewRanges().Values)
+                        if (this.views[key] is BrailleIOViewRange)
                         {
-                            if (vr != null && vr.IsVisible())
-                            {
-                                matrix = this.drawViewRange(vr, matrix);
-                            }
-
-                            ////FIXME: for debugging
-                            //System.Diagnostics.Debug.WriteLine(
-                            //"\t[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) + "]\t[VR " + vr.Name + "]\tRendering Time Elapsed=\t{0}", (sw.Elapsed - last));
-                            //last = sw.Elapsed;                            
+                            matrix = this.drawViewRange(((BrailleIOViewRange)this.views[key]), matrix);
                         }
+                        else if (this.views[key] is BrailleIOScreen)
+                        {
+                            ////FIXME: for debugging
+                            //TimeSpan last = sw.Elapsed;
+
+                            foreach (BrailleIOViewRange vr in ((BrailleIOScreen)this.views[key]).GetViewRanges().Values)
+                            {
+                                if (vr != null && vr.IsVisible())
+                                {
+                                    matrix = this.drawViewRange(vr, matrix);
+                                }
+
+                                ////FIXME: for debugging
+                                //System.Diagnostics.Debug.WriteLine(
+                                //"\t[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) + "]\t[VR " + vr.Name + "]\tRendering Time Elapsed=\t{0}", (sw.Elapsed - last));
+                                //last = sw.Elapsed;                            
+                            }
+                        }
+                        else { }
                     }
-                    else { }
                 }
                 this.Matrix = matrix;
 
@@ -629,7 +632,7 @@ namespace BrailleIO
             if (view is BrailleIOViewRange || view is BrailleIOScreen)
             {
                 bool success = this.views.TryAdd(name, view);
-
+                view.Name = name;
                 if (success)
                 {
                     view.PropertyChanged += view_PropertyChanged;

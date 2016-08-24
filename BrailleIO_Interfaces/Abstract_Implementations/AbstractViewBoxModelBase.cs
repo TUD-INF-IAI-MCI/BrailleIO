@@ -377,7 +377,7 @@ namespace BrailleIO.Interface
             //System.Diagnostics.Debug.WriteLine("Property changed : " + propertyName);
             if (PropertyChanged != null)
             {
-                PropertyChanged.DynamicInvoke(this, new BrailleIOPropertyChangedEventArgs(propertyName));
+                PropertyChanged.Invoke(this, new BrailleIOPropertyChangedEventArgs(propertyName));
             }
         }
 
