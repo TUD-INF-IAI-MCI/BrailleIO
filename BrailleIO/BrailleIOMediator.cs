@@ -129,8 +129,19 @@ namespace BrailleIO
         /// <summary>
         /// The Adapter Manager that knows and handle the connected devices for the output
         /// </summary>
-        public IBrailleIOAdapterManager AdapterManager { get; set; }
-        
+        private IBrailleIOAdapterManager _adapterManager;
+
+        public IBrailleIOAdapterManager AdapterManager
+        {
+            get { return _adapterManager; }
+            set {
+                unrigisterFromAdapterManagerEvents(_adapterManager);
+                _adapterManager = value;  
+                fire_AdapterManagerChanged();
+                registerToAdapterManagerEvents(_adapterManager);
+            }
+        }
+
         #endregion
 
         #endregion
@@ -905,12 +916,71 @@ namespace BrailleIO
 
         #endregion
 
+        #region Adapter Manager Events
+        
+        private void registerToAdapterManagerEvents(IBrailleIOAdapterManager _adapterManager)
+        {
+            if (_adapterManager != null)
+            {
+                try
+                {
+                    _adapterManager.ActiveAdapterChanged += _adapterManager_ActiveAdapterChanged;
+                    _adapterManager.AdapterRemoved += _adapterManager_AdapterRemoved;
+                    _adapterManager.NewAdapterRegistered += _adapterManager_NewAdapterRegistered;
+                }
+                catch { }
+            }
+        }
+
+        private void unrigisterFromAdapterManagerEvents(IBrailleIOAdapterManager _adapterManager)
+        {
+            if (_adapterManager != null)
+            {
+                try
+                {
+                    _adapterManager.ActiveAdapterChanged -= _adapterManager_ActiveAdapterChanged;
+                    _adapterManager.AdapterRemoved -= _adapterManager_AdapterRemoved;
+                    _adapterManager.NewAdapterRegistered -= _adapterManager_NewAdapterRegistered;
+                }
+                catch { }
+            }
+        }
+
+        void _adapterManager_NewAdapterRegistered(object sender, IBrailleIOAdapterEventArgs e)
+        {
+        }
+
+        void _adapterManager_AdapterRemoved(object sender, IBrailleIOAdapterEventArgs e)
+        {
+        }
+
+        void _adapterManager_ActiveAdapterChanged(object sender, IBrailleIOAdapterEventArgs e)
+        {
+            if (ActiveAdapterChanged != null)
+            {
+                try { ActiveAdapterChanged.Invoke(sender, e); }
+                catch { }
+            }
+        }        
+
+        #endregion
+
         #region Events
 
         /// <summary>
         /// Occurs when the visibility of view changed.
         /// </summary>
         public event EventHandler<VisibilityChangedEventArgs> VisibleViewsChanged;
+
+        /// <summary>
+        /// Occurs when the adapter manager was changed.
+        /// </summary>
+        public event EventHandler AdapterManagerChanged;
+
+        /// <summary>
+        /// Occurs when the active(main) adapter was changed.
+        /// </summary>
+        public event EventHandler<IBrailleIOAdapterEventArgs> ActiveAdapterChanged;
 
         void fire_visibleViewChanged()
         {
@@ -921,6 +991,18 @@ namespace BrailleIO
                         new VisibilityChangedEventArgs(
                             getVisibleViews().Values.ToList<AbstractViewBoxModelBase>(), 
                             oldVisibleViews.Values.ToList<AbstractViewBoxModelBase>()));
+                }
+                catch { }
+            }
+        }
+
+        void fire_AdapterManagerChanged()
+        {
+            if (AdapterManager != null)
+            {
+                try { 
+                    if(AdapterManagerChanged != null)
+                    AdapterManagerChanged.Invoke(this, new EventArgs()); 
                 }
                 catch { }
             }
