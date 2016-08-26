@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 
 namespace BrailleIO.Interface
 {
-    #region generic button codes
+    #region generic button codes  
 
     /// <summary>
     /// Button states for the general buttons
@@ -194,6 +194,15 @@ namespace BrailleIO.Interface
             this.keyCode = keyCode;
             this.raw = raw;
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIO_KeyPressed_EventArgs" /> class.
+        /// </summary>
+        /// <param name="keyCode">The key code.</param>
+        public BrailleIO_KeyPressed_EventArgs(BrailleIO_DeviceButtonStates keyCode)
+        {
+            this.keyCode = keyCode;
+            this.raw = null;
+        }
     }
 
     /// <summary>
@@ -218,6 +227,15 @@ namespace BrailleIO.Interface
         {
             this.keyCode = keyCode;
             this.raw = raw;
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIO_KeyStateChanged_EventArgs" /> class.
+        /// </summary>
+        /// <param name="keyCode">The key code.</param>
+        public BrailleIO_KeyStateChanged_EventArgs(BrailleIO_DeviceButtonStates keyCode)
+        {
+            this.keyCode = keyCode;
+            this.raw = null;
         }
     }
 
@@ -282,6 +300,27 @@ namespace BrailleIO.Interface
             this.raw = raw;
             this.DetailedTouches = detailedTouches;
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIO_TouchValuesChanged_EventArgs" /> class.
+        /// </summary>
+        /// <param name="touches">the normalized matrix (from 0.0 to 1.0) of detected touch values per pin.</param>
+        /// <param name="timestamp">The original event args from the device in raw format without interpretation.
+        /// But could also be an own timestamp such as <c>(int)DateTime.UtcNow.Ticks</c>.</param>
+        public BrailleIO_TouchValuesChanged_EventArgs(double[,] touches, int timestamp) : this(touches, timestamp, null) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIO_TouchValuesChanged_EventArgs" /> class.
+        /// </summary>
+        /// <param name="touches">the normalized matrix (from 0.0 to 1.0) of detected touch values per pin.</param>
+        /// <param name="timestamp">The original event args from the device in raw format without interpretation.
+        /// But could also be an own timestamp such as <c>(int)DateTime.UtcNow.Ticks</c>.</param>
+        /// <param name="detailedTouches">The detailed touches.</param>
+        public BrailleIO_TouchValuesChanged_EventArgs(double[,] touches, int timestamp, List<Touch> detailedTouches)
+        {
+            this.touches = touches;
+            this.timestamp = timestamp;
+            this.raw = null;
+            this.DetailedTouches = detailedTouches;
+        }
     }
 
     /// <summary>
@@ -316,6 +355,15 @@ namespace BrailleIO.Interface
             this.errorCode = errorCode;
             this.raw = raw;
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIO_ErrorOccured_EventArgs" /> class.
+        /// </summary>
+        /// <param name="errorCode">Code for indicating the class of error that is occurred.</param>
+        public BrailleIO_ErrorOccured_EventArgs(ErrorCode errorCode)
+        {
+            this.errorCode = errorCode;
+            this.raw = null;
+        }
     }
 
     /// <summary>
@@ -338,7 +386,11 @@ namespace BrailleIO.Interface
         /// <summary>
         /// unknown error occurred
         /// </summary>
-        UNKNOWN
+        UNKNOWN,
+        /// <summary>
+        /// warning happens
+        /// </summary>
+        WARNING,
     }
 
     /// <summary>
@@ -369,6 +421,17 @@ namespace BrailleIO.Interface
             this.touches = touches;
             this.timestamp = timestamp;
             this.raw = raw;
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIO_InputChanged_EventArgs" /> class.
+        /// </summary>
+        /// <param name="touches">the normalized matrix (from 0.0 to 1.0) of detected touch values per pin  .</param>
+        /// <param name="timestamp">time stamp of the occurred event for temporal order.</param>
+        public BrailleIO_InputChanged_EventArgs(bool[,] touches, int timestamp)
+        {
+            this.touches = touches;
+            this.timestamp = timestamp;
+            this.raw = null;
         }
     }
     #endregion
