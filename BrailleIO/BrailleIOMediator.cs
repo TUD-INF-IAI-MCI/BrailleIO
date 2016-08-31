@@ -25,7 +25,7 @@ namespace BrailleIO
         /// The singleton instance
         /// </summary>
         private static BrailleIOMediator instance;
-         
+
         /// <summary>
         /// Timer to enable a continuous refresh rate
         /// </summary>
@@ -134,9 +134,10 @@ namespace BrailleIO
         public IBrailleIOAdapterManager AdapterManager
         {
             get { return _adapterManager; }
-            set {
+            set
+            {
                 unrigisterFromAdapterManagerEvents(_adapterManager);
-                _adapterManager = value;  
+                _adapterManager = value;
                 fire_AdapterManagerChanged();
                 registerToAdapterManagerEvents(_adapterManager);
             }
@@ -231,7 +232,7 @@ namespace BrailleIO
                 renderingTread.Priority = ThreadPriority.Highest;
                 renderingTread.Start();
             }
-            else{}
+            else { }
         }
 
         #endregion
@@ -241,7 +242,8 @@ namespace BrailleIO
         #region Synchronization win AdapterManager
 
         private static int _elapsedTimes = 0;
-        private static int _maxTickbeforRefresh = 200; 
+        private static int _maxTickbeforRefresh = 200;
+
         /// <summary>
         /// Event handler for the refresh timer elapsed event.
         /// Refreshes the display.
@@ -263,8 +265,10 @@ namespace BrailleIO
                     _newMatrix = false;
                     AdapterManager.Synchronize(Matrix);
                 }
-                else
+                else if ( _elapsedTimes % 50 == 0 )
                 {
+                    if (!pins_locked && stack.Count == 0 && isRenderingNecessary())
+                        RenderDisplay();
                     //System.Diagnostics.Debug.WriteLine(
                     //    "\t[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture)
                     //    + "]\t[SYNCH ignored]");
@@ -345,11 +349,48 @@ namespace BrailleIO
 
                 //System.Diagnostics.Debug.WriteLine(
                 //     "[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) + "]_____________________________________FINISHED");
-                   
+
                 //GC.Collect(0, GCCollectionMode.Forced);
                 //GC.WaitForFullGCComplete(20);
             }
         }
+
+        /// <summary>
+        /// Determines whether [is rendering necessary].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if [is rendering necessary]; otherwise, <c>false</c>.
+        /// </returns>
+        bool isRenderingNecessary()
+        {
+            if (AdapterManager == null || AdapterManager.ActiveAdapter == null)
+                return false;
+
+            foreach (String key in this.visibleViews.Keys)
+            {
+                if (this.views.ContainsKey(key))
+                {
+                    if (this.views[key] is BrailleIOViewRange)
+                    {
+                        if (((BrailleIOViewRange)this.views[key]).Render) 
+                            return true;
+                    }
+                    else if (this.views[key] is BrailleIOScreen)
+                    {
+                        foreach (BrailleIOViewRange vr in ((BrailleIOScreen)this.views[key]).GetViewRanges().Values)
+                        {
+                            if (vr != null && vr.IsVisible())
+                            {
+                                if (((BrailleIOViewRange)vr).Render) 
+                                    return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
 
         /// <summary>
         /// draw a ViewRange to this.matrix
@@ -380,7 +421,7 @@ namespace BrailleIO
                 {
                     if (vr.GetMatrix() != null)
                     {
-                        contentMatrix = vr.GetMatrix();
+                          contentMatrix = vr.GetMatrix();
                         //set content size in vr
                         vr.ContentHeight = contentMatrix.GetLength(0);
                         vr.ContentWidth = contentMatrix.GetLength(1);
@@ -452,7 +493,7 @@ namespace BrailleIO
                 ////FIXME: for debugging
                 //sw.Stop();
                 //System.Diagnostics.Debug.WriteLine("[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) + "] (VR'"+vr.Name+"') *+~ Rendering Time Elapsed={0} ~+*", sw.Elapsed);
-
+                vr.Render = false;
                 pins_locked = pl;
             }
             catch
@@ -476,7 +517,7 @@ namespace BrailleIO
 
         private double _defaultInterval = 10;
         /// <summary>
-        /// Gets or sets the rendering timer interval.
+        /// Gets or sets the rendering timer interval in milliseconds.
         /// Every tick of the timer the manager checks for
         /// changed content by the renderers and submit it to the 
         /// adapters.
@@ -511,7 +552,7 @@ namespace BrailleIO
             set
             {
                 if (value > 0) { _maxTickbeforRefresh = value; }
-                else{throw new ArgumentException("Tick count must be larger then 0");}
+                else { throw new ArgumentException("Tick count must be larger then 0"); }
             }
         }
 
@@ -554,7 +595,7 @@ namespace BrailleIO
 
         #region View Handling
 
-        ConcurrentDictionary<String, AbstractViewBoxModelBase> oldVisibleViews = new ConcurrentDictionary<string,AbstractViewBoxModelBase>();
+        ConcurrentDictionary<String, AbstractViewBoxModelBase> oldVisibleViews = new ConcurrentDictionary<string, AbstractViewBoxModelBase>();
 
         /// <summary>
         /// show a view.
@@ -621,7 +662,7 @@ namespace BrailleIO
                     ((IViewable)views[name]).SetVisibility(false);
                 }
 
-                if (updateOldViewStates) { fire_visibleViewChanged(); }                
+                if (updateOldViewStates) { fire_visibleViewChanged(); }
             }
             else throw new ArgumentException("View '" + name + "' is unknown", "name");
         }
@@ -853,7 +894,7 @@ namespace BrailleIO
                                     if (views[key] == sender) { RenameView(key, newName); break; }
                                 }
                                 catch { }
-                            } 
+                            }
                         }
                     }
                 }
@@ -917,7 +958,7 @@ namespace BrailleIO
         #endregion
 
         #region Adapter Manager Events
-        
+
         private void registerToAdapterManagerEvents(IBrailleIOAdapterManager _adapterManager)
         {
             if (_adapterManager != null)
@@ -961,7 +1002,7 @@ namespace BrailleIO
                 try { ActiveAdapterChanged.Invoke(sender, e); }
                 catch { }
             }
-        }        
+        }
 
         #endregion
 
@@ -986,10 +1027,11 @@ namespace BrailleIO
         {
             if (VisibleViewsChanged != null)
             {
-                try {
-                    VisibleViewsChanged.Invoke(this, 
+                try
+                {
+                    VisibleViewsChanged.Invoke(this,
                         new VisibilityChangedEventArgs(
-                            getVisibleViews().Values.ToList<AbstractViewBoxModelBase>(), 
+                            getVisibleViews().Values.ToList<AbstractViewBoxModelBase>(),
                             oldVisibleViews.Values.ToList<AbstractViewBoxModelBase>()));
                 }
                 catch { }
@@ -1000,9 +1042,10 @@ namespace BrailleIO
         {
             if (AdapterManager != null)
             {
-                try { 
-                    if(AdapterManagerChanged != null)
-                    AdapterManagerChanged.Invoke(this, new EventArgs()); 
+                try
+                {
+                    if (AdapterManagerChanged != null)
+                        AdapterManagerChanged.Invoke(this, new EventArgs());
                 }
                 catch { }
             }

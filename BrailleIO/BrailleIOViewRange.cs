@@ -22,8 +22,16 @@ namespace BrailleIO
         private bool is_text = false;
         private bool is_other = false;
 
+        private object syncRoot = new object();
+
         // raw data
-        private bool[,] matrix;
+        private volatile bool[,] matrix;
+
+        bool[,] Matrix
+        {
+            get { return matrix; }
+            set      { matrix = value; }
+        }
         private Bitmap _img;
         private readonly Object _imgLock = new Object();
         private Bitmap image
@@ -71,7 +79,7 @@ namespace BrailleIO
                 _invert_image = value;
                 if (fire) firePropertyChangedEvent("InvertImage");
             }
-        }      
+        }
 
         private BrailleIOScreen _parent = null;
         /// <summary>
@@ -100,9 +108,9 @@ namespace BrailleIO
         public bool Render
         {
             get { return _render; }
-            set
+            internal set
             {
-                _render = true;
+                _render = value;
             }
         }
 
@@ -252,11 +260,21 @@ namespace BrailleIO
         /// </param>
         public void SetMatrix(bool[,] matrix)
         {
-            this.matrix = matrix;
-            this.is_matrix = true;
-            this.is_text = this.is_image = this.is_other = false;
-            this.ContentRender = _mr;
-            Render = true;
+            if (Monitor.TryEnter(syncRoot, new TimeSpan(0, 0, 1)))
+            {
+                try
+                {
+                    Matrix = matrix;
+                    this.is_matrix = true;
+                    this.is_text = this.is_image = this.is_other = false;
+                    this.ContentRender = _mr;
+                    Render = true;
+                }
+                finally
+                {
+                    Monitor.Exit(syncRoot);
+                }
+            }
             fireContentChangedEvent();
         }
 
@@ -267,7 +285,18 @@ namespace BrailleIO
         /// </returns>
         public bool[,] GetMatrix()
         {
-            return this.matrix;
+            if (Monitor.TryEnter(syncRoot, new TimeSpan(0, 0, 1)))
+            {
+                try
+                {
+                    return Matrix;
+                }
+                finally
+                {
+                    Monitor.Exit(syncRoot);
+                }
+            }
+            return Matrix;
         }
 
         /// <summary>
@@ -277,35 +306,42 @@ namespace BrailleIO
         [HandleProcessCorruptedStateExceptions]
         public void SetBitmap(Bitmap img)
         {
-            try
+            if (Monitor.TryEnter(syncRoot, new TimeSpan(0, 0, 1)))
             {
-                //clean up the memory
-                if (this.image != null) this.image.Dispose();
-                if (img == null) img = new Bitmap(1, 1);
-
-                int tries = 0;
-                while (tries++ < 5)
+                try
                 {
-                    try
+                    //clean up the memory
+                    if (this.image != null) this.image.Dispose();
+                    if (img == null) img = new Bitmap(1, 1);
+
+                    int tries = 0;
+                    while (tries++ < 5)
                     {
-                        this.image = img.Clone() as Bitmap;
+                        try
+                        {
+                            this.image = img.Clone() as Bitmap;
+                        }
+                        catch (InvalidOperationException) { Thread.Sleep(5); }
+                        catch (AccessViolationException) { Thread.Sleep(5); }
+                        catch (Exception)
+                        {
+                            break;
+                        }
                     }
-                    catch (InvalidOperationException) { Thread.Sleep(5); }
-                    catch (AccessViolationException) { Thread.Sleep(5); }
-                    catch (Exception)
-                    {
-                        break;
-                    }
+                    imageSize = new Size(img.Width, img.Height);
+                    this.is_image = true;
+                    this.is_text = this.is_matrix = this.is_other = false;
+                    this.ContentRender = _ir;
+                    img.Dispose();
+                    Render = true;
                 }
-                imageSize = new Size(img.Width, img.Height);
-                this.is_image = true;
-                this.is_text = this.is_matrix = this.is_other = false;
-                this.ContentRender = _ir;
-                img.Dispose();
-                Render = true;
+                catch { }
+                finally
+                {
+                    Monitor.Exit(syncRoot);
+                }
                 fireContentChangedEvent();
             }
-            catch { }
         }
         /// <summary>
         /// Sets the bitmap that should be rendered.
@@ -333,22 +369,32 @@ namespace BrailleIO
         [HandleProcessCorruptedStateExceptions]
         public Bitmap GetImage()
         {
-            int i = 0;
-            while (i++ < 5)
+            if (Monitor.TryEnter(syncRoot, new TimeSpan(0, 0, 1)))
             {
                 try
                 {
-                    return this.image.Clone() as Bitmap;
+                    int i = 0;
+                    while (i++ < 5)
+                    {
+                        try
+                        {
+                            return this.image.Clone() as Bitmap;
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            Thread.Sleep(5);
+                        }
+                        catch (AccessViolationException)
+                        {
+                            Thread.Sleep(5);
+                        }
+                        catch (System.Exception) { break; }
+                    }
                 }
-                catch (InvalidOperationException)
+                finally
                 {
-                    Thread.Sleep(5);
+                    Monitor.Exit(syncRoot);
                 }
-                catch (AccessViolationException)
-                {
-                    Thread.Sleep(5);
-                }
-                catch (System.Exception) { break; }
             }
             return null;
         }
@@ -392,6 +438,17 @@ namespace BrailleIO
         /// <returns></returns>
         public string GetText()
         {
+            if (Monitor.TryEnter(syncRoot, new TimeSpan(0, 0, 1)))
+            {
+                try
+                {
+                    return this.text;
+                }
+                finally
+                {
+                    Monitor.Exit(syncRoot);
+                }
+            }
             return this.text;
         }
 
@@ -401,11 +458,21 @@ namespace BrailleIO
         /// <param name="text">The text.</param>
         public void SetText(string text)
         {
-            this.text = text;
-            this.is_text = true;
-            this.is_image = this.is_matrix = this.is_other = false;
-            this.ContentRender = _tr;
-            Render = true;
+            if (Monitor.TryEnter(syncRoot, new TimeSpan(0, 0, 1)))
+            {
+                try
+                {
+                    this.text = text;
+                    this.is_text = true;
+                    this.is_image = this.is_matrix = this.is_other = false;
+                    this.ContentRender = _tr;
+                    Render = true;
+                }
+                finally
+                {
+                    Monitor.Exit(syncRoot);
+                }
+            }
             fireContentChangedEvent();
         }
 
@@ -420,14 +487,23 @@ namespace BrailleIO
             {
                 throw new ArgumentException("No content render set! The content renderer can not be null.", "renderer");
             }
-            //bool update = !this.is_other || !this.otherContent.Equals(content);
-            this.otherContent = content;
-            if (renderer != null) this.ContentRender = renderer;
-            this.is_other = true;
-            this.is_image = this.is_matrix = this.is_text = false;
-            Render = true;
+
+            if (Monitor.TryEnter(syncRoot, new TimeSpan(0, 0, 1)))
+            {
+                try
+                {
+                    this.otherContent = content;
+                    if (renderer != null) this.ContentRender = renderer;
+                    this.is_other = true;
+                    this.is_image = this.is_matrix = this.is_text = false;
+                    Render = true;
+                }
+                finally
+                {
+                    Monitor.Exit(syncRoot);
+                }
+            }
             fireContentChangedEvent();
-            //if (update) UpdateContentSize();
         }
 
         /// <summary>
@@ -436,6 +512,17 @@ namespace BrailleIO
         /// <returns></returns>
         public object GetOtherContent()
         {
+            if (Monitor.TryEnter(syncRoot, new TimeSpan(0, 0, 1)))
+            {
+                try
+                {
+                    return this.otherContent;
+                }
+                finally
+                {
+                    Monitor.Exit(syncRoot);
+                }
+            }
             return this.otherContent;
         }
 
@@ -685,7 +772,7 @@ namespace BrailleIO
         {
             if (x >= ViewBox.X && x < ViewBox.X + ViewBox.Width
                 && y >= ViewBox.Y && y < ViewBox.Height + ViewBox.Y
-                ) 
+                )
                 return true;
 
             return false;
@@ -699,12 +786,12 @@ namespace BrailleIO
         /// <returns></returns>
         public bool ContentContainsPoint(int x, int y)
         {
-            if (ContainsPoint(x,y))
+            if (ContainsPoint(x, y))
             {
-                int _x = x-ViewBox.X;
+                int _x = x - ViewBox.X;
                 int _y = y - ViewBox.Y;
 
-                if(_x >= ContentBox.X && _x < ContentBox.Right
+                if (_x >= ContentBox.X && _x < ContentBox.Right
                     && _y >= ContentBox.Y && _y < ContentBox.Bottom
                     )
                     return true;
@@ -732,7 +819,7 @@ namespace BrailleIO
                 p.Y = _y + OffsetPosition.Y;
             }
             return p;
-        } 
+        }
 
         #endregion
 
