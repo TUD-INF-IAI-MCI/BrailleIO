@@ -815,8 +815,8 @@ namespace BrailleIO
                 int _x = x - ViewBox.X - ContentBox.X;
                 int _y = y - ViewBox.Y - ContentBox.Y;
 
-                p.X = _x + OffsetPosition.X;
-                p.Y = _y + OffsetPosition.Y;
+                p.X = _x - OffsetPosition.X;
+                p.Y = _y - OffsetPosition.Y;
             }
             return p;
         }
