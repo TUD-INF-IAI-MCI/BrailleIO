@@ -72,6 +72,7 @@
             this.pictureBoxPins = new System.Windows.Forms.PictureBox();
             this.pictureBoxMatrix = new System.Windows.Forms.PictureBox();
             this.pictureBox_overAllOverlay = new System.Windows.Forms.PictureBox();
+            this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTouch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPins)).BeginInit();
@@ -82,7 +83,7 @@
             // button_KEY_RIGHT_ROCKER_SWITCH_UP
             // 
             this.button_KEY_RIGHT_ROCKER_SWITCH_UP.AccessibleName = "right rocker switch up";
-            this.button_KEY_RIGHT_ROCKER_SWITCH_UP.Location = new System.Drawing.Point(863, 96);
+            this.button_KEY_RIGHT_ROCKER_SWITCH_UP.Location = new System.Drawing.Point(864, 117);
             this.button_KEY_RIGHT_ROCKER_SWITCH_UP.Margin = new System.Windows.Forms.Padding(2);
             this.button_KEY_RIGHT_ROCKER_SWITCH_UP.Name = "button_KEY_RIGHT_ROCKER_SWITCH_UP";
             this.button_KEY_RIGHT_ROCKER_SWITCH_UP.Size = new System.Drawing.Size(21, 34);
@@ -94,7 +95,7 @@
             // button_KEY_RIGHT_ROCKER_SWITCH_DOWN
             // 
             this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN.AccessibleName = "right rocker switch down";
-            this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN.Location = new System.Drawing.Point(863, 134);
+            this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN.Location = new System.Drawing.Point(864, 155);
             this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN.Margin = new System.Windows.Forms.Padding(2);
             this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN.Name = "button_KEY_RIGHT_ROCKER_SWITCH_DOWN";
             this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN.Size = new System.Drawing.Size(21, 35);
@@ -107,7 +108,7 @@
             // 
             this.button_KEY_DOT1.AccessibleDescription = "Braille keyboard key 1";
             this.button_KEY_DOT1.AccessibleName = "1";
-            this.button_KEY_DOT1.Location = new System.Drawing.Point(229, 8);
+            this.button_KEY_DOT1.Location = new System.Drawing.Point(230, 29);
             this.button_KEY_DOT1.Name = "button_KEY_DOT1";
             this.button_KEY_DOT1.Size = new System.Drawing.Size(28, 44);
             this.button_KEY_DOT1.TabIndex = 1;
@@ -119,7 +120,7 @@
             // 
             this.button_KEY_DOT2.AccessibleDescription = "Braille keyboard key 2";
             this.button_KEY_DOT2.AccessibleName = "2";
-            this.button_KEY_DOT2.Location = new System.Drawing.Point(193, 8);
+            this.button_KEY_DOT2.Location = new System.Drawing.Point(194, 29);
             this.button_KEY_DOT2.Name = "button_KEY_DOT2";
             this.button_KEY_DOT2.Size = new System.Drawing.Size(28, 44);
             this.button_KEY_DOT2.TabIndex = 2;
@@ -131,7 +132,7 @@
             // 
             this.button_KEY_DOT3.AccessibleDescription = "Braille keyboard key 3";
             this.button_KEY_DOT3.AccessibleName = "3";
-            this.button_KEY_DOT3.Location = new System.Drawing.Point(157, 18);
+            this.button_KEY_DOT3.Location = new System.Drawing.Point(158, 39);
             this.button_KEY_DOT3.Name = "button_KEY_DOT3";
             this.button_KEY_DOT3.Size = new System.Drawing.Size(28, 44);
             this.button_KEY_DOT3.TabIndex = 3;
@@ -143,7 +144,7 @@
             // 
             this.button_KEY_DOT7.AccessibleDescription = "Braille keyboard key 7";
             this.button_KEY_DOT7.AccessibleName = "7";
-            this.button_KEY_DOT7.Location = new System.Drawing.Point(121, 27);
+            this.button_KEY_DOT7.Location = new System.Drawing.Point(122, 48);
             this.button_KEY_DOT7.Name = "button_KEY_DOT7";
             this.button_KEY_DOT7.Size = new System.Drawing.Size(28, 44);
             this.button_KEY_DOT7.TabIndex = 7;
@@ -155,7 +156,7 @@
             // 
             this.button_KEY_DOT8.AccessibleDescription = "Braille keyboard key 8";
             this.button_KEY_DOT8.AccessibleName = "8";
-            this.button_KEY_DOT8.Location = new System.Drawing.Point(748, 27);
+            this.button_KEY_DOT8.Location = new System.Drawing.Point(749, 48);
             this.button_KEY_DOT8.Name = "button_KEY_DOT8";
             this.button_KEY_DOT8.Size = new System.Drawing.Size(28, 44);
             this.button_KEY_DOT8.TabIndex = 8;
@@ -167,7 +168,7 @@
             // 
             this.button_KEY_DOT6.AccessibleDescription = "Braille keyboard key 6";
             this.button_KEY_DOT6.AccessibleName = "6";
-            this.button_KEY_DOT6.Location = new System.Drawing.Point(714, 18);
+            this.button_KEY_DOT6.Location = new System.Drawing.Point(715, 39);
             this.button_KEY_DOT6.Name = "button_KEY_DOT6";
             this.button_KEY_DOT6.Size = new System.Drawing.Size(28, 44);
             this.button_KEY_DOT6.TabIndex = 6;
@@ -179,7 +180,7 @@
             // 
             this.button_KEY_DOT4.AccessibleDescription = "Braille keyboard key 4";
             this.button_KEY_DOT4.AccessibleName = "4";
-            this.button_KEY_DOT4.Location = new System.Drawing.Point(644, 8);
+            this.button_KEY_DOT4.Location = new System.Drawing.Point(645, 29);
             this.button_KEY_DOT4.Name = "button_KEY_DOT4";
             this.button_KEY_DOT4.Size = new System.Drawing.Size(28, 44);
             this.button_KEY_DOT4.TabIndex = 4;
@@ -191,7 +192,7 @@
             // 
             this.button_KEY_DOT5.AccessibleDescription = "Braille keyboard key 5";
             this.button_KEY_DOT5.AccessibleName = "5";
-            this.button_KEY_DOT5.Location = new System.Drawing.Point(680, 8);
+            this.button_KEY_DOT5.Location = new System.Drawing.Point(681, 29);
             this.button_KEY_DOT5.Name = "button_KEY_DOT5";
             this.button_KEY_DOT5.Size = new System.Drawing.Size(28, 44);
             this.button_KEY_DOT5.TabIndex = 5;
@@ -203,7 +204,7 @@
             // 
             this.button_KEY_THUMB_LEFT_HAND_LEFT.AccessibleDescription = "most left function key";
             this.button_KEY_THUMB_LEFT_HAND_LEFT.AccessibleName = "function key 1";
-            this.button_KEY_THUMB_LEFT_HAND_LEFT.Location = new System.Drawing.Point(273, 42);
+            this.button_KEY_THUMB_LEFT_HAND_LEFT.Location = new System.Drawing.Point(274, 63);
             this.button_KEY_THUMB_LEFT_HAND_LEFT.Name = "button_KEY_THUMB_LEFT_HAND_LEFT";
             this.button_KEY_THUMB_LEFT_HAND_LEFT.Size = new System.Drawing.Size(57, 29);
             this.button_KEY_THUMB_LEFT_HAND_LEFT.TabIndex = 9;
@@ -215,7 +216,7 @@
             // 
             this.button_KEY_THUMB_LEFT_HAND_RIGHT.AccessibleDescription = "left function key";
             this.button_KEY_THUMB_LEFT_HAND_RIGHT.AccessibleName = "function key 2";
-            this.button_KEY_THUMB_LEFT_HAND_RIGHT.Location = new System.Drawing.Point(336, 42);
+            this.button_KEY_THUMB_LEFT_HAND_RIGHT.Location = new System.Drawing.Point(337, 63);
             this.button_KEY_THUMB_LEFT_HAND_RIGHT.Name = "button_KEY_THUMB_LEFT_HAND_RIGHT";
             this.button_KEY_THUMB_LEFT_HAND_RIGHT.Size = new System.Drawing.Size(57, 29);
             this.button_KEY_THUMB_LEFT_HAND_RIGHT.TabIndex = 10;
@@ -227,7 +228,7 @@
             // 
             this.button_KEY_THUMB_RIGHT_HAND_RIGHT.AccessibleDescription = "most right function key";
             this.button_KEY_THUMB_RIGHT_HAND_RIGHT.AccessibleName = "function key 4";
-            this.button_KEY_THUMB_RIGHT_HAND_RIGHT.Location = new System.Drawing.Point(572, 42);
+            this.button_KEY_THUMB_RIGHT_HAND_RIGHT.Location = new System.Drawing.Point(573, 63);
             this.button_KEY_THUMB_RIGHT_HAND_RIGHT.Name = "button_KEY_THUMB_RIGHT_HAND_RIGHT";
             this.button_KEY_THUMB_RIGHT_HAND_RIGHT.Size = new System.Drawing.Size(57, 29);
             this.button_KEY_THUMB_RIGHT_HAND_RIGHT.TabIndex = 12;
@@ -239,7 +240,7 @@
             // 
             this.button_KEY_THUMB_RIGHT_HAND_LEFT.AccessibleDescription = "right function key";
             this.button_KEY_THUMB_RIGHT_HAND_LEFT.AccessibleName = "function key 3";
-            this.button_KEY_THUMB_RIGHT_HAND_LEFT.Location = new System.Drawing.Point(509, 42);
+            this.button_KEY_THUMB_RIGHT_HAND_LEFT.Location = new System.Drawing.Point(510, 63);
             this.button_KEY_THUMB_RIGHT_HAND_LEFT.Name = "button_KEY_THUMB_RIGHT_HAND_LEFT";
             this.button_KEY_THUMB_RIGHT_HAND_LEFT.Size = new System.Drawing.Size(57, 29);
             this.button_KEY_THUMB_RIGHT_HAND_LEFT.TabIndex = 11;
@@ -250,7 +251,7 @@
             // button_KEY_HYPERBRAILLE_KEY_LEFT
             // 
             this.button_KEY_HYPERBRAILLE_KEY_LEFT.AccessibleName = "left gesture button";
-            this.button_KEY_HYPERBRAILLE_KEY_LEFT.Location = new System.Drawing.Point(59, 96);
+            this.button_KEY_HYPERBRAILLE_KEY_LEFT.Location = new System.Drawing.Point(60, 117);
             this.button_KEY_HYPERBRAILLE_KEY_LEFT.Name = "button_KEY_HYPERBRAILLE_KEY_LEFT";
             this.button_KEY_HYPERBRAILLE_KEY_LEFT.Size = new System.Drawing.Size(28, 73);
             this.button_KEY_HYPERBRAILLE_KEY_LEFT.TabIndex = 13;
@@ -261,7 +262,7 @@
             // button_KEY_HYPERBRAILLE_KEY_RIGHT
             // 
             this.button_KEY_HYPERBRAILLE_KEY_RIGHT.AccessibleName = "right gesture button";
-            this.button_KEY_HYPERBRAILLE_KEY_RIGHT.Location = new System.Drawing.Point(820, 96);
+            this.button_KEY_HYPERBRAILLE_KEY_RIGHT.Location = new System.Drawing.Point(821, 117);
             this.button_KEY_HYPERBRAILLE_KEY_RIGHT.Name = "button_KEY_HYPERBRAILLE_KEY_RIGHT";
             this.button_KEY_HYPERBRAILLE_KEY_RIGHT.Size = new System.Drawing.Size(28, 73);
             this.button_KEY_HYPERBRAILLE_KEY_RIGHT.TabIndex = 14;
@@ -272,7 +273,7 @@
             // button_KEY_LEFT_ROCKER_SWITCH_DOWN
             // 
             this.button_KEY_LEFT_ROCKER_SWITCH_DOWN.AccessibleName = "left rocker switch down";
-            this.button_KEY_LEFT_ROCKER_SWITCH_DOWN.Location = new System.Drawing.Point(23, 134);
+            this.button_KEY_LEFT_ROCKER_SWITCH_DOWN.Location = new System.Drawing.Point(24, 155);
             this.button_KEY_LEFT_ROCKER_SWITCH_DOWN.Margin = new System.Windows.Forms.Padding(2);
             this.button_KEY_LEFT_ROCKER_SWITCH_DOWN.Name = "button_KEY_LEFT_ROCKER_SWITCH_DOWN";
             this.button_KEY_LEFT_ROCKER_SWITCH_DOWN.Size = new System.Drawing.Size(21, 35);
@@ -284,7 +285,7 @@
             // button_KEY_LEFT_ROCKER_SWITCH_UP
             // 
             this.button_KEY_LEFT_ROCKER_SWITCH_UP.AccessibleName = "left rocker switch up";
-            this.button_KEY_LEFT_ROCKER_SWITCH_UP.Location = new System.Drawing.Point(23, 96);
+            this.button_KEY_LEFT_ROCKER_SWITCH_UP.Location = new System.Drawing.Point(24, 117);
             this.button_KEY_LEFT_ROCKER_SWITCH_UP.Margin = new System.Windows.Forms.Padding(2);
             this.button_KEY_LEFT_ROCKER_SWITCH_UP.Name = "button_KEY_LEFT_ROCKER_SWITCH_UP";
             this.button_KEY_LEFT_ROCKER_SWITCH_UP.Size = new System.Drawing.Size(21, 34);
@@ -296,7 +297,7 @@
             // button_KEY_LEFT_CURSORS_CENTER
             // 
             this.button_KEY_LEFT_CURSORS_CENTER.AccessibleName = "left cursor-key pad center";
-            this.button_KEY_LEFT_CURSORS_CENTER.Location = new System.Drawing.Point(34, 238);
+            this.button_KEY_LEFT_CURSORS_CENTER.Location = new System.Drawing.Point(35, 259);
             this.button_KEY_LEFT_CURSORS_CENTER.Name = "button_KEY_LEFT_CURSORS_CENTER";
             this.button_KEY_LEFT_CURSORS_CENTER.Size = new System.Drawing.Size(23, 24);
             this.button_KEY_LEFT_CURSORS_CENTER.TabIndex = 19;
@@ -307,7 +308,7 @@
             // button_KEY_LEFT_CURSORS_UP
             // 
             this.button_KEY_LEFT_CURSORS_UP.AccessibleName = "left cursor-key pad up";
-            this.button_KEY_LEFT_CURSORS_UP.Location = new System.Drawing.Point(34, 213);
+            this.button_KEY_LEFT_CURSORS_UP.Location = new System.Drawing.Point(35, 234);
             this.button_KEY_LEFT_CURSORS_UP.Name = "button_KEY_LEFT_CURSORS_UP";
             this.button_KEY_LEFT_CURSORS_UP.Size = new System.Drawing.Size(23, 24);
             this.button_KEY_LEFT_CURSORS_UP.TabIndex = 20;
@@ -318,7 +319,7 @@
             // button_KEY_LEFT_CURSORS_DOWN
             // 
             this.button_KEY_LEFT_CURSORS_DOWN.AccessibleName = "left cursor-key pad down";
-            this.button_KEY_LEFT_CURSORS_DOWN.Location = new System.Drawing.Point(34, 263);
+            this.button_KEY_LEFT_CURSORS_DOWN.Location = new System.Drawing.Point(35, 284);
             this.button_KEY_LEFT_CURSORS_DOWN.Name = "button_KEY_LEFT_CURSORS_DOWN";
             this.button_KEY_LEFT_CURSORS_DOWN.Size = new System.Drawing.Size(23, 24);
             this.button_KEY_LEFT_CURSORS_DOWN.TabIndex = 21;
@@ -329,7 +330,7 @@
             // button_KEY_LEFT_CURSORS_LEFT
             // 
             this.button_KEY_LEFT_CURSORS_LEFT.AccessibleName = "left cursor-key pad left";
-            this.button_KEY_LEFT_CURSORS_LEFT.Location = new System.Drawing.Point(10, 238);
+            this.button_KEY_LEFT_CURSORS_LEFT.Location = new System.Drawing.Point(11, 259);
             this.button_KEY_LEFT_CURSORS_LEFT.Name = "button_KEY_LEFT_CURSORS_LEFT";
             this.button_KEY_LEFT_CURSORS_LEFT.Size = new System.Drawing.Size(23, 24);
             this.button_KEY_LEFT_CURSORS_LEFT.TabIndex = 22;
@@ -340,7 +341,7 @@
             // button_KEY_LEFT_CURSORS_RIGHT
             // 
             this.button_KEY_LEFT_CURSORS_RIGHT.AccessibleName = "left cursor-key pad right";
-            this.button_KEY_LEFT_CURSORS_RIGHT.Location = new System.Drawing.Point(58, 238);
+            this.button_KEY_LEFT_CURSORS_RIGHT.Location = new System.Drawing.Point(59, 259);
             this.button_KEY_LEFT_CURSORS_RIGHT.Name = "button_KEY_LEFT_CURSORS_RIGHT";
             this.button_KEY_LEFT_CURSORS_RIGHT.Size = new System.Drawing.Size(23, 24);
             this.button_KEY_LEFT_CURSORS_RIGHT.TabIndex = 23;
@@ -351,7 +352,7 @@
             // button_KEY_RIGHT_CURSORS_RIGHT
             // 
             this.button_KEY_RIGHT_CURSORS_RIGHT.AccessibleName = "right cursor-key pad right";
-            this.button_KEY_RIGHT_CURSORS_RIGHT.Location = new System.Drawing.Point(871, 238);
+            this.button_KEY_RIGHT_CURSORS_RIGHT.Location = new System.Drawing.Point(872, 259);
             this.button_KEY_RIGHT_CURSORS_RIGHT.Name = "button_KEY_RIGHT_CURSORS_RIGHT";
             this.button_KEY_RIGHT_CURSORS_RIGHT.Size = new System.Drawing.Size(25, 24);
             this.button_KEY_RIGHT_CURSORS_RIGHT.TabIndex = 28;
@@ -362,7 +363,7 @@
             // button_KEY_RIGHT_CURSORS_LEFT
             // 
             this.button_KEY_RIGHT_CURSORS_LEFT.AccessibleName = "right cursor-key pad left";
-            this.button_KEY_RIGHT_CURSORS_LEFT.Location = new System.Drawing.Point(823, 238);
+            this.button_KEY_RIGHT_CURSORS_LEFT.Location = new System.Drawing.Point(824, 259);
             this.button_KEY_RIGHT_CURSORS_LEFT.Name = "button_KEY_RIGHT_CURSORS_LEFT";
             this.button_KEY_RIGHT_CURSORS_LEFT.Size = new System.Drawing.Size(25, 24);
             this.button_KEY_RIGHT_CURSORS_LEFT.TabIndex = 27;
@@ -373,7 +374,7 @@
             // button_KEY_RIGHT_CURSORS_DOWN
             // 
             this.button_KEY_RIGHT_CURSORS_DOWN.AccessibleName = "right cursor-key pad down";
-            this.button_KEY_RIGHT_CURSORS_DOWN.Location = new System.Drawing.Point(847, 263);
+            this.button_KEY_RIGHT_CURSORS_DOWN.Location = new System.Drawing.Point(848, 284);
             this.button_KEY_RIGHT_CURSORS_DOWN.Name = "button_KEY_RIGHT_CURSORS_DOWN";
             this.button_KEY_RIGHT_CURSORS_DOWN.Size = new System.Drawing.Size(25, 24);
             this.button_KEY_RIGHT_CURSORS_DOWN.TabIndex = 26;
@@ -384,7 +385,7 @@
             // button_KEY_RIGHT_CURSORS_UP
             // 
             this.button_KEY_RIGHT_CURSORS_UP.AccessibleName = "right cursor-key pad up";
-            this.button_KEY_RIGHT_CURSORS_UP.Location = new System.Drawing.Point(847, 213);
+            this.button_KEY_RIGHT_CURSORS_UP.Location = new System.Drawing.Point(848, 234);
             this.button_KEY_RIGHT_CURSORS_UP.Name = "button_KEY_RIGHT_CURSORS_UP";
             this.button_KEY_RIGHT_CURSORS_UP.Size = new System.Drawing.Size(25, 24);
             this.button_KEY_RIGHT_CURSORS_UP.TabIndex = 25;
@@ -395,7 +396,7 @@
             // button_KEY_RIGHT_CURSORS_CENTER
             // 
             this.button_KEY_RIGHT_CURSORS_CENTER.AccessibleName = "right cursor-key pad center";
-            this.button_KEY_RIGHT_CURSORS_CENTER.Location = new System.Drawing.Point(847, 238);
+            this.button_KEY_RIGHT_CURSORS_CENTER.Location = new System.Drawing.Point(848, 259);
             this.button_KEY_RIGHT_CURSORS_CENTER.Name = "button_KEY_RIGHT_CURSORS_CENTER";
             this.button_KEY_RIGHT_CURSORS_CENTER.Size = new System.Drawing.Size(25, 24);
             this.button_KEY_RIGHT_CURSORS_CENTER.TabIndex = 24;
@@ -406,7 +407,7 @@
             // button_KEY_NAV_RIGHT_2
             // 
             this.button_KEY_NAV_RIGHT_2.AccessibleName = "navigation bar big step right";
-            this.button_KEY_NAV_RIGHT_2.Location = new System.Drawing.Point(666, 465);
+            this.button_KEY_NAV_RIGHT_2.Location = new System.Drawing.Point(667, 486);
             this.button_KEY_NAV_RIGHT_2.Name = "button_KEY_NAV_RIGHT_2";
             this.button_KEY_NAV_RIGHT_2.Size = new System.Drawing.Size(23, 24);
             this.button_KEY_NAV_RIGHT_2.TabIndex = 36;
@@ -417,7 +418,7 @@
             // button_KEY_NAV_RIGHT
             // 
             this.button_KEY_NAV_RIGHT.AccessibleName = "navigation bar small step right";
-            this.button_KEY_NAV_RIGHT.Location = new System.Drawing.Point(637, 465);
+            this.button_KEY_NAV_RIGHT.Location = new System.Drawing.Point(638, 486);
             this.button_KEY_NAV_RIGHT.Name = "button_KEY_NAV_RIGHT";
             this.button_KEY_NAV_RIGHT.Size = new System.Drawing.Size(23, 24);
             this.button_KEY_NAV_RIGHT.TabIndex = 35;
@@ -428,7 +429,7 @@
             // button_KEY_NAV_LEFT_2
             // 
             this.button_KEY_NAV_LEFT_2.AccessibleName = "navigation bar big step left";
-            this.button_KEY_NAV_LEFT_2.Location = new System.Drawing.Point(228, 465);
+            this.button_KEY_NAV_LEFT_2.Location = new System.Drawing.Point(229, 486);
             this.button_KEY_NAV_LEFT_2.Name = "button_KEY_NAV_LEFT_2";
             this.button_KEY_NAV_LEFT_2.Size = new System.Drawing.Size(23, 24);
             this.button_KEY_NAV_LEFT_2.TabIndex = 34;
@@ -439,7 +440,7 @@
             // button_KEY_NAV_LEFT
             // 
             this.button_KEY_NAV_LEFT.AccessibleName = "navigation bar small step left";
-            this.button_KEY_NAV_LEFT.Location = new System.Drawing.Point(257, 465);
+            this.button_KEY_NAV_LEFT.Location = new System.Drawing.Point(258, 486);
             this.button_KEY_NAV_LEFT.Name = "button_KEY_NAV_LEFT";
             this.button_KEY_NAV_LEFT.Size = new System.Drawing.Size(23, 24);
             this.button_KEY_NAV_LEFT.TabIndex = 33;
@@ -450,7 +451,7 @@
             // button_KEY_NAV_UP
             // 
             this.button_KEY_NAV_UP.AccessibleName = "navigation bar small step up";
-            this.button_KEY_NAV_UP.Location = new System.Drawing.Point(414, 455);
+            this.button_KEY_NAV_UP.Location = new System.Drawing.Point(415, 476);
             this.button_KEY_NAV_UP.Name = "button_KEY_NAV_UP";
             this.button_KEY_NAV_UP.Size = new System.Drawing.Size(23, 24);
             this.button_KEY_NAV_UP.TabIndex = 29;
@@ -461,7 +462,7 @@
             // button_KEY_NAV_UP_2
             // 
             this.button_KEY_NAV_UP_2.AccessibleName = "navigation bar big step up";
-            this.button_KEY_NAV_UP_2.Location = new System.Drawing.Point(437, 450);
+            this.button_KEY_NAV_UP_2.Location = new System.Drawing.Point(438, 471);
             this.button_KEY_NAV_UP_2.Name = "button_KEY_NAV_UP_2";
             this.button_KEY_NAV_UP_2.Size = new System.Drawing.Size(23, 24);
             this.button_KEY_NAV_UP_2.TabIndex = 30;
@@ -472,7 +473,7 @@
             // button_KEY_NAV_DOWN_2
             // 
             this.button_KEY_NAV_DOWN_2.AccessibleName = "navigation bar big step down";
-            this.button_KEY_NAV_DOWN_2.Location = new System.Drawing.Point(437, 482);
+            this.button_KEY_NAV_DOWN_2.Location = new System.Drawing.Point(438, 503);
             this.button_KEY_NAV_DOWN_2.Name = "button_KEY_NAV_DOWN_2";
             this.button_KEY_NAV_DOWN_2.Size = new System.Drawing.Size(23, 24);
             this.button_KEY_NAV_DOWN_2.TabIndex = 32;
@@ -483,7 +484,7 @@
             // button_KEY_NAV_DOWN
             // 
             this.button_KEY_NAV_DOWN.AccessibleName = "navigation bar small step down";
-            this.button_KEY_NAV_DOWN.Location = new System.Drawing.Point(414, 478);
+            this.button_KEY_NAV_DOWN.Location = new System.Drawing.Point(415, 499);
             this.button_KEY_NAV_DOWN.Name = "button_KEY_NAV_DOWN";
             this.button_KEY_NAV_DOWN.Size = new System.Drawing.Size(23, 24);
             this.button_KEY_NAV_DOWN.TabIndex = 31;
@@ -497,7 +498,7 @@
             this.statusStrip1.AccessibleName = "Status monitoring bar";
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel_Messages});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 508);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 532);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(919, 22);
             this.statusStrip1.TabIndex = 43;
@@ -515,7 +516,7 @@
             this.pictureBoxTouch.AccessibleDescription = "topmost information overlay";
             this.pictureBoxTouch.AccessibleName = "overlay picture";
             this.pictureBoxTouch.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.touch_error;
-            this.pictureBoxTouch.Location = new System.Drawing.Point(116, 97);
+            this.pictureBoxTouch.Location = new System.Drawing.Point(117, 118);
             this.pictureBoxTouch.Name = "pictureBoxTouch";
             this.pictureBoxTouch.Size = new System.Drawing.Size(721, 363);
             this.pictureBoxTouch.TabIndex = 49;
@@ -531,7 +532,7 @@
             this.pictureBoxPins.AccessibleDescription = "image of currently raised pins";
             this.pictureBoxPins.AccessibleName = "pins";
             this.pictureBoxPins.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.pin_error;
-            this.pictureBoxPins.Location = new System.Drawing.Point(106, 88);
+            this.pictureBoxPins.Location = new System.Drawing.Point(107, 109);
             this.pictureBoxPins.Name = "pictureBoxPins";
             this.pictureBoxPins.Size = new System.Drawing.Size(721, 363);
             this.pictureBoxPins.TabIndex = 48;
@@ -543,7 +544,7 @@
             this.pictureBoxMatrix.AccessibleName = "pin matrix";
             this.pictureBoxMatrix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBoxMatrix.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.base_error;
-            this.pictureBoxMatrix.Location = new System.Drawing.Point(93, 77);
+            this.pictureBoxMatrix.Location = new System.Drawing.Point(94, 98);
             this.pictureBoxMatrix.Name = "pictureBoxMatrix";
             this.pictureBoxMatrix.Size = new System.Drawing.Size(721, 363);
             this.pictureBoxMatrix.TabIndex = 47;
@@ -558,7 +559,7 @@
             this.pictureBox_overAllOverlay.Enabled = false;
             this.pictureBox_overAllOverlay.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.overlay_error;
             this.pictureBox_overAllOverlay.InitialImage = null;
-            this.pictureBox_overAllOverlay.Location = new System.Drawing.Point(93, 98);
+            this.pictureBox_overAllOverlay.Location = new System.Drawing.Point(94, 119);
             this.pictureBox_overAllOverlay.Name = "pictureBox_overAllOverlay";
             this.pictureBox_overAllOverlay.Size = new System.Drawing.Size(721, 363);
             this.pictureBox_overAllOverlay.TabIndex = 50;
@@ -569,6 +570,17 @@
             this.pictureBox_overAllOverlay.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseMove);
             this.pictureBox_overAllOverlay.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTouch_MouseUp);
             // 
+            // menuStripMain
+            // 
+            this.menuStripMain.AccessibleDescription = "Main menu";
+            this.menuStripMain.AccessibleName = "Main menu";
+            this.menuStripMain.Location = new System.Drawing.Point(0, 0);
+            this.menuStripMain.Name = "menuStripMain";
+            this.menuStripMain.Size = new System.Drawing.Size(919, 24);
+            this.menuStripMain.TabIndex = 1;
+            this.menuStripMain.Text = "";
+            this.menuStripMain.Visible = false;
+            // 
             // ShowOff
             // 
             this.AccessibleDescription = "Software simulation of a BrailleDis 7200 Device";
@@ -576,12 +588,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(919, 530);
+            this.ClientSize = new System.Drawing.Size(919, 554);
             this.Controls.Add(this.pictureBoxTouch);
             this.Controls.Add(this.pictureBox_overAllOverlay);
             this.Controls.Add(this.pictureBoxPins);
             this.Controls.Add(this.pictureBoxMatrix);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStripMain);
             this.Controls.Add(this.button_KEY_NAV_DOWN);
             this.Controls.Add(this.button_KEY_NAV_DOWN_2);
             this.Controls.Add(this.button_KEY_NAV_UP_2);
@@ -619,8 +632,9 @@
             this.Controls.Add(this.button_KEY_RIGHT_ROCKER_SWITCH_DOWN);
             this.Controls.Add(this.button_KEY_RIGHT_ROCKER_SWITCH_UP);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStripMain;
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MaximumSize = new System.Drawing.Size(935, 569);
+            this.MaximumSize = new System.Drawing.Size(935, 593);
             this.MinimumSize = new System.Drawing.Size(100, 80);
             this.Name = "ShowOff";
             this.Text = "BrailleIO Show Off Adapter";
@@ -679,6 +693,7 @@
         private System.Windows.Forms.PictureBox pictureBoxMatrix;
         private System.Windows.Forms.PictureBox pictureBox_overAllOverlay;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_Messages;
+        public System.Windows.Forms.MenuStrip menuStripMain;
 
 
     }

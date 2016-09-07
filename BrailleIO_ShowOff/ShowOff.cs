@@ -458,6 +458,87 @@ namespace BrailleIO
 
         #endregion
 
+        #region Main Menu
+
+        /// <summary>
+        /// Shows the menu strip.
+        /// </summary>
+        /// <returns><c>true</c> if the menu strip is visible.</returns>
+        public bool ShowMenuStrip()
+        {
+            try
+            {
+                this.menuStripMain.Invoke(new Action(() => { this.menuStripMain.Visible = true; }));
+                return this.menuStripMain.Visible;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Hides the menu strip.
+        /// </summary>
+        /// <returns><c>true</c> if the menu strip is not visible.</returns>
+        public bool HideMenuStrip()
+        {
+            try
+            {
+                this.menuStripMain.Invoke(new Action(() => { this.menuStripMain.Visible = false; }));
+                return !this.menuStripMain.Visible;
+            }
+            catch (Exception) { }
+            return false;
+        }
+        
+        /// <summary>
+        /// Adds a menu item to the main menu strip.
+        /// </summary>
+        /// <param name="item">The item to add.</param>
+        /// <param name="setAsMdiWindowListItem">if set to <c>true</c> the item will be registered as the MDI window list item.</param>
+        /// <returns></returns>
+        public bool AddMenuItem(ToolStripItem item, bool setAsMdiWindowListItem = false)
+        {
+            try
+            {
+                if (item != null)
+                    this.menuStripMain.Invoke(
+                        new Action(() =>
+                        {
+                            if (setAsMdiWindowListItem && item is ToolStripMenuItem)
+                                this.menuStripMain.MdiWindowListItem = item as ToolStripMenuItem;
+                            this.menuStripMain.Items.Add(item);
+                        }));
+            }
+            catch (Exception) { }
+            return false;
+        }
+
+        /// <summary>
+        /// Removes a certain menu item from the main menu strip.
+        /// </summary>
+        /// <param name="item">The item to remove.</param>
+        /// <returns><c>true</c> if the item was removed.</returns>
+        public bool RemoveMenuItem(ToolStripItem item)
+        {
+            bool success = false;
+            try{
+                if (item != null)
+                    this.menuStripMain.Invoke(new Action(()=>{
+                        if (this.menuStripMain.Items.Contains(item))
+                        {
+                            this.menuStripMain.Items.Remove(item);
+                            success = !this.menuStripMain.Items.Contains(item);
+                        }                       
+                    }));
+            }
+            catch{}
+            return success;
+        }
+
+        #endregion
+
         #endregion
 
         #region Context Menu
