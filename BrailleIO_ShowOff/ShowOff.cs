@@ -539,6 +539,41 @@ namespace BrailleIO
 
         #endregion
 
+        /// <summary>
+        /// Gets the title of the window.
+        /// </summary>
+        /// <returns>the title of the window</returns>
+        public String GetTitle()
+        {
+            String title = String.Empty;
+            try
+            {
+                this.Invoke(new Action(() => {
+                    title = this.Text;
+                }));
+            }
+            catch (Exception){}
+            return title;
+        }
+
+        /// <summary>
+        /// Sets the title of the window.
+        /// </summary>
+        /// <param name="title">The new title.</param>
+        /// <returns><c>true</c> if the title was changed</returns>
+        public bool SetTitle(String title)
+        {
+            try
+            {
+                this.Invoke(new Action(() =>
+                {
+                    this.Text = title;
+                }));
+            }
+            catch (Exception) { }
+            return this.Text.Equals(title);
+        }
+
         #endregion
 
         #region Context Menu
