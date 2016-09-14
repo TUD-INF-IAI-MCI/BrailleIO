@@ -227,10 +227,15 @@ namespace BrailleIO
             stack.Push(true);
             if (stack.Count > 0 && (renderingTread == null || !renderingTread.IsAlive))
             {
-                renderingTread = new Thread(delegate() { renderDisplay(); });
-                renderingTread.Name = "RenderingThread";
-                renderingTread.Priority = ThreadPriority.Highest;
-                renderingTread.Start();
+                try
+                {
+                    renderingTread = new Thread(delegate() { renderDisplay(); });
+                    renderingTread.Name = "RenderingThread";
+                    renderingTread.Priority = ThreadPriority.Highest;
+                    renderingTread.Start();
+                }
+                catch (Exception)
+                {}
             }
             else { }
         }
