@@ -54,7 +54,8 @@ namespace BrailleIO.Renderer
             int yO = view.ContentBox.Y;
 
 
-            // if paint all arrows and height < 8 do nothing
+            // draw the slider track/line
+            //      if "paint all arrows" and height < 8 do nothing
             if (!(paintArrows && view.ContentBox.Height < 8))
             {
                 for (int y = 0; y < view.ContentBox.Height; y++)
@@ -75,27 +76,29 @@ namespace BrailleIO.Renderer
 
 
             //paint slider
-            double offsetRatio = Math.Abs((double)yOffset / (double)view.ContentHeight);
-            double viewRatio = (double)view.ContentBox.Height / (double)view.ContentHeight;
-            double posSliderRatio = offsetRatio + (viewRatio * offsetRatio);
-            double restOffsetRatio = 1 - Math.Min((viewRatio + offsetRatio), 1);
-            double negSliderRatio = restOffsetRatio + (viewRatio * restOffsetRatio);
-            double sliderRatio = posSliderRatio < negSliderRatio ? posSliderRatio : 1 - negSliderRatio;
-            double sliderOffset = Math.Abs(Math.Round((view.ContentBox.Height - 2) * Math.Min(sliderRatio, 1.0), MidpointRounding.AwayFromZero));
 
-            int ybO = yO + (int)Math.Abs(sliderOffset) + 1;
+            // maximum possible offset until the last content line is the last visible line. 
+            double maxOffset = view.ContentHeight - view.ContentBox.Height;
+            // maximum space for the first pin of the slider to be placed in
+            double maxSliderWay = view.ContentBox.Height - 3;
+            // ratio between way to go and space available
+            double offset2wayRatio = maxSliderWay / maxOffset;
 
-            // if paint arrows and the size is smaller than 8 (3 + 3 + 2) - paint no slider           
+            double sliderOffset = Math.Abs(Math.Round(
+                yOffset * offset2wayRatio
+                , MidpointRounding.AwayFromZero));
+
+            int ybO = yO + (int)sliderOffset + 1;
+
+            // if paint arrows and the height is smaller than 8 (3 + 3 + 2) -> paint no slider           
             //TODO: paint slider different if arrows are active
-
-
             if (paintArrows && view.ContentBox.Height < 8)
             {
                 //do nothing
             }
             else if (paintArrows && view.ContentBox.Height < 10)
             {
-                if ((viewMatrix.GetLength(0) > (ybO + 1 - 1)) && (viewMatrix.GetLength(1) > (x + 1)))
+                if ((viewMatrix.GetLength(0) > ybO) && (viewMatrix.GetLength(1) > (x + 1)))
                 {
                     try
                     {
@@ -104,15 +107,18 @@ namespace BrailleIO.Renderer
                     catch { }
                 }
             }
+
             else // normal handling
             {
+                // paint the three point hight slider
                 for (int y = 0; y < 3; y++)
                 {
                     if ((viewMatrix.GetLength(0) > (ybO + y - 1)) && (viewMatrix.GetLength(1) > (x + 1)))
                     {
                         try
                         {
-                            if ((ybO + y - 1) > 0) viewMatrix[ybO + y - 1, x + 1] = true;
+                            if ((ybO + y - 1) > 0)
+                                viewMatrix[ybO + y - 1, x + 1] = true;
                         }
                         catch { }
                     }
@@ -132,7 +138,7 @@ namespace BrailleIO.Renderer
                         {
                             viewMatrix[yO, x] = true;
                             viewMatrix[yO + 1, x - 1] = true;
-                            if (yOffset < 0) 
+                            if (yOffset < 0)
                                 viewMatrix[yO + 1, x] = true;
                             viewMatrix[yO + 1, x + 1] = true;
                         }
@@ -149,7 +155,7 @@ namespace BrailleIO.Renderer
                         {
                             viewMatrix[yO + view.ContentBox.Height - 1, x] = true;
                             viewMatrix[yO + view.ContentBox.Height - 2, x - 1] = true;
-                            if (Math.Abs(yOffset - view.ContentBox.Height) < view.ContentHeight) 
+                            if (Math.Abs(yOffset - view.ContentBox.Height) < view.ContentHeight)
                                 viewMatrix[yO + view.ContentBox.Height - 2, x] = true;
                             viewMatrix[yO + view.ContentBox.Height - 2, x + 1] = true;
                         }
@@ -181,13 +187,17 @@ namespace BrailleIO.Renderer
             }
 
             //paint slider
-            double offsetRatio = Math.Abs((double)xOffset / (double)view.ContentWidth);
-            double viewRatio = (double)view.ContentBox.Width / (double)view.ContentWidth;
-            double posSliderRatio = offsetRatio + (viewRatio * offsetRatio);
-            double restOffsetRatio = 1 - Math.Min((viewRatio + offsetRatio), 1);
-            double negSliderRatio = restOffsetRatio + (viewRatio * restOffsetRatio);
-            double sliderRatio = posSliderRatio < negSliderRatio ? posSliderRatio : 1 - negSliderRatio;
-            double sliderOffset = Math.Abs(Math.Round((view.ContentBox.Width - 2) * Math.Min(sliderRatio, 1.0), MidpointRounding.AwayFromZero));
+
+            // maximum possible offset until the last content line is the last visible line. 
+            double maxOffset = view.ContentWidth - view.ContentBox.Width;
+            // maximum space for the first pin of the slider to be placed in
+            double maxSliderWay = view.ContentBox.Width - 3;
+            // ratio between way to go and space available
+            double offset2wayRatio = maxSliderWay / maxOffset;
+
+            double sliderOffset = Math.Abs(Math.Round(
+                xOffset * offset2wayRatio
+                , MidpointRounding.AwayFromZero));
 
             int xbO = xO + (int)Math.Abs(sliderOffset) + 1;
             for (int x = 0; x < 3; x++)
@@ -196,7 +206,7 @@ namespace BrailleIO.Renderer
                 {
                     try
                     {
-                        if ((xbO + x - 1) > 0) viewMatrix[y + 1, x + xbO - 1] = true;
+                        if ((xbO + x) > 0) viewMatrix[y + 1, x + xbO - 1] = true;
                     }
                     catch { }
                 }
