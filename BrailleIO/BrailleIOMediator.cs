@@ -270,7 +270,7 @@ namespace BrailleIO
                     _newMatrix = false;
                     AdapterManager.Synchronize(Matrix);
                 }
-                else if ( _elapsedTimes % 50 == 0 )
+                else if ( _elapsedTimes % 30 == 0 )
                 {
                     if (!pins_locked && stack.Count == 0 && isRenderingNecessary())
                         RenderDisplay();
