@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Gestures.Geometrie.Vertex;
 using Gestures.Recognition.GestureData;
 using Gestures.Recognition.Interfaces;
+using System.Drawing;
 
 namespace Gestures.Recognition
 {
@@ -296,7 +297,8 @@ namespace Gestures.Recognition
             Vertex endPoint = new Vertex(inputData.FrameList[endPointIndex][0].x,inputData.FrameList[endPointIndex][0].y);
                         
             //search endpoint es point with max distance from start point
-            var centre = GetCentre(inputData.FrameList); //centre of all blobs
+            Size dim;
+            var centre = GetCentre(inputData.FrameList, out dim); //centre of all blobs
 
             if (MetricDistances.EuclideanDistance(centre, startPoint)
                 > MetricDistances.EuclideanDistance(startPoint, endPoint))
@@ -311,15 +313,21 @@ namespace Gestures.Recognition
             }
             else { return null; }
           
-            return new ClassificationResult(resultString, 100.0, new Sample[] { new Sample(DateTime.Now,startPoint)},
-                new KeyValuePair<String, double>("direction", GetCircleDirection(inputData.FrameList) ? 1.0 : -1.0));
+            return new ClassificationResult(
+                resultString, 
+                100.0, 
+                new Sample[] { new Sample(DateTime.Now,startPoint)},
+                new KeyValuePair<String, double>("direction", GetCircleDirection(inputData.FrameList) ? 1.0 : -1.0),
+                new KeyValuePair<String, Size>("dimensions", dim)
+                );
         }
 
         private bool CheckCircleFormKriterion(Frame[] frameList)
         {
             //all points must lay on a circular shape around the center 
             //so check variance of distance from center
-            var midPoint = GetCentre(frameList);
+            Size dim;
+            var midPoint = GetCentre(frameList, out dim);
             int blobCount = 0;
             double averageDist = 0.0;
             for (int i = 0; i < frameList.Length; i++)
@@ -408,7 +416,8 @@ namespace Gestures.Recognition
         private bool GetCircleDirection(Frame[] frameList)
         {
             //return true for clockwise, false otherwise
-            var centre = GetCentre(frameList);
+            Size dim;
+            var centre = GetCentre(frameList, out dim);
             int clockwise = 0, cclockwise = 0;
             var c = centre;
             for (int i = 0; i < frameList.Length-1; i++)
@@ -508,14 +517,25 @@ namespace Gestures.Recognition
             return result;
         }
 
-        private IVertex GetCentre(Frame[] frameList)
+        private IVertex GetCentre(Frame[] frameList, out Size dim)
         {
             IVertex centre = new Vertex(0.0, 0.0);
             int blobCount = 0;
+
+            int minX = 0;
+            int minY = 0;
+            int maxX = 0;
+            int maxY = 0;
+
             for (int i = 0; i < frameList.Length; i++)
             {
                 for (int j = 0; j < frameList[i].Count; j++)
                 {
+                    minX = Math.Min(minX, (int) frameList[i][j].x);
+                    maxX = Math.Max(maxX, (int) frameList[i][j].x);
+                    minY = Math.Min(minY, (int)frameList[i][j].y);
+                    maxY = Math.Max(maxY, (int)frameList[i][j].y);
+
                     centre[0]+= frameList[i][j].x;
                     centre[1]+=  frameList[i][j].y;
                     blobCount++;
@@ -523,6 +543,7 @@ namespace Gestures.Recognition
             }
             centre[0] /= blobCount;
             centre[1] /= blobCount;
+            dim = new Size(Math.Max(maxX - minX, 0), Math.Max(0, maxY - minY));
             return centre;
         }
 
