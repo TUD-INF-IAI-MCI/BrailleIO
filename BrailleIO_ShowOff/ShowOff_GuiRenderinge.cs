@@ -130,6 +130,7 @@ namespace BrailleIO
                     //Set the image into the picture box
                     this.Invoke((MethodInvoker)delegate
                     {
+                        picBox.SuspendLayout();
                         try
                         {
                             Image bitmap = picBox.Image;
@@ -146,6 +147,7 @@ namespace BrailleIO
 
                         picBox.Image = im;
 
+                        picBox.ResumeLayout();
                     });
 
                     Task t = new Task(() => { GC.Collect(0, GCCollectionMode.Forced); });
