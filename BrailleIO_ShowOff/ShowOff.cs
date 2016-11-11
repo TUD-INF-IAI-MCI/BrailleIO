@@ -601,7 +601,6 @@ namespace BrailleIO
                 {
                     this.Invoke((MethodInvoker)delegate
                         {
-
                             //save for killing the picture boxes afterwards
                             System.Windows.Forms.PictureBox pb1 = this.pictureBox_overAllOverlay;
                             System.Windows.Forms.PictureBox pb2 = this.pictureBoxMatrix;
@@ -624,7 +623,7 @@ namespace BrailleIO
                             // pictureBoxTouch
                             // 
                             this.pictureBoxTouch.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.touch_error;
-                            this.pictureBoxTouch.Location = new System.Drawing.Point(116, 97);
+                            this.pictureBoxTouch.Location = new System.Drawing.Point(117, 118);
                             this.pictureBoxTouch.Name = "pictureBoxTouch";
                             this.pictureBoxTouch.Size = new System.Drawing.Size(721, 363);
                             this.pictureBoxTouch.TabIndex = 52;
@@ -638,7 +637,7 @@ namespace BrailleIO
                             // pictureBoxPins
                             // 
                             this.pictureBoxPins.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.pin_error;
-                            this.pictureBoxPins.Location = new System.Drawing.Point(106, 88);
+                            this.pictureBoxPins.Location = new System.Drawing.Point(107, 109);
                             this.pictureBoxPins.Name = "pictureBoxPins";
                             this.pictureBoxPins.Size = new System.Drawing.Size(721, 363);
                             this.pictureBoxPins.TabIndex = 48;
@@ -648,7 +647,7 @@ namespace BrailleIO
                             // 
                             this.pictureBoxMatrix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
                             this.pictureBoxMatrix.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.base_error;
-                            this.pictureBoxMatrix.Location = new System.Drawing.Point(93, 77);
+                            this.pictureBoxMatrix.Location = new System.Drawing.Point(94, 98);
                             this.pictureBoxMatrix.Name = "pictureBoxMatrix";
                             this.pictureBoxMatrix.Size = new System.Drawing.Size(721, 363);
                             this.pictureBoxMatrix.TabIndex = 47;
@@ -661,7 +660,7 @@ namespace BrailleIO
                             this.pictureBox_overAllOverlay.Enabled = false;
                             this.pictureBox_overAllOverlay.ErrorImage = global::BrailleIO_ShowOff.Properties.Resources.overlay_error;
                             this.pictureBox_overAllOverlay.InitialImage = null;
-                            this.pictureBox_overAllOverlay.Location = new System.Drawing.Point(93, 98);
+                            this.pictureBox_overAllOverlay.Location = new System.Drawing.Point(94, 119);
                             this.pictureBox_overAllOverlay.Name = "pictureBox_overAllOverlay";
                             this.pictureBox_overAllOverlay.Size = new System.Drawing.Size(721, 363);
                             this.pictureBox_overAllOverlay.TabIndex = 50;

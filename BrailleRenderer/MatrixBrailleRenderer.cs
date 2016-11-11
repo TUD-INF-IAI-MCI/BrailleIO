@@ -29,6 +29,16 @@ namespace BrailleIO.Renderer
         public RenderingProperties RenderingProperties { get; set; }
 
 
+        private static IBraileInterpreter _bIntrprtr = null;
+        protected static IBraileInterpreter stdBrlIntrprtr
+        {
+            get
+            {
+                if (_bIntrprtr == null) _bIntrprtr = new SimpleBrailleInterpreter();
+                return _bIntrprtr;
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -37,8 +47,8 @@ namespace BrailleIO.Renderer
         /// Initializes a new instance of the <see cref="MatrixBrailleRenderer"/> class.
         /// </summary>
         /// <param name="renderingProperties">The rendering properties.</param>
-        public MatrixBrailleRenderer(RenderingProperties renderingProperties = RenderingProperties.NONE)
-            : this(new SimpleBrailleInterpreter(), renderingProperties){}
+        public MatrixBrailleRenderer(RenderingProperties renderingProperties = RenderingProperties.NONE, IBraileInterpreter _brailleInterpreter = null)
+            : this(_brailleInterpreter == null ? stdBrlIntrprtr : _brailleInterpreter, renderingProperties) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MatrixBrailleRenderer"/> class.
@@ -72,7 +82,7 @@ namespace BrailleIO.Renderer
         /// </returns>
         public override bool[,] RenderMatrix(IViewBoxModel view, object content, bool callHooks = true)
         {
-            if(callHooks)callAllPreHooks(ref view, ref content);
+            if (callHooks) callAllPreHooks(ref view, ref content);
 
             int width = view.ContentBox.Width;
             bool scrolleBars = false;
@@ -120,7 +130,7 @@ namespace BrailleIO.Renderer
                             foreach (var p in paragraphs)
                             {
                                 int offset = lines.Count * (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
-                                var paragraphLines = renderParagraph(p, width, ref maxUsedWidth, offset);
+                                List<List<List<int>>> paragraphLines = renderParagraph(p, width, ref maxUsedWidth, offset);
                                 lines.AddRange(paragraphLines);
                             }
 
@@ -132,6 +142,9 @@ namespace BrailleIO.Renderer
 
                             // build start matrix
                             bool[,] matrix = buildMatrixFromLines(lines, width);
+
+                            lines = null;
+
 
                             return matrix;
                         }
@@ -295,7 +308,7 @@ namespace BrailleIO.Renderer
         {
             List<List<List<int>>> lines = new List<List<List<int>>>();
             if (width > 0)
-            {              
+            {
                 string[] words = GetWordsOfString(text);
 
                 List<List<int>> currentLine = new List<List<int>>();
