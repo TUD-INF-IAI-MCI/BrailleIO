@@ -14,7 +14,6 @@ namespace BrailleIO
 {
     public partial class ShowOff : Form, IBrailleIOShowOffMonitor
     {
-        //TODO: make gesture emulation
         #region Mouse events
 
         volatile bool mouseToGetureMode = false;
@@ -62,9 +61,6 @@ namespace BrailleIO
         {
             try
             {
-                //touchGraphics.Clear(Color.Transparent);
-                //this.pictureBoxTouch.Image = _touchbmp;
-
                 this.PaintTouchMatrix(buildTouchMatrix(null));
                 mouseToGetureMode = false;
             }
@@ -73,7 +69,6 @@ namespace BrailleIO
                 System.Diagnostics.Debug.WriteLine("Exception in resetting the mouse position " + ex);
             }
         }
-
 
         void startMouseGestureMode(System.Windows.Forms.MouseEventArgs e)
         {
@@ -86,19 +81,21 @@ namespace BrailleIO
             try
             {
                 Point pin = getPinForPoint(p);
+                double x, y;
+                getDetailedPinForPoint(p, out x, out y);
+
                 var touchPoints = handleEllipsePoints(pin);
-                this.PaintTouchMatrix(buildTouchMatrix(touchPoints));
+                var tm = buildTouchMatrix(touchPoints);
+                this.PaintTouchMatrix(tm);
+
+                List<Touch> detailedTouches = new List<Touch>(1);
+                detailedTouches.Add(new Touch(x, y, 1.0D, TouchSizeRadiusX * 2, TouchSizeRadiusY * 2));
+
                 // fire event
-                fireTouchEvent(touchPoints);
-
-                //foreach (var touch in touchPoints)
-                //{
-                //    touchGraphics.FillEllipse(Brushes.Red, new Rectangle(touch.X * (pixelFactor + 1), touch.Y * (pixelFactor + 1), pixelFactor - 1, pixelFactor - 1));
-                //}
-
-                //this.pictureBoxTouch.Image = _touchbmp;
+                fireTouchEvent(detailedTouches, tm);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 System.Diagnostics.Debug.WriteLine("Exception in painting mouse position " + ex);
             }
         }
@@ -111,6 +108,28 @@ namespace BrailleIO
         private Point getPinForPoint(Point p)
         {
             Point pin = new Point(0, 0);
+
+            double x, y;
+            getDetailedPinForPoint(p, out x, out y);
+
+            if (x > -1 && y > -1)
+            {
+                pin.X = (int)Math.Round(x);
+                pin.Y = (int)Math.Round(y);
+            }
+            return pin;
+        }
+
+        /// <summary>
+        /// Converts a pixel point into a pin
+        /// </summary>
+        /// <param name="p">The mouse point in pixel.</param>
+        /// <returns></returns>
+        private void getDetailedPinForPoint(Point p, out double pinX, out double pinY)
+        {
+            pinX = -1;
+            pinY = -1;
+            //Point pin = new Point(0, 0);
             if (this.pictureBoxTouch != null)
             {
                 Size pbs = this.pictureBoxTouch.Size;
@@ -118,22 +137,21 @@ namespace BrailleIO
                 double ratioX = (double)p.X / (double)pbs.Width;
                 double ratioY = (double)p.Y / (double)pbs.Height;
 
-                pin.X = (int)Math.Round((ratioX * cols));
-                pin.Y = (int)Math.Round((ratioY * rows));
+                pinX = ratioX * cols;
+                pinY = ratioY * rows;
             }
-            return pin;
         }
 
         #endregion
 
         #endregion
 
-        void fireTouchEvent(List<Touch> touches)
+        void fireTouchEvent(List<Touch> touches, double[,] touchM = null)
         {
             if (ShowOffAdapter != null)
             {
-                double[,] touchM = buildTouchMatrix(touches);
-                ShowOffAdapter.firetouchValuesChangedEvent(touchM, (int)DateTime.UtcNow.Ticks);
+                if (touchM == null) touchM = buildTouchMatrix(touches);
+                ShowOffAdapter.firetouchValuesChangedEvent(touchM, (int)DateTime.UtcNow.Ticks, touches);
             }
         }
 
@@ -181,22 +199,20 @@ namespace BrailleIO
             int height = (int)Math.Round(TouchSizeRadiusY * 2);
 
             //check every element of the bonding box if inside or not
-
-
             Parallel.For(0, width + 1, x =>
-            {
-                Parallel.For(0, height + 1, y =>
-                {
-                    double touch = PointIsInsideEllipse(new Point(x, y), TouchSizeRadiusX, TouchSizeRadiusY, TouchSizeRadiusX, TouchSizeRadiusY);
-                    if (touch <= 1)
-                    {
-                        touchValues.Add(new Touch(
-                            x + p.X - (int)Math.Round(TouchSizeRadiusX),
-                            y + p.Y - (int)Math.Round(TouchSizeRadiusY),
-                            Math.Max(0.1, 1 - touch)));
-                    }
-                });
-            });
+                        {
+                            Parallel.For(0, height + 1, y =>
+                            {
+                                double touch = PointIsInsideEllipse(new Point(x, y), TouchSizeRadiusX, TouchSizeRadiusY, TouchSizeRadiusX, TouchSizeRadiusY);
+                                if (touch <= 1)
+                                {
+                                    touchValues.Add(new Touch(
+                                        x + p.X - (int)Math.Round(TouchSizeRadiusX),
+                                        y + p.Y - (int)Math.Round(TouchSizeRadiusY),
+                                        Math.Max(0.1, 1 - touch)));
+                                }
+                            });
+                        });
             return touchValues.ToList();
         }
 
@@ -239,6 +255,5 @@ namespace BrailleIO
             double value = xComponent + yComponent;
             return value;
         }
-
     }
 }

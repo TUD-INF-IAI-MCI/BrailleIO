@@ -149,9 +149,6 @@ namespace BrailleIO
 
                         picBox.ResumeLayout();
                     });
-
-                    Task t = new Task(() => { GC.Collect(0, GCCollectionMode.Forced); });
-                    t.Start();//Without this, memory goes nuts          
                 }
                 catch (Exception)
                 {

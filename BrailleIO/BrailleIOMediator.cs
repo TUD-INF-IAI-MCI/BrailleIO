@@ -235,7 +235,7 @@ namespace BrailleIO
                     renderingTread.Start();
                 }
                 catch (Exception)
-                {}
+                { }
             }
             else { }
         }
@@ -270,7 +270,7 @@ namespace BrailleIO
                     _newMatrix = false;
                     AdapterManager.Synchronize(Matrix);
                 }
-                else if ( _elapsedTimes % 30 == 0 )
+                else if (_elapsedTimes % 30 == 0)
                 {
                     if (!pins_locked && stack.Count == 0 && isRenderingNecessary())
                         RenderDisplay();
@@ -354,9 +354,6 @@ namespace BrailleIO
 
                 //System.Diagnostics.Debug.WriteLine(
                 //     "[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) + "]_____________________________________FINISHED");
-
-                //GC.Collect(0, GCCollectionMode.Forced);
-                //GC.WaitForFullGCComplete(20);
             }
         }
 
@@ -377,7 +374,7 @@ namespace BrailleIO
                 {
                     if (this.views[key] is BrailleIOViewRange)
                     {
-                        if (((BrailleIOViewRange)this.views[key]).Render) 
+                        if (((BrailleIOViewRange)this.views[key]).Render)
                             return true;
                     }
                     else if (this.views[key] is BrailleIOScreen)
@@ -386,7 +383,7 @@ namespace BrailleIO
                         {
                             if (vr != null && vr.IsVisible())
                             {
-                                if (((BrailleIOViewRange)vr).Render) 
+                                if (((BrailleIOViewRange)vr).Render)
                                     return true;
                             }
                         }
@@ -426,7 +423,7 @@ namespace BrailleIO
                 {
                     if (vr.GetMatrix() != null)
                     {
-                          contentMatrix = vr.GetMatrix();
+                        contentMatrix = vr.GetMatrix();
                         //set content size in vr
                         vr.ContentHeight = contentMatrix.GetLength(0);
                         vr.ContentWidth = contentMatrix.GetLength(1);

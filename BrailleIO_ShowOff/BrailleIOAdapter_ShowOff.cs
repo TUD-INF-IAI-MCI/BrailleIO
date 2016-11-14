@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using BrailleIO.Interface;
+using BrailleIO.Structs;
 namespace BrailleIO
 {
     /// <summary>
@@ -136,10 +137,10 @@ namespace BrailleIO
 
         internal void firetouchValuesChangedEvent(
             double[,] touches,
-            int timeStampTickCount)
+            int timeStampTickCount, List<Touch> detailedTouches)
         {
             OrderedDictionary raw = new OrderedDictionary();
-            fireTouchValuesChanged(touches, timeStampTickCount, ref raw);
+            fireTouchValuesChanged(touches, timeStampTickCount, ref raw, detailedTouches);
         }
 
         ///// <summary>
