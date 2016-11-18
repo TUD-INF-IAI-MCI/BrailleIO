@@ -133,20 +133,16 @@ namespace BrailleIO
                         picBox.SuspendLayout();
                         try
                         {
-                            Image bitmap = picBox.Image;
-
-                            if (bitmap != null)
+                            if (picBox.Image != null)
                             {
-                                bitmap.Dispose(); //Without this, memory goes nuts
+                                picBox.Image.Dispose(); //Without this, memory goes nuts
                             }
                         }
                         catch (Exception)
                         {
                             success = false;
                         }
-
                         picBox.Image = im;
-
                         picBox.ResumeLayout();
                     });
                 }

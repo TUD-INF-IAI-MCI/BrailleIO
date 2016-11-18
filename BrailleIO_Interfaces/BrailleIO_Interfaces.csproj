@@ -49,7 +49,7 @@
     <Compile Include="Adapter\BrailleIOAdapter.cs" />
     <Compile Include="BrailleIODevice.cs" />
     <Compile Include="Interface\AbstractBrailleIOHookableRendererBase.cs" />
-    <Compile Include="Interface\IBraileInterpreter.cs" />
+    <Compile Include="Interface\IBrailleInterpreter.cs" />
     <Compile Include="Interface\IBrailleIOAdapter.cs" />
     <Compile Include="Interface\IBrailleIOAdapterManager.cs" />
     <Compile Include="Interface\IBrailleIOContentChangedEventSupplier.cs" />

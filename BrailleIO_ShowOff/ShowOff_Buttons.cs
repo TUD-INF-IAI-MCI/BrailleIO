@@ -285,10 +285,19 @@ namespace BrailleIO
 
         volatile List<BrailleIO_DeviceButtonStates> _pressedStates = new List<BrailleIO_DeviceButtonStates>();
         volatile List<BrailleIO_DeviceButtonStates> _releasedStates = new List<BrailleIO_DeviceButtonStates>();
+
+        volatile List<BrailleIO_BrailleKeyboardButtonStates> _pressedKeyboradStates = new List<BrailleIO_BrailleKeyboardButtonStates>();
+        volatile List<BrailleIO_BrailleKeyboardButtonStates> _releasedKeybordStates = new List<BrailleIO_BrailleKeyboardButtonStates>();
+
+        volatile List<BrailleIO_AdditionalButtonStates> _pressedFncStates = new List<BrailleIO_AdditionalButtonStates>();
+        volatile List<BrailleIO_AdditionalButtonStates> _releasedFncStates = new List<BrailleIO_AdditionalButtonStates>();
+
         volatile List<String> _pressedButtons = new List<String>();
         volatile List<String> _releasedButtons = new List<String>();
 
         internal void fireKeyStateChangeEvent(BrailleIO_DeviceButtonStates states,
+            //BrailleIO_BrailleKeyboardButtonStates keyboardCode,
+            //BrailleIO_AdditionalButtonStates[] additionalKeyCode,
             List<string> pressedKeys,
             List<string> releasedKeys,
             int timeStampTickCount)
@@ -345,7 +354,9 @@ namespace BrailleIO
 
             // fire always button pressed but wait for release
             if (ShowOffAdapter != null && pressedKeys != null && pressedKeys.Count > 0)
-                ShowOffAdapter.firekeyStateChangedEvent(ps, _pressedButtons, new List<String>(), timeStampTickCount);
+//                ShowOffAdapter.firekeyStateChangedEvent(ps, keyboardCode, additionalKeyCode, _pressedButtons, new List<String>(), timeStampTickCount);
+                  ShowOffAdapter.firekeyStateChangedEvent(ps, _pressedButtons, new List<String>(), timeStampTickCount);
+
 
             if (Ctr) return; // break the release or reset functions 
 
@@ -358,7 +369,9 @@ namespace BrailleIO
                     BrailleIO_DeviceButtonStates rs = BrailleIO_DeviceButtonStates.None;
                     foreach (BrailleIO_DeviceButtonStates s in _releasedStates) { rs = rs | s; }
 
+                    //ShowOffAdapter.firekeyStateChangedEvent(rs, keyboardCode, additionalKeyCode, new List<String>(), _releasedButtons, timeStampTickCount);
                     ShowOffAdapter.firekeyStateChangedEvent(rs, new List<String>(), _releasedButtons, timeStampTickCount);
+
 
                     UnmarkButtons(_releasedButtons);
 
@@ -372,6 +385,7 @@ namespace BrailleIO
             {
                 if (ShowOffAdapter != null)
                 {
+                    //ShowOffAdapter.firekeyStateChangedEvent(states, keyboardCode, additionalKeyCode, pressedKeys, releasedKeys, timeStampTickCount);
                     ShowOffAdapter.firekeyStateChangedEvent(states, pressedKeys, releasedKeys, timeStampTickCount);
                 }
             }

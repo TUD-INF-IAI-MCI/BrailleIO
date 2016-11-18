@@ -197,15 +197,30 @@ namespace BrailleIO
             }
         }
 
+        ///// <summary>
+        ///// Fires a key state changed event.
+        ///// </summary>
+        ///// <param name="keyCode">The key code.</param>
+        ///// <param name="raw">The raw.</param>
+        //protected virtual void fireKeyStateChanged(BrailleIO_DeviceButtonStates keyCode, ref OrderedDictionary raw)
+        //{
+        //    if (keyStateChanged != null)
+        //        keyStateChanged(this, new BrailleIO_KeyStateChanged_EventArgs(keyCode, ref raw));
+        //}
+
         /// <summary>
         /// Fires a key state changed event.
         /// </summary>
         /// <param name="keyCode">The key code.</param>
         /// <param name="raw">The raw.</param>
-        protected virtual void fireKeyStateChanged(BrailleIO_DeviceButtonStates keyCode, ref OrderedDictionary raw)
+        /// <param name="keyboardCode">optional combined Braille keyboard button states.</param>
+        /// <param name="additionalKeyCode">list of optional combined additional button states.</param>
+        protected virtual void fireKeyStateChanged(BrailleIO_DeviceButtonStates keyCode, ref OrderedDictionary raw,
+            BrailleIO_BrailleKeyboardButtonStates keyboardCode = BrailleIO_BrailleKeyboardButtonStates.None,
+            BrailleIO_AdditionalButtonStates[] additionalKeyCode = null)
         {
             if (keyStateChanged != null)
-                keyStateChanged(this, new BrailleIO_KeyStateChanged_EventArgs(keyCode, ref raw));
+                keyStateChanged(this, new BrailleIO_KeyStateChanged_EventArgs(keyCode, ref raw, keyboardCode, additionalKeyCode));
         }
 
         /// <summary>

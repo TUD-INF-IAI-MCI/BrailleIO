@@ -8,8 +8,8 @@ namespace BrailleIO.Renderer.BrailleInterpreter
     /// The translation is defined in simple translation table files. default the Eurobraille table with
     /// German letters is loaded.
     /// </summary>
-    /// <seealso cref="BrailleIO.Renderer.BrailleInterpreter.IBraileInterpreter" />
-    public class SimpleBrailleInterpreter : IBraileInterpreter
+    /// <seealso cref="BrailleIO.Renderer.BrailleInterpreter.IBrailleInterpreter" />
+    public class SimpleBrailleInterpreter : IBrailleInterpreter
     {
         #region Members
 

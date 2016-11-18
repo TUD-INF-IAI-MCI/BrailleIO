@@ -9,7 +9,7 @@ namespace BrailleIO.Renderer.BrailleInterpreter
     /// Interface for Braille interpreters. 
     /// They should transform strings or characters into dot patterns.
     /// </summary>
-    public interface IBraileInterpreter
+    public interface IBrailleInterpreter
     {
         /// <summary>
         /// Converts a character (e.g. T) to a list of integer (e.g. 2,3,4,5,7) that 

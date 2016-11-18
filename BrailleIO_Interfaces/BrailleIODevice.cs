@@ -28,7 +28,7 @@ namespace BrailleIO
         /// </summary>
         public readonly bool HasTouch;
         /// <summary>
-        /// rate for refreshing the display in hz = count/sec
+        /// rate for refreshing the display in Hz = count/sec
         /// </summary>
         public readonly int RefreshRate;
         /// <summary>

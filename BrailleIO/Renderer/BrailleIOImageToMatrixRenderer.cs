@@ -221,118 +221,127 @@ namespace BrailleIO.Renderer
         /// </exception>
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom, bool callHooks = true)
         {
-            //call pre hooks
-            object cImg = img as object;
-            if (callHooks) callAllPreHooks(ref view, ref cImg, offset, invert, zoom);
-            img = cImg as Bitmap;
-
-            if (zoom > 3) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than 3.", "zoom");
-            if (zoom < 0) throw new ArgumentException("The zoom level is with a value of " + zoom + "to low. The zoom level should be between 0 and 3.", "zoom");
-
-            if (view == null) return new bool[0, 0];
-            //TODO: bring in threshold here
-            //TODO: check how to get the threshold 
-            Rectangle viewRange = view.ContentBox;
-            int matrixWidth = viewRange.Width;
-            int matrixHeight = viewRange.Height;
-
-            bool[,] m = new bool[matrixHeight, matrixWidth];
-
-            int offsetX = 0;
-            int offsetY = 0;
-            if (offset != null && zoom > 0)
+            try
             {
-                offsetX = offset.GetXOffset();
-                offsetY = offset.GetYOffset();
 
-                offsetX = (Int32)Math.Round(offsetX / zoom);
-                offsetY = (Int32)Math.Round(offsetY / zoom);
-            }
-            if (img != null)
-            {
-                try
+                //call pre hooks
+                object cImg = img as object;
+                if (callHooks) callAllPreHooks(ref view, ref cImg, offset, invert, zoom);
+                img = cImg as Bitmap;
+
+                if (zoom > 3) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than 3.", "zoom");
+                if (zoom < 0) throw new ArgumentException("The zoom level is with a value of " + zoom + "to low. The zoom level should be between 0 and 3.", "zoom");
+
+                if (view == null) return new bool[0, 0];
+                //TODO: bring in threshold here
+                //TODO: check how to get the threshold 
+                Rectangle viewRange = view.ContentBox;
+                int matrixWidth = viewRange.Width;
+                int matrixHeight = viewRange.Height;
+
+                bool[,] m = new bool[matrixHeight, matrixWidth];
+
+                int offsetX = 0;
+                int offsetY = 0;
+                if (offset != null && zoom > 0)
                 {
-                    using (Bitmap _img = img.Clone() as Bitmap)
+                    offsetX = offset.GetXOffset();
+                    offsetY = offset.GetYOffset();
+
+                    offsetX = (Int32)Math.Round(offsetX / zoom);
+                    offsetY = (Int32)Math.Round(offsetY / zoom);
+                }
+                if (img != null)
+                {
+                    try
                     {
-                        Int32 contentWidth = (Int32)Math.Max(Math.Round(_img.Width * zoom), 1);
-                        Int32 contentHeight = (Int32)Math.Max(Math.Round(_img.Height * zoom), 1);
-                        //set the content size fields in the view.
-                        view.ContentHeight = contentHeight;
-                        view.ContentWidth = contentWidth;
-
-                        double vrZoom = zoom > 0 ? (double)1 / zoom : 0;
-
-                        Int32 zoomedVrWidth = (Int32)Math.Max(Math.Round(matrixWidth * vrZoom), 1);
-                        Int32 zoomedVrHeight = (Int32)Math.Max(Math.Round(matrixHeight * vrZoom), 1);
-
-                        int imgWidth = Math.Min(zoomedVrWidth, _img.Width);
-                        int imgHeiht = Math.Min(zoomedVrHeight, _img.Height);
-
-                        using (Bitmap viewRangeImage = new Bitmap(matrixWidth, matrixHeight))
+                        using (Bitmap _img = img.Clone() as Bitmap)
                         {
-                            try
+                            Int32 contentWidth = (Int32)Math.Max(Math.Round(_img.Width * zoom), 1);
+                            Int32 contentHeight = (Int32)Math.Max(Math.Round(_img.Height * zoom), 1);
+                            //set the content size fields in the view.
+                            view.ContentHeight = contentHeight;
+                            view.ContentWidth = contentWidth;
+
+                            double vrZoom = zoom > 0 ? (double)1 / zoom : 0;
+
+                            Int32 zoomedVrWidth = (Int32)Math.Max(Math.Round(matrixWidth * vrZoom), 1);
+                            Int32 zoomedVrHeight = (Int32)Math.Max(Math.Round(matrixHeight * vrZoom), 1);
+
+                            int imgWidth = Math.Min(zoomedVrWidth, _img.Width);
+                            int imgHeiht = Math.Min(zoomedVrHeight, _img.Height);
+
+                            using (Bitmap viewRangeImage = new Bitmap(matrixWidth, matrixHeight))
                             {
-                                using (Graphics grMatrix = Graphics.FromImage(viewRangeImage))
+                                try
                                 {
-                                    // good results with a Threshold of 210 but smooths the edges
-                                    grMatrix.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
-                                    grMatrix.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighSpeed;
-
-                                    grMatrix.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
-                                    grMatrix.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-
-                                    Rectangle sourceRectangle = new Rectangle(offsetX * -1, offsetY * -1, zoomedVrWidth, zoomedVrHeight);
-                                    Rectangle destRectangle1 = new Rectangle(0, 0, matrixWidth, matrixHeight);
-
-                                    grMatrix.FillRectangle(Brushes.White, destRectangle1);
-                                    grMatrix.DrawImage(_img, destRectangle1, sourceRectangle, GraphicsUnit.Pixel);
-                                }
-                            }
-                            catch { }
-
-                            if (viewRangeImage != null)
-                            {
-                                using (LockBitmap lockBitmap = new LockBitmap(viewRangeImage))
-                                {
-                                    lockBitmap.LockBits();
-
-                                    int rw = lockBitmap.Width;
-                                    int rh = lockBitmap.Height;
-
-                                    System.Threading.Tasks.Parallel.For(0, matrixWidth, x =>
+                                    using (Graphics grMatrix = Graphics.FromImage(viewRangeImage))
                                     {
-                                        System.Threading.Tasks.Parallel.For(0, matrixHeight, y =>
+                                        // good results with a Threshold of 210 but smooths the edges
+                                        grMatrix.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
+                                        grMatrix.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighSpeed;
+
+                                        grMatrix.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                                        grMatrix.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+
+                                        Rectangle sourceRectangle = new Rectangle(offsetX * -1, offsetY * -1, zoomedVrWidth, zoomedVrHeight);
+                                        Rectangle destRectangle1 = new Rectangle(0, 0, matrixWidth, matrixHeight);
+
+                                        grMatrix.FillRectangle(Brushes.White, destRectangle1);
+                                        grMatrix.DrawImage(_img, destRectangle1, sourceRectangle, GraphicsUnit.Pixel);
+                                    }
+                                }
+                                catch { }
+
+                                if (viewRangeImage != null)
+                                {
+                                    using (LockBitmap lockBitmap = new LockBitmap(viewRangeImage))
+                                    {
+                                        lockBitmap.LockBits();
+
+                                        int rw = lockBitmap.Width;
+                                        int rh = lockBitmap.Height;
+
+                                        System.Threading.Tasks.Parallel.For(0, matrixWidth, x =>
                                         {
-                                            int cX = x;
-                                            if (cX >= 0)
+                                            System.Threading.Tasks.Parallel.For(0, matrixHeight, y =>
                                             {
-                                                int cY = y;
-                                                if (cY >= 0)
+                                                int cX = x;
+                                                if (cX >= 0)
                                                 {
-                                                    if (x < rw && y < rh)
+                                                    int cY = y;
+                                                    if (cY >= 0)
                                                     {
-                                                        Color c = lockBitmap.GetPixel(x, y);
-                                                        var l = GraphicUtils.GetLightness(c);
-                                                        m[cY, cX] = (l >= Threshold) ?
-                                                            (invert ? true : false)
-                                                            :
-                                                            (invert ? false : true);
+                                                        if (x < rw && y < rh)
+                                                        {
+                                                            Color c = lockBitmap.GetPixel(x, y);
+                                                            var l = GraphicUtils.GetLightness(c);
+                                                            m[cY, cX] = (l >= Threshold) ?
+                                                                (invert ? true : false)
+                                                                :
+                                                                (invert ? false : true);
+                                                        }
                                                     }
                                                 }
-                                            }
+                                            });
                                         });
-                                    });
+                                    }
                                 }
                             }
                         }
                     }
+                    catch (ArgumentException) { }
+                    catch (InvalidOperationException) { }
                 }
-                catch (ArgumentException) { }
-                catch (InvalidOperationException) { }
+                //call post hooks
+                if (callHooks) callAllPostHooks(view, img, ref m, offset, invert, zoom);
+
+                return m;
             }
-            //call post hooks
-            if (callHooks) callAllPostHooks(view, img, ref m, offset, invert, zoom);
-            return m;
+            finally
+            {
+                img.Dispose();
+            }
         }
 
         #region IBrailleIOContentRenderer

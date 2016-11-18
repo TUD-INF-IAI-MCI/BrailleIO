@@ -124,6 +124,8 @@ namespace BrailleIO
         }
 
         internal void firekeyStateChangedEvent(BrailleIO_DeviceButtonStates states,
+            //BrailleIO_BrailleKeyboardButtonStates keyboardCode,
+            //BrailleIO_AdditionalButtonStates[] additionalKeyCode,
             List<string> pressedKeys,
             List<string> releasedKeys,
             int timeStampTickCount)
@@ -132,6 +134,7 @@ namespace BrailleIO
             raw.Add("pressedKeys", pressedKeys);
             raw.Add("releasedKeys", releasedKeys);
             raw.Add("timeStampTickCount", timeStampTickCount);
+            //fireKeyStateChanged(states, ref raw, keyboardCode, additionalKeyCode);
             fireKeyStateChanged(states, ref raw);
         }
 

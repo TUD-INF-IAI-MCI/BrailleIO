@@ -20,7 +20,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Interprets dots as Characters and vise versa
         /// </summary>
-        public readonly IBraileInterpreter BrailleInterpreter;
+        public readonly IBrailleInterpreter BrailleInterpreter;
 
         /// <summary>
         /// Gets or sets the rendering properties.
@@ -29,8 +29,8 @@ namespace BrailleIO.Renderer
         public RenderingProperties RenderingProperties { get; set; }
 
 
-        private static IBraileInterpreter _bIntrprtr = null;
-        protected static IBraileInterpreter stdBrlIntrprtr
+        private static IBrailleInterpreter _bIntrprtr = null;
+        protected static IBrailleInterpreter stdBrlIntrprtr
         {
             get
             {
@@ -47,7 +47,7 @@ namespace BrailleIO.Renderer
         /// Initializes a new instance of the <see cref="MatrixBrailleRenderer"/> class.
         /// </summary>
         /// <param name="renderingProperties">The rendering properties.</param>
-        public MatrixBrailleRenderer(RenderingProperties renderingProperties = RenderingProperties.NONE, IBraileInterpreter _brailleInterpreter = null)
+        public MatrixBrailleRenderer(RenderingProperties renderingProperties = RenderingProperties.NONE, IBrailleInterpreter _brailleInterpreter = null)
             : this(_brailleInterpreter == null ? stdBrlIntrprtr : _brailleInterpreter, renderingProperties) { }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace BrailleIO.Renderer
         /// </summary>
         /// <param name="brailleInterpreter">The braille interpreter. Interprets characters and turn them into dott patterns.</param>
         /// <param name="renderingProperties">The rendering properties to indiviualize the rendering result.</param>
-        public MatrixBrailleRenderer(IBraileInterpreter brailleInterpreter, RenderingProperties renderingProperties = RenderingProperties.NONE)
+        public MatrixBrailleRenderer(IBrailleInterpreter brailleInterpreter, RenderingProperties renderingProperties = RenderingProperties.NONE)
         {
             BrailleInterpreter = brailleInterpreter;
             RenderingProperties = renderingProperties;
