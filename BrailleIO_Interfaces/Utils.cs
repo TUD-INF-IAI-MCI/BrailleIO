@@ -8,17 +8,23 @@ namespace BrailleIO.Interface
     /// </summary>
     public static class Utils
     {
+        #region DeviceButtons
+        
         /// <summary>
         /// Gets the 'up' state value for a certain device button.
         /// </summary>
         /// <param name="button">The button.</param>
-        /// <returns>the enum value for the 'up' state of the button</returns>
+        /// <returns>the enum value for the 'up' state of the button.</returns>
         public static BrailleIO_DeviceButtonStates GetUpStateForDeviceButton(BrailleIO_DeviceButton button)
         {
-            string name = button.ToString() + "Up";
-            if (Enum.IsDefined(typeof(BrailleIO_DeviceButtonStates), name))
-                return (BrailleIO_DeviceButtonStates)Enum.Parse(typeof(BrailleIO_DeviceButtonStates), name);
-            return BrailleIO_DeviceButtonStates.Unknown;
+            int val = (int)button;
+            BrailleIO_DeviceButtonStates result = BrailleIO_DeviceButtonStates.None;
+            try
+            {
+                result = (BrailleIO_DeviceButtonStates)GetButtonUpFlags(val);
+            }
+            catch (Exception) { }
+            return result;
         }
 
         /// <summary>
@@ -28,10 +34,14 @@ namespace BrailleIO.Interface
         /// <returns>the enum value for the 'down' state of the button</returns>
         public static BrailleIO_DeviceButtonStates GetDownStateForDeviceButton(BrailleIO_DeviceButton button)
         {
-            string name = button.ToString() + "Down";
-            if (Enum.IsDefined(typeof(BrailleIO_DeviceButtonStates), name))
-                return (BrailleIO_DeviceButtonStates)Enum.Parse(typeof(BrailleIO_DeviceButtonStates), name);
-            return BrailleIO_DeviceButtonStates.Unknown;
+            int val = (int)button;
+            BrailleIO_DeviceButtonStates result = BrailleIO_DeviceButtonStates.None;
+            try
+            {
+                result = (BrailleIO_DeviceButtonStates)ShiftUpButtonsToUpDownStates(GetButtonUpFlags(val));
+            }
+            catch (Exception) { }
+            return result;
         }
 
         /// <summary>
@@ -39,6 +49,7 @@ namespace BrailleIO.Interface
         /// </summary>
         /// <param name="states">The states.</param>
         /// <returns>List of buttons contained in that state flag</returns>
+        /// <remarks>DEPRECATED! use flag stuff instead <see cref="GetDeviceButtonFlagsOfState"/></remarks>
         public static List<BrailleIO_DeviceButton> GetDeviceButtonsOfStates(BrailleIO_DeviceButtonStates states)
         {
             List<BrailleIO_DeviceButton> result = new List<BrailleIO_DeviceButton>();
@@ -46,7 +57,7 @@ namespace BrailleIO.Interface
             {
                 if (states.HasFlag(r))
                 {
-                    var b = GetDeviceButtonOfState(r);
+                    var b = GetDeviceButtonFlagsOfState(r);
                     if (!result.Contains(b)) result.Add(b);
                 }
             }
@@ -58,9 +69,173 @@ namespace BrailleIO.Interface
         /// </summary>
         /// <param name="state">The state.</param>
         /// <returns>the button related to this state</returns>
-        public static BrailleIO_DeviceButton GetDeviceButtonOfState(BrailleIO_DeviceButtonStates state)
+        public static BrailleIO_DeviceButton GetDeviceButtonFlagsOfState(BrailleIO_DeviceButtonStates state)
         {
-            return GetDeviceButtonOfState(state.ToString());
+            BrailleIO_DeviceButton buttons = BrailleIO_DeviceButton.None;
+
+            try
+            {
+                buttons = (BrailleIO_DeviceButton)ShiftDownButtonsToUpButtonStates((int)state);
+            }
+            catch (Exception) { }
+            return buttons;
+        }
+
+        /// <summary>
+        /// Gets all released device buttons.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <returns>Flag of all released device buttons</returns>
+        public static BrailleIO_DeviceButton GetAllUpDeviceButtons(BrailleIO_DeviceButtonStates state)
+        {
+            BrailleIO_DeviceButton result = BrailleIO_DeviceButton.None;
+            try {
+                result = (BrailleIO_DeviceButton)GetButtonUpFlags((int)state);
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        /// <summary>
+        /// Gets all pressed device buttons.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <returns>Flag of all pressed device buttons</returns>
+        public static BrailleIO_DeviceButton GetAllDownDeviceButtons(BrailleIO_DeviceButtonStates state)
+        {
+            BrailleIO_DeviceButton result = BrailleIO_DeviceButton.None;
+            try
+            {
+                result = (BrailleIO_DeviceButton)ShiftDownButtonsToUpButtonStates(GetButtonDownFlags((int)state));
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        #endregion
+
+        #region BrailleKeyboardButton
+
+        /// <summary>
+        /// Gets the 'up' state value for a certain device button.
+        /// </summary>
+        /// <param name="button">The button.</param>
+        /// <returns>the enum value for the 'up' state of the button.</returns>
+        public static BrailleIO_BrailleKeyboardButtonStates GetUpStateForDeviceButton(BrailleIO_BrailleKeyboardButton button)
+        {
+            int val = (int)button;
+            BrailleIO_BrailleKeyboardButtonStates result = BrailleIO_BrailleKeyboardButtonStates.None;
+            try
+            {
+                result = (BrailleIO_BrailleKeyboardButtonStates)GetButtonUpFlags(val);
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the 'down' state value for a certain device button.
+        /// </summary>
+        /// <param name="button">The button.</param>
+        /// <returns>the enum value for the 'down' state of the button</returns>
+        public static BrailleIO_BrailleKeyboardButtonStates GetDownStateForDeviceButton(BrailleIO_BrailleKeyboardButton button)
+        {
+            int val = (int)button;
+            BrailleIO_BrailleKeyboardButtonStates result = BrailleIO_BrailleKeyboardButtonStates.None;
+            try
+            {
+                result = (BrailleIO_BrailleKeyboardButtonStates)ShiftUpButtonsToUpDownStates(GetButtonUpFlags(val));
+            }
+            catch (Exception) { }
+            return result;
+        }
+        
+        /// <summary>
+        /// Gets the device button for one certain button state.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <returns>the button related to this state</returns>
+        public static BrailleIO_BrailleKeyboardButton GetDeviceButtonFlagsOfState(BrailleIO_BrailleKeyboardButtonStates state)
+        {
+            BrailleIO_BrailleKeyboardButton buttons = BrailleIO_BrailleKeyboardButton.None;
+
+            try
+            {
+                buttons = (BrailleIO_BrailleKeyboardButton)ShiftDownButtonsToUpButtonStates((int)state);
+            }
+            catch (Exception) { }
+            return buttons;
+        }
+
+
+        /// <summary>
+        /// Gets all released device buttons.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <returns>Flag of all released device buttons</returns>
+        public static BrailleIO_BrailleKeyboardButton GetAllUpDeviceButtons(BrailleIO_BrailleKeyboardButtonStates state)
+        {
+            BrailleIO_BrailleKeyboardButton result = BrailleIO_BrailleKeyboardButton.None;
+            try
+            {
+                result = (BrailleIO_BrailleKeyboardButton)GetButtonUpFlags((int)state);
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        /// <summary>
+        /// Gets all pressed device buttons.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <returns>Flag of all pressed device buttons</returns>
+        public static BrailleIO_BrailleKeyboardButton GetAllDownDeviceButtons(BrailleIO_BrailleKeyboardButtonStates state)
+        {
+            BrailleIO_BrailleKeyboardButton result = BrailleIO_BrailleKeyboardButton.None;
+            try
+            {
+                result = (BrailleIO_BrailleKeyboardButton)ShiftDownButtonsToUpButtonStates(GetButtonDownFlags((int)state));
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        #endregion
+
+        #region AdditionalButton
+
+        /// <summary>
+        /// Gets the 'up' state value for a certain device button.
+        /// </summary>
+        /// <param name="button">The button.</param>
+        /// <returns>the enum value for the 'up' state of the button.</returns>
+        public static BrailleIO_AdditionalButtonStates GetUpStateForDeviceButton(BrailleIO_AdditionalButton button)
+        {
+            int val = (int)button;
+            BrailleIO_AdditionalButtonStates result = BrailleIO_AdditionalButtonStates.None;
+            try
+            {
+                result = (BrailleIO_AdditionalButtonStates)GetButtonUpFlags(val);
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the 'down' state value for a certain device button.
+        /// </summary>
+        /// <param name="button">The button.</param>
+        /// <returns>the enum value for the 'down' state of the button</returns>
+        public static BrailleIO_AdditionalButtonStates GetDownStateForDeviceButton(BrailleIO_AdditionalButton button)
+        {
+            int val = (int)button;
+            BrailleIO_AdditionalButtonStates result = BrailleIO_AdditionalButtonStates.None;
+            try
+            {
+                result = (BrailleIO_AdditionalButtonStates)ShiftUpButtonsToUpDownStates(GetButtonUpFlags(val));
+            }
+            catch (Exception) { }
+            return result;
         }
 
         /// <summary>
@@ -68,13 +243,156 @@ namespace BrailleIO.Interface
         /// </summary>
         /// <param name="state">The state.</param>
         /// <returns>the button related to this state</returns>
-        public static BrailleIO_DeviceButton GetDeviceButtonOfState(String stateName)
+        public static BrailleIO_AdditionalButton GetDeviceButtonFlagsOfState(BrailleIO_AdditionalButtonStates state)
         {
-            if (Enum.IsDefined(typeof(BrailleIO_DeviceButton), stateName))
+            BrailleIO_AdditionalButton buttons = BrailleIO_AdditionalButton.None;
+
+            try
             {
-                return (BrailleIO_DeviceButton)Enum.Parse(typeof(BrailleIO_DeviceButton), stateName);
+                buttons = (BrailleIO_AdditionalButton)ShiftDownButtonsToUpButtonStates((int)state);
             }
-            return BrailleIO_DeviceButton.Unknown;
+            catch (Exception) { }
+            return buttons;
         }
+
+
+        /// <summary>
+        /// Gets all released device buttons.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <returns>Flag of all released device buttons</returns>
+        public static BrailleIO_AdditionalButton GetAllUpDeviceButtons(BrailleIO_AdditionalButtonStates state)
+        {
+            BrailleIO_AdditionalButton result = BrailleIO_AdditionalButton.None;
+            try
+            {
+                result = (BrailleIO_AdditionalButton)GetButtonUpFlags((int)state);
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        /// <summary>
+        /// Gets all pressed device buttons.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <returns>Flag of all pressed device buttons</returns>
+        public static BrailleIO_AdditionalButton GetAllDownDeviceButtons(BrailleIO_AdditionalButtonStates state)
+        {
+            BrailleIO_AdditionalButton result = BrailleIO_AdditionalButton.None;
+            try
+            {
+                result = (BrailleIO_AdditionalButton)ShiftDownButtonsToUpButtonStates(GetButtonDownFlags((int)state));
+            }
+            catch (Exception) { }
+            return result;
+        }
+
+        #endregion
+
+        #region General Handling of Button Enums
+
+
+        /// <summary>
+        /// Gets all flags indicating a released button in this enum flag value.
+        /// </summary>
+        /// <param name="i">The combined flag enum value.</param>
+        /// <returns>a flag enum value containing only released buttons.</returns>
+        /// <remarks>Does only work for the button flags defined in BrailleIO.Interface. 
+        /// Here the 0x0 = NONE, 0x1 = UNKOWN, 'up' starts from 0x2 directly followed by its related 'down' state (0x4)!</remarks>
+        public static int GetButtonUpFlags(int i)
+        {
+            int flags = 0;
+
+            if ((i & 1) == 1) flags = 1;
+
+            int f = 2;
+            while (f <= i)
+            {
+                if ((f & i) == f)
+                {
+                    flags = flags | f;
+                }
+                f = f << 2; // shift through all flags
+            }
+            return flags;
+        }
+
+        /// <summary>
+        /// Gets all flags indicating a pressed button in this enum flag value.
+        /// </summary>
+        /// <param name="i">The combined flag enum value.</param>
+        /// <returns>a flag enum value containing only pressed buttons.</returns>
+        /// <remarks>Does only work for the button flags defined in BrailleIO.Interface. 
+        /// Here the 0x0 = NONE, 0x1 = UNKOWN, 'up' starts from 0x2 directly followed by its related 'down' state (0x4)!</remarks>
+        public static int GetButtonDownFlags(int i)
+        {
+            int flags = 0;
+
+            int f = 1;
+            while (f <= i)
+            {
+                if ((f & i) == f)
+                {
+                    flags = flags | f;
+                }
+                f = f << 2; // shift through all flags
+            }
+
+            return flags;
+        }
+
+        /// <summary>
+        /// Shifts button states from a 'down' state to its related 'up' state.
+        /// Contained 'up' states are kept.
+        /// </summary>
+        /// <param name="i">The button States.</param>
+        /// <returns>The new button states with all states are up states</returns>
+        /// <remarks>Does only work for the button flags defined in BrailleIO.Interface. 
+        /// Here the 0x0 = NONE, 0x1 = UNKOWN, 'up' starts from 0x2 directly followed by its related 'down' state (0x4)!</remarks>
+        public static int ShiftDownButtonsToUpButtonStates(int i)
+        {
+            int result = i;
+            int f = 4;
+            while (f <= i)
+            {
+                if ((f & i) == f)
+                {
+                    result = result ^ f;
+                    result = result | f >> 1;
+                }
+                f = f << 2; // shift through all flags
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Shifts button states from a up state to its related down state.
+        /// Contained down states are kept.
+        /// </summary>
+        /// <param name="i">The button States.</param>
+        /// <returns>The new button states with all states are down states</returns>
+        /// <remarks>Does only work for the button flags defined in BrailleIO.Interface. 
+        /// Here the 0x0 = NONE, 0x1 = UNKOWN, 'up' starts from 0x2 directly followed by its related 'down' state (0x4)!</remarks>
+        public static int ShiftUpButtonsToUpDownStates(int i)
+        {
+            int result = i;
+            int f = 2;
+            while (f <= i)
+            {
+                if ((f & i) == f)
+                {
+                    result = result ^ f;
+                    result = result | f << 1;
+                }
+                f = f << 2; // shift through all flags
+            }
+
+            return result;
+        }
+
+
+        #endregion
     }
 }
