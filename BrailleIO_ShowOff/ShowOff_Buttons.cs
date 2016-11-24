@@ -44,38 +44,42 @@ namespace BrailleIO
 
         private void button_KEY_LEFT_CURSORS_UP_Click(object sender, EventArgs e)
         {
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.UpDown,
-                BrailleIO_BrailleKeyboardButtonStates.None, null, 
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.None,
+                BrailleIO_BrailleKeyboardButtonStates.None, new BrailleIO_AdditionalButtonStates[1]{BrailleIO_AdditionalButtonStates.fn4Down}, 
                 new List<string>() { "clu" }, null, (int)DateTime.UtcNow.Ticks);
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.UpUp,
-                BrailleIO_BrailleKeyboardButtonStates.None, null,
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.None,
+                BrailleIO_BrailleKeyboardButtonStates.None, new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn4Up },
                 null, new List<string>() { "clu" }, (int)DateTime.UtcNow.Ticks);
         }
 
         private void button_KEY_LEFT_CURSORS_LEFT_Click(object sender, EventArgs e)
         {
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.LeftDown,
-                BrailleIO_BrailleKeyboardButtonStates.None, null,
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.None,
+                BrailleIO_BrailleKeyboardButtonStates.None, new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn6Down },
                 new List<string>() { "cll" }, null, (int)DateTime.UtcNow.Ticks);
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.LeftUp,
-                BrailleIO_BrailleKeyboardButtonStates.None, null,
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.None,
+                BrailleIO_BrailleKeyboardButtonStates.None, new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn6Up},
                 null, new List<string>() { "cll" }, (int)DateTime.UtcNow.Ticks);
         }
 
         private void button_KEY_LEFT_CURSORS_RIGHT_Click(object sender, EventArgs e)
         {
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.RightDown,
-                BrailleIO_BrailleKeyboardButtonStates.None, null, new List<string>() { "clr" }, null, (int)DateTime.UtcNow.Ticks);
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.RightUp,
-                BrailleIO_BrailleKeyboardButtonStates.None, null, null, new List<string>() { "clr" }, (int)DateTime.UtcNow.Ticks);
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.None,
+                BrailleIO_BrailleKeyboardButtonStates.None, new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn7Down },
+                new List<string>() { "clr" }, null, (int)DateTime.UtcNow.Ticks);
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.None,
+                BrailleIO_BrailleKeyboardButtonStates.None, new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn7Up }, 
+                null, new List<string>() { "clr" }, (int)DateTime.UtcNow.Ticks);
         }
 
         private void button_KEY_LEFT_CURSORS_DOWN_Click(object sender, EventArgs e)
         {
             fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.DownDown,
-                BrailleIO_BrailleKeyboardButtonStates.None, null, new List<string>() { "cld" }, null, (int)DateTime.UtcNow.Ticks);
+                BrailleIO_BrailleKeyboardButtonStates.None, new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn5Down }, 
+                new List<string>() { "cld" }, null, (int)DateTime.UtcNow.Ticks);
             fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.DownUp,
-                BrailleIO_BrailleKeyboardButtonStates.None, null, null, new List<string>() { "cld" }, (int)DateTime.UtcNow.Ticks);
+                BrailleIO_BrailleKeyboardButtonStates.None, new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn5Up }, 
+                null, new List<string>() { "cld" }, (int)DateTime.UtcNow.Ticks);
         }
 
         private void button_KEY_RIGHT_CURSORS_UP_Click(object sender, EventArgs e)
@@ -144,10 +148,12 @@ namespace BrailleIO
 
         private void button_KEY_LEFT_CURSORS_CENTER_Click(object sender, EventArgs e)
         {
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.EnterDown, 
-                BrailleIO_BrailleKeyboardButtonStates.None,null,new List<string>() { "clc" }, null, (int)DateTime.UtcNow.Ticks);
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.EnterUp, 
-                BrailleIO_BrailleKeyboardButtonStates.None,null,null, new List<string>() { "clc" }, (int)DateTime.UtcNow.Ticks);
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.None,
+                BrailleIO_BrailleKeyboardButtonStates.None, new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn1Down }, 
+                new List<string>() { "clc" }, null, (int)DateTime.UtcNow.Ticks);
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.None,
+                BrailleIO_BrailleKeyboardButtonStates.None, new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn1Up },
+                null, new List<string>() { "clc" }, (int)DateTime.UtcNow.Ticks);
         }
 
         private void button_KEY_HYPERBRAILLE_KEY_RIGHT_Click(object sender, EventArgs e)
@@ -280,13 +286,11 @@ namespace BrailleIO
 
         private void button_KEY_RIGHT_CURSORS_CENTER_Click(object sender, EventArgs e)
         {
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.Unknown,
-                BrailleIO_BrailleKeyboardButtonStates.None,
-                new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn1Down },
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.EnterDown,
+                BrailleIO_BrailleKeyboardButtonStates.None,null,
                 new List<string>() { "crc" }, null, (int)DateTime.UtcNow.Ticks);
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.Unknown, 
-                BrailleIO_BrailleKeyboardButtonStates.None,
-                new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn1Up },
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.EnterUp, 
+                BrailleIO_BrailleKeyboardButtonStates.None,null,
                 null, new List<string>() { "crc" }, (int)DateTime.UtcNow.Ticks);
         }
 
@@ -304,25 +308,21 @@ namespace BrailleIO
 
         private void button_KEY_NAV_LEFT_Click(object sender, EventArgs e)
         {
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.Unknown, 
-                BrailleIO_BrailleKeyboardButtonStates.None,
-                new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn6Down },
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.LeftDown, 
+                BrailleIO_BrailleKeyboardButtonStates.None, null,
                 new List<string>() { "nsl" }, null, (int)DateTime.UtcNow.Ticks);
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.Unknown, 
-                BrailleIO_BrailleKeyboardButtonStates.None,
-                new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn6Up },
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.LeftUp, 
+                BrailleIO_BrailleKeyboardButtonStates.None, null,
                 null, new List<string>() { "nsl" }, (int)DateTime.UtcNow.Ticks);
         }
 
         private void button_KEY_NAV_RIGHT_Click(object sender, EventArgs e)
         {
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.Unknown, 
-                BrailleIO_BrailleKeyboardButtonStates.None,
-                new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn7Down },
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.RightDown, 
+                BrailleIO_BrailleKeyboardButtonStates.None, null,
                 new List<string>() { "nsr" }, null, (int)DateTime.UtcNow.Ticks);
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.Unknown, 
-                BrailleIO_BrailleKeyboardButtonStates.None,
-                new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn7Up },
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.RightUp, 
+                BrailleIO_BrailleKeyboardButtonStates.None, null,
                 null, new List<string>() { "nsr" }, (int)DateTime.UtcNow.Ticks);
         }
 
@@ -340,13 +340,11 @@ namespace BrailleIO
 
         private void button_KEY_NAV_UP_Click(object sender, EventArgs e)
         {
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.Unknown, 
-                BrailleIO_BrailleKeyboardButtonStates.None,
-                new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn4Down },
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.UpDown, 
+                BrailleIO_BrailleKeyboardButtonStates.None, null,
                 new List<string>() { "nsu" }, null, (int)DateTime.UtcNow.Ticks);
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.Unknown, 
-                BrailleIO_BrailleKeyboardButtonStates.None,
-                new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn4Up },
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.UpUp, 
+                BrailleIO_BrailleKeyboardButtonStates.None, null,
                 null, new List<string>() { "nsu" }, (int)DateTime.UtcNow.Ticks);
         }
 
@@ -364,13 +362,11 @@ namespace BrailleIO
 
         private void button_KEY_NAV_DOWN_Click(object sender, EventArgs e)
         {
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.Unknown, 
-                BrailleIO_BrailleKeyboardButtonStates.None,
-                new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn5Down },
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.DownDown, 
+                BrailleIO_BrailleKeyboardButtonStates.None, null,
                 new List<string>() { "nsd" }, null, (int)DateTime.UtcNow.Ticks);
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.Unknown,  
-                BrailleIO_BrailleKeyboardButtonStates.None,
-                new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn5Up },
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.DownUp,  
+                BrailleIO_BrailleKeyboardButtonStates.None, null,
                 null, new List<string>() { "nsd" }, (int)DateTime.UtcNow.Ticks);
         }
 
@@ -480,11 +476,15 @@ namespace BrailleIO
                                 UnmarkButtons(new List<String> { pk });
                                 _pressedButtons.Remove(pk);
                                 _pressedStates.Remove(states);
+                                _pressedKeyboradStates.Remove(keyboardCode);
+                                if (additionalKeyCode != null && additionalKeyCode.Length > 0) _pressedFncStates.Remove(additionalKeyCode[0]);
                             }
                             else
                             {
                                 _pressedButtons.Add(pk);
                                 _pressedStates.Add(states);
+                                _pressedKeyboradStates.Add(keyboardCode);
+                                if (additionalKeyCode != null && additionalKeyCode.Length > 0) _pressedFncStates.Add(additionalKeyCode[0]);
                             }
                         }
                     }
@@ -500,11 +500,15 @@ namespace BrailleIO
                                 UnmarkButtons(new List<String> { rk });
                                 _releasedButtons.Remove(rk);
                                 _releasedStates.Remove(states);
+                                _releasedKeybordStates.Remove(keyboardCode);
+                                if (additionalKeyCode != null && additionalKeyCode.Length > 0) _releasedFncStates.Remove(additionalKeyCode[0]);
                             }
                             else
                             {
                                 _releasedButtons.Add(rk);
                                 _releasedStates.Add(states);
+                                _releasedKeybordStates.Add(keyboardCode);
+                                if (additionalKeyCode != null && additionalKeyCode.Length > 0) _releasedFncStates.Add(additionalKeyCode[0]);
                             }
                         }
                     }
@@ -515,10 +519,14 @@ namespace BrailleIO
 
             BrailleIO_DeviceButtonStates ps = BrailleIO_DeviceButtonStates.None;
             foreach (BrailleIO_DeviceButtonStates s in _pressedStates) { ps = ps | s; }
+            BrailleIO_BrailleKeyboardButtonStates ks = BrailleIO_BrailleKeyboardButtonStates.None;
+            foreach (BrailleIO_BrailleKeyboardButtonStates item in _pressedKeyboradStates) { ks |= item; }
+            BrailleIO_AdditionalButtonStates ads = BrailleIO_AdditionalButtonStates.None;
+            foreach (BrailleIO_AdditionalButtonStates item in _pressedFncStates) { ads |= item; }
 
             // fire always button pressed but wait for release
             if (ShowOffAdapter != null && pressedKeys != null && pressedKeys.Count > 0)
-                  ShowOffAdapter.firekeyStateChangedEvent(ps, keyboardCode, additionalKeyCode, _pressedButtons, new List<String>(), timeStampTickCount);
+                ShowOffAdapter.firekeyStateChangedEvent(ps, ks, new BrailleIO_AdditionalButtonStates[1] { ads }, _pressedButtons, new List<String>(), timeStampTickCount);
     //              ShowOffAdapter.firekeyStateChangedEvent(ps, _pressedButtons, new List<String>(), timeStampTickCount);
 
 
@@ -532,8 +540,13 @@ namespace BrailleIO
                 {
                     BrailleIO_DeviceButtonStates rs = BrailleIO_DeviceButtonStates.None;
                     foreach (BrailleIO_DeviceButtonStates s in _releasedStates) { rs = rs | s; }
+                    BrailleIO_BrailleKeyboardButtonStates rks = BrailleIO_BrailleKeyboardButtonStates.None;
+                    foreach (BrailleIO_BrailleKeyboardButtonStates item in _releasedKeybordStates) { rks |= item; }
+                    // TODO: do for additional buttons
+                    BrailleIO_AdditionalButtonStates rads = BrailleIO_AdditionalButtonStates.None;
+                    foreach (BrailleIO_AdditionalButtonStates item in _releasedFncStates) { rads |= item; }
 
-                    ShowOffAdapter.firekeyStateChangedEvent(rs, keyboardCode, additionalKeyCode, new List<String>(), _releasedButtons, timeStampTickCount);
+                    ShowOffAdapter.firekeyStateChangedEvent(rs, rks, new BrailleIO_AdditionalButtonStates[1]{rads}, new List<String>(), _releasedButtons, timeStampTickCount);
                     //ShowOffAdapter.firekeyStateChangedEvent(rs, new List<String>(), _releasedButtons, timeStampTickCount);
 
 
@@ -542,7 +555,11 @@ namespace BrailleIO
                     _pressedButtons.Clear();
                     _releasedButtons.Clear();
                     _pressedStates.Clear();
+                    _pressedKeyboradStates.Clear();
+                    _pressedFncStates.Clear();
                     _releasedStates.Clear();
+                    _releasedKeybordStates.Clear();
+                    _releasedFncStates.Clear();
                 }
             }
             else

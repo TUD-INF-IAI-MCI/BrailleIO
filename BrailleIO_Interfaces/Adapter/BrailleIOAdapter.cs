@@ -10,7 +10,7 @@ namespace BrailleIO
     /// <summary>
     /// Abstract implementation for basic functions a real Hardware modeling device Adapter has to implement
     /// </summary>
-    public abstract class AbstractBrailleIOAdapterBase : IBrailleIOAdapter
+    public abstract class AbstractBrailleIOAdapterBase : IBrailleIOAdapter2
     {
         // display options
 
@@ -96,6 +96,35 @@ namespace BrailleIO
         /// The adapter manager this adapter is registered in.
         /// </summary>
         protected IBrailleIOAdapterManager manager = null;
+
+        #region ButtonStates
+
+        /// <summary>
+        /// Gets all currently pressed device buttons.
+        /// </summary>
+        /// <value>
+        /// The currently pressed device buttons.
+        /// </value>
+        public BrailleIO_DeviceButton PressedDeviceButtons { get; protected set; }
+
+        /// <summary>
+        /// Gets all currently pressed braille keyboard buttons.
+        /// </summary>
+        /// <value>
+        /// The currently pressed braille keyboard buttons.
+        /// </value>
+        public BrailleIO_BrailleKeyboardButton PressedBrailleKeyboardButtons { get; protected set; }
+
+        /// <summary>
+        /// Gets all currently pressed additional buttons.
+        /// </summary>
+        /// <value>
+        /// The currently pressed additional buttons.
+        /// </value>
+        public BrailleIO_AdditionalButton[] PressedAdditionalButtons { get; protected set; }
+
+        #endregion
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractBrailleIOAdapterBase"/> class.
         /// </summary>
@@ -103,6 +132,9 @@ namespace BrailleIO
         public AbstractBrailleIOAdapterBase(IBrailleIOAdapterManager manager)
         {
             this.manager = manager;
+            PressedDeviceButtons = BrailleIO_DeviceButton.None;
+            PressedBrailleKeyboardButtons = BrailleIO_BrailleKeyboardButton.None;
+            PressedAdditionalButtons = null;
         }
 
         /// <summary>
@@ -197,17 +229,6 @@ namespace BrailleIO
             }
         }
 
-        ///// <summary>
-        ///// Fires a key state changed event.
-        ///// </summary>
-        ///// <param name="keyCode">The key code.</param>
-        ///// <param name="raw">The raw.</param>
-        //protected virtual void fireKeyStateChanged(BrailleIO_DeviceButtonStates keyCode, ref OrderedDictionary raw)
-        //{
-        //    if (keyStateChanged != null)
-        //        keyStateChanged(this, new BrailleIO_KeyStateChanged_EventArgs(keyCode, ref raw));
-        //}
-
         /// <summary>
         /// Fires a key state changed event.
         /// </summary>
@@ -219,9 +240,60 @@ namespace BrailleIO
             BrailleIO_BrailleKeyboardButtonStates keyboardCode = BrailleIO_BrailleKeyboardButtonStates.None,
             BrailleIO_AdditionalButtonStates[] additionalKeyCode = null)
         {
+            try
+            {
+                updatePressedDeviceButtons(keyCode);
+                updatePressedKeyboardButtons(keyboardCode);
+                updatePressedAdditionalButtons(additionalKeyCode);
+            }
+            catch { }
+
             if (keyStateChanged != null)
                 keyStateChanged(this, new BrailleIO_KeyStateChanged_EventArgs(keyCode, ref raw, keyboardCode, additionalKeyCode));
         }
+
+        #region Button Helper Functions
+
+        private void updatePressedAdditionalButtons(BrailleIO_AdditionalButtonStates[] additionalKeyCode)
+        {
+            if (additionalKeyCode != null && additionalKeyCode.Length > 0)
+            {
+                if (PressedAdditionalButtons == null) { PressedAdditionalButtons = new BrailleIO_AdditionalButton[additionalKeyCode.Length]; }
+                else if (additionalKeyCode.Length > PressedAdditionalButtons.Length)
+                {
+                    var _tmp = PressedAdditionalButtons;
+                    PressedAdditionalButtons = new BrailleIO_AdditionalButton[additionalKeyCode.Length];
+                    for (int i = 0; i < _tmp.Length; i++) { PressedAdditionalButtons[i] = _tmp[i]; }
+                    _tmp = null;
+                }
+
+                for (int i = 0; i < additionalKeyCode.Length; i++)
+                {
+                    var pressedAdB = Utils.GetAllDownAdditionalButtons(additionalKeyCode[i]);
+                    PressedAdditionalButtons[i] = PressedAdditionalButtons[i] | pressedAdB;
+                    var releasedAdB = Utils.GetAllUpAdditionalButtons(additionalKeyCode[i]);
+                    PressedAdditionalButtons[i] = PressedAdditionalButtons[i] ^ releasedAdB;
+                }
+            }
+        }
+
+        private void updatePressedKeyboardButtons(BrailleIO_BrailleKeyboardButtonStates keyboardCode)
+        {
+            var pressedKbB = Utils.GetAllDownBrailleKeyboardButtons(keyboardCode);
+            PressedBrailleKeyboardButtons = PressedBrailleKeyboardButtons | pressedKbB;
+            var releasedKbB = Utils.GetAllUpBrailleKeyboardButtons(keyboardCode);
+            PressedBrailleKeyboardButtons = PressedBrailleKeyboardButtons ^ releasedKbB;
+        }
+
+        private void updatePressedDeviceButtons(BrailleIO_DeviceButtonStates keyCode)
+        {
+            var pressedDB = Utils.GetAllDownDeviceButtons(keyCode);
+            PressedDeviceButtons = PressedDeviceButtons | pressedDB;
+            var releasedDB = Utils.GetAllUpDeviceButtons(keyCode);
+            PressedDeviceButtons = PressedDeviceButtons ^ releasedDB;
+        }
+
+        #endregion
 
         /// <summary>
         /// Fires an input changed event.
@@ -275,7 +347,7 @@ namespace BrailleIO
         /// <param name="matrix">The matrix.</param>
         public virtual void Synchronize(bool[,] matrix)
         {
-           if(!LockPins) manager.ActiveAdapter.Synchronize(matrix);
+            if (!LockPins) manager.ActiveAdapter.Synchronize(matrix);
         }
 
         #region Touch
@@ -317,7 +389,7 @@ namespace BrailleIO
                 Synchronize(empty);
                 LockPins = true;
                 System.Threading.Thread.Sleep(1000);
-                LockPins = false; 
+                LockPins = false;
                 Synchronize(full);
                 LockPins = true;
                 System.Threading.Thread.Sleep(1000);
@@ -342,7 +414,7 @@ namespace BrailleIO
 
             return true;
         }
-        
+
         #region Touch matrix calibration Methods -- ONLY A TRY
 
         void AbstractBrailleIOAdapterBase_touchValuesChanged(object sender, BrailleIO_TouchValuesChanged_EventArgs e)
@@ -394,7 +466,7 @@ namespace BrailleIO
                             temp += Math.Max(tMatrix[i, j], ftm[i, j]);
                             ftm[i, j] = temp;
                         }
-                        catch (System.Exception){}
+                        catch (System.Exception) { }
 
                     }); // Parallel.For cols
 

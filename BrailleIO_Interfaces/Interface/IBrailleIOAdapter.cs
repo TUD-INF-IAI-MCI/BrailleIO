@@ -935,4 +935,40 @@ namespace BrailleIO.Interface
         event EventHandler<BrailleIO_ErrorOccured_EventArgs> errorOccurred;
         #endregion
     }
+
+    /// <summary>
+    /// Interface an adapter (means a real hardware abstracting implementation for an input or output device) has to implement.
+    /// In addition, the current pressed button states are available through this interface.
+    /// </summary>
+    public interface IBrailleIOAdapter2 : IBrailleIOAdapter
+    {
+        #region ButtonStates
+
+        /// <summary>
+        /// Gets all currently pressed device buttons.
+        /// </summary>
+        /// <value>
+        /// The currently pressed device buttons.
+        /// </value>
+        BrailleIO_DeviceButton PressedDeviceButtons { get; }
+
+        /// <summary>
+        /// Gets all currently pressed braille keyboard buttons.
+        /// </summary>
+        /// <value>
+        /// The currently pressed braille keyboard buttons.
+        /// </value>
+        BrailleIO_BrailleKeyboardButton PressedBrailleKeyboardButtons { get; }
+
+        /// <summary>
+        /// Gets all currently pressed additional buttons.
+        /// </summary>
+        /// <value>
+        /// The currently pressed additional buttons.
+        /// </value>
+        BrailleIO_AdditionalButton[] PressedAdditionalButtons { get; }
+
+        #endregion
+
+    }
 }

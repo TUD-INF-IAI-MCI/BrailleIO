@@ -117,7 +117,7 @@ namespace BrailleIO.Interface
         #region BrailleKeyboardButton
 
         /// <summary>
-        /// Gets the 'up' state value for a certain device button.
+        /// Gets the 'up' state value for a certain Braille keyboard button.
         /// </summary>
         /// <param name="button">The button.</param>
         /// <returns>the enum value for the 'up' state of the button.</returns>
@@ -134,7 +134,7 @@ namespace BrailleIO.Interface
         }
 
         /// <summary>
-        /// Gets the 'down' state value for a certain device button.
+        /// Gets the 'down' state value for a certain Braille keyboard button.
         /// </summary>
         /// <param name="button">The button.</param>
         /// <returns>the enum value for the 'down' state of the button</returns>
@@ -151,7 +151,7 @@ namespace BrailleIO.Interface
         }
         
         /// <summary>
-        /// Gets the device button for one certain button state.
+        /// Gets the device button for one Braille keyboard button state.
         /// </summary>
         /// <param name="state">The state.</param>
         /// <returns>the button related to this state</returns>
@@ -169,11 +169,11 @@ namespace BrailleIO.Interface
 
 
         /// <summary>
-        /// Gets all released device buttons.
+        /// Gets all released Braille keyboard buttons.
         /// </summary>
         /// <param name="state">The state.</param>
-        /// <returns>Flag of all released device buttons</returns>
-        public static BrailleIO_BrailleKeyboardButton GetAllUpDeviceButtons(BrailleIO_BrailleKeyboardButtonStates state)
+        /// <returns>Flag of all released Braille keyboard buttons</returns>
+        public static BrailleIO_BrailleKeyboardButton GetAllUpBrailleKeyboardButtons(BrailleIO_BrailleKeyboardButtonStates state)
         {
             BrailleIO_BrailleKeyboardButton result = BrailleIO_BrailleKeyboardButton.None;
             try
@@ -185,11 +185,11 @@ namespace BrailleIO.Interface
         }
 
         /// <summary>
-        /// Gets all pressed device buttons.
+        /// Gets all pressed Braille keyboard buttons.
         /// </summary>
         /// <param name="state">The state.</param>
-        /// <returns>Flag of all pressed device buttons</returns>
-        public static BrailleIO_BrailleKeyboardButton GetAllDownDeviceButtons(BrailleIO_BrailleKeyboardButtonStates state)
+        /// <returns>Flag of all pressed Braille keyboard buttons</returns>
+        public static BrailleIO_BrailleKeyboardButton GetAllDownBrailleKeyboardButtons(BrailleIO_BrailleKeyboardButtonStates state)
         {
             BrailleIO_BrailleKeyboardButton result = BrailleIO_BrailleKeyboardButton.None;
             try
@@ -205,7 +205,7 @@ namespace BrailleIO.Interface
         #region AdditionalButton
 
         /// <summary>
-        /// Gets the 'up' state value for a certain device button.
+        /// Gets the 'up' state value for a certain additional device button.
         /// </summary>
         /// <param name="button">The button.</param>
         /// <returns>the enum value for the 'up' state of the button.</returns>
@@ -222,7 +222,7 @@ namespace BrailleIO.Interface
         }
 
         /// <summary>
-        /// Gets the 'down' state value for a certain device button.
+        /// Gets the 'down' state value for a certain additional device button.
         /// </summary>
         /// <param name="button">The button.</param>
         /// <returns>the enum value for the 'down' state of the button</returns>
@@ -239,7 +239,7 @@ namespace BrailleIO.Interface
         }
 
         /// <summary>
-        /// Gets the device button for one certain button state.
+        /// Gets the additional device button for one certain button state.
         /// </summary>
         /// <param name="state">The state.</param>
         /// <returns>the button related to this state</returns>
@@ -257,11 +257,11 @@ namespace BrailleIO.Interface
 
 
         /// <summary>
-        /// Gets all released device buttons.
+        /// Gets all released additional device buttons.
         /// </summary>
         /// <param name="state">The state.</param>
-        /// <returns>Flag of all released device buttons</returns>
-        public static BrailleIO_AdditionalButton GetAllUpDeviceButtons(BrailleIO_AdditionalButtonStates state)
+        /// <returns>Flag of all released additional device buttons</returns>
+        public static BrailleIO_AdditionalButton GetAllUpAdditionalButtons(BrailleIO_AdditionalButtonStates state)
         {
             BrailleIO_AdditionalButton result = BrailleIO_AdditionalButton.None;
             try
@@ -273,11 +273,11 @@ namespace BrailleIO.Interface
         }
 
         /// <summary>
-        /// Gets all pressed device buttons.
+        /// Gets all pressed additional device buttons.
         /// </summary>
         /// <param name="state">The state.</param>
-        /// <returns>Flag of all pressed device buttons</returns>
-        public static BrailleIO_AdditionalButton GetAllDownDeviceButtons(BrailleIO_AdditionalButtonStates state)
+        /// <returns>Flag of all pressed additional device buttons</returns>
+        public static BrailleIO_AdditionalButton GetAllDownAdditionalButtons(BrailleIO_AdditionalButtonStates state)
         {
             BrailleIO_AdditionalButton result = BrailleIO_AdditionalButton.None;
             try
@@ -291,7 +291,6 @@ namespace BrailleIO.Interface
         #endregion
 
         #region General Handling of Button Enums
-
 
         /// <summary>
         /// Gets all flags indicating a released button in this enum flag value.
@@ -307,7 +306,7 @@ namespace BrailleIO.Interface
             if ((i & 1) == 1) flags = 1;
 
             int f = 2;
-            while (f <= i)
+            while (f > 0 && f <= i)
             {
                 if ((f & i) == f)
                 {
@@ -330,7 +329,7 @@ namespace BrailleIO.Interface
             int flags = 0;
 
             int f = 1;
-            while (f <= i)
+            while (f > 0 && f <= i)
             {
                 if ((f & i) == f)
                 {
@@ -354,7 +353,7 @@ namespace BrailleIO.Interface
         {
             int result = i;
             int f = 4;
-            while (f <= i)
+            while (f > 0 && f <= i)
             {
                 if ((f & i) == f)
                 {
@@ -379,7 +378,7 @@ namespace BrailleIO.Interface
         {
             int result = i;
             int f = 2;
-            while (f <= i)
+            while (f > 0 && f <= i)
             {
                 if ((f & i) == f)
                 {
