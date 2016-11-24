@@ -43,6 +43,13 @@ namespace BrailleIO
         void PaintTouchMatrix(double[,] touchMatrix);
 
         /// <summary>
+        /// Paints the touch matrix over the matrix image.
+        /// </summary>
+        /// <param name="touchMatrix">The touch matrix.</param>
+        /// <param name="detailedTouches">The detailed touches.</param>
+        void PaintTouchMatrix(double[,] touchMatrix, List<BrailleIO.Structs.Touch> detailedTouches);
+
+        /// <summary>
         /// Sets an overlay picture will be displayed as topmost 
         /// - so beware to use a transparent background when using this 
         /// overlay functionality.

@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using BrailleIO.Structs;
 
 namespace BrailleIO
 {
@@ -345,6 +346,21 @@ namespace BrailleIO
 
         #region Touch Image
 
+        static Pen _dTpen;
+        static Pen dTpen
+        {
+            get
+            {
+                if (_dTpen == null)
+                {
+                    _dTpen = new Pen(Brushes.LightGreen, 1.8F); //Pens.LightGreen;
+                    //_dTpen.Width = 1.8F;
+                }
+                return _dTpen;
+            }
+        }
+
+
         int rows = 60;
         int cols = 120;
 
@@ -360,9 +376,12 @@ namespace BrailleIO
                 if (touchStack.Count > 0)
                 {
                     double[,] tm;
+                    List<Touch> dT;
                     int c = 0;
 
                     while (!touchStack.TryPop(out tm) && (++c < 10)) { tm = null; }
+                    c = 0;
+                    while (!detailedTouchStack.TryPop(out dT) && (++c < 10)) { dT = null; }
 
                     if (tm != null)
                     {
@@ -392,6 +411,30 @@ namespace BrailleIO
                                                 touchGraphics.FillEllipse(Brushes.Red, j * (pixelFactor + 1), i * (pixelFactor + 1), pixelFactor - 1, pixelFactor - 1);
                                             }
                                         }
+
+                                    // paint detailed touches (clustered)
+                                    if (dT != null && dT.Count > 0)
+                                    {
+                                        foreach (var t in dT)
+                                        {
+                                            if (t.X >= 0 && t.Y >= 0 && t.DimX > 0 && t.DimY > 0)
+                                            {
+
+                                                double height = Math.Max(17, t.DimY * pixelFactor);
+                                                double width = Math.Max(17, t.DimX * pixelFactor);
+
+                                                double cX = t.X * (pixelFactor + 1);
+                                                double cY = t.Y * (pixelFactor + 1);
+
+                                                touchGraphics.DrawEllipse(dTpen,
+                                                    (int)Math.Round(cX - width * 0.5),
+                                                    (int)Math.Round(cY - height * 0.5),
+                                                    (int)Math.Round(width),
+                                                    (int)Math.Round(height));
+                                            }
+                                        }
+                                    }
+
                                 }
                                 catch (Exception ex)
                                 {

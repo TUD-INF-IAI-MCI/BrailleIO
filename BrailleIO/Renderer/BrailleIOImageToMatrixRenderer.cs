@@ -180,7 +180,6 @@ namespace BrailleIO.Renderer
         /// </returns>
         public bool[,] RenderImage(Bitmap img, IViewBoxModel view, IPannable offset, bool invert, double zoom, bool autoThreshold, bool callHooks = true)
         {
-            // FIXME: check this (invalidoperationexception nach schwellwert mehrmals absenken)
             var vr = view.ContentBox;
             Bitmap img2 = img.Clone() as Bitmap;
             if (img2 != null)

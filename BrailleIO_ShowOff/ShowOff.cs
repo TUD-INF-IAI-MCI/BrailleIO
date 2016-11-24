@@ -18,6 +18,7 @@ namespace BrailleIO
     {
         #region Members
         internal readonly ConcurrentStack<double[,]> touchStack = new ConcurrentStack<double[,]>();
+        internal readonly ConcurrentStack<List<Touch>> detailedTouchStack = new ConcurrentStack<List<Touch>>();
 
         BrailleIOMediator io;
         /// <summary>
@@ -150,14 +151,21 @@ namespace BrailleIO
 
         #region Touch Image Overlay
 
+        /// <summary>
+        /// Paints the touch matrix over the matrix image.
+        /// </summary>
+        /// <param name="touchMatrix">The touch matrix.</param>
+        /// <param name="detailedTouches">The detailed touches.</param>
+        public void PaintTouchMatrix(double[,] touchMatrix) { PaintTouchMatrix(touchMatrix, null); }
 
         /// <summary>
         /// Paints the touch matrix over the matrix image.
         /// </summary>
         /// <param name="touchMatrix">The touch matrix.</param>
-        public void PaintTouchMatrix(double[,] touchMatrix)
+        /// <param name="detailedTouches">The detailed touches.</param>
+        public void PaintTouchMatrix(double[,] touchMatrix, List<Touch> detailedTouches = null)
         {
-            addMatrixToStack(touchMatrix);
+            addMatrixToStack(touchMatrix, detailedTouches);
             Task pT = new Task(() => { paintTouchImage(); });
             pT.Start();
         }
@@ -214,12 +222,14 @@ namespace BrailleIO
                 }
             }
         }
-        private void addMatrixToStack(double[,] touchMatrix)
+        private void addMatrixToStack(double[,] touchMatrix, List<Touch> detailedTouches)
         {
             if (touchMatrix != null)
             {
                 touchStack.Push(touchMatrix);
             }
+
+            detailedTouchStack.Push(detailedTouches);
         }
 
         #endregion
@@ -491,7 +501,7 @@ namespace BrailleIO
             catch (Exception) { }
             return false;
         }
-        
+
         /// <summary>
         /// Adds a menu item to the main menu strip.
         /// </summary>
@@ -523,17 +533,19 @@ namespace BrailleIO
         public bool RemoveMenuItem(ToolStripItem item)
         {
             bool success = false;
-            try{
+            try
+            {
                 if (item != null)
-                    this.menuStripMain.Invoke(new Action(()=>{
+                    this.menuStripMain.Invoke(new Action(() =>
+                    {
                         if (this.menuStripMain.Items.Contains(item))
                         {
                             this.menuStripMain.Items.Remove(item);
                             success = !this.menuStripMain.Items.Contains(item);
-                        }                       
+                        }
                     }));
             }
-            catch{}
+            catch { }
             return success;
         }
 
@@ -548,11 +560,12 @@ namespace BrailleIO
             String title = String.Empty;
             try
             {
-                this.Invoke(new Action(() => {
+                this.Invoke(new Action(() =>
+                {
                     title = this.Text;
                 }));
             }
-            catch (Exception){}
+            catch (Exception) { }
             return title;
         }
 
