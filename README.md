@@ -678,7 +678,7 @@ if ((int)(pressedGnrl ^ BrailleIO_DeviceButton.Unknown)
 Complex button combinations should be collected with released events over a small period of time until no more button is pressed. This is an indication, that all buttons were released and the previously released button events should be related to this one. In practical use a time span of about 500 milliseconds is reasonable.
 
 
-For getting an easy overview if some buttons are still pressed and the sending device/adapter is implementing the … interface, you can simply ask for the currently pressed buttons. But not for the released ones!
+For getting an easy overview if some buttons are still pressed and the sending device/adapter is implementing the `BrailleIO.Interface.IBrailleIOAdapter2` interface, you can simply ask for the currently pressed buttons. But not for the released ones!
 
 ``` C#
 if (sender is IBrailleIOAdapter2)
