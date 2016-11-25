@@ -3,7 +3,6 @@
 
 ## Outline
 1. BrailleIO
-
 	1. [Intension](#intension)
 	2. [Subprojects](#subprojects)
 	1. [BrailleIO](#brailleio-1)
