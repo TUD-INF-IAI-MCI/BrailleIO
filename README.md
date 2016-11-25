@@ -38,6 +38,9 @@ BrailleIO is a small framework that should enable application developers to fast
 
 More technical details can be found in [Bornschein, Jens. "BrailleIO-a Tactile Display Abstraction Framework." Proceedings of TacTT ’14 Workshop, Nov 16 2014, Dresden, Germany. 2014.](http://ceur-ws.org/Vol-1324/paper_4.pdf)
 
+[*back to outline* :arrow_up:](#outline)
+
+
 ## Subprojects
 
 The BrailleIO framework is spitted into several small parts, so the usage and extensibility should be improved. In the following the subprojects will be explained in more detail.
@@ -48,6 +51,8 @@ This is the main project linking all other projects together. It is used to init
 
 In the following the main components will be named and explained.
 
+[*back to outline* :arrow_up:](#outline)
+
 #### BrailleIOMediator
 
 Central instance for the BrailleIO Framework.  It connects the hardware abstraction layers and the GUI/TUI components. It gives you access to the hardware via the IBrailleIOAdapterManager. The GUI/TUI components are available through several methods.
@@ -56,11 +61,15 @@ In this component the renderers for the currently active screens and visible vie
 
 ![Basic UML structure of the BrailleIO framework showing the BraillIOMediator connecting the UI elements with the Hardware abstraction part](/doc_imgs/UML-Basic-Structure.png)
 
+[*back to outline* :arrow_up:](#outline)
+
 #### BrailleIOScreen
 
 This is a container for several views that can contain content. Only one screen can be visible at the same time. You can build an unlimited number of screens and fill them with content. This makes it easy to switch between different views or different applications.
 
 ![BrailleIO can build applications with several screens. A screen can contain several viewRanges that can have independent controlled content](/doc_imgs/sreens-and-viewRange.png)
+
+[*back to outline* :arrow_up:](#outline)
 
 #### BrailleIOViewRange
 
@@ -77,6 +86,8 @@ A view Range has a view Box – which defines the position, size and look on the
 
 Content can be zoomed if the currently active renderer allows for zoomed rendering.
 
+[*back to outline* :arrow_up:](#outline)
+
 #### Adapter
 
 ##### AbstractBrailleIOAdapterManagerBase
@@ -86,6 +97,8 @@ The adapter manager is an abstract implementation for a component that manages t
 ![The abstract tactile displays should contain of a display area and 9 general buttons: ok, esc, gesture, 4 direction buttons, zoom-in and zoom-out](/doc_imgs/general_device.png)
 
 ![An hardware abstracting adapter implementation has to implement the interface IBrailleIOAdapter and has to fill his fields to enable to proper usage of the hardware.](/doc_imgs/UML-Adapter.png)
+
+[*back to outline* :arrow_up:](#outline)
 
 #### Renderer
 
@@ -113,6 +126,8 @@ Renders scrollbars inside the view rage to indicate the values of the offset pos
 
 Places the rendered content matrix inside the view box with respect of panning offsets and the defined box model.
 
+[*back to outline* :arrow_up:](#outline)
+
 ### BrailleIO_Interfaces
 
 This project is a separated project for interface definitions, abstract basic implementations and base-type definitions to allow for extensibility of the BrailleIO framework by external projects such as the Braille-renderer. Some interesting elements will be explained in the following.
@@ -126,6 +141,8 @@ The box model struct is used to define margin, padding and borders for view rang
 ##### RenderElement
 
 This struct is used to build rendered element trees for renderer results. This can be used to return the source elements of a renderer result on a certain content position. Can be used as result value for ITouchableRenderer requests.
+
+[*back to outline* :arrow_up:](#outline)
 
 #### Interfaces
 
@@ -180,15 +197,21 @@ The following standard renderer are hookable:
 
 The interface a process has to implement to be used as a renderer hook.
 
+[*back to outline* :arrow_up:](#outline)
+
 ### BrailleIO_ShowOff
 
 This project is an implementation of a specialized hardware abstraction of a certain tactile input/output device. It is not build as a real hardware abstraction it is only used as a software emulation for a hardware device. In this case this software emulates a BrailleDis 7200 Device by Metec AG. It can be used to display the rendering outputs of the BrailleIO framework, as well as simulate button and gesture/touch interaction.
+
+[*back to outline* :arrow_up:](#outline)
 
 ### BrailleRenderer
 
 This project builds the currently used renderer to transform a given string input into a representation in computer-braille by applying a defined translation table. The translation tables are built by the “Liblouis” project. Currently the German translation tables are used but of course others can be defined and loaded trough the constructor.
 
 This render builds the standard render for String content of the BrailleIo framework. It also implements the ITouchableRenderer interface in a very detailed manner. This allows for highly interactive touchable interface build on this simple text-to-Braille-renderer.
+
+[*back to outline* :arrow_up:](#outline)
 
 ### GestureRecognizer
 
@@ -282,12 +305,13 @@ if (gestureRecognizer != null)
 }
 ```
 
+[*back to outline* :arrow_up:](#outline)
 
 ### BrailleIOExample
 
 This is an example application showing for the usage of several basic functions and objects.
 
-
+[*back to outline* :arrow_up:](#outline)
 
 
 ## How to use:
@@ -296,32 +320,24 @@ This is an example application showing for the usage of several basic functions 
 
 ![An application using BrailleIO can be set up in a view steps ](/doc_imgs/Usage.png)
 
-
+[*back to outline* :arrow_up:](#outline)
 
 
 ### How to build a hardware abstraction
 
+The abstract tactile displays should contain of a display area and 9 general buttons: ok, esc, gesture, 4 direction buttons, zoom-in and zoom-out
+
 ![The abstract tactile displays should contain of a display area and 9 general buttons: ok, esc, gesture, 4 direction buttons, zoom-in and zoom-out](/doc_imgs/general_device.png)
+
+An hardware abstracting adapter implementation has to implement the interface IBrailleIOAdapter and has to fill his fields to enable to proper usage of the hardware.
 
 ![An hardware abstracting adapter implementation has to implement the interface IBrailleIOAdapter and has to fill his fields to enable to proper usage of the hardware.](/doc_imgs/UML-Adapter.png)
 
-
-## You want to know more?
-For getting a very detailed overview use the [code documentaion section](/Help/index.html) of this project.
-
-# Examples 
-
-TODO: add a MWE.
-
-# Deep Dive
-
-Here, very special topics are explained.
-
-## Set up a new Adapter
+#### Set up a new Adapter
 
 If you want to create a new hardware abstraction, you have to supply a wrapper for the real hardware interface commands. In this wrapper class, you have to implement the `IBrailleIOApapter` interface. You can also use the abstract implementation of this interface `AbstractBrailleIOAdapterBase` for extension. This abstract class contains an additional property `Synch` that allows the adapter to receive a copy of the content sent to the main adapter – to mirror the display for example.
 
-### Recommendations for event data (raw data)
+##### Recommendations for event data (raw data)
 
 In the event arguments, e.g. for the `KeyStateChanged` events, there is an integrated option to submit the raw device data. These are submitted in an `OrderedDictonary`. In my hardware abstractions, I use the dictionary to submit button states for hardware keys that go beyond the generalized 9 standard buttons. Therefore, I fill the dictionary as follows:
 
@@ -330,6 +346,23 @@ Key| Content | Description
 allPressedKeys| `List<String>` | List of stings that represent all currently pressed buttons
 allReleasedKeys| `List<String>` | List of stings that represent all last released buttons
 newPressedKeys| `List<String>` | List of stings that represent all last newly pressed buttons
+
+[*back to outline* :arrow_up:](#outline)
+
+## You want to know more?
+For getting a very detailed overview use the [code documentaion section](/Help/index.html) of this project.
+
+[*back to outline* :arrow_up:](#outline)
+
+# Examples 
+
+TODO: add a MWE.
+
+[*back to outline* :arrow_up:](#outline)
+
+# Deep Dive
+
+Here, very special topics are explained.
 
 
 ## Build your own renderer
@@ -369,6 +402,8 @@ bool[,] RenderMatrix(IViewBoxModel view, object content);
 
 In the implementation of the function, the renderer get information about the view (normally this is a `BrailleIOViewRange`) and the content to transform.
 
+[*back to outline* :arrow_up:](#outline)
+
 ### Make the renderer hookable
 
 To enable developers to adapt the rendering results, the ability of hooking is implemented for the standard renders (image, text). This you can use as well for your own renderer.
@@ -398,10 +433,13 @@ To make it easier to use and to handle all the hooking and hook calling stuff, a
 
 ATTENTION: Be aware that calling hooks can damage your rendering result and can make the rendering inefficient and slow!
 
+[*back to outline* :arrow_up:](#outline)
 
 ### Make a renderer cacheable
 
 TODO: comes later
+
+[*back to outline* :arrow_up:](#outline)
 
 ### Make your renderer touchable
 
@@ -436,3 +474,5 @@ namespace BrailleIO.Renderer
 ```
 
 For content objects, such as texts, a helping structure called `BrailleIO.Renderer.Structs.RenderElement` is available. In this struct several features such as building a content tree. This struct is only usable for rectangular content types because of its bounding-box based metaphor.
+
+[*back to outline* :arrow_up:](#outline)
