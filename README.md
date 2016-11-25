@@ -187,7 +187,7 @@ The most abstract basic function a render must offer to be used as a content ren
 
 Some renderers can be hooked by external projects. This means that the renderers’ parameters can be manipulated in advanced of the rendering or the rendering result can be adopted in the end by the hooking process.
 
-The abstract BrailleIOHookableRendererBase can be used to build a hookable renderer in a easy way.
+The abstract BrailleIOHookableRendererBase can be used to build a hookable renderer in an easy way.
 
 The following standard renderer are hookable:
 * BrailleIOImageToMatrixRenderer
@@ -202,7 +202,54 @@ The interface a process has to implement to be used as a renderer hook.
 
 ### BrailleIO_ShowOff
 
-This project is an implementation of a specialized hardware abstraction of a certain tactile input/output device. It is not build as a real hardware abstraction it is only used as a software emulation for a hardware device. In this case this software emulates a BrailleDis 7200 Device by Metec AG. It can be used to display the rendering outputs of the BrailleIO framework, as well as simulate button and gesture/touch interaction.
+This project is an implementation of a specialized hardware abstraction of a certain tactile input/output device. It is not build as a real hardware abstraction it is only used as a software emulation for a hardware device. In this case, this software emulates a BrailleDis 7200 Device by Metec AG. It can be used to display the rendering outputs of the BrailleIO framework, as well as simulate button and gesture/touch interaction.
+
+In the following, the usage and some special features of this emulator and debug monitor are explained.
+
+[[*back to outline* :arrow_up:]](#outline)
+
+#### Interaction
+
+The ShowOff adapter is designed to emulate user inputs through its GUI. Button commands as well as single touch inputs can be simulated.
+
+##### Touch (gesture) interaction
+
+The ShowOff adapter can also simulate touch data for the `touchValuesChanged` event. Therefore, you have to move the mouse cursor over the simulated tactile display area in the GUI and press the left mouse button. With every move of the cursor or button interaction, a touch event will be generated. Based on the mouse input metaphor only single-touch interaction is possible to simulate. A simulated touch blob has a diameter of 1.5 pins in each direction.
+
+
+##### Button interaction
+
+For simulating a single button command, you only have to click one of the 36 designed buttons of the GUI. By clicking a button a button-pressed and a button-released command are fired to listeners of the `keyStateChanged` event.
+
+But not only single button commands are necessary. For non-visual interaction button combinations are essential to support, e.g. in the case of writing Braille with a Braille-keyboard where a single letter is combined out of up to 8 buttons pressed as one! To enable the simulation of multi button command, the ShowOff adapter has the possibility to hold some buttons in the pressed state and release all pressed buttons at once. To do so, you have to hold the Ctrl. keyboard key. While keeping the Ctrl. key pressed, only button pressed events are fired when clicking a new button. If you release the Ctrl. key all collected and currently pressed buttons are send as one single button released event. You can disable a pressed button by clicking them again – the button is removed from the list of buttons to release.
+
+###### Button Codes
+
+To build applications based on the ShowOff adapter, you have to know the key codes used for the button interaction events.
+
+There are 3 kinds of button types available in the BrailleIO framework:
+
+1. `BrailleIO.Interface.BrailleIO_DeviceButton` - 8 general buttons, a two dimensional pin-matrix device have to have to support at least some basic user interaction functionalities. In Addition, a 9th button is defined for devices supplying touch interaction, to switch applications in a gesture-mode to avoid the midas-touch effect. 
+2. `BrailleIO.Interface.BrailleIO_BrailleKeyboardButton` - 12 buttons to define an 8-dot Braille keyboard with the addition of 4 function keys for text input interaction.
+3. `BrailleIO.Interface.BrailleIO_AdditionalButton` - here an unlimited number of additional function keys can be modeled in stacks of 15 buttons. 
+
+In the ShowOff adapter, the buttons are placed and coded as follow (only one stack of 15 additional buttons is modeled):
+
+Standard buttons (BrailleIO_DeviceButton):
+TODO: image
+
+Braille Keyboard (BrailleIO_BrailleKeyboardButton):
+TODO: image
+
+15 additional function keys (BrailleIO_AdditionalButton):
+TODO: image
+
+All 36 button codes together:
+TODO: image
+
+Beyond the generalized button modelling the ShowOff adapter also simulates the proprietary interpretation of buttons and provide them in the raw data filed of the `keyStateChanged` event. Therefore, the buttons are defined by a string uid. The string uids are defined as followed:
+TODO: image 
+
 
 [*back to outline* :arrow_up:](#outline)
 
