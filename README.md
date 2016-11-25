@@ -1,26 +1,31 @@
-﻿BrailleIO
+﻿BrailleIO Framework
 =========
+
 
 ## Outline
 1. BrailleIO
 	1. [Intension](#intension)
 	2. [Subprojects](#subprojects)
-	1. [BrailleIO](#brailleio-1)
-	2. [BrailleIO_Interfaces](#brailleio_interfaces)
-	3. [BrailleIO_ShowOff](#brailleio_showoff)
-	4. [BrailleRenderer](#braillerenderer)
-	5. [GestureRecognizer](#gesturerecognizer)
-	6. [BrailleIOExample](#brailleioexample)
-3. [How to use:](#how-to-use)
-	1. [How to build a hardware abstraction](#how-to-build-a-hardware-abstraction)
+		1. [BrailleIO](#brailleio-1)
+		2. [BrailleIO_Interfaces](#brailleio_interfaces)
+		3. [BrailleIO_ShowOff](#brailleio_showoff)
+		4. [BrailleRenderer](#braillerenderer)
+		5. [GestureRecognizer](#gesturerecognizer)
+		6. [BrailleIOExample](#brailleioexample)
+	3. [How to use:](#how-to-use)
+		1. [How to build a hardware abstraction](#how-to-build-a-hardware-abstraction)
 2. [Examples – still empty yet](#examples)
 3. [Deep Dive](#deep-dive)
-1. [Set up a new Adapter]( #set-up-a-new-adapter)
-	1. [Recommendations for event data (raw data)](#recommendations-for-event-data-raw-data)
-2. [Build your own renderer](#build-your-own-renderer)
-	1. [Make the renderer hookable](#make-the-renderer-hookable)
-	2. [Make a renderer cacheable] (#make-a-renderer-cacheable)
-	3. [Make your renderer touchable](#make-your-renderer-touchable)
+	1. [Set up a new Adapter]( #set-up-a-new-adapter)
+		1. [Recommendations for event data (raw data)](#recommendations-for-event-data-raw-data)
+	2. [Build your own renderer](#build-your-own-renderer)
+		1. [Make the renderer hookable](#make-the-renderer-hookable)
+		2. [Make a renderer cacheable] (#make-a-renderer-cacheable)
+		3. [Make your renderer touchable](#make-your-renderer-touchable)
+
+
+
+#BrailleIO
 
 
 ## Intension:
