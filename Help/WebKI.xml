@@ -26,7 +26,7 @@
   <HelpKINode Title="AbstractBrailleIOAdapterBase.fireErrorOccured method" Url="html/2d162f8e-81cc-a0b0-0026-6efac32b5554.htm" />
   <HelpKINode Title="AbstractBrailleIOAdapterBase.fireInitialized method" Url="html/0e462523-0a4d-c737-2fbe-98599b2c1ca2.htm" />
   <HelpKINode Title="AbstractBrailleIOAdapterBase.fireInputChanged method" Url="html/d9d03f0f-a99b-fa23-a21c-4eb20daa571f.htm" />
-  <HelpKINode Title="AbstractBrailleIOAdapterBase.fireKeyStateChanged method" Url="html/a6c295e7-1b57-796f-438d-660f9ea7172c.htm" />
+  <HelpKINode Title="AbstractBrailleIOAdapterBase.fireKeyStateChanged method" Url="html/8252e36c-771b-9b50-7680-246580bb2b7b.htm" />
   <HelpKINode Title="AbstractBrailleIOAdapterBase.fireTouchValuesChanged method" Url="html/5d871001-b3bf-77f6-60e0-1b7ac23aafbd.htm" />
   <HelpKINode Title="AbstractBrailleIOAdapterBase.GetFullSetMatrix method" Url="html/2727cf10-c2f8-9eb0-05d9-d4f52f5f9c4a.htm" />
   <HelpKINode Title="AbstractBrailleIOAdapterBase.initialized event" Url="html/bc22a91f-aa55-3898-6a3c-977cb5accf57.htm" />
@@ -200,6 +200,7 @@
     <HelpKINode Title="ITrackBlobs.AddFrame Method " Url="html/9b976ced-9115-0709-782e-aa115f3dd554.htm" />
   </HelpKINode>
   <HelpKINode Title="Addition operator" Url="html/9d468b6a-b30c-b45d-cb04-47715b1d3d8e.htm" />
+  <HelpKINode Title="additionalKeyCode field" Url="html/cb09696e-8856-c05b-294f-67e0ec2346c7.htm" />
   <HelpKINode Title="AdditionalParameters property">
     <HelpKINode Title="ClassificationResult.AdditionalParameters Property " Url="html/1d2615d5-cf49-4e0c-fa1b-3a02d6e157e8.htm" />
     <HelpKINode Title="IClassificationResult.AdditionalParameters Property " Url="html/c16e990a-19ed-35b1-14d4-9d6f468ca248.htm" />
@@ -280,11 +281,16 @@
   <HelpKINode Title="BrailleIO.Interface.AbstractViewPaddingBase class" Url="html/4471cf49-344b-d476-dbe2-690eb9014e4f.htm" />
   <HelpKINode Title="BrailleIO.Interface.BrailleIOHookableRendererBase class" Url="html/221a42c4-52d0-6dcf-ca43-d2459a55f294.htm" />
   <HelpKINode Title="BrailleIO.Interface.BrailleIOPropertyChangedEventArgs class" Url="html/efcf1c59-b6ec-6591-3f4a-54708a0ffa56.htm" />
+  <HelpKINode Title="BrailleIO.Interface.BrailleIO_AdditionalButton enumeration" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="BrailleIO.Interface.BrailleIO_AdditionalButtonStates enumeration" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="BrailleIO.Interface.BrailleIO_BrailleKeyboardButton enumeration" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+  <HelpKINode Title="BrailleIO.Interface.BrailleIO_BrailleKeyboardButtonStates enumeration" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
   <HelpKINode Title="BrailleIO.Interface.BrailleIO_DeviceButton enumeration" Url="html/b9cd9a1e-a561-ee03-0f71-db5f74f7ab3f.htm" />
   <HelpKINode Title="BrailleIO.Interface.BrailleIO_DeviceButtonStates enumeration" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
   <HelpKINode Title="BrailleIO.Interface.BrailleIO_ErrorOccured_EventArgs class" Url="html/0ff589a5-52cf-76c2-b874-1fc56af2a701.htm" />
   <HelpKINode Title="BrailleIO.Interface.BrailleIO_Initialized_EventArgs class" Url="html/b22c4794-fed7-32f3-2e5b-b9739e4b9f07.htm" />
   <HelpKINode Title="BrailleIO.Interface.BrailleIO_InputChanged_EventArgs class" Url="html/5ee72073-54ba-a8d9-fe5a-3215d3c8fa31.htm" />
+  <HelpKINode Title="BrailleIO.Interface.BrailleIO_KeyEventArgs class" Url="html/6ab6a49f-d165-febc-2d77-67d567531278.htm" />
   <HelpKINode Title="BrailleIO.Interface.BrailleIO_KeyPressed_EventArgs class" Url="html/396f1f90-ec49-01b5-f4c7-9594876b807f.htm" />
   <HelpKINode Title="BrailleIO.Interface.BrailleIO_KeyStateChanged_EventArgs class" Url="html/81145714-536e-43f7-b0b6-52d292f4f1fa.htm" />
   <HelpKINode Title="BrailleIO.Interface.BrailleIO_PinStateChanged_EventArgs class" Url="html/271e7de7-421a-a3b4-2644-4fb71604d1a2.htm" />
@@ -319,7 +325,7 @@
   <HelpKINode Title="BrailleIO.Renderer.AbstractCachingRendererBase class" Url="html/ed953e71-6d92-4fde-aa07-26adc55024af.htm" />
   <HelpKINode Title="BrailleIO.Renderer.BrailleInterpreter namespace" Url="html/5be2caad-d36a-0996-91cc-c0bb69bcf45d.htm" />
   <HelpKINode Title="BrailleIO.Renderer.BrailleInterpreter.CtiFileLoader class" Url="html/ad848888-5755-2aea-ff4f-dac4eb4e404a.htm" />
-  <HelpKINode Title="BrailleIO.Renderer.BrailleInterpreter.IBraileInterpreter interface" Url="html/70628f51-f369-52c0-7d5f-501af0ca80c8.htm" />
+  <HelpKINode Title="BrailleIO.Renderer.BrailleInterpreter.IBrailleInterpreter interface" Url="html/ead8d228-e4fd-5f12-57ff-1c0358ace153.htm" />
   <HelpKINode Title="BrailleIO.Renderer.BrailleInterpreter.SimpleBrailleInterpreter class" Url="html/2be95067-3d77-1fac-0223-51797cb20490.htm" />
   <HelpKINode Title="BrailleIO.Renderer.BrailleIOBorderRenderer class" Url="html/5603d749-d3fb-dfd8-d7fa-6ead9a3b7ab6.htm" />
   <HelpKINode Title="BrailleIO.Renderer.BrailleIOImageToMatrixRenderer class" Url="html/91eb21a6-3327-1ee1-7e12-8e68e78b665c.htm" />
@@ -353,8 +359,8 @@
   <HelpKINode Title="BrailleIOAdapter_ShowOff.Connect method" Url="html/15bbfe4e-23da-c89a-eb0f-69eb96a394f1.htm" />
   <HelpKINode Title="BrailleIOAdapter_ShowOff.Disconnect method" Url="html/ca8af510-7f8d-655e-ff7f-cf2b9a8d86f6.htm" />
   <HelpKINode Title="BrailleIOAdapter_ShowOff.driver field" Url="html/9499420d-7cd2-00a4-330c-a5583358a00f.htm" />
-  <HelpKINode Title="BrailleIOAdapter_ShowOff.firekeyStateChangedEvent method" Url="html/1469ca11-0a8c-6415-0205-ee8e9b5584b1.htm" />
-  <HelpKINode Title="BrailleIOAdapter_ShowOff.firetouchValuesChangedEvent method" Url="html/a698bfa9-b932-8db5-94b0-3aa2bf5bfd9d.htm" />
+  <HelpKINode Title="BrailleIOAdapter_ShowOff.firekeyStateChangedEvent method" Url="html/5ea9478d-88a2-5f14-3812-cbd97a48d745.htm" />
+  <HelpKINode Title="BrailleIOAdapter_ShowOff.firetouchValuesChangedEvent method" Url="html/2ba4da25-7c6b-4823-f889-6d72dc109c79.htm" />
   <HelpKINode Title="BrailleIOAdapter_ShowOff.sendAttached method" Url="html/a196928c-c033-b230-af56-ddadadcfbb9d.htm" />
   <HelpKINode Title="BrailleIOAdapter_ShowOff.Synchronize method" Url="html/246aa7aa-2050-7b85-c969-2a1622a56990.htm" />
   <HelpKINode Title="BrailleIOBorderRenderer class">
@@ -542,6 +548,10 @@
   </HelpKINode>
   <HelpKINode Title="BrailleIOViewRangeComparer.BrailleIOViewRangeComparer constructor" Url="html/4d233d59-6bda-e615-eebf-f904bcc3b821.htm" />
   <HelpKINode Title="BrailleIOViewRangeComparer.Compare method" Url="html/3a5a53e4-6461-0729-8002-1cc2978f9557.htm" />
+  <HelpKINode Title="BrailleIO_AdditionalButton enumeration" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="BrailleIO_AdditionalButtonStates enumeration" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="BrailleIO_BrailleKeyboardButton enumeration" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+  <HelpKINode Title="BrailleIO_BrailleKeyboardButtonStates enumeration" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
   <HelpKINode Title="BrailleIO_DeviceButton enumeration" Url="html/b9cd9a1e-a561-ee03-0f71-db5f74f7ab3f.htm" />
   <HelpKINode Title="BrailleIO_DeviceButtonStates enumeration" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
   <HelpKINode Title="BrailleIO_ErrorOccured_EventArgs class">
@@ -574,6 +584,18 @@
   <HelpKINode Title="BrailleIO_InputChanged_EventArgs.raw field" Url="html/5d39aa7c-7593-f8e4-bedc-a0a1c3c834d0.htm" />
   <HelpKINode Title="BrailleIO_InputChanged_EventArgs.timestamp field" Url="html/34d67d6e-90ec-95d6-f840-c00a28d73bf4.htm" />
   <HelpKINode Title="BrailleIO_InputChanged_EventArgs.touches field" Url="html/a71a961e-14b3-957f-28ce-8aea35f9b543.htm" />
+  <HelpKINode Title="BrailleIO_KeyEventArgs class">
+    <HelpKINode Title="BrailleIO_KeyEventArgs Class" Url="html/6ab6a49f-d165-febc-2d77-67d567531278.htm" />
+    <HelpKINode Title="about BrailleIO_KeyEventArgs class" Url="html/6ab6a49f-d165-febc-2d77-67d567531278.htm" />
+    <HelpKINode Title="constructor" Url="html/644b3f71-14c2-ab3a-ef7b-1eaf0f827ccb.htm" />
+    <HelpKINode Title="fields" Url="html/23ffb141-82df-d6d6-53eb-3257c83b7e7e.htm" />
+    <HelpKINode Title="methods" Url="html/f8c4f03c-cd9b-a176-4833-5b061622839d.htm" />
+  </HelpKINode>
+  <HelpKINode Title="BrailleIO_KeyEventArgs.additionalKeyCode field" Url="html/cb09696e-8856-c05b-294f-67e0ec2346c7.htm" />
+  <HelpKINode Title="BrailleIO_KeyEventArgs.BrailleIO_KeyEventArgs constructor" Url="html/644b3f71-14c2-ab3a-ef7b-1eaf0f827ccb.htm" />
+  <HelpKINode Title="BrailleIO_KeyEventArgs.keyboardCode field" Url="html/b9f6cfa3-bca3-ecc8-a20c-8ce28c429496.htm" />
+  <HelpKINode Title="BrailleIO_KeyEventArgs.keyCode field" Url="html/074f527a-878f-3216-b773-e0be232ff13e.htm" />
+  <HelpKINode Title="BrailleIO_KeyEventArgs.raw field" Url="html/43045a33-5c2c-238b-c13c-f135b7c4ef73.htm" />
   <HelpKINode Title="BrailleIO_KeyPressed_EventArgs class">
     <HelpKINode Title="BrailleIO_KeyPressed_EventArgs Class" Url="html/396f1f90-ec49-01b5-f4c7-9594876b807f.htm" />
     <HelpKINode Title="about BrailleIO_KeyPressed_EventArgs class" Url="html/396f1f90-ec49-01b5-f4c7-9594876b807f.htm" />
@@ -582,8 +604,6 @@
     <HelpKINode Title="methods" Url="html/c98bb02b-f35a-7391-8e6a-e0745f693614.htm" />
   </HelpKINode>
   <HelpKINode Title="BrailleIO_KeyPressed_EventArgs.BrailleIO_KeyPressed_EventArgs constructor" Url="html/103defff-d392-2ec4-c49b-0c053588c6c9.htm" />
-  <HelpKINode Title="BrailleIO_KeyPressed_EventArgs.keyCode field" Url="html/1efc04da-b53e-62b3-f6a8-9410d3623da6.htm" />
-  <HelpKINode Title="BrailleIO_KeyPressed_EventArgs.raw field" Url="html/ec51075b-f7b6-7870-5f2b-4e71efc2ba34.htm" />
   <HelpKINode Title="BrailleIO_KeyStateChanged_EventArgs class">
     <HelpKINode Title="BrailleIO_KeyStateChanged_EventArgs Class" Url="html/81145714-536e-43f7-b0b6-52d292f4f1fa.htm" />
     <HelpKINode Title="about BrailleIO_KeyStateChanged_EventArgs class" Url="html/81145714-536e-43f7-b0b6-52d292f4f1fa.htm" />
@@ -592,8 +612,6 @@
     <HelpKINode Title="methods" Url="html/88db19f2-55bd-a8c0-562b-4daf2dd74d4d.htm" />
   </HelpKINode>
   <HelpKINode Title="BrailleIO_KeyStateChanged_EventArgs.BrailleIO_KeyStateChanged_EventArgs constructor" Url="html/e062eada-7f53-065c-01e9-cc3ab2b5703c.htm" />
-  <HelpKINode Title="BrailleIO_KeyStateChanged_EventArgs.keyCode field" Url="html/f655f20d-7af6-6b70-127d-1d56e51daec5.htm" />
-  <HelpKINode Title="BrailleIO_KeyStateChanged_EventArgs.raw field" Url="html/d7ec5fd6-be73-dd69-8498-7eb844cdeaf3.htm" />
   <HelpKINode Title="BrailleIO_PinStateChanged_EventArgs class">
     <HelpKINode Title="BrailleIO_PinStateChanged_EventArgs Class" Url="html/271e7de7-421a-a3b4-2644-4fb71604d1a2.htm" />
     <HelpKINode Title="about BrailleIO_PinStateChanged_EventArgs class" Url="html/271e7de7-421a-a3b4-2644-4fb71604d1a2.htm" />
@@ -766,6 +784,7 @@
     <HelpKINode Title="LockBitmap.Depth Property " Url="html/6a410e48-fb3b-68ec-2c3f-66cf89208df9.htm" />
   </HelpKINode>
   <HelpKINode Title="DetailedTouches property" Url="html/60ceae74-66d3-4468-8b87-f3cbfc5d6b65.htm" />
+  <HelpKINode Title="detailedTouchStack field" Url="html/bdae5dfd-17bb-c69d-75dc-a050bc82d585.htm" />
   <HelpKINode Title="device field" Url="html/4eb4add4-817b-b811-2027-c3f4599b4575.htm" />
   <HelpKINode Title="Device property">
     <HelpKINode Title="AbstractBrailleIOAdapterBase.Device Property " Url="html/25863033-8fca-58c8-023a-dd4ae46392e9.htm" />
@@ -834,6 +853,18 @@
   <HelpKINode Title="EuclideanDistance&lt;Vert1, Vert2&gt; method" Url="html/d7b66e72-218d-356e-19f8-24ba823c920e.htm" />
   <HelpKINode Title="EuclideanNorm(Of Vert) method" Url="html/54cf1146-b205-7e39-cd67-9af9e77b04de.htm" />
   <HelpKINode Title="EuclideanNorm&lt;Vert&gt; method" Url="html/54cf1146-b205-7e39-cd67-9af9e77b04de.htm" />
+  <HelpKINode Title="F1 enumeration member" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+  <HelpKINode Title="F11 enumeration member" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+  <HelpKINode Title="F11Down enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="F11Up enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="F1Down enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="F1Up enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="F2 enumeration member" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+  <HelpKINode Title="F22 enumeration member" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+  <HelpKINode Title="F22Down enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="F22Up enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="F2Down enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="F2Up enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
   <HelpKINode Title="Father property" Url="html/f8c29103-3b50-532e-94a7-77ee485635e2.htm" />
   <HelpKINode Title="Finalize method" Url="html/f1890088-e3b7-3d39-1aa7-a19c9b0674ca.htm" />
   <HelpKINode Title="FinishEvaluation method">
@@ -844,16 +875,61 @@
   <HelpKINode Title="fireErrorOccured method" Url="html/2d162f8e-81cc-a0b0-0026-6efac32b5554.htm" />
   <HelpKINode Title="fireInitialized method" Url="html/0e462523-0a4d-c737-2fbe-98599b2c1ca2.htm" />
   <HelpKINode Title="fireInputChanged method" Url="html/d9d03f0f-a99b-fa23-a21c-4eb20daa571f.htm" />
-  <HelpKINode Title="fireKeyStateChanged method" Url="html/a6c295e7-1b57-796f-438d-660f9ea7172c.htm" />
-  <HelpKINode Title="firekeyStateChangedEvent method" Url="html/1469ca11-0a8c-6415-0205-ee8e9b5584b1.htm" />
-  <HelpKINode Title="fireKeyStateChangeEvent method" Url="html/a5241b89-8c24-b7fc-512c-cab15ab4f1ee.htm" />
+  <HelpKINode Title="fireKeyStateChanged method" Url="html/8252e36c-771b-9b50-7680-246580bb2b7b.htm" />
+  <HelpKINode Title="firekeyStateChangedEvent method" Url="html/5ea9478d-88a2-5f14-3812-cbd97a48d745.htm" />
+  <HelpKINode Title="fireKeyStateChangeEvent method" Url="html/ee7459c1-d506-9c4b-55f4-ec29d63e8af1.htm" />
   <HelpKINode Title="firePropertyChangedEvent method" Url="html/4ec148b4-3787-5f7a-f9ca-ce4cfd6ecd78.htm" />
   <HelpKINode Title="fireTouchValuesChanged method" Url="html/5d871001-b3bf-77f6-60e0-1b7ac23aafbd.htm" />
-  <HelpKINode Title="firetouchValuesChangedEvent method" Url="html/a698bfa9-b932-8db5-94b0-3aa2bf5bfd9d.htm" />
+  <HelpKINode Title="firetouchValuesChangedEvent method" Url="html/2ba4da25-7c6b-4823-f889-6d72dc109c79.htm" />
   <HelpKINode Title="fire_ActiveAdapterChanged method" Url="html/8ffcf72e-a3ec-f828-b609-80b0be9b287c.htm" />
   <HelpKINode Title="fire_AdapterRemoved method" Url="html/8fdba463-c51d-3640-aa2c-3f442b8319a5.htm" />
   <HelpKINode Title="fire_NewAdapterRegistered method" Url="html/1bd5657c-1fe7-ef14-0316-9a5d1ea34b0a.htm" />
   <HelpKINode Title="FixedRadiusNearestNeighbour method" Url="html/b9f74290-0f88-495e-394c-c5a4f0ee3bf3.htm" />
+  <HelpKINode Title="fn1 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn10 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn10Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn10Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn11 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn11Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn11Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn12 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn12Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn12Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn13 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn13Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn13Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn14 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn14Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn14Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn15 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn15Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn15Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn1Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn1Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn2 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn2Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn2Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn3 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn3Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn3Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn4 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn4Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn4Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn5 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn5Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn5Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn6 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn6Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn6Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn7 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn7Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn7Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn8 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn8Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn8Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn9 enumeration member" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+  <HelpKINode Title="fn9Down enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+  <HelpKINode Title="fn9Up enumeration member" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
   <HelpKINode Title="Frame class">
     <HelpKINode Title="Frame Class" Url="html/2db7516e-1789-8a5c-3d74-48dcf8b138e5.htm" />
     <HelpKINode Title="about Frame class" Url="html/2db7516e-1789-8a5c-3d74-48dcf8b138e5.htm" />
@@ -959,14 +1035,18 @@
     <HelpKINode Title="ITouchableRenderer.GetAllContentInArea Method " Url="html/14e483be-ca70-1926-9d60-38d5bcb9cad6.htm" />
     <HelpKINode Title="MatrixBrailleRenderer.GetAllContentInArea Method " Url="html/677c56b8-957c-06df-b417-c43977227436.htm" />
   </HelpKINode>
+  <HelpKINode Title="GetAllDownDeviceButtons method" Url="html/08c38973-3c51-df92-8e53-f0a7f01e0ec9.htm" />
   <HelpKINode Title="GetAllRenderElements method" Url="html/39c42a41-6705-f91d-7638-f75f1b3dd53b.htm" />
+  <HelpKINode Title="GetAllUpDeviceButtons method" Url="html/90c3718b-61a7-f46a-4976-93157c61fcf7.htm" />
   <HelpKINode Title="GetAverageGrayscale method" Url="html/906d97fa-79b2-f097-4245-28cb9644a022.htm" />
+  <HelpKINode Title="GetButtonDownFlags method" Url="html/9a4c6bbd-4f66-b8ed-a339-50931adb59c0.htm" />
+  <HelpKINode Title="GetButtonUpFlags method" Url="html/ba078328-f997-7ceb-14e5-1785692c379c.htm" />
   <HelpKINode Title="GetCachedMatrix method">
     <HelpKINode Title="AbstractCachingRendererBase.GetCachedMatrix Method " Url="html/204a2e6c-199a-bcb8-4f95-dfcfa471a8d5.htm" />
     <HelpKINode Title="ICacheingRenderer.GetCachedMatrix Method " Url="html/b6eb8119-451d-142a-c7eb-19c1d73a5754.htm" />
   </HelpKINode>
   <HelpKINode Title="GetCharFromDots method">
-    <HelpKINode Title="IBraileInterpreter.GetCharFromDots Method " Url="html/ac7ba9a2-9289-1217-b112-96a85027a84a.htm" />
+    <HelpKINode Title="IBrailleInterpreter.GetCharFromDots Method " Url="html/f3466445-b41e-fe75-a05f-5b6af3842c75.htm" />
     <HelpKINode Title="SimpleBrailleInterpreter.GetCharFromDots Method " Url="html/b9a9ebc4-def5-51eb-b181-e67fb38ca08b.htm" />
   </HelpKINode>
   <HelpKINode Title="GetCharFromUnicodeHex method" Url="html/62c5f065-70ee-562d-15b5-117845c70025.htm" />
@@ -980,19 +1060,19 @@
     <HelpKINode Title="BrailleIOViewRange.GetContrastThreshold Method " Url="html/1a6c42e1-70ea-8b76-45e9-5fd2f9b4bdd7.htm" />
     <HelpKINode Title="IContrastThreshold.GetContrastThreshold Method " Url="html/b125c4d9-acfa-e661-bda8-e2b9c6768f44.htm" />
   </HelpKINode>
-  <HelpKINode Title="GetDeviceButtonOfState method" Url="html/80130990-6199-6231-ecbe-0ac9a47fdee0.htm" />
+  <HelpKINode Title="GetDeviceButtonFlagsOfState method" Url="html/4662bf3f-892b-23a0-5653-f540f8d05d61.htm" />
   <HelpKINode Title="GetDeviceButtonsOfStates method" Url="html/fdf59e6e-413f-7002-9212-e232113ae4bb.htm" />
   <HelpKINode Title="GetDeviceSizeX method" Url="html/211b48a7-b077-87cf-5a85-78a188f44a8e.htm" />
   <HelpKINode Title="GetDeviceSizeY method" Url="html/6178b73b-df47-b4fa-d684-48ec1accd8fe.htm" />
   <HelpKINode Title="GetDotsFromChar method">
-    <HelpKINode Title="IBraileInterpreter.GetDotsFromChar Method " Url="html/afbd8571-be9d-b5c2-7532-4616413cbb30.htm" />
+    <HelpKINode Title="IBrailleInterpreter.GetDotsFromChar Method " Url="html/e67855af-a0dc-371e-eb5a-29f34ed8a2a0.htm" />
     <HelpKINode Title="SimpleBrailleInterpreter.GetDotsFromChar Method " Url="html/c65ee452-06ed-7e73-c119-b5b16a983dc3.htm" />
   </HelpKINode>
   <HelpKINode Title="GetDotsFromString method">
-    <HelpKINode Title="IBraileInterpreter.GetDotsFromString Method " Url="html/c04da12d-7620-34ed-83f7-10733a337ac5.htm" />
+    <HelpKINode Title="IBrailleInterpreter.GetDotsFromString Method " Url="html/7f51deb3-1ea8-0732-851c-e9a79a8663a9.htm" />
     <HelpKINode Title="SimpleBrailleInterpreter.GetDotsFromString Method " Url="html/941721f4-1a63-7d32-b3c6-44ef7c6c6d50.htm" />
   </HelpKINode>
-  <HelpKINode Title="GetDownStateForDeviceButton method" Url="html/679b0f54-3ffd-990c-8693-028a0b3b8177.htm" />
+  <HelpKINode Title="GetDownStateForDeviceButton method" Url="html/c85195a6-8b7b-64b0-08cc-11e6cf0ab038.htm" />
   <HelpKINode Title="GetEnumerator method">
     <HelpKINode Title="Frame.GetEnumerator Method " Url="html/4ee93ac1-f64c-10ad-bd08-0561d09a2748.htm" />
     <HelpKINode Title="OrderedConcurentDictionary(TKey, TValue).GetEnumerator Method " Url="html/058daff4-3a22-a5ef-d2c2-3fc5b766dd52.htm" />
@@ -1028,7 +1108,7 @@
   <HelpKINode Title="GetPixel method" Url="html/c39a778b-722b-04b1-8382-6a8c66aa228e.htm" />
   <HelpKINode Title="GetSortedValues method" Url="html/3a04d71d-791d-ebea-7df2-46a9c001a4a8.htm" />
   <HelpKINode Title="GetStringFormDots method">
-    <HelpKINode Title="IBraileInterpreter.GetStringFormDots Method " Url="html/b64d50e3-93b7-766c-901f-8c0a3e281da0.htm" />
+    <HelpKINode Title="IBrailleInterpreter.GetStringFormDots Method " Url="html/37f79b5b-ef4f-b3b3-b10b-014d741756ec.htm" />
     <HelpKINode Title="SimpleBrailleInterpreter.GetStringFormDots Method " Url="html/04a2cba7-3b4c-023b-6785-76a900dc84b4.htm" />
   </HelpKINode>
   <HelpKINode Title="GetSubParts method" Url="html/514f0f99-939f-4829-d59e-2df7d037e379.htm" />
@@ -1040,7 +1120,7 @@
     <HelpKINode Title="IPosition.GetTop Method " Url="html/6d6e556e-092d-8015-a7b2-104eb626698f.htm" />
   </HelpKINode>
   <HelpKINode Title="GetTouch method" Url="html/17a930d3-bfae-3f13-3eb2-ce728ef29e1a.htm" />
-  <HelpKINode Title="GetUpStateForDeviceButton method" Url="html/de0b6bab-25b2-50da-8f8b-06ff0b9020e1.htm" />
+  <HelpKINode Title="GetUpStateForDeviceButton method" Url="html/351b056f-a425-33bc-0502-8a7c1d82a9b5.htm" />
   <HelpKINode Title="GetValue method" Url="html/49e07d5a-e047-975f-6ce5-77ea55fbbb5c.htm" />
   <HelpKINode Title="GetView method" Url="html/2343ae1d-e297-850c-f7ae-3251b1918e9c.htm" />
   <HelpKINode Title="GetViewAtPosition method" Url="html/a91ded4a-7986-1586-d061-ea9c0031191b.htm" />
@@ -1109,15 +1189,15 @@
   </HelpKINode>
   <HelpKINode Title="IBailleIORendererHook.PostRenderHook method" Url="html/b18892d6-7058-4828-ffce-c03d08d1ed4e.htm" />
   <HelpKINode Title="IBailleIORendererHook.PreRenderHook method" Url="html/2abde29a-eb1f-7dfb-44cb-c4f87a1bee63.htm" />
-  <HelpKINode Title="IBraileInterpreter interface">
-    <HelpKINode Title="IBraileInterpreter Interface" Url="html/70628f51-f369-52c0-7d5f-501af0ca80c8.htm" />
-    <HelpKINode Title="about IBraileInterpreter interface" Url="html/70628f51-f369-52c0-7d5f-501af0ca80c8.htm" />
-    <HelpKINode Title="methods" Url="html/0d0bf89e-eb2d-dd3f-e50d-54310e04a64f.htm" />
+  <HelpKINode Title="IBrailleInterpreter interface">
+    <HelpKINode Title="IBrailleInterpreter Interface" Url="html/ead8d228-e4fd-5f12-57ff-1c0358ace153.htm" />
+    <HelpKINode Title="about IBrailleInterpreter interface" Url="html/ead8d228-e4fd-5f12-57ff-1c0358ace153.htm" />
+    <HelpKINode Title="methods" Url="html/05b37f44-a85a-747d-d473-bf090dc6a641.htm" />
   </HelpKINode>
-  <HelpKINode Title="IBraileInterpreter.GetCharFromDots method" Url="html/ac7ba9a2-9289-1217-b112-96a85027a84a.htm" />
-  <HelpKINode Title="IBraileInterpreter.GetDotsFromChar method" Url="html/afbd8571-be9d-b5c2-7532-4616413cbb30.htm" />
-  <HelpKINode Title="IBraileInterpreter.GetDotsFromString method" Url="html/c04da12d-7620-34ed-83f7-10733a337ac5.htm" />
-  <HelpKINode Title="IBraileInterpreter.GetStringFormDots method" Url="html/b64d50e3-93b7-766c-901f-8c0a3e281da0.htm" />
+  <HelpKINode Title="IBrailleInterpreter.GetCharFromDots method" Url="html/f3466445-b41e-fe75-a05f-5b6af3842c75.htm" />
+  <HelpKINode Title="IBrailleInterpreter.GetDotsFromChar method" Url="html/e67855af-a0dc-371e-eb5a-29f34ed8a2a0.htm" />
+  <HelpKINode Title="IBrailleInterpreter.GetDotsFromString method" Url="html/7f51deb3-1ea8-0732-851c-e9a79a8663a9.htm" />
+  <HelpKINode Title="IBrailleInterpreter.GetStringFormDots method" Url="html/37f79b5b-ef4f-b3b3-b10b-014d741756ec.htm" />
   <HelpKINode Title="IBrailleIOAdapter interface">
     <HelpKINode Title="IBrailleIOAdapter Interface" Url="html/454a74ad-eabd-bbbb-4237-ecc6c3c90dd3.htm" />
     <HelpKINode Title="about IBrailleIOAdapter interface" Url="html/454a74ad-eabd-bbbb-4237-ecc6c3c90dd3.htm" />
@@ -1208,7 +1288,7 @@
   <HelpKINode Title="IBrailleIOShowOffMonitor.InitializeBrailleIO method" Url="html/492009cc-be9b-fcfb-6d20-6b2be7adc09b.htm" />
   <HelpKINode Title="IBrailleIOShowOffMonitor.MarkButtonAsPressed method" Url="html/6412acd8-28f3-0646-29a7-6e69c4fc3938.htm" />
   <HelpKINode Title="IBrailleIOShowOffMonitor.Paint method" Url="html/cbc722cd-020b-28bb-b118-daf3b77e0ae5.htm" />
-  <HelpKINode Title="IBrailleIOShowOffMonitor.PaintTouchMatrix method" Url="html/dd7e3428-3fa6-a4cd-6d5a-c2e2150e2df1.htm" />
+  <HelpKINode Title="IBrailleIOShowOffMonitor.PaintTouchMatrix method" Url="html/11ce048e-3783-4e5f-d39e-a1c34ab51d83.htm" />
   <HelpKINode Title="IBrailleIOShowOffMonitor.PictureOverlaySize property" Url="html/b9694442-a119-3604-5140-7fdb0d4977dd.htm" />
   <HelpKINode Title="IBrailleIOShowOffMonitor.ResetStatusText method" Url="html/39563885-c20b-9cf3-2fb2-bfd926cdffe4.htm" />
   <HelpKINode Title="IBrailleIOShowOffMonitor.SetPictureOverlay method" Url="html/2f864748-1771-0f99-4704-af94d2d2eb41.htm" />
@@ -1441,22 +1521,30 @@
   </HelpKINode>
   <HelpKINode Title="IZoomable.GetZoom method" Url="html/aaf3c88e-dc71-ecbf-31b2-4e944a684c73.htm" />
   <HelpKINode Title="IZoomable.SetZoom method" Url="html/9ddceef1-61f5-4119-a227-06a8408a69ac.htm" />
-  <HelpKINode Title="k1Down enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k1Up enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k2Down enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k2Up enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k3Down enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k3Up enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k4Down enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k4Up enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k5Down enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k5Up enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k6Down enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k6Up enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k7Down enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k7Up enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k8Down enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
-  <HelpKINode Title="k8Up enumeration member" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
+  <HelpKINode Title="k1 enumeration member" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+  <HelpKINode Title="k1Down enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k1Up enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k2 enumeration member" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+  <HelpKINode Title="k2Down enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k2Up enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k3 enumeration member" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+  <HelpKINode Title="k3Down enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k3Up enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k4 enumeration member" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+  <HelpKINode Title="k4Down enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k4Up enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k5 enumeration member" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+  <HelpKINode Title="k5Down enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k5Up enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k6 enumeration member" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+  <HelpKINode Title="k6Down enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k6Up enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k7 enumeration member" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+  <HelpKINode Title="k7Down enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k7Up enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k8 enumeration member" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+  <HelpKINode Title="k8Down enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+  <HelpKINode Title="k8Up enumeration member" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
   <HelpKINode Title="KdNode class">
     <HelpKINode Title="KdNode Class" Url="html/ba222686-35b7-d75a-3c36-465d817bd552.htm" />
     <HelpKINode Title="about KdNode class" Url="html/ba222686-35b7-d75a-3c36-465d817bd552.htm" />
@@ -1499,10 +1587,8 @@
   <HelpKINode Title="KdTree.TopDownNearestNeighbour(Of Vertex) method" Url="html/5141a5a4-5df4-d393-582a-7479798b6692.htm" />
   <HelpKINode Title="KdTree.TopDownNearestNeighbour&lt;Vertex&gt; method" Url="html/5141a5a4-5df4-d393-582a-7479798b6692.htm" />
   <HelpKINode Title="KdTree.Undelete method" Url="html/8da42393-cc59-a164-6097-a902778acd55.htm" />
-  <HelpKINode Title="keyCode field">
-    <HelpKINode Title="BrailleIO_KeyPressed_EventArgs.keyCode Field" Url="html/1efc04da-b53e-62b3-f6a8-9410d3623da6.htm" />
-    <HelpKINode Title="BrailleIO_KeyStateChanged_EventArgs.keyCode Field" Url="html/f655f20d-7af6-6b70-127d-1d56e51daec5.htm" />
-  </HelpKINode>
+  <HelpKINode Title="keyboardCode field" Url="html/b9f6cfa3-bca3-ecc8-a20c-8ce28c429496.htm" />
+  <HelpKINode Title="keyCode field" Url="html/074f527a-878f-3216-b773-e0be232ff13e.htm" />
   <HelpKINode Title="keyPressed event">
     <HelpKINode Title="AbstractBrailleIOAdapterBase.keyPressed Event" Url="html/03d62a14-e148-7a56-864b-2fc63506bba9.htm" />
     <HelpKINode Title="IBrailleIOAdapter.keyPressed Event" Url="html/cb92091e-ee0d-3b1e-dbf4-bcca1a5ce560.htm" />
@@ -1579,6 +1665,7 @@
   <HelpKINode Title="MatrixBrailleRenderer.MatrixBrailleRenderer constructor" Url="html/f19e24dd-37c6-6622-3f30-fd16daa06e35.htm" />
   <HelpKINode Title="MatrixBrailleRenderer.RenderingProperties property" Url="html/6506497f-23d3-6792-a10e-73e0aa124c4b.htm" />
   <HelpKINode Title="MatrixBrailleRenderer.RenderMatrix method" Url="html/e22b8ce9-7e01-0a4f-923f-0e66210f6ea3.htm" />
+  <HelpKINode Title="MatrixBrailleRenderer.stdBrlIntrprtr property" Url="html/3c46d735-2d9d-90b2-4388-ab6b03646492.htm" />
   <HelpKINode Title="maxRenderingWaitTrys field" Url="html/06a10904-912b-27e4-40b5-ef37f1af0a27.htm" />
   <HelpKINode Title="MaxTicksToSynchronize property" Url="html/6206769a-3022-7b6b-2f45-db6f8ad540aa.htm" />
   <HelpKINode Title="MAX_ZOOM_LEVEL field" Url="html/4c770b19-c293-98e6-b1b4-89a78f07abf4.htm" />
@@ -1636,14 +1723,18 @@
     <HelpKINode Title="ClassificationResult.NodeParameters Property " Url="html/7e6ba431-ec24-9eae-bada-6305c3f55f64.htm" />
     <HelpKINode Title="IClassificationResult.NodeParameters Property " Url="html/a47ba71d-c1b6-13b3-75c2-cee90fcc90e4.htm" />
   </HelpKINode>
+  <HelpKINode Title="None enumeration member">
+    <HelpKINode Title="BrailleIO_BrailleKeyboardButtonStates Enumeration" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
+    <HelpKINode Title="BrailleIO_DeviceButtonStates Enumeration" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
+    <HelpKINode Title="BrailleIO_AdditionalButton Enumeration" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+    <HelpKINode Title="BrailleIO_AdditionalButtonStates Enumeration" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+    <HelpKINode Title="BrailleIO_BrailleKeyboardButton Enumeration" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+    <HelpKINode Title="BrailleIO_DeviceButton Enumeration" Url="html/b9cd9a1e-a561-ee03-0f71-db5f74f7ab3f.htm" />
+  </HelpKINode>
   <HelpKINode Title="NONE enumeration member">
     <HelpKINode Title="BrailleRendererPartType Enumeration" Url="html/57642c70-aa95-6524-7dc0-e95f6800e589.htm" />
     <HelpKINode Title="ErrorCode Enumeration" Url="html/5ce8f74c-3b9b-22f2-8102-f4ca50265d43.htm" />
     <HelpKINode Title="RenderingProperties Enumeration" Url="html/e49c0898-f607-8d5e-4471-1ee6a0e5a181.htm" />
-  </HelpKINode>
-  <HelpKINode Title="None enumeration member">
-    <HelpKINode Title="BrailleIO_DeviceButton Enumeration" Url="html/b9cd9a1e-a561-ee03-0f71-db5f74f7ab3f.htm" />
-    <HelpKINode Title="BrailleIO_DeviceButtonStates Enumeration" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
   </HelpKINode>
   <HelpKINode Title="Num property">
     <HelpKINode Title="IVertex.Num Property " Url="html/8a3fbf10-416d-062f-23dc-b21283a5ea0c.htm" />
@@ -1735,8 +1826,8 @@
   </HelpKINode>
   <HelpKINode Title="PaintBoolMatrixToImage method" Url="html/9165e097-0a4f-d39b-81d8-777a8ed47f82.htm" />
   <HelpKINode Title="PaintTouchMatrix method">
-    <HelpKINode Title="IBrailleIOShowOffMonitor.PaintTouchMatrix Method " Url="html/dd7e3428-3fa6-a4cd-6d5a-c2e2150e2df1.htm" />
-    <HelpKINode Title="ShowOff.PaintTouchMatrix Method " Url="html/b7e8901c-1e35-8c1c-0292-c4c2b1a52fe2.htm" />
+    <HelpKINode Title="IBrailleIOShowOffMonitor.PaintTouchMatrix Method " Url="html/11ce048e-3783-4e5f-d39e-a1c34ab51d83.htm" />
+    <HelpKINode Title="ShowOff.PaintTouchMatrix Method " Url="html/f8761477-0eaf-c55a-2165-3e3567d9c35e.htm" />
   </HelpKINode>
   <HelpKINode Title="PARAGRAPH enumeration member" Url="html/57642c70-aa95-6524-7dc0-e95f6800e589.htm" />
   <HelpKINode Title="Parent property" Url="html/c57e6a6a-6c9b-fe58-ea45-5289572e720e.htm" />
@@ -1775,8 +1866,7 @@
   <HelpKINode Title="raw field">
     <HelpKINode Title="BrailleIO_ErrorOccured_EventArgs.raw Field" Url="html/8abd3e7a-5655-169c-dd3c-9e0e6b9dd0a3.htm" />
     <HelpKINode Title="BrailleIO_InputChanged_EventArgs.raw Field" Url="html/5d39aa7c-7593-f8e4-bedc-a0a1c3c834d0.htm" />
-    <HelpKINode Title="BrailleIO_KeyPressed_EventArgs.raw Field" Url="html/ec51075b-f7b6-7870-5f2b-4e71efc2ba34.htm" />
-    <HelpKINode Title="BrailleIO_KeyStateChanged_EventArgs.raw Field" Url="html/d7ec5fd6-be73-dd69-8498-7eb844cdeaf3.htm" />
+    <HelpKINode Title="BrailleIO_KeyEventArgs.raw Field" Url="html/43045a33-5c2c-238b-c13c-f135b7c4ef73.htm" />
     <HelpKINode Title="BrailleIO_TouchValuesChanged_EventArgs.raw Field" Url="html/9b192021-092b-4be9-417f-d2ca37ccf4bf.htm" />
   </HelpKINode>
   <HelpKINode Title="Recalibrate method">
@@ -1850,11 +1940,11 @@
   <HelpKINode Title="renderingWaitTimeout field" Url="html/e2cfaff9-746f-2b48-2254-11733835d2d9.htm" />
   <HelpKINode Title="RenderMatrix method">
     <HelpKINode Title="AbstractCachingRendererBase.RenderMatrix Method " Url="html/d83adae2-a087-6759-9bb9-0a7de69ceefa.htm" />
-    <HelpKINode Title="BrailleIOImageToMatrixRenderer.RenderMatrix Method " Url="html/0d8da05f-49e7-661d-9aba-c6833cd9a830.htm" />
     <HelpKINode Title="BrailleIOViewMatixRenderer.RenderMatrix Method " Url="html/02212575-20ef-7d4d-548b-f9a9facae49b.htm" />
-    <HelpKINode Title="IBrailleIOContentRenderer.RenderMatrix Method " Url="html/075750b5-c539-f541-30e9-481a340fdc81.htm" />
     <HelpKINode Title="IBrailleIORendererInterfaces.RenderMatrix Method " Url="html/4ea33e76-5b7e-8cdd-6ca8-985425e98e9b.htm" />
     <HelpKINode Title="MatrixBrailleRenderer.RenderMatrix Method " Url="html/e22b8ce9-7e01-0a4f-923f-0e66210f6ea3.htm" />
+    <HelpKINode Title="BrailleIOImageToMatrixRenderer.RenderMatrix Method " Url="html/0d8da05f-49e7-661d-9aba-c6833cd9a830.htm" />
+    <HelpKINode Title="IBrailleIOContentRenderer.RenderMatrix Method " Url="html/075750b5-c539-f541-30e9-481a340fdc81.htm" />
   </HelpKINode>
   <HelpKINode Title="renderMatrix method" Url="html/882a6182-4dcf-f9a3-44fc-c7fe8255e86c.htm" />
   <HelpKINode Title="Reset method" Url="html/90b2e8d6-e59c-ca2a-964d-11a30eb528cd.htm" />
@@ -1963,6 +2053,8 @@
     <HelpKINode Title="BrailleIOViewRange.SetZoom Method " Url="html/736ebb39-a4f6-0b7a-0a5c-42472c6122b8.htm" />
     <HelpKINode Title="IZoomable.SetZoom Method " Url="html/9ddceef1-61f5-4119-a227-06a8408a69ac.htm" />
   </HelpKINode>
+  <HelpKINode Title="ShiftDownButtonsToUpButtonStates method" Url="html/7fe5a2e7-6192-487b-1949-0c46d94b6186.htm" />
+  <HelpKINode Title="ShiftUpButtonsToUpDownStates method" Url="html/e8b6be79-a168-30b6-4af4-3368449d8a26.htm" />
   <HelpKINode Title="ShowMenuStrip method" Url="html/7616beca-9444-7e81-df51-d9a50944adf1.htm" />
   <HelpKINode Title="ShowOff class">
     <HelpKINode Title="ShowOff Class" Url="html/21efa3a3-1f67-7785-d6ac-a536b455c3a1.htm" />
@@ -1975,8 +2067,9 @@
   </HelpKINode>
   <HelpKINode Title="ShowOff.AddMenuItem method" Url="html/7912bf9f-8c2b-9848-a9cf-3f817cc334f7.htm" />
   <HelpKINode Title="ShowOff.Ctr property" Url="html/03c3ccfe-b1cc-fdde-ac4f-4acc6e100c19.htm" />
+  <HelpKINode Title="ShowOff.detailedTouchStack field" Url="html/bdae5dfd-17bb-c69d-75dc-a050bc82d585.htm" />
   <HelpKINode Title="ShowOff.Dispose method" Url="html/b3e41937-1119-8565-fbec-e5421bb24d7c.htm" />
-  <HelpKINode Title="ShowOff.fireKeyStateChangeEvent method" Url="html/a5241b89-8c24-b7fc-512c-cab15ab4f1ee.htm" />
+  <HelpKINode Title="ShowOff.fireKeyStateChangeEvent method" Url="html/ee7459c1-d506-9c4b-55f4-ec29d63e8af1.htm" />
   <HelpKINode Title="ShowOff.GetAdapter method" Url="html/7643f4c6-a778-2caa-472e-77cc621d307e.htm" />
   <HelpKINode Title="ShowOff.GetPictureOverlay method" Url="html/098fd8ca-1b17-6fbb-ca7b-7f8209ea8ea3.htm" />
   <HelpKINode Title="ShowOff.GetTitle method" Url="html/2b4da0d0-d9a2-b11a-0793-32ee72544d5e.htm" />
@@ -1987,7 +2080,7 @@
   <HelpKINode Title="ShowOff.MartixStack field" Url="html/09c6f6ed-ff14-98b2-c6ea-dfcab9c358ac.htm" />
   <HelpKINode Title="ShowOff.menuStripMain field" Url="html/0dc53aee-2378-486f-c55b-8d9bec6b4978.htm" />
   <HelpKINode Title="ShowOff.Paint method" Url="html/2d237bfa-03dc-284a-ce22-da225b4fe715.htm" />
-  <HelpKINode Title="ShowOff.PaintTouchMatrix method" Url="html/b7e8901c-1e35-8c1c-0292-c4c2b1a52fe2.htm" />
+  <HelpKINode Title="ShowOff.PaintTouchMatrix method" Url="html/f8761477-0eaf-c55a-2165-3e3567d9c35e.htm" />
   <HelpKINode Title="ShowOff.PictureOverlaySize property" Url="html/fad8a92b-83d2-bfd8-b91d-3f5149fcacbd.htm" />
   <HelpKINode Title="ShowOff.PointIsInsideEllipse method" Url="html/f1432ae5-1ee9-5c74-77ae-b67bc6a85524.htm" />
   <HelpKINode Title="ShowOff.RemoveMenuItem method" Url="html/236113dd-18ae-6cb9-2af5-e0aaf4d1e7ea.htm" />
@@ -2037,6 +2130,7 @@
     <HelpKINode Title="GestureRecognizer.StartEvaluation Method " Url="html/4efdeeec-74d8-507f-b7f7-07efbfe56e70.htm" />
     <HelpKINode Title="IRecognizeGestures.StartEvaluation Method " Url="html/d62aff86-45d5-b2e5-0304-d8140428770a.htm" />
   </HelpKINode>
+  <HelpKINode Title="stdBrlIntrprtr property" Url="html/3c46d735-2d9d-90b2-4388-ab6b03646492.htm" />
   <HelpKINode Title="Subtract(Of Vert1, Vert2) method" Url="html/0c24fe96-3211-e66e-a814-26b061d46a9b.htm" />
   <HelpKINode Title="Subtract&lt;Vert1, Vert2&gt; method" Url="html/0c24fe96-3211-e66e-a814-26b061d46a9b.htm" />
   <HelpKINode Title="Subtraction operator" Url="html/e7856363-e468-80a3-60e3-d7025f9ec0c4.htm" />
@@ -2100,8 +2194,8 @@
   <HelpKINode Title="Touch.Equals method" Url="html/9aaa2597-17f2-7ccc-29d3-4410220413ad.htm" />
   <HelpKINode Title="Touch.GetHashCode method" Url="html/da9eb35d-118e-8c4e-12eb-1b517e8fe32d.htm" />
   <HelpKINode Title="Touch.id field" Url="html/763a3716-f7bf-2229-c0c9-56089fdc349b.htm" />
-  <HelpKINode Title="Touch.intense field" Url="html/09dc8934-6ca1-876e-f70a-502149768970.htm" />
   <HelpKINode Title="Touch.Intense field" Url="html/e944fc94-0ee2-39a0-f78e-8c7db73f9501.htm" />
+  <HelpKINode Title="Touch.intense field" Url="html/09dc8934-6ca1-876e-f70a-502149768970.htm" />
   <HelpKINode Title="Touch.PinX field" Url="html/34a0fc75-9b54-365c-46a1-0393c1152bf9.htm" />
   <HelpKINode Title="Touch.PinY field" Url="html/772e3c7a-207d-139e-bdf3-dd7367db8633.htm" />
   <HelpKINode Title="Touch.ToString method" Url="html/1f3ac4db-794f-8f58-5f4f-6b24b9239797.htm" />
@@ -2144,12 +2238,16 @@
   <HelpKINode Title="Type field" Url="html/c463451b-3d3c-83f8-6666-7b6831718dd1.htm" />
   <HelpKINode Title="Undelete method" Url="html/8da42393-cc59-a164-6097-a902778acd55.htm" />
   <HelpKINode Title="Unknown enumeration member">
+    <HelpKINode Title="BrailleIO_AdditionalButtonStates Enumeration" Url="html/eebbc9e2-7a7e-6e36-c73e-dab435f7cfcd.htm" />
+    <HelpKINode Title="BrailleIO_AdditionalButton Enumeration" Url="html/b5d793d3-c9b0-b164-43dc-ffd38d16c8e9.htm" />
+    <HelpKINode Title="BrailleIO_BrailleKeyboardButton Enumeration" Url="html/c5100a58-74aa-29cd-6807-796bc1d7fc51.htm" />
+    <HelpKINode Title="BrailleIO_BrailleKeyboardButtonStates Enumeration" Url="html/5877b6c7-4393-6f09-5f46-a6de37c74e47.htm" />
     <HelpKINode Title="BrailleIO_DeviceButton Enumeration" Url="html/b9cd9a1e-a561-ee03-0f71-db5f74f7ab3f.htm" />
     <HelpKINode Title="BrailleIO_DeviceButtonStates Enumeration" Url="html/5a96053f-7f33-57a5-ac10-3c25be87c549.htm" />
   </HelpKINode>
   <HelpKINode Title="UNKNOWN enumeration member">
-    <HelpKINode Title="ErrorCode Enumeration" Url="html/5ce8f74c-3b9b-22f2-8102-f4ca50265d43.htm" />
     <HelpKINode Title="BrailleRendererPartType Enumeration" Url="html/57642c70-aa95-6524-7dc0-e95f6800e589.htm" />
+    <HelpKINode Title="ErrorCode Enumeration" Url="html/5ce8f74c-3b9b-22f2-8102-f4ca50265d43.htm" />
   </HelpKINode>
   <HelpKINode Title="UnlockPins method" Url="html/80ad5f15-678f-04c9-b0c1-815ab192e677.htm" />
   <HelpKINode Title="UnmarkButtons method">
@@ -2169,10 +2267,16 @@
     <HelpKINode Title="about Utils class" Url="html/cab6eaae-98f7-ce7e-735c-a5242352ab13.htm" />
     <HelpKINode Title="methods" Url="html/4f378a8c-8386-5076-9226-568a53e318c3.htm" />
   </HelpKINode>
-  <HelpKINode Title="Utils.GetDeviceButtonOfState method" Url="html/80130990-6199-6231-ecbe-0ac9a47fdee0.htm" />
+  <HelpKINode Title="Utils.GetAllDownDeviceButtons method" Url="html/08c38973-3c51-df92-8e53-f0a7f01e0ec9.htm" />
+  <HelpKINode Title="Utils.GetAllUpDeviceButtons method" Url="html/90c3718b-61a7-f46a-4976-93157c61fcf7.htm" />
+  <HelpKINode Title="Utils.GetButtonDownFlags method" Url="html/9a4c6bbd-4f66-b8ed-a339-50931adb59c0.htm" />
+  <HelpKINode Title="Utils.GetButtonUpFlags method" Url="html/ba078328-f997-7ceb-14e5-1785692c379c.htm" />
+  <HelpKINode Title="Utils.GetDeviceButtonFlagsOfState method" Url="html/4662bf3f-892b-23a0-5653-f540f8d05d61.htm" />
   <HelpKINode Title="Utils.GetDeviceButtonsOfStates method" Url="html/fdf59e6e-413f-7002-9212-e232113ae4bb.htm" />
-  <HelpKINode Title="Utils.GetDownStateForDeviceButton method" Url="html/679b0f54-3ffd-990c-8693-028a0b3b8177.htm" />
-  <HelpKINode Title="Utils.GetUpStateForDeviceButton method" Url="html/de0b6bab-25b2-50da-8f8b-06ff0b9020e1.htm" />
+  <HelpKINode Title="Utils.GetDownStateForDeviceButton method" Url="html/c85195a6-8b7b-64b0-08cc-11e6cf0ab038.htm" />
+  <HelpKINode Title="Utils.GetUpStateForDeviceButton method" Url="html/351b056f-a425-33bc-0502-8a7c1d82a9b5.htm" />
+  <HelpKINode Title="Utils.ShiftDownButtonsToUpButtonStates method" Url="html/7fe5a2e7-6192-487b-1949-0c46d94b6186.htm" />
+  <HelpKINode Title="Utils.ShiftUpButtonsToUpDownStates method" Url="html/e8b6be79-a168-30b6-4af4-3368449d8a26.htm" />
   <HelpKINode Title="Values property" Url="html/63a965ff-0e0d-25c8-a6a9-e717c58737ab.htm" />
   <HelpKINode Title="Vertex structure">
     <HelpKINode Title="Vertex Structure" Url="html/e838dd2b-cd8f-fb02-26c0-f2fe28687cd1.htm" />
@@ -2234,14 +2338,14 @@
   </HelpKINode>
   <HelpKINode Title="WORD enumeration member" Url="html/57642c70-aa95-6524-7dc0-e95f6800e589.htm" />
   <HelpKINode Title="WORD_PART enumeration member" Url="html/57642c70-aa95-6524-7dc0-e95f6800e589.htm" />
-  <HelpKINode Title="X field" Url="html/7702a829-d602-bdbb-b498-c2659f210b04.htm" />
   <HelpKINode Title="x field" Url="html/364a248d-fade-3db2-a958-fd1ecb4ca4b3.htm" />
+  <HelpKINode Title="X field" Url="html/7702a829-d602-bdbb-b498-c2659f210b04.htm" />
   <HelpKINode Title="X property">
     <HelpKINode Title="RenderElement.X Property " Url="html/b5adf50b-21e6-36a7-a803-0d9dd96372ba.htm" />
     <HelpKINode Title="Sample.X Property " Url="html/9fb08657-1390-cf41-4ed8-227880e23d50.htm" />
   </HelpKINode>
-  <HelpKINode Title="y field" Url="html/6816472d-ba6b-46a9-7789-7c133fdbf8ca.htm" />
   <HelpKINode Title="Y field" Url="html/25c0976f-db33-b7cc-9ae8-7db11e7c9e5b.htm" />
+  <HelpKINode Title="y field" Url="html/6816472d-ba6b-46a9-7789-7c133fdbf8ca.htm" />
   <HelpKINode Title="Y property">
     <HelpKINode Title="RenderElement.Y Property " Url="html/97dd6023-bca5-018c-b04e-709070633963.htm" />
     <HelpKINode Title="Sample.Y Property " Url="html/78297b98-deb4-3f78-fff6-71dfa43317be.htm" />
