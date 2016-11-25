@@ -250,13 +250,13 @@ namespace BrailleIO
             {
                 if (this.pictureBox_overAllOverlay != null)
                 {
-                    if (this.InvokeRequired)
-                    {
+                    //if (this.InvokeRequired)
+                    //{
                         this.Invoke((MethodInvoker)delegate
                         {
                             setPictureOverlay(image);
                         });
-                    }
+                    //}
 
                 }
                 return true;

@@ -39,7 +39,7 @@ BrailleIO is a small framework that should enable application developers to fast
 
 More technical details can be found in [Bornschein, Jens. "BrailleIO-a Tactile Display Abstraction Framework." Proceedings of TacTT ’14 Workshop, Nov 16 2014, Dresden, Germany. 2014.](http://ceur-ws.org/Vol-1324/paper_4.pdf)
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 
 ## Subprojects
@@ -52,7 +52,7 @@ This is the main project linking all other projects together. It is used to init
 
 In the following the main components will be named and explained.
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 #### BrailleIOMediator
 
@@ -62,7 +62,7 @@ In this component the renderers for the currently active screens and visible vie
 
 ![Basic UML structure of the BrailleIO framework showing the BraillIOMediator connecting the UI elements with the Hardware abstraction part](/doc_imgs/UML-Basic-Structure.png)
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 #### BrailleIOScreen
 
@@ -70,7 +70,7 @@ This is a container for several views that can contain content. Only one screen 
 
 ![BrailleIO can build applications with several screens. A screen can contain several viewRanges that can have independent controlled content](/doc_imgs/sreens-and-viewRange.png)
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 #### BrailleIOViewRange
 
@@ -87,7 +87,7 @@ A view Range has a view Box – which defines the position, size and look on the
 
 Content can be zoomed if the currently active renderer allows for zoomed rendering.
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 #### Adapter
 
@@ -99,7 +99,7 @@ The adapter manager is an abstract implementation for a component that manages t
 
 ![An hardware abstracting adapter implementation has to implement the interface IBrailleIOAdapter and has to fill his fields to enable to proper usage of the hardware.](/doc_imgs/UML-Adapter.png)
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 #### Renderer
 
@@ -127,7 +127,7 @@ Renders scrollbars inside the view rage to indicate the values of the offset pos
 
 Places the rendered content matrix inside the view box with respect of panning offsets and the defined box model.
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 ### BrailleIO_Interfaces
 
@@ -143,7 +143,7 @@ The box model struct is used to define margin, padding and borders for view rang
 
 This struct is used to build rendered element trees for renderer results. This can be used to return the source elements of a renderer result on a certain content position. Can be used as result value for ITouchableRenderer requests.
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 #### Interfaces
 
@@ -198,7 +198,7 @@ The following standard renderer are hookable:
 
 The interface a process has to implement to be used as a renderer hook.
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 ### BrailleIO_ShowOff
 
@@ -236,22 +236,141 @@ There are 3 kinds of button types available in the BrailleIO framework:
 In the ShowOff adapter, the buttons are placed and coded as follow (only one stack of 15 additional buttons is modeled):
 
 Standard buttons (BrailleIO_DeviceButton):
+
 TODO: image
 
 Braille Keyboard (BrailleIO_BrailleKeyboardButton):
+
 TODO: image
 
 15 additional function keys (BrailleIO_AdditionalButton):
+
 TODO: image
 
 All 36 button codes together:
+
 TODO: image
 
 Beyond the generalized button modelling the ShowOff adapter also simulates the proprietary interpretation of buttons and provide them in the raw data filed of the `keyStateChanged` event. Therefore, the buttons are defined by a string uid. The string uids are defined as followed:
+
 TODO: image 
 
+[[*back to outline* :arrow_up:]](#outline)
 
-[*back to outline* :arrow_up:](#outline)
+
+#### DEBUG and GUI
+
+The ShowOff adapter is designed as a debug tool and to not make the availability of a two-dimensional, dynamic tactile pin matrix device an essential part for software development for such devices. Thereto, often not only the mimic of standard device features, such as displaying a bool matrix or sending touch and button interaction, are necessary. Moreover, some additional functionality for a better debugging and monitoring are desirable for developers. 
+
+In the following, some features for making the ShowOff adapter a powerful debug monitor are presented.
+
+##### Single line debug output console
+
+The ShowOff adapter GUI has a status strip at the very bottom of the window. To this status strip, you can sent text messages, which will be displayed. 
+
+``` C#
+// create a ShowOff monitor object
+BrailleIO.IBrailleIOShowOffMonitor Monitor = new ShowOff();
+// send your debug text to the status strip
+Monitor.SetStatusText("Hello World");
+
+// erase the text by simply calling
+Monitor.ResetStatusText();
+```
+
+##### Mirror touch data from other devices
+Let the ShowOff GUI display the touch data from other connected BrailleIO adapters to visualize them to you.
+
+``` C#
+// create a ShowOff monitor object
+BrailleIO.IBrailleIOShowOffMonitor Monitor = new ShowOff();
+
+...
+
+// in the touch event handler you can mirror the touch data to the ShowOff GUI
+void _touchValuesChanged(object sender, BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs e)
+{
+	if (e != null)
+	{
+		if (Monitor != null) Monitor.PaintTouchMatrix(e.touches, e.DetailedTouches);
+	}
+}
+```
+
+##### Mirror button interaction states from other devices
+
+TODO: have to be adapted to the new button codes ...
+
+##### Create a visual overlay on top of the display area
+
+For visualizing additional data, you can paint a visual image and lay this over the display area of the ShowOff GUI.
+
+``` C#
+// create a ShowOff monitor object
+BrailleIO.IBrailleIOShowOffMonitor Monitor = new ShowOff();
+
+...
+
+if (Monitor != null)
+{
+	// create your overlay picture
+	Bitmap img = new Bitmap(
+				Monitor.PictureOverlaySize.Width,
+				Monitor.PictureOverlaySize.Height);
+
+	using (Graphics g = Graphics.FromImage(img))
+	{
+		g.DrawString("Hellow World", 
+			SystemFonts.DefaultFont, Brushes.Red, 
+			new PointF(20, 50));
+	}
+	// send the image to the ShowOff monitor for displaying
+	Monitor.SetPictureOverlay(img);
+}
+```
+
+##### Change the title of the GUI window
+
+Of cause sometimes, the Debug Monitor is used as a real application’s GUI. Therefore, the title of the GUI window is changeable.
+
+``` C#
+// create a ShowOff monitor object
+BrailleIO.IBrailleIOShowOffMonitor Monitor = new ShowOff();
+// sent your title for the application window
+// this feature is not part of the interface, but of the ShowOff object
+((ShowOff)Monitor).SetTitle("My tactile application");
+```
+
+##### Add a menu to the GUI Window
+
+Of cause sometimes, the Debug Monitor is used as a real application’s GUI. Therefore, the possibility to add a standard menu is provided.
+
+``` C#
+// create a ShowOff monitor object
+BrailleIO.IBrailleIOShowOffMonitor Monitor = new ShowOff();
+
+// make the menu strip appear in the GUI
+((ShowOff)Monitor).ShowMenuStrip();
+
+// hide the menu strip from the GUI
+// ((ShowOff)Monitor).HideMenuStrip();
+
+// Build your menu 
+var item = new ToolStripMenuItem("&Application");
+item.Click += item_Click; // add event handlers
+
+item.DropDown = new ToolStripDropDown();
+item.DropDown.Items.Add("&Exit", null, item_Click);
+
+// add your menu to the strip
+// this feature is not part of the interface, but of the ShowOff object
+((ShowOff)Monitor).AddMenuItem(item);
+```
+
+
+[[*back to outline* :arrow_up:]](#outline)
+
+
 
 ### BrailleRenderer
 
@@ -259,7 +378,7 @@ This project builds the currently used renderer to transform a given string inpu
 
 This render builds the standard render for String content of the BrailleIo framework. It also implements the ITouchableRenderer interface in a very detailed manner. This allows for highly interactive touchable interface build on this simple text-to-Braille-renderer.
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 ### GestureRecognizer
 
@@ -353,13 +472,13 @@ if (gestureRecognizer != null)
 }
 ```
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 ### BrailleIOExample
 
 This is an example application showing for the usage of several basic functions and objects.
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 
 ## How to use:
@@ -368,7 +487,7 @@ This is an example application showing for the usage of several basic functions 
 
 ![An application using BrailleIO can be set up in a view steps ](/doc_imgs/Usage.png)
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 
 ### How to build a hardware abstraction
@@ -395,18 +514,18 @@ allPressedKeys| `List<String>` | List of stings that represent all currently pre
 allReleasedKeys| `List<String>` | List of stings that represent all last released buttons
 newPressedKeys| `List<String>` | List of stings that represent all last newly pressed buttons
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 ## You want to know more?
 For getting a very detailed overview use the [code documentaion section](/Help/index.html) of this project.
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 # Examples 
 
 TODO: add a MWE.
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 # Deep Dive
 
@@ -450,7 +569,7 @@ bool[,] RenderMatrix(IViewBoxModel view, object content);
 
 In the implementation of the function, the renderer get information about the view (normally this is a `BrailleIOViewRange`) and the content to transform.
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 ### Make the renderer hookable
 
@@ -481,13 +600,13 @@ To make it easier to use and to handle all the hooking and hook calling stuff, a
 
 ATTENTION: Be aware that calling hooks can damage your rendering result and can make the rendering inefficient and slow!
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 ### Make a renderer cacheable
 
 TODO: comes later
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
 
 ### Make your renderer touchable
 
@@ -523,4 +642,4 @@ namespace BrailleIO.Renderer
 
 For content objects, such as texts, a helping structure called `BrailleIO.Renderer.Structs.RenderElement` is available. In this struct several features such as building a content tree. This struct is only usable for rectangular content types because of its bounding-box based metaphor.
 
-[*back to outline* :arrow_up:](#outline)
+[[*back to outline* :arrow_up:]](#outline)
