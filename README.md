@@ -14,11 +14,11 @@
 		6. [BrailleIOExample](#brailleioexample)
 	3. [How to use:](#how-to-use)
 		1. [How to build a hardware abstraction](#how-to-build-a-hardware-abstraction)
+			1. [Set up a new Adapter]( #set-up-a-new-adapter)
+				1. [Recommendations for event data (raw data)](#recommendations-for-event-data-raw-data)
 2. [Examples – still empty yet](#examples)
 3. [Deep Dive](#deep-dive)
-	1. [Set up a new Adapter]( #set-up-a-new-adapter)
-		1. [Recommendations for event data (raw data)](#recommendations-for-event-data-raw-data)
-	2. [Build your own renderer](#build-your-own-renderer)
+	1. [Build your own renderer](#build-your-own-renderer)
 		1. [Make the renderer hookable](#make-the-renderer-hookable)
 		2. [Make a renderer cacheable] (#make-a-renderer-cacheable)
 		3. [Make your renderer touchable](#make-your-renderer-touchable)
@@ -27,6 +27,7 @@
 
 #BrailleIO
 
+Abstraction Framework for tactile pin-matrix devices' output and user input modelling.
 
 ## Intension:
 
