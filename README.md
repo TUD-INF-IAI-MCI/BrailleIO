@@ -255,6 +255,11 @@ Beyond the generalized button modelling the ShowOff adapter also simulates the p
 
 TODO: image 
 
+**Hint:**
+
+To make the handling of the several button state Enum-Flag combined fields a bit more handy, in `BrailleIO.Interface.Utils` some functions for transforming the button states into buttons, extract special button states (pressed / released), switch button states to their revers state or get button states for buttons etc. exist. Have a look to the help files for a more detailed overview. Or take a look at the Examples section.
+
+
 [[*back to outline* :arrow_up:]](#outline)
 
 
@@ -523,7 +528,167 @@ For getting a very detailed overview use the [code documentaion section](/Help/i
 
 # Examples 
 
+## Small Basic Setup of three regions in one screen
+
 TODO: add a MWE.
+
+
+## Button interaction handling
+
+Button handling for the general modeled buttons is quite easy. You only have to check, if your buttons you are looking for are set as the sate you want to handle.
+
+In practice it becomes clear that handling released buttons is more stable than handling the pressed events. This is based on the nature of non-visual interaction, where button interaction is often handled as button combinations. This means a user takes time to find and press all the buttons of a certain combination but can release them together in a short period you have to observe. Beside you can make some validations for a correct button handling, e.g. don’t accept the button event if another button is currently pressed, which is an indication for an error or the intension for an extended button combination.
+
+For a button handling first, you need an adapter to observe for button events.
+
+``` C#
+// set up a dummy adapter ... use the build in ShowOff Adapter
+BrailleIOMediator io = BrailleIOMediator.Instance;
+
+Monitor = new ShowOff();
+IBrailleIOAdapter showOffAdptr = Monitor.GetAdapter(io.AdapterManager);
+if (showOffAdptr != null)
+{
+	// add the dummy adapter to the Adapter manager of the framework
+	io.AdapterManager.AddAdapter(showOffAdptr);
+	// make them the active one! So it will be filled with tactile content.
+	io.AdapterManager.ActiveAdapter = showOffAdptr;
+
+	// if don't want to make the dummy adapter the main one 
+	// but monitor the tactile output, use the 'Synch' property of its
+	// abstract implementation 'AbstractBrailleIOAdapterBase'
+	((AbstractBrailleIOAdapterBase)showOffAdptr).Synch = true;
+
+	// register to the key events
+	showOffAdptr.keyStateChanged += showOffAdptr_keyStateChanged;
+}
+```
+
+In the related Event handler, you can check the different button states
+ 
+``` C#
+/// <summary>
+/// Handles the keyStateChanged event of the showOffAdptr.
+/// </summary>
+/// <param name="sender">The source of the event.</param>
+/// <param name="e">The <see cref="BrailleIO_KeyStateChanged_EventArgs"/> instance containing the event data.</param>
+/// <exception cref="System.NotImplementedException"></exception>
+void showOffAdptr_keyStateChanged(object sender, BrailleIO_KeyStateChanged_EventArgs e)
+{
+	// handle the event data
+	// in the 'sender' parameter you can check from which device/adapter the interaction is reported
+
+	if (e != null)
+	{
+		// the event data contains three types of button commands
+
+		// 1. type: general buttons
+		BrailleIO_DeviceButtonStates gnrl = e.keyCode;
+		// 2. type: BrailleKeyboard buttons
+		BrailleIO_BrailleKeyboardButtonStates brlKb = e.keyboardCode;
+		// 3. type: unlimited number of additional buttons, packed in stacks of 15
+		//      we only use the showOffAdapter, which only have 15 additional buttons
+		BrailleIO_AdditionalButtonStates add = BrailleIO_AdditionalButtonStates.None;
+		if (e.additionalKeyCode != null && e.additionalKeyCode.Length > 0)
+			add = e.additionalKeyCode[0];
+
+		// you can check for released and pressed button changes
+		// the BrailleIO.Interface.Utils can help you a lot.
+		// first: pressed buttons (see the changed enum type!)
+		BrailleIO_DeviceButton pressedGnrl = BrailleIO.Interface.Utils.GetAllDownDeviceButtons(gnrl);
+		BrailleIO_BrailleKeyboardButton pressedBrlKb = BrailleIO.Interface.Utils.GetAllDownBrailleKeyboardButtons(brlKb);
+		BrailleIO_AdditionalButton pressedAdd = BrailleIO.Interface.Utils.GetAllDownAdditionalButtons(add);
+
+		// second get all released buttons
+		BrailleIO_DeviceButton releasedGnrl = BrailleIO.Interface.Utils.GetAllUpDeviceButtons(gnrl);
+		BrailleIO_BrailleKeyboardButton releasedBrlKb = BrailleIO.Interface.Utils.GetAllUpBrailleKeyboardButtons(brlKb);
+		BrailleIO_AdditionalButton releasedAdd = BrailleIO.Interface.Utils.GetAllUpAdditionalButtons(add);
+   
+		// TODO: ... do your button handling here
+
+	}
+}
+```
+
+Now you can handle your buttons you are looking for:
+
+
+Checking only if one single button was released:
+
+``` C#
+if (releasedGnrl.HasFlag(BrailleIO_DeviceButton.Enter))
+{
+	// do the trick for the general button 'Enter'
+}
+```
+
+Checking for several released buttons:
+
+``` C#
+if (releasedGnrl == (BrailleIO_DeviceButton.Enter | BrailleIO_DeviceButton.Gesture))
+{
+	// do the trick for 'Enter' and 'Gesture' are released at the same time
+}
+```
+
+Checking over multiple button types at once:
+
+``` C#
+// checking over multiple button types
+// ATTENTION: if more than the general buttons are pressed, 
+// the 'Unknown' flag in the general buttons should bee set!
+if (
+	releasedGnrl == (BrailleIO_DeviceButton.Unknown | BrailleIO_DeviceButton.Enter)
+	&& releasedBrlKb == BrailleIO_BrailleKeyboardButton.k1
+	&& releasedAdd == (BrailleIO_AdditionalButton.fn1 | BrailleIO_AdditionalButton.fn2)
+	)
+{
+	// do the trick for general 'Enter', the Braille keyboard 'k1' and the additional
+	// buttons 'fn1' and 'fn2' are all released at the same time
+}
+```
+
+As mentioned before, you can check if a button is still pressed when handling only complete released combinations:
+
+
+``` C#
+// check if some other button is still pressed
+// you have to remove the 'Unknown' key if it was set. Normally only for the general buttons.
+// ... does also work for released buttons
+
+if ((pressedGnrl ^ BrailleIO_DeviceButton.Unknown) == BrailleIO_DeviceButton.None
+	&& (pressedBrlKb ^ BrailleIO_BrailleKeyboardButton.Unknown) == BrailleIO_BrailleKeyboardButton.None
+	&& (pressedAdd ^ BrailleIO_AdditionalButton.Unknown) == BrailleIO_AdditionalButton.None) 
+{
+	// do the trick if no button was pressed 
+}
+```
+
+Because the enums are based on Int32 numbers you can also do this
+
+``` C#
+if ((int)(pressedGnrl ^ BrailleIO_DeviceButton.Unknown)
+	+ (int)(pressedBrlKb ^ BrailleIO_BrailleKeyboardButton.Unknown)
+	+ (int)(pressedAdd ^ BrailleIO_AdditionalButton.Unknown) == 0)
+{
+	// do the trick if no button was pressed 
+}
+```
+
+Complex button combinations should be collected with released events over a small period of time until no more button is pressed. This is an indication, that all buttons were released and the previously released button events should be related to this one. In practical use a time span of about 500 milliseconds is reasonable.
+
+
+For getting an easy overview if some buttons are still pressed and the sending device/adapter is implementing the … interface, you can simply ask for the currently pressed buttons. But not for the released ones!
+
+``` C#
+if (sender is IBrailleIOAdapter2)
+{
+   BrailleIO_DeviceButton currentlyPressedGnrl = ((IBrailleIOAdapter2)sender).PressedDeviceButtons;
+   BrailleIO_BrailleKeyboardButton currentlyPressedBrlKb = ((IBrailleIOAdapter2)sender).PressedBrailleKeyboardButtons;
+   BrailleIO_AdditionalButton[] currentlyPressedAdd = ((IBrailleIOAdapter2)sender).PressedAdditionalButtons;
+}
+```
+
 
 [[*back to outline* :arrow_up:]](#outline)
 
