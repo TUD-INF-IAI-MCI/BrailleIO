@@ -826,7 +826,7 @@ namespace BrailleIO.Renderer
 
 In the function void `PrerenderMatrix(IViewBoxModel view, object content)` the rendering of the bool matrix after a content or property change is requested. By calling the `bool[,] GetCachedMatrix()` function, a prerendered rendering result is supplied.
 
-O cause, you can make your renderer hookable and touchable as well. An abstract implementation of a cached renderer is also available:
+Of cause, you can make your renderer hookable and touchable as well. An abstract implementation of a cached renderer is also available:
 
 ``` C#
 namespace BrailleIO.Renderer
