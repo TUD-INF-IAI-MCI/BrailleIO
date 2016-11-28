@@ -315,7 +315,7 @@ if (Monitor != null)
 
 	using (Graphics g = Graphics.FromImage(img))
 	{
-		g.DrawString("Hellow World", 
+		g.DrawString("Hello World", 
 			SystemFonts.DefaultFont, Brushes.Red, 
 			new PointF(20, 50));
 	}
