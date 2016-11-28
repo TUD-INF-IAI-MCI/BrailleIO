@@ -524,9 +524,13 @@ The tactile user interfaces in BrailleIO are packed together in so-called
 
 The same happens with ViewRanges, but an unlimited number of ViewRanges can be visible inside a Screen. They are also stacked by adding order or by a z-index. Later ones or higher z-indexes will overwrite the underlying ones.
 
-ViewRanges should be clearly divided by some free spacing between them and a solid raised line of dots if possible and necessary.
+ViewRanges should be clearly divided by some free spacing between them and a solid raised line of dots if possible and necessary. The ViewRanges can be filled now with content and added to the Screen.
+
+**ATTENTION:** Take care that the ViewRanges as well as the Screens get an unique name for identifying and requesting them. 
 
 You can add a layout of ViewRanges in a Screen and add them to the `BrailleIOMediator` by calling the `public bool AddView(String name, AbstractViewBoxModelBase view)` method.
+
+Based on user interaction or other events, you can now change the content inside the different ViewRanges individually.
 
 See the section [Examples](#small-basic-setup-of-three-regions-in-one-screen) for a small more detailed coding example.
 
