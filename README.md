@@ -315,7 +315,7 @@ if (Monitor != null)
 
 	using (Graphics g = Graphics.FromImage(img))
 	{
-		g.DrawString("Hello World", 
+		g.DrawString("HelloWorld", 
 			SystemFonts.DefaultFont, Brushes.Red, 
 			new PointF(20, 50));
 	}
@@ -478,9 +478,57 @@ This is an example application showing for the usage of several basic functions 
 
 ## How to use:
 
---	TODO: build a small workflow
+Using the Framework is simple. The entry point to the framework is the `BrailleIO.BrailleIOMediator`. Because it is a singleton, there is a static instance available by requesting `BrailleIO. BrailleIOMediator.Instance`.
+
+Through the `BrailleIOMediator` you can request the hardware abstraction layer through the related so-called adapter manger (`BrailleIOMediator.Instance.AdapterManager`). The adapter manager handles the in/output devices.
+
+In addition to the hardware, through the `BrailleIOMediator` you have access to the visualization part of the framework.
 
 ![An application using BrailleIO can be set up in a view steps ](/doc_imgs/Usage.png)
+
+### Adding an device
+
+For enabling the framework to produce tactile output and allow user interaction, hardware have to be made available. For each real hardware, a wrapper for the framework must exist. This wrapper – we call it adapter – must implement the `BrailleIO.Interface.IBrailleIOAdapter` interface. This implementation wrapper can be added to the currently used `IBrailleIOAdapterManager` of the `BrailleIOMediator`.
+
+If you want the adapter to display the tactile output of the framework, you have to set him as the active one by setting it to the filed `IBrailleIOAdapter ActiveAdapter` of the `IBrailleIOAdapterManager`. 
+
+**IMPORTANT:** Only one adapter can be active at one time.
+
+If you want to let a non-active adapter also show the tactile output you can use the `bool Synch = true` of the abstract basic adapter implementation `BrailleIO. AbstractBrailleIOAdapterBase` if the adapter implements it. 
+
+#### User interaction
+Allowing for user interaction, you have to register your application to the available user interaction events of an adapter. The most important ones are:
+
+For button interaction:
+
+``` C#
+/// <summary>
+/// Occurs when the state of a key has changed. This can be a pressed or a released
+/// </summary>
+event EventHandler<BrailleIO_KeyStateChanged_EventArgs> keyStateChanged;
+```
+
+and for touch/gesture interaction:
+
+``` C#
+/// <summary>
+/// Occurs when some touch values had changed.
+/// </summary>
+event EventHandler<BrailleIO_TouchValuesChanged_EventArgs> touchValuesChanged;
+```
+
+### Setting up a tactile user interface
+
+The tactile user interfaces in BrailleIO are packed together in so-called 
+`BrailleIO.BrailleIOScreen`s (or Screens). Each screen can consist of several different regions for content called `BrailleIO.BrailleIOViewRange` (or ViewRange or View). Only one Screen can be visible at a time. Screens are registered as a kind of stack. This means the last added visible screen will be displayed even if earlier ones are visible, too.
+
+The same happens with ViewRanges, but an unlimited number of ViewRanges can be visible inside a Screen. They are also stacked by adding order or by a z-index. Later ones or higher z-indexes will overwrite the underlying ones.
+
+ViewRanges should be clearly divided by some free spacing between them and a solid raised line of dots if possible and necessary.
+
+You can add a layout of ViewRanges in a Screen and add them to the `BrailleIOMediator` by calling the `public bool AddView(String name, AbstractViewBoxModelBase view)` method.
+
+See the section [Examples](#small-basic-setup-of-three-regions-in-one-screen) for a small more detailed coding example.
 
 [[*back to outline* :arrow_up:]](#outline)
 

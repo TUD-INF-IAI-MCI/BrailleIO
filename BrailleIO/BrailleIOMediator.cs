@@ -670,13 +670,13 @@ namespace BrailleIO
         }
 
         /// <summary>
-        /// Add a TangramSkApp.ViewRange or a TangramSkApp.Screen to list
+        /// Add a ViewRange or a Screen to list
         /// </summary>
         /// <param name="name">
         /// name of view
         /// </param>
         /// <param name="view">
-        /// TangramSkApp.ViewRange or a TangramSkApp.Screen
+        /// ViewRange or a Screen
         /// </param>
         /// <returns>
         /// bool success
