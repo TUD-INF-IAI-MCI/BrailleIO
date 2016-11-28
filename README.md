@@ -765,7 +765,10 @@ public interface IBrailleIOHookableRenderer
 
 To make it easier to use and to handle all the hooking and hook calling stuff, an abstract implementation for the interface exists with the `BrailleIO.Interface.BrailleIOHookableRendererBase`. The only thing you have to do is to call the functions `protected virtual void callAllPreHooks(ref IViewBoxModel view, ref object content, params object[] additionalParams)` before starting the rendering and `protected virtual void callAllPostHooks(IViewBoxModel view, object content, ref bool[,] result, params object[] additionalParams)` before returning the result.
 
-ATTENTION: Be aware that calling hooks can damage your rendering result and can make the rendering inefficient and slow!
+![UML sequence of how the hooks are called in the rendering loop of the BrailleIOMediator. Each visible view will be called for its content renderer. The content render call the hooks before rendering and after finishing his rendering. By this the hooks can adapt the parameters, the content to render and/or the result.](/doc_imgs/UML-Rendering-hooking.png)
+
+
+**ATTENTION:** Be aware that calling hooks can damage your rendering result and can make the rendering inefficient and slow!
 
 [[*back to outline* :arrow_up:]](#outline)
 
@@ -849,6 +852,10 @@ namespace BrailleIO.Renderer
 	}
 }
 ```
+
+![UML sequence of how the cacheable renderer and the hooks are called in the rendering loop of the BrailleIOMediator. When content or parameter are changing, the renderer do a prerendering, calling also the hooks. When the BrailleIOMediator requests for the rendering result, the prerenderd and cached matrix will be returned after calling the hooks again.](/doc_imgs/UML-Rendering.png)
+
+
 
 [[*back to outline* :arrow_up:]](#outline)
 
