@@ -890,6 +890,6 @@ namespace BrailleIO.Renderer
 }
 ```
 
-For content objects, such as texts, a helping structure called `BrailleIO.Renderer.Structs.RenderElement` is available. In this struct several features such as building a content tree. This struct is only usable for rectangular content types because of its bounding-box based metaphor.
+For content objects, such as texts, a helping structure called `BrailleIO.Renderer.Structs.RenderElement` is available. In this struct several features such as building a content tree and collision test are predefined. This struct is only usable for rectangular content types because of its bounding-box based metaphor.
 
 [[*back to outline* :arrow_up:]](#outline)
