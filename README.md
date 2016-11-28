@@ -37,7 +37,7 @@ Information visualization can be organized in several independent screens that c
 
 BrailleIO is a small framework that should enable application developers to fast and easily build non-visual applications for on a planar two-dimensional tactile pin-matrix display. It is written in C# for .Net and is therefore a framework for windows applications manly. 
 
-More technical details can be found in [Bornschein, Jens. "BrailleIO-a Tactile Display Abstraction Framework." Proceedings of TacTT ’14 Workshop, Nov 16 2014, Dresden, Germany. 2014.](http://ceur-ws.org/Vol-1324/paper_4.pdf)
+Details that are more technical can be found in [Bornschein, Jens. "BrailleIO-a Tactile Display Abstraction Framework." Proceedings of TacTT ’14 Workshop, Nov 16 2014, Dresden, Germany. 2014.](http://ceur-ws.org/Vol-1324/paper_4.pdf)
 
 [[*back to outline* :arrow_up:]](#outline)
 
@@ -50,7 +50,7 @@ The BrailleIO framework is spitted into several small parts, so the usage and ex
 
 This is the main project linking all other projects together. It is used to initialize the main component of the framework (see usage and example) and holds basic class implementations and basic renderers for general content types.
 
-In the following the main components will be named and explained.
+In the following, the main components will be named and explained.
 
 [[*back to outline* :arrow_up:]](#outline)
 
@@ -74,14 +74,14 @@ This is a container for several views that can contain content. Only one screen 
 
 #### BrailleIOViewRange
 
-This is the component that can hold content. The combination of content with a standard- or user-defined renderer enables to transform abstract content elements into tactile output on a two-dimensional pin device.
+This component can hold content. The combination of content with a standard- or user-defined renderer enables to transform abstract content elements into tactile output on a two-dimensional pin device.
 Several viewRanges can be combined in a screen to build a complex view. ViewRanges can be independently switched on and off and can be freely placed inside a screen. 
 
 A viewRange has a complex box model with margin padding and boarder. All properties of the box model are independently definable in all four dimensions. 
 
 ![BrailleIO view ranges have a full box model consisting of margin, border and padding](/doc_imgs/viewBox.png)
 
-A view Range has a view Box – which defines the position, size and look on the screen – and a content box which holds the rendered content. This Content box can be larger than the view box. Through offsets in x- and y-direction the content can be moved to become visible inside the vie box. So the content box is moved under the view box to show hidden content. Therefore the offsets have to get negative.
+A view Range has a view Box – which defines the position, size and look on the screen – and a content box that holds the rendered content. This Content box can be larger than the view box. Through offsets in x- and y-direction the content can be moved to become visible inside the vie box. So the content box is moved under the view box to show hidden content. Therefore, the offsets have to get negative.
 
 ![The content of a view range can be larger as the visible area. The content can be moved underneath the viewable area controlled by offset-properties](/doc_imgs/ContentBox.png)
 
@@ -103,7 +103,7 @@ The adapter manager is an abstract implementation for a component that manages t
 
 #### Renderer
 
-The renderers are connected to different kinds of content objects for view ranges. In this part the view standard renderers are defined and described.
+The renderers are connected to different kinds of content objects for view ranges. In this part, the view standard renderers are defined and described.
 
 In the BrailleIOMediator the renderers are called in the following order to build a combined tactile view of the content:
 
@@ -169,11 +169,11 @@ Interface for functions a adapter manager has to offer to the BrailleIoMediator.
 
 ##### IBrailleIOContentChangedEventSupplier
 
-Allows for listeners to get informed if the content of a view range was changed.
+Allows listeners to get informed if the content of a view range was changed.
 
 ##### IBrailleIOPropertiesChangedEventSupplier
 
-Allows for listeners to get informed if properties of a view rage, such as scrolling, or zooming values, has been changed.
+Allows listeners to get informed if properties of a view rage, such as scrolling, or zooming values, has been changed.
 
 ##### IBrailleIORendererInterfaces
 
@@ -219,7 +219,7 @@ The ShowOff adapter can also simulate touch data for the `touchValuesChanged` ev
 
 ##### Button interaction
 
-For simulating a single button command, you only have to click one of the 36 designed buttons of the GUI. By clicking a button a button-pressed and a button-released command are fired to listeners of the `keyStateChanged` event.
+For simulating a single button command, you only have to click one of the 36 designed buttons of the GUI. By clicking a button, a button-pressed and a button-released command are fired to listeners of the `keyStateChanged` event.
 
 But not only single button commands are necessary. For non-visual interaction button combinations are essential to support, e.g. in the case of writing Braille with a Braille-keyboard where a single letter is combined out of up to 8 buttons pressed as one! To enable the simulation of multi button command, the ShowOff adapter has the possibility to hold some buttons in the pressed state and release all pressed buttons at once. To do so, you have to hold the Ctrl. keyboard key. While keeping the Ctrl. key pressed, only button pressed events are fired when clicking a new button. If you release the Ctrl. key all collected and currently pressed buttons are send as one single button released event. You can disable a pressed button by clicking them again – the button is removed from the list of buttons to release.
 
@@ -369,7 +369,7 @@ item.DropDown.Items.Add("&Exit", null, item_Click);
 
 ### BrailleRenderer
 
-This project builds the currently used renderer to transform a given string input into a representation in computer-braille by applying a defined translation table. The translation tables are built by the “Liblouis” project. Currently the German translation tables are used but of course others can be defined and loaded trough the constructor.
+This project builds the currently used renderer to transform a given string input into a representation in computer-braille by applying a defined translation table. The translation tables are built by the “Liblouis” project. Currently the German translation tables are used but of course, others can be defined and loaded trough the constructor.
 
 This render builds the standard render for String content of the BrailleIo framework. It also implements the ITouchableRenderer interface in a very detailed manner. This allows for highly interactive touchable interface build on this simple text-to-Braille-renderer.
 
@@ -491,7 +491,7 @@ The abstract tactile displays should contain of a display area and 9 general but
 
 ![The abstract tactile displays should contain of a display area and 9 general buttons: ok, esc, gesture, 4 direction buttons, zoom-in and zoom-out](/doc_imgs/general_device.png)
 
-An hardware abstracting adapter implementation has to implement the interface IBrailleIOAdapter and has to fill his fields to enable to proper usage of the hardware.
+A hardware abstracting adapter implementation has to implement the interface IBrailleIOAdapter and has to fill his fields to enable to proper usage of the hardware.
 
 ![An hardware abstracting adapter implementation has to implement the interface IBrailleIOAdapter and has to fill his fields to enable to proper usage of the hardware.](/doc_imgs/UML-Adapter.png)
 
@@ -527,7 +527,7 @@ TODO: add a MWE.
 
 Button handling for the general modeled buttons is quite easy. You only have to check, if your buttons you are looking for are set as the sate you want to handle.
 
-In practice it becomes clear that handling released buttons is more stable than handling the pressed events. This is based on the nature of non-visual interaction, where button interaction is often handled as button combinations. This means a user takes time to find and press all the buttons of a certain combination but can release them together in a short period you have to observe. Beside you can make some validations for a correct button handling, e.g. don’t accept the button event if another button is currently pressed, which is an indication for an error or the intension for an extended button combination.
+In practice, it becomes clear that handling released buttons is more stable than handling the pressed events. This is based on the nature of non-visual interaction, where button interaction is often handled as button combinations. This means a user takes time to find and press all the buttons of a certain combination but can release them together in a short period you have to observe. Beside you can make some validations for a correct button handling, e.g. do not accept the button event if another button is currently pressed, which is an indication for an error or the intension for an extended button combination.
 
 For a button handling first, you need an adapter to observe for button events.
 
