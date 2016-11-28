@@ -235,21 +235,11 @@ There are 3 kinds of button types available in the BrailleIO framework:
 
 In the ShowOff adapter, the buttons are placed and coded as follow (only one stack of 15 additional buttons is modeled):
 
-Standard buttons (BrailleIO_DeviceButton):
-
-TODO: image
-
-Braille Keyboard (BrailleIO_BrailleKeyboardButton):
-
-TODO: image
-
-15 additional function keys (BrailleIO_AdditionalButton):
-
-TODO: image
+Standard buttons (BrailleIO_DeviceButton) are marked with grey, Braille Keyboard buttons (BrailleIO_BrailleKeyboardButton) are marked in yellow and 15 additional function keys (BrailleIO_AdditionalButton) are marked in light blue.
 
 All 36 button codes together:
 
-TODO: image
+![The BrailleIO ShowOff Adapter monitor GUI window, with his 36 button definitions based on the modeling system](/doc_imgs/ShowOff.png)
 
 Beyond the generalized button modelling the ShowOff adapter also simulates the proprietary interpretation of buttons and provide them in the raw data filed of the `keyStateChanged` event. Therefore, the buttons are defined by a string uid. The string uids are defined as followed:
 
