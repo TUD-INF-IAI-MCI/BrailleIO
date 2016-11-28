@@ -691,7 +691,7 @@ Here, very special topics are explained.
 
 If you want to set up your own type of content that is beyond the currently available image and string-to-Braille possibilities, you have to provide your own specialized renderer.
 
-The basic type of content, any other content will be transformed to, is the two-dimensional Boolean matrix (ATTENTION: the matrix is a mathematical object (m[i,j]) in which the first dimension is the row – which corresponds to the y-value in an image, and the second dimension is the column – which corresponds to the x-value).
+The basic type of content, any other content will be transformed to, is the two-dimensional Boolean matrix (**ATTENTION:** the matrix is a mathematical object (m[i,j]) in which the first dimension is the row – which corresponds to the y-value in an image, and the second dimension is the column – which corresponds to the x-value).
 If you have set up a ViewRange, you can add any kind of object as content, as long as you give a renderer that can transform it into a bool matrix.
 
 ``` C#
@@ -703,7 +703,7 @@ If you have set up a ViewRange, you can add any kind of object as content, as lo
 public void SetOtherContent(Object content, IBrailleIOContentRenderer renderer)
 ```
 
-The render has to, at least, implement the `BrailleIO.Interface .IBrailleIOContentRenderer`. This only contains of the function:
+The render has to, at least, implement the `BrailleIO.Interface.IBrailleIOContentRenderer`. This only contains of the function:
 
 ``` C#
 /// <summary>
@@ -723,6 +723,15 @@ bool[,] RenderMatrix(IViewBoxModel view, object content);
 ``` 
 
 In the implementation of the function, the renderer get information about the view (normally this is a `BrailleIOViewRange`) and the content to transform.
+
+### Scrolling
+In your renderer implementation, you do not have to care about the functionalities of scrolling! If you build a bool matrix larger than the available display area (`ContentBox`) of the related `BrailleIOViewRange` and the `ShowScrollbars` property of the view range is set to `true`, the framework will handle the creation of scrollbars. 
+
+To handle scrolling, the properties `OffsetPosition.X` and `OffsetPosition.Y` are used to define the content position in relation to the visible area. Therefore, these properties are normally negative values. See section [ViewRange](#brailleioviewrange).
+
+Handling the user interaction manipulating those two properties is not part of the framework and has to be handled by the developer. To help you doing so, in the `BrailleIO.Interface.AbstractViewBoxModelBase` implementation for the view range, several helper function for content movement exist.
+
+**ATTENTION:** If you only want to enable a vertical scrolling, e.g. in the case of displaying long texts etc., you have to provide enough space for the afterwards added scrollbars at the right border of the view range. This have to be at least 3 dots for normal scroll bars and 4 dots for scroll-arrows, which are visualizations for scrollbars for small areas (when a fully visible scrollbar does not have enough space).  
 
 [[*back to outline* :arrow_up:]](#outline)
 
@@ -759,7 +768,84 @@ ATTENTION: Be aware that calling hooks can damage your rendering result and can 
 
 ### Make a renderer cacheable
 
-TODO: comes later
+Starting the rendering of content when it should be displayed, can take a long time and make the application can feel slow. In addition, if no changes in the content or its influencing parameters, such as thresholds, zooming etc., where made, there is no need for a real new rendering of the content. For all this, the framework provides the possibility of some caching rendering result.
+
+To make your renderer cacheable, to the standard `BrailleIO.Interface.IBrailleIOContentRenderer` you have to implement the interface:
+
+``` C#
+namespace BrailleIO.Renderer
+{
+    /// <summary>
+    /// Interface for caching rendering results.
+    /// </summary>
+    public interface ICacheingRenderer
+    {
+        /// <summary>
+        /// Gets or sets a value indicating whether content changed or not to check if a new rendering is necessary.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [content has changed]; otherwise, <c>false</c>.
+        /// </value>
+        bool ContentChanged { get; set; }
+        /// <summary>
+        /// Gets the time stamp for the last content rendering.
+        /// </summary>
+        /// <value>
+        /// The last time stamp of content rendering rendered.
+        /// </value>
+        DateTime LastRendered { get; }
+        /// <summary>
+        /// Gets a value indicating whether this instance is currently rendering.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is currently rendering; otherwise, <c>false</c>.
+        /// </value>
+        bool IsRendering { get; }
+
+        /// <summary>
+        /// Informs the renderer that the content the or view has changed.
+        /// </summary>
+        /// <param name="view">The view.</param>
+        /// <param name="content">The content.</param>
+        void ContentOrViewHasChanged(IViewBoxModel view, object content);
+
+        /// <summary>
+        /// Renders the current content
+        /// </summary>
+        void PrerenderMatrix(IViewBoxModel view, object content);
+
+        /// <summary>
+        /// Gets the previously rendered and cached matrix.
+        /// </summary>
+        /// <returns>The cached rendering result</returns>
+        bool[,] GetCachedMatrix();
+
+    }
+}
+```
+
+In the function void `PrerenderMatrix(IViewBoxModel view, object content)` the rendering of the bool matrix after a content or property change is requested. By calling the `bool[,] GetCachedMatrix()` function, a prerendered rendering result is supplied.
+
+O cause, you can make your renderer hookable and touchable as well. An abstract implementation of a cached renderer is also available:
+
+``` C#
+namespace BrailleIO.Renderer
+{
+    /// <summary>
+    /// Abstract implementation for renderer that allow for a caching. 
+    /// This renderer can hold a prerendered result. If the content doesn't change and a 
+    /// rendering request force them for a rendering, they will return the cached result 
+    /// without any new rendering.
+    /// </summary>
+    /// <seealso cref="BrailleIO.Interface.BrailleIOHookableRendererBase" />
+    /// <seealso cref="BrailleIO.Renderer.ICacheingRenderer" />
+    /// <seealso cref="BrailleIO.Interface.IBrailleIORendererInterfaces" />
+    public class AbstractCachingRendererBase : BrailleIOHookableRendererBase, ICacheingRenderer, IBrailleIORendererInterfaces
+    {
+		...
+	}
+}
+```
 
 [[*back to outline* :arrow_up:]](#outline)
 
@@ -773,7 +859,6 @@ namespace BrailleIO.Renderer
 {
     public interface ITouchableRenderer
     {
-
         /// <summary>
         /// Gets the Object at position x,y in the content.
         /// </summary>
