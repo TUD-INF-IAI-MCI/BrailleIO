@@ -727,6 +727,9 @@ In the implementation of the function, the renderer get information about the vi
 ### Scrolling
 In your renderer implementation, you do not have to care about the functionalities of scrolling! If you build a bool matrix larger than the available display area (`ContentBox`) of the related `BrailleIOViewRange` and the `ShowScrollbars` property of the view range is set to `true`, the framework will handle the creation of scrollbars. 
 
+**IMPORTANT:** you have to adapt the view range properties `ContentWidth` and `ContentHeight` to your resulting content bool matrix for a correct scrollbars and scroll position computation. 
+
+
 To handle scrolling, the properties `OffsetPosition.X` and `OffsetPosition.Y` are used to define the content position in relation to the visible area. Therefore, these properties are normally negative values. See section [ViewRange](#brailleioviewrange).
 
 Handling the user interaction manipulating those two properties is not part of the framework and has to be handled by the developer. To help you doing so, in the `BrailleIO.Interface.AbstractViewBoxModelBase` implementation for the view range, several helper function for content movement exist.
