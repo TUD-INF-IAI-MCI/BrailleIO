@@ -60,8 +60,12 @@ namespace BrailleIO
         void resetMouseGestureMode()
         {
             try
-            {
-                this.PaintTouchMatrix(buildTouchMatrix(null));
+            {                
+                if (mouseToGetureMode)
+                {
+                    this.PaintTouchMatrix(buildTouchMatrix(null));
+                    fireTouchEvent(new List<Touch>());
+                }
                 mouseToGetureMode = false;
             }
             catch (System.Exception ex)
