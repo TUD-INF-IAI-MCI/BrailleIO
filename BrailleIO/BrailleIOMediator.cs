@@ -15,7 +15,7 @@ namespace BrailleIO
     /// It gives you access to the hardware via the <see cref="IBrailleIOAdapterManager"/> AdapterManager.
     /// The GUI/TUI components are available through several methods. 
     /// </summary>
-    public class BrailleIOMediator
+    public class BrailleIOMediator : IDisposable
     {
         #region Members
 
@@ -1051,6 +1051,23 @@ namespace BrailleIO
                 }
                 catch { }
             }
+        }
+
+        #endregion
+
+        #region IDisposable implementation
+
+        /// <summary>
+        /// Does not dispose this singleton because it cant be destroyed! 
+        /// But it disposes the related Adapter manager and so on if they are disposable.
+        /// </summary>
+        public void Dispose()
+        {
+            try
+            {
+                if (AdapterManager is IDisposable) ((IDisposable)AdapterManager).Dispose();
+            }
+            catch { }
         }
 
         #endregion

@@ -9,7 +9,7 @@ namespace BrailleIO
     /// Basic abstract <see cref="IBrailleIOAdapterManager"/> implementation to handle all generic adapters.
     /// </summary>
     /// <seealso cref="BrailleIO.Interface.IBrailleIOAdapterManager" />
-    abstract public class AbstractBrailleIOAdapterManagerBase : IBrailleIOAdapterManager
+    abstract public class AbstractBrailleIOAdapterManagerBase : IBrailleIOAdapterManager, IDisposable
     {
         IBrailleIOAdapter _activeAdapter;
         /// <summary>
@@ -45,7 +45,7 @@ namespace BrailleIO
         /// Initializes a new instance of the <see cref="AbstractBrailleIOAdapterManagerBase"/> class.
         /// </summary>
         public AbstractBrailleIOAdapterManagerBase()
-        {}
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractBrailleIOAdapterManagerBase"/> class.
@@ -182,7 +182,31 @@ namespace BrailleIO
                 }
                 catch (Exception ex) { System.Diagnostics.Debug.WriteLine("ERROR in AbstractBrailleIOAdapterManagerBase fire_ActiveAdapterChanged:\r\n" + ex); }
             }
-        }        
+        }
+
+        #region IDisposable
+
+        /// <summary>
+        /// Disposes this element and disconnects and disposes all registered adapters.
+        /// </summary>
+        public void Dispose()
+        {
+            try
+            {
+                foreach (var item in Adapters)
+                {
+                    try
+                    {
+                        item.Disconnect();
+                        if (item is IDisposable) ((IDisposable)item).Dispose();
+                    }
+                    catch { }
+                }
+            }
+            catch { }
+        }
+
+        #endregion
     }
 
     /// <summary>
