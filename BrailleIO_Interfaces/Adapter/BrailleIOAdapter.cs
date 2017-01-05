@@ -211,8 +211,12 @@ namespace BrailleIO
         {
             if (initialized != null)
             {
-                if (e == null) e = new BrailleIO_Initialized_EventArgs(this.Device);
-                initialized(this, new BrailleIO_Initialized_EventArgs(this.Device));
+                try
+                {
+                    if (e == null) e = new BrailleIO_Initialized_EventArgs(this.Device);
+                    initialized(this, new BrailleIO_Initialized_EventArgs(this.Device));
+                }
+                catch { }
             }
         }
 
@@ -225,7 +229,10 @@ namespace BrailleIO
             if (closed != null)
             {
                 if (e == null) e = new BrailleIO_Initialized_EventArgs(this.Device);
-                closed(this, e);
+                {
+                    try { closed(this, e); }
+                    catch { }
+                }
             }
         }
 
@@ -246,51 +253,81 @@ namespace BrailleIO
                 updatePressedKeyboardButtons(keyboardCode);
                 updatePressedAdditionalButtons(additionalKeyCode);
             }
-            catch { }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("ERROR in updating the current button states");
+            }
+            finally
+            {
+                // TODO: what to do to get it valid again?!
+            }
 
             if (keyStateChanged != null)
-                keyStateChanged(this, new BrailleIO_KeyStateChanged_EventArgs(keyCode, ref raw, keyboardCode, additionalKeyCode));
+            {
+                try
+                {
+                    keyStateChanged(this, new BrailleIO_KeyStateChanged_EventArgs(keyCode, ref raw, keyboardCode, additionalKeyCode));
+                }
+                catch { }
+            }
         }
 
         #region Button Helper Functions
+
+        private object _syncLock = new Object();
 
         private void updatePressedAdditionalButtons(BrailleIO_AdditionalButtonStates[] additionalKeyCode)
         {
             if (additionalKeyCode != null && additionalKeyCode.Length > 0)
             {
-                if (PressedAdditionalButtons == null) { PressedAdditionalButtons = new BrailleIO_AdditionalButton[additionalKeyCode.Length]; }
-                else if (additionalKeyCode.Length > PressedAdditionalButtons.Length)
+                lock (_syncLock)
                 {
-                    var _tmp = PressedAdditionalButtons;
-                    PressedAdditionalButtons = new BrailleIO_AdditionalButton[additionalKeyCode.Length];
-                    for (int i = 0; i < _tmp.Length; i++) { PressedAdditionalButtons[i] = _tmp[i]; }
-                    _tmp = null;
-                }
+                    if (PressedAdditionalButtons == null) { PressedAdditionalButtons = new BrailleIO_AdditionalButton[additionalKeyCode.Length]; }
+                    else if (additionalKeyCode.Length > PressedAdditionalButtons.Length)
+                    {
+                        var _tmp = PressedAdditionalButtons;
+                        PressedAdditionalButtons = new BrailleIO_AdditionalButton[additionalKeyCode.Length];
+                        for (int i = 0; i < _tmp.Length; i++) { PressedAdditionalButtons[i] = _tmp[i]; }
+                        _tmp = null;
+                    }
 
-                for (int i = 0; i < additionalKeyCode.Length; i++)
-                {
-                    var pressedAdB = Utils.GetAllDownAdditionalButtons(additionalKeyCode[i]);
-                    PressedAdditionalButtons[i] = PressedAdditionalButtons[i] | pressedAdB;
-                    var releasedAdB = Utils.GetAllUpAdditionalButtons(additionalKeyCode[i]);
-                    PressedAdditionalButtons[i] = PressedAdditionalButtons[i] ^ releasedAdB;
+                    for (int i = 0; i < additionalKeyCode.Length; i++)
+                    {
+                        var pressedAdB = Utils.GetAllDownAdditionalButtons(additionalKeyCode[i]);
+                        PressedAdditionalButtons[i] = PressedAdditionalButtons[i] | pressedAdB;
+                        var releasedAdB = Utils.GetAllUpAdditionalButtons(additionalKeyCode[i]);
+                        PressedAdditionalButtons[i] = PressedAdditionalButtons[i] ^ releasedAdB;
+                    }
                 }
             }
         }
 
         private void updatePressedKeyboardButtons(BrailleIO_BrailleKeyboardButtonStates keyboardCode)
         {
-            var pressedKbB = Utils.GetAllDownBrailleKeyboardButtons(keyboardCode);
-            PressedBrailleKeyboardButtons = PressedBrailleKeyboardButtons | pressedKbB;
-            var releasedKbB = Utils.GetAllUpBrailleKeyboardButtons(keyboardCode);
-            PressedBrailleKeyboardButtons = PressedBrailleKeyboardButtons ^ releasedKbB;
+            if (keyboardCode != BrailleIO_BrailleKeyboardButtonStates.None)
+            {
+                lock (_syncLock)
+                {
+                    var pressedKbB = Utils.GetAllDownBrailleKeyboardButtons(keyboardCode);
+                    PressedBrailleKeyboardButtons = PressedBrailleKeyboardButtons | pressedKbB;
+                    var releasedKbB = Utils.GetAllUpBrailleKeyboardButtons(keyboardCode);
+                    PressedBrailleKeyboardButtons = PressedBrailleKeyboardButtons ^ releasedKbB;
+                }
+            }
         }
 
         private void updatePressedDeviceButtons(BrailleIO_DeviceButtonStates keyCode)
         {
-            var pressedDB = Utils.GetAllDownDeviceButtons(keyCode);
-            PressedDeviceButtons = PressedDeviceButtons | pressedDB;
-            var releasedDB = Utils.GetAllUpDeviceButtons(keyCode);
-            PressedDeviceButtons = PressedDeviceButtons ^ releasedDB;
+            if (keyCode != BrailleIO_DeviceButtonStates.None)
+            {
+                lock (_syncLock)
+                {
+                    var pressedDB = Utils.GetAllDownDeviceButtons(keyCode);
+                    PressedDeviceButtons = PressedDeviceButtons | pressedDB;
+                    var releasedDB = Utils.GetAllUpDeviceButtons(keyCode);
+                    PressedDeviceButtons = PressedDeviceButtons ^ releasedDB;
+                }
+            }
         }
 
         #endregion
@@ -304,7 +341,11 @@ namespace BrailleIO
         protected virtual void fireInputChanged(bool[,] touches, int timestamp, ref OrderedDictionary raw)
         {
             if (inputChanged != null)
-                inputChanged(this, new BrailleIO_InputChanged_EventArgs(touches, timestamp, ref raw));
+                try
+                {
+                    inputChanged(this, new BrailleIO_InputChanged_EventArgs(touches, timestamp, ref raw));
+                }
+                catch { }
         }
 
         /// <summary>
@@ -325,7 +366,11 @@ namespace BrailleIO
         protected virtual void fireTouchValuesChanged(double[,] touches, int timestamp, ref OrderedDictionary raw, List<Touch> detailedTouch = null)
         {
             if (touchValuesChanged != null)
-                touchValuesChanged(this, new BrailleIO_TouchValuesChanged_EventArgs(touches, timestamp, ref raw, detailedTouch));
+                try
+                {
+                    touchValuesChanged(this, new BrailleIO_TouchValuesChanged_EventArgs(touches, timestamp, ref raw, detailedTouch));
+                }
+                catch { }
         }
 
         /// <summary>
@@ -336,7 +381,11 @@ namespace BrailleIO
         public virtual void fireErrorOccured(ErrorCode errorCode, ref OrderedDictionary raw)
         {
             if (errorOccurred != null)
-                errorOccurred(this, new BrailleIO_ErrorOccured_EventArgs(errorCode, ref raw));
+                try
+                {
+                    errorOccurred(this, new BrailleIO_ErrorOccured_EventArgs(errorCode, ref raw));
+                }
+                catch {}
         }
 
         /// <summary>

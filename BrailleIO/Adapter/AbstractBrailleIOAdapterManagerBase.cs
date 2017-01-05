@@ -197,8 +197,11 @@ namespace BrailleIO
                 {
                     try
                     {
-                        item.Disconnect();
-                        if (item is IDisposable) ((IDisposable)item).Dispose();
+                        if (item != null)
+                        {
+                            item.Disconnect();
+                            if (item is IDisposable) ((IDisposable)item).Dispose(); 
+                        }
                     }
                     catch { }
                 }
