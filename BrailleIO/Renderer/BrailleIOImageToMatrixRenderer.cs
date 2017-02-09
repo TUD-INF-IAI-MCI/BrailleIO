@@ -228,7 +228,7 @@ namespace BrailleIO.Renderer
                 if (callHooks) callAllPreHooks(ref view, ref cImg, offset, invert, zoom);
                 img = cImg as Bitmap;
 
-                if (zoom > 3) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than 3.", "zoom");
+                //if (zoom > 3) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than 3.", "zoom");
                 if (zoom < 0) throw new ArgumentException("The zoom level is with a value of " + zoom + "to low. The zoom level should be between 0 and 3.", "zoom");
 
                 if (view == null) return new bool[0, 0];
