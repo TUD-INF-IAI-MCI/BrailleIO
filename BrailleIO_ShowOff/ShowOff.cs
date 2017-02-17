@@ -17,6 +17,7 @@ namespace BrailleIO
     public partial class ShowOff : Form, IBrailleIOShowOffMonitor
     {
         #region Members
+        volatile bool _run = true;
         internal readonly ConcurrentStack<double[,]> touchStack = new ConcurrentStack<double[,]>();
         internal readonly ConcurrentStack<List<Touch>> detailedTouchStack = new ConcurrentStack<List<Touch>>();
 
@@ -166,8 +167,44 @@ namespace BrailleIO
         public void PaintTouchMatrix(double[,] touchMatrix, List<Touch> detailedTouches = null)
         {
             addMatrixToStack(touchMatrix, detailedTouches);
-            Task pT = new Task(() => { paintTouchImage(); });
-            pT.Start();
+            if (touchMatrixDrawerThread != null && !touchMatrixDrawerThread.IsAlive)
+            {
+                touchMatrixDrawerThread.Start();
+            }
+        }
+
+        Thread _tmd;
+        Thread touchMatrixDrawerThread
+        {
+            get
+            {
+                if (_tmd == null)
+                {
+                    _tmd = new Thread(paintTouchMatrix);
+                    _tmd.Name = "ShowOff touch monitor paint";
+                    _tmd.Priority = ThreadPriority.BelowNormal;
+                }
+                return _tmd;
+            }
+        }
+
+        void paintTouchMatrix()
+        {
+            DateTime start;
+            while (_run)
+            {
+                if (touchStack != null && touchStack.Count > 0)
+                {
+                    start = DateTime.Now;
+                    paintTouchImage();
+                    var elapsed = DateTime.Now - start;
+                    Thread.Sleep(Math.Max(5, 50 - elapsed.Milliseconds));
+                }
+                else
+                {
+                    Thread.Sleep(5);
+                }
+            }
         }
 
         private readonly Object touchMatrixLock = new Object();
@@ -195,7 +232,8 @@ namespace BrailleIO
                                 this.pictureBoxTouch.BeginInvoke(
                                     (MethodInvoker)delegate
                                 {
-                                    if (this.pictureBoxTouch != null && this.pictureBoxTouch.Handle != null && this.pictureBoxTouch.Visible && !this.IsDisposed && !this.pictureBoxTouch.IsDisposed)
+                                    if (this.pictureBoxTouch != null && this.pictureBoxTouch.Handle != null
+                                        && this.pictureBoxTouch.Visible && !this.IsDisposed && !this.pictureBoxTouch.IsDisposed)
                                         pictureBoxTouchImage = touchImage;
                                 }
                                     );
@@ -226,9 +264,11 @@ namespace BrailleIO
         {
             if (touchMatrix != null)
             {
+                touchStack.Clear();
                 touchStack.Push(touchMatrix);
             }
 
+            detailedTouchStack.Clear();
             detailedTouchStack.Push(detailedTouches);
         }
 
@@ -252,10 +292,10 @@ namespace BrailleIO
                 {
                     //if (this.InvokeRequired)
                     //{
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            setPictureOverlay(image);
-                        });
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        setPictureOverlay(image);
+                    });
                     //}
 
                 }

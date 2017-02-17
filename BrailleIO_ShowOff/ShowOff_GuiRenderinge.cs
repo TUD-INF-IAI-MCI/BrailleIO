@@ -284,7 +284,7 @@ namespace BrailleIO
             }
         }
 
-        partial void _dispose() { renderTimer.Stop(); }
+        partial void _dispose() { _run = false; renderTimer.Stop(); }
 
         /// <summary>
         /// Paints the specified matrix to the GUI.
@@ -382,6 +382,9 @@ namespace BrailleIO
                     while (!touchStack.TryPop(out tm) && (++c < 10)) { tm = null; }
                     c = 0;
                     while (!detailedTouchStack.TryPop(out dT) && (++c < 10)) { dT = null; }
+
+                    touchStack.Clear();
+                    detailedTouchStack.Clear();
 
                     if (tm != null)
                     {
