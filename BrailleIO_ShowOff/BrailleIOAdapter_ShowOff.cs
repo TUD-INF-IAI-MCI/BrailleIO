@@ -12,10 +12,19 @@ namespace BrailleIO
     /// </summary>
     public class MockDriver
     {
+        IBrailleIOShowOffMonitor _mon = null;
         /// <summary>
         /// The Windows Forms Application that should display the matrix. It is the Emulation of the presenting hardware.
         /// </summary>
-        public IBrailleIOShowOffMonitor Monitor = ShowOff.ActiveForm as IBrailleIOShowOffMonitor;
+        public IBrailleIOShowOffMonitor Monitor{
+            get
+            {
+                if (_mon == null) _mon = ShowOff.ActiveForm as IBrailleIOShowOffMonitor;
+               
+                return _mon;
+            }
+            set { _mon = value; }
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="MockDriver"/> class. This is a simple wrapper for the software adapter itself connected to this GUI.
         /// </summary>
@@ -62,7 +71,7 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIOAdapter_ShowOff"/> class.
         /// </summary>
-        /// <param name="manager">The IBrailleIOAdapterManager the device hase to be registerd to.</param>
+        /// <param name="manager">The IBrailleIOAdapterManager the device has to be registered to.</param>
         public BrailleIOAdapter_ShowOff(IBrailleIOAdapterManager manager)
             : base(manager)
         {

@@ -142,7 +142,7 @@ namespace BrailleIO
         /// </returns>
         public AbstractBrailleIOAdapterBase GetAdapter(IBrailleIOAdapterManager manager)
         {
-            ShowOffAdapter = new BrailleIOAdapter_ShowOff(manager);
+            ShowOffAdapter = new BrailleIOAdapter_ShowOff(manager, this);
             return ShowOffAdapter;
         }
 
