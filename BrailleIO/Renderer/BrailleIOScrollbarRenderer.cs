@@ -110,15 +110,17 @@ namespace BrailleIO.Renderer
 
             else // normal handling
             {
+                int _x = x + 1;
                 // paint the three point hight slider
                 for (int y = 0; y < 3; y++)
                 {
-                    if ((viewMatrix.GetLength(0) > (ybO + y - 1)) && (viewMatrix.GetLength(1) > (x + 1)))
+                    int _y = ybO + y - 1;
+                    if ((viewMatrix.GetLength(0) > _y) && (viewMatrix.GetLength(1) > _x))
                     {
                         try
                         {
-                            if ((ybO + y - 1) > 0)
-                                viewMatrix[ybO + y - 1, x + 1] = true;
+                            if (_y >= 0)
+                                viewMatrix[_y, _x] = true;
                         }
                         catch { }
                     }
