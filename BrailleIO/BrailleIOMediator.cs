@@ -485,10 +485,11 @@ namespace BrailleIO
                 {
                     if (x >= 0 && x < matrix.GetLength(1))
                     {
-                        System.Threading.Tasks.Parallel.For(scrOffsetY, scrOffsetY + viewBoxMatrix.GetLength(0), y =>
+                        int _x = x - srcOffsetX;
+                        for (int y = scrOffsetY; y < scrOffsetY + viewBoxMatrix.GetLength(0); y++)
                         {
-                            if (y >= 0 && y < matrix.GetLength(0)) { matrix[y, x] = viewBoxMatrix[y - scrOffsetY, x - srcOffsetX]; }
-                        });
+                            if (y >= 0 && y < matrix.GetLength(0)) { matrix[y, x] = viewBoxMatrix[y - scrOffsetY, _x]; }
+                        }
                     }
                 });
 
@@ -498,9 +499,7 @@ namespace BrailleIO
                 vr.Render = false;
                 pins_locked = pl;
             }
-            catch
-            {
-            }
+            catch { }
             finally
             {
                 GC.Collect();
@@ -629,7 +628,8 @@ namespace BrailleIO
                 //if (!this.VisibleViews.ContainsKey(name))
                 //    this.VisibleViews.TryAdd(name, true);
 
-                fire_visibleViewChanged();
+                if (!oldVisibleViews.ContainsKey(name))
+                    fire_visibleViewChanged();
             }
             else throw new ArgumentException("View '" + name + "' is unknown", "name");
         }

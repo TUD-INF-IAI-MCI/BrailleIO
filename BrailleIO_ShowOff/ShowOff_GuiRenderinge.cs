@@ -183,6 +183,7 @@ namespace BrailleIO
         #endregion
 
         volatile bool _rendering = false;
+        bool[,] _renderedMatrix;
         /// <summary>
         /// Handles the Elapsed event of the renderTimer control.
         /// </summary>
@@ -199,10 +200,10 @@ namespace BrailleIO
                     {
                         if (MartixStack.Count > 0)
                         {
-                            bool[,] rm;
+
                             int c = 0;
 
-                            while (!MartixStack.TryPop(out rm) && (++c < 10)) { rm = null; }
+                            while (!MartixStack.TryPop(out _renderedMatrix) && (++c < 10)) { _renderedMatrix = null; }
 
                             this.Invoke((MethodInvoker)delegate
                             {
@@ -210,7 +211,7 @@ namespace BrailleIO
                                     this.pictureBoxMatrix.Image = generateBaseImage(120, 60);
                             });
 
-                            var image = getPinMatrixImage(rm);
+                            var image = getPinMatrixImage(_renderedMatrix);
                             if (image != null)
                             {
                                 int trys = 0;
@@ -455,5 +456,236 @@ namespace BrailleIO
         #endregion
 
         #endregion
+
+
+        #region Screenshot Export
+
+        #region Menu entry
+
+        ToolStripMenuItem _screenShotEntryMatrix;
+        protected ToolStripMenuItem screenShotEntryMatrix
+        {
+            get { 
+                if(_screenShotEntryMatrix == null )
+                    _screenShotEntryMatrix = new ToolStripMenuItem(
+                        "Store &Tactile Matrix", 
+                        null, 
+                        screenShotEntryMatrix_Click,
+                        Keys.Control | Keys.M);
+                return _screenShotEntryMatrix; 
+            }
+        }
+
+        ToolStripMenuItem _screenShotEntryMatrixImage;
+        protected ToolStripMenuItem screenShotEntryMatrixImage
+        {
+            get {
+                if(_screenShotEntryMatrixImage == null)
+                    _screenShotEntryMatrixImage = new ToolStripMenuItem(
+                        "Paint Matrix as Image", 
+                        null, 
+                        screenShotEntryMatrixImage_Click,
+                        Keys.Control | Keys.I);
+                return _screenShotEntryMatrixImage; 
+            }
+        }
+
+        ToolStripMenuItem _screenShotEntry;
+        public ToolStripMenuItem screenShotManuEntry
+        {
+            get {
+                if (_screenShotEntry == null)
+                {
+                   _screenShotEntry = new ToolStripMenuItem("&Screen Shot");
+                   _screenShotEntry.DropDownItems.Add(screenShotEntryMatrix);
+                   _screenShotEntry.DropDownItems.Add(screenShotEntryMatrixImage);
+                }
+                return _screenShotEntry; 
+            }
+        }
+
+
+        /// <summary>
+        /// Shows the menu for storing screen shots of the current rendered matrix.
+        /// </summary>
+        /// <param name="strip">The strip.</param>
+        /// <returns><c>true</c> if the screen shot menu could be added.</returns>
+        public bool ShowScreenshotMenu(MenuStrip strip = null)
+        {
+
+            if (strip == null) strip = this.menuStripMain;
+            if (strip != null)
+            {
+                strip.Items.Add(screenShotManuEntry);
+                ShowMenuStrip();
+            }
+
+            return true;
+        }
+
+        void screenShotEntryMatrix_Click(object sender, EventArgs e)
+        {
+            // Displays a SaveFileDialog so the user can save the Image
+            // assigned to Button2.
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "PNG Image|*.png";
+            saveFileDialog1.Title = "Save the tactile matrix";
+            saveFileDialog1.ShowDialog();
+
+            // If the file name is not an empty string open it for saving.
+            if (saveFileDialog1.FileName != "")
+            {
+                ExportTactileMatrix(saveFileDialog1.FileName, _renderedMatrix, System.Drawing.Imaging.ImageFormat.Png);
+            }
+        }
+
+        void screenShotEntryMatrixImage_Click(object sender, EventArgs e)
+        {
+            // Displays a SaveFileDialog so the user can save the Image
+            // assigned to Button2.
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "PNG Image|*.png";
+            saveFileDialog1.Title = "Save the tactile matrix as image File";
+            saveFileDialog1.ShowDialog();
+
+            // If the file name is not an empty string open it for saving.
+            if (saveFileDialog1.FileName != "")
+            {
+                PaintBoolMatrixToImage(_renderedMatrix, saveFileDialog1.FileName);
+            }
+        }
+
+        #endregion
+
+
+
+        public void ExportTactileMatrix(string filePath, bool[,] m = null, System.Drawing.Imaging.ImageFormat format = null)
+        {
+            if (m == null) m = _renderedMatrix;
+            if (format == null) format = System.Drawing.Imaging.ImageFormat.Png;
+            if (String.IsNullOrWhiteSpace(filePath))
+                try
+                {
+                    filePath = "Matrix_export_" + DateTime.Now.Ticks.ToString() + "." +
+                            (format.ToString().Substring(format.ToString().LastIndexOf('.')).ToLower());
+                }
+                catch (Exception)
+                {
+                    filePath = "Matrix_export_" + DateTime.Now.Ticks.ToString() + ".png"; 
+                }
+
+            if (m != null)
+            {
+                // transform the matrix into an image
+                Image img = BoolMatrixToImage(m);
+                if (img != null)
+                {
+                    img.Save(filePath, format);
+                }
+            }
+        }
+
+        //paints display!
+        /// <summary>
+        /// Paints the bool matrix into an BMP image.
+        /// </summary>
+        /// <param name="m">The matrix.</param>
+        /// <param name="filePath">The file path.</param>
+        public static Image BoolMatrixToImage(bool[,] m)
+        {
+            if (m == null || m.GetLength(0) < 1 || m.GetLength(1) < 1) return null;
+
+            Bitmap bmp = new Bitmap(m.GetLength(1), m.GetLength(0));
+
+            using (Graphics PinGraphic = Graphics.FromImage(bmp))
+            {
+                PinGraphic.FillRectangle(Brushes.White, 0, 0, bmp.Width, bmp.Height);
+                PinGraphic.Flush();
+
+                for (int i = 0; i < m.GetLength(0); i++)
+                    for (int j = 0; j < m.GetLength(1); j++)
+                    {
+                        try
+                        {
+                            if (m[i, j])
+                            {
+                                bmp.SetPixel(j, i, Color.Black);
+                            }
+                        }
+                        catch { }
+                    }
+            }
+            return bmp;
+        }
+
+
+
+
+        private static Object gLock = new Object();
+        private static Pen _p = new Pen(Brushes.LightGray, 0.4F);
+        private static Object pLock = new Object();
+        private static Pen Stroke
+        {
+            get
+            {
+                lock (gLock)
+                {
+                    return _p;
+                }
+            }
+        }
+        private static Object graphicsLock = new Object();
+        const int pixel = 5;
+
+        //paints display!
+        /// <summary>
+        /// Paints the bool matrix into an BMP image.
+        /// </summary>
+        /// <param name="m">The matrix.</param>
+        /// <param name="filePath">The file path.</param>
+        public static void PaintBoolMatrixToImage(bool[,] m, string filePath)
+        {
+            if (m == null || m.GetLength(0) < 1 || m.GetLength(1) < 1) return;
+
+            Image bmp = new Bitmap(m.GetLength(1) * (pixel + 1), m.GetLength(0) * (pixel + 1));
+            lock (graphicsLock)
+            {
+                using (Graphics PinGraphic = Graphics.FromImage(bmp))
+                {
+                    PinGraphic.FillRectangle(Brushes.White, 0, 0, bmp.Width, bmp.Height);
+
+                    for (int i = 0; i < m.GetLength(0); i++)
+                        for (int j = 0; j < m.GetLength(1); j++)
+                        {
+                            lock (graphicsLock)
+                            {
+                                if (m[i, j])
+                                {
+                                    PinGraphic.FillRectangle(Brushes.Black, j * (pixel + 1), i * (pixel + 1), pixel, pixel);
+                                }
+                                else
+                                {
+                                    PinGraphic.DrawEllipse(Stroke, j * (pixel + 1), i * (pixel + 1), pixel - 1, pixel - 1);
+                                }
+                            }
+                        }
+                    try
+                    {
+                        PinGraphic.Flush();
+                        if (string.IsNullOrEmpty(filePath) || string.IsNullOrWhiteSpace(filePath)) return;
+                        bmp.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
+                    }
+                    catch { }
+                }
+            }
+        }
+
+
+
+
+
+        #endregion
+
+
     }
 }

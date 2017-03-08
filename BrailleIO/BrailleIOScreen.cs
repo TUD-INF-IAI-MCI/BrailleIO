@@ -17,8 +17,8 @@ namespace BrailleIO
     public class BrailleIOScreen : AbstractViewBoxModelBase
     {
         #region Members
-        //FIXME: remove this if we can trust the orderedConcurrentDictionarry 
-        private OrderedDictionary view_ranges = new OrderedDictionary();
+        ////FIXME: remove this if we can trust the orderedConcurrentDictionarry 
+        //private OrderedDictionary view_ranges = new OrderedDictionary();
 
         private OrderedConcurentDictionary<String, BrailleIOViewRange> viewRanges = new OrderedConcurentDictionary<String, BrailleIOViewRange>(new BrailleIOViewRangeComparer());
         
@@ -53,6 +53,18 @@ namespace BrailleIO
         /// <summary>
         /// add ViewRange to screen
         /// </summary>
+        /// <param name="_view_range">ViewRange</param>
+        public void AddViewRange(BrailleIOViewRange _view_range)
+        {
+            if (_view_range != null) 
+                AddViewRange(
+                    String.IsNullOrWhiteSpace(_view_range.Name) 
+                    ? _view_range.GetHashCode().ToString() : _view_range.Name
+                    , _view_range);
+        }
+        /// <summary>
+        /// add ViewRange to screen
+        /// </summary>
         /// <param name="name">
         /// name of ViewRange
         /// </param>
@@ -66,14 +78,16 @@ namespace BrailleIO
                 _view_range.Name = name;
 
                 //FIXME: add to ordered
-                viewRanges.Add(name, _view_range);
+                //viewRanges.Add(name, _view_range);
 
-                if (!this.view_ranges.Contains(name)) this.view_ranges.Add(name, _view_range);
+                if (!this.viewRanges.ContainsKey(name))
+                    this.viewRanges.Add(name, _view_range);
                 else
                 {
-                    if (!this.view_ranges[name].Equals(_view_range))
+                    if (!this.viewRanges[name].Equals(_view_range))
                     {
-                        this.view_ranges.Remove(name); this.view_ranges.Add(name, _view_range);
+                        this.viewRanges.Remove(name);
+                        this.viewRanges.Add(name, _view_range);
                     }
                 }
                 _view_range.SetParent(this);
@@ -88,8 +102,8 @@ namespace BrailleIO
         /// </param>
         public void RemoveViewRange(String name)
         {
-            this.view_ranges.Remove(name);
-            viewRanges.Remove(name);
+            this.viewRanges.Remove(name);
+            //viewRanges.Remove(name);
         }
 
         /// <summary>
@@ -103,8 +117,8 @@ namespace BrailleIO
         /// </param>
         public void RenameViewRange(String from, String to)
         {
-            this.view_ranges.Add(to, this.view_ranges[from]);
-            this.view_ranges.Remove(from);
+            this.viewRanges.Add(to, this.viewRanges[from]);
+            this.viewRanges.Remove(from);
         }
 
         /// <summary>
@@ -140,7 +154,7 @@ namespace BrailleIO
         public BrailleIOViewRange GetViewRange(String name)
         {
             if (HasViewRange(name))
-                return (BrailleIOViewRange)this.view_ranges[name];
+                return (BrailleIOViewRange)this.viewRanges[name];
             else
                 return null;
         }
@@ -152,11 +166,11 @@ namespace BrailleIO
         /// name of ViewRange
         /// </param>
         /// <returns>
-        /// bool has ViewRange?
+        /// <c>true</c> if the screen contains the requested viewRange name; otherwise <c>false</c>.
         /// </returns>
         public bool HasViewRange(String name)
         {
-            return this.view_ranges.Contains(name);
+            return this.viewRanges.ContainsKey(name);
         }
 
         /// <summary>
@@ -167,19 +181,20 @@ namespace BrailleIO
         /// <returns></returns>
         public BrailleIOViewRange GetVisibleViewRangeAtPosition(int x, int y)
         {
-            if (!IsEmpty() && x >= 0 && y >= 0 && view_ranges != null && view_ranges.Count > 0)
+            if (!IsEmpty() && x >= 0 && y >= 0 && viewRanges != null && viewRanges.Count > 0)
             {
                 try
                 {
-                    List<BrailleIOViewRange> views = new List<BrailleIOViewRange>(view_ranges.Values.Cast<BrailleIOViewRange>());
 
-                    if (views != null && views.Count > 0)
+                    var sortedViews = viewRanges.GetSortedValues();
+                    var kvPair = sortedViews.FindLast(
+                        (item) => { 
+                            return item.Value != null 
+                                && item.Value.IsVisible() 
+                                && item.Value.ContainsPoint(x, y); });
+                    if (kvPair.Value != null)
                     {
-                        for (int i = views.Count -1; i >= 0; i--)
-                        {
-                            if (views[i] != null && views[i].IsVisible() && views[i].ContainsPoint(x, y))
-                                return views[i];
-                        }
+                        return kvPair.Value;
                     }
                 }
                 catch (Exception) { }
@@ -195,7 +210,7 @@ namespace BrailleIO
         /// <returns></returns>
         public bool IsEmpty()
         {
-            return (this.view_ranges.Count > 0) ? false : true;
+            return (this.viewRanges.Count > 0) ? false : true;
         }
 
         /// <summary>
@@ -206,7 +221,7 @@ namespace BrailleIO
         /// </returns>
         public int Count()
         {
-            return this.view_ranges.Count;
+            return this.viewRanges.Count;
         }
     }
 

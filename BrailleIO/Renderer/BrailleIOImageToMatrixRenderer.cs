@@ -339,7 +339,7 @@ namespace BrailleIO.Renderer
             }
             finally
             {
-                img.Dispose();
+                if(img != null) img.Dispose();
             }
         }
 
