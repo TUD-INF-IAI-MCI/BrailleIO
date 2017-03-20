@@ -18,6 +18,8 @@ namespace BrailleIO.Renderer.Structs
         /// </summary>
         private LinkedList<RenderElement> Subparts;
 
+        private string _displayName;
+
         private int _x;
         private int _y;
         private int _width;
@@ -36,6 +38,15 @@ namespace BrailleIO.Renderer.Structs
         #endregion
 
         #region Public Fields
+
+        /// <summary>
+        /// Gets or sets the optional display name. 
+        /// Will returned by calling the toString() method. 
+        /// </summary>
+        /// <value>
+        /// The display name.
+        /// </value>
+        public string DisplayName { get { return _displayName; } set { _displayName = value; } }
 
         /// <summary>
         /// Horizontal start position of this element's bonding box 
@@ -88,6 +99,7 @@ namespace BrailleIO.Renderer.Structs
             Subparts = subparts != null ? new LinkedList<RenderElement>(subparts) : new LinkedList<RenderElement>();
             Parent = parent;
             Type = null;
+            _displayName = null;
         }
 
         /// <summary>
@@ -174,9 +186,9 @@ namespace BrailleIO.Renderer.Structs
         public bool IsCompletelyInArea(int left, int right, int top, int bottom)
         {
             return X >= left
-                && (X + Width-1) <= right
+                && (X + Width - 1) <= right
                 && Y >= top
-                && (Y + Height-1) <= bottom;
+                && (Y + Height - 1) <= bottom;
         }
 
         /// <summary>
@@ -189,8 +201,8 @@ namespace BrailleIO.Renderer.Structs
         /// <returns><c>true</c> if the element is at least partly inside the tested region, otherwise <c>false</c></returns>
         public bool IsInArea(int left, int right, int top, int bottom)
         {
-            int Bottom = Y + Height-1;
-            int Right = X + Width-1;
+            int Bottom = Y + Height - 1;
+            int Right = X + Width - 1;
 
             if (Height > 0 && Width > 0)
             {
@@ -242,7 +254,7 @@ namespace BrailleIO.Renderer.Structs
                     }
                 }
             }
-            
+
             return result;
         }
 
@@ -506,7 +518,8 @@ namespace BrailleIO.Renderer.Structs
         /// </returns>
         public override string ToString()
         {
-            return "RenderElement '" + Value.ToString() + "' ("+Type.ToString()+") - BBox [X:" + X + ", Y:" + Y + ", Width:" + Width + ", Height:" + Height + "]";
+            if (!String.IsNullOrEmpty(DisplayName)) return DisplayName;
+            return "RenderElement '" + Value.ToString() + "' (" + Type.ToString() + ") - BBox [X:" + X + ", Y:" + Y + ", Width:" + Width + ", Height:" + Height + "]";
         }
 
         /// <summary>

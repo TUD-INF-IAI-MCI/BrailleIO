@@ -18,6 +18,11 @@ namespace BrailleIO.Renderer
         #region Members
 
         /// <summary>
+        /// The locking object for synchronous usage.
+        /// </summary>
+        public readonly Object SynchLock = new Object();
+
+        /// <summary>
         /// Interprets dots as Characters and vise versa
         /// </summary>
         public readonly IBrailleInterpreter BrailleInterpreter;
@@ -569,8 +574,8 @@ namespace BrailleIO.Renderer
         /// <param name="m">The matrix to fill.</param>
         /// <param name="brailleChar">The braille char to add. 
         /// (List of raised pins in one Braille cell) List [dot pattern]</param>
-        /// <param name="xOffset">The x offset for the chr to place.</param>
-        /// <param name="yoffset">The yoffset for the char to place.</param>
+        /// <param name="xOffset">The x offset for the char to place.</param>
+        /// <param name="yoffset">The y offset for the char to place.</param>
         private static void addDotPatternToMatrix(ref bool[,] m, List<int> brailleChar, int xOffset, int yoffset)
         {
             if (brailleChar != null
@@ -579,7 +584,7 @@ namespace BrailleIO.Renderer
                 for (int dotNumber = 0; dotNumber < brailleChar.Count; dotNumber++)
                 {
                     int x, y = -1;
-                    bool success = tryGetPinPositionOfbRailleDot(brailleChar[dotNumber], out x, out y);
+                    bool success = tryGetPinPositionOfBrailleDot(brailleChar[dotNumber], out x, out y);
                     if (success && x >= 0 && y >= 0)
                     {
                         x += xOffset;
@@ -601,8 +606,8 @@ namespace BrailleIO.Renderer
         /// <param name="dot">The dot.</param>
         /// <param name="x">The returning x position of this dot.</param>
         /// <param name="y">The returning y position of this dot.</param>
-        /// <returns><c>true</c> if it was posible to mathch the dot to a position. Otherwise <c>false</c></returns>
-        static bool tryGetPinPositionOfbRailleDot(int dot, out int x, out int y)
+        /// <returns><c>true</c> if it was possible to match the dot to a position. Otherwise <c>false</c></returns>
+        static bool tryGetPinPositionOfBrailleDot(int dot, out int x, out int y)
         {
             if (dot < 9 && dot > 0)
             {
