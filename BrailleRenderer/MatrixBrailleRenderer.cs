@@ -349,7 +349,7 @@ namespace BrailleIO.Renderer
                     if (currentLine.Count > 0)
                     {
                         // check if the line is full
-                        if (getMaxWidthOfString(currentLine) >= width)
+                        if (getMaxWidthOfString(currentLine) + BRAILLE_CHAR_WIDTH >= width)
                         {
                             makeNewLine(ref lines, ref currentLine, ref availableWidth, width, ref maxUsedWidth);
                         }
@@ -371,7 +371,7 @@ namespace BrailleIO.Renderer
                     e.Y = yOffset + lines.Count * (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
 
                     int minWidth = getMinWidthOfString(dots);
-                    if (minWidth > width)
+                    if (minWidth > width) // the word is larger than a whole line
                     {
                         //this will start a new line, so add a new line to the y position
                         e.Y += BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT;
@@ -404,11 +404,14 @@ namespace BrailleIO.Renderer
                         //fill the word into the line
                         currentLine.AddRange(dots);
 
-                        e.Width = minWidth + INTER_CHAR_WIDTH;
+                        //update the available width
+                        availableWidth -= getMinWidthOfString(dots);
+                        if(availableWidth > INTER_CHAR_WIDTH ) availableWidth -= +INTER_CHAR_WIDTH;
+
+                        e.Width = minWidth + (availableWidth > INTER_CHAR_WIDTH ? INTER_CHAR_WIDTH : 0);
                         e.Height = BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT;
 
-                        //update the available width
-                        availableWidth -= getMinWidthOfString(dots) + INTER_CHAR_WIDTH;
+                        
                     }
 
                     #region Rendering Element

@@ -5,6 +5,11 @@ using BrailleIO.Renderer.Structs;
 
 namespace BrailleIO.Renderer
 {
+    /// <summary>
+    /// Renderer for transforming strings int a Braille text bool matrix representation.
+    /// </summary>
+    /// <seealso cref="BrailleIO.Renderer.AbstractCachingRendererBase" />
+    /// <seealso cref="BrailleIO.Renderer.ITouchableRenderer" />
     public partial class MatrixBrailleRenderer : ITouchableRenderer
     {
 
@@ -141,6 +146,5 @@ namespace BrailleIO.Renderer
         /// </summary>
         CHAR
     }
-
 
 }
