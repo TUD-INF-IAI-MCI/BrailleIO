@@ -46,27 +46,27 @@ namespace BrailleIO.Renderer.Structs
         /// <value>
         /// The display name.
         /// </value>
-        public string DisplayName { get { return _displayName; } set { _displayName = value; } }
+        public string DisplayName { get { return _displayName; } set { _displayName = value; _isNotEmpty = true; } }
 
         /// <summary>
         /// Horizontal start position of this element's bonding box 
         /// </summary>
-        public int X { get { return _x; } set { _x = value; } }
+        public int X { get { return _x; } set { _x = value; _isNotEmpty = true; } }
 
         /// <summary>
         /// Vertical start position of this element's bonding box 
         /// </summary>
-        public int Y { get { return _y; } set { _y = value; } }
+        public int Y { get { return _y; } set { _y = value; _isNotEmpty = true; } }
 
         /// <summary>
         /// Width of the element's bonding box
         /// </summary>
-        public int Width { get { return _width; } set { _width = Math.Max(0, value); } }
+        public int Width { get { return _width; } set { _width = Math.Max(0, value); _isNotEmpty = true; } }
 
         /// <summary>
         /// Height of the element's bonding box
         /// </summary>
-        public int Height { get { return _height; } set { _height = Math.Max(0, value); } }
+        public int Height { get { return _height; } set { _height = Math.Max(0, value); _isNotEmpty = true; } }
 
         /// <summary>
         /// Can be used to specify the type of this element, e.g. for the different sub elements.
@@ -100,6 +100,7 @@ namespace BrailleIO.Renderer.Structs
             Parent = parent;
             Type = null;
             _displayName = null;
+            _isNotEmpty = true;
         }
 
         /// <summary>
@@ -445,6 +446,18 @@ namespace BrailleIO.Renderer.Structs
         #endregion
 
         #region Value
+
+        private bool _isNotEmpty;
+        /// <summary>
+        /// Determines whether this instance is empty.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance is empty; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsEmpty()
+        {
+            return !_isNotEmpty; 
+        }
 
         /// <summary>
         /// Gets the value object the rendering result is based on.
