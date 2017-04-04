@@ -59,6 +59,7 @@ namespace BrailleIO
             AddContextMenu();
 
             initPictureBoxes();
+            showScreenshotMenuFromConfig();
 
             renderTimer.Elapsed += new System.Timers.ElapsedEventHandler(renderTimer_Elapsed);
             renderTimer.Start();

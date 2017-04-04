@@ -362,6 +362,23 @@ item.DropDown.Items.Add("&Exit", null, item_Click);
 ((ShowOff)Monitor).AddMenuItem(item);
 ```
 
+##### Export of tactile matrix images and ShowOff display ‚Screenshots‘
+
+For some reasons it can be necessary to store a current state of the tactile display-matrix in a file. Thereto, a small menu with two helping entries is provided. The Screenshot menu enables you to store the tactile matrix as a 120 x 60 pixel png image to a file, and to store a more styled version of the tactile output as an image.
+
+To make the menu appear, you can call the `ShowScreenshotMenu()` function of the `ShowOff` class. Or, you can add an additional setting in the app.config file of the loading application:
+
+``` XML
+<configuration>
+       ...
+       <appSettings>
+       ...
+       <add key="-ShowOff_ShowScreenshotMenu" value="true" />
+       ...
+       </appSettings>
+       ...
+</configuration>
+
 
 [[*back to outline* :arrow_up:]](#outline)
 

@@ -457,7 +457,6 @@ namespace BrailleIO
 
         #endregion
 
-
         #region Screenshot Export
 
         #region Menu entry
@@ -465,45 +464,73 @@ namespace BrailleIO
         ToolStripMenuItem _screenShotEntryMatrix;
         protected ToolStripMenuItem screenShotEntryMatrix
         {
-            get { 
-                if(_screenShotEntryMatrix == null )
+            get
+            {
+                if (_screenShotEntryMatrix == null)
                     _screenShotEntryMatrix = new ToolStripMenuItem(
-                        "Store &Tactile Matrix", 
-                        null, 
+                        "Store &Tactile Matrix",
+                        null,
                         screenShotEntryMatrix_Click,
                         Keys.Control | Keys.M);
-                return _screenShotEntryMatrix; 
+                return _screenShotEntryMatrix;
             }
         }
 
         ToolStripMenuItem _screenShotEntryMatrixImage;
         protected ToolStripMenuItem screenShotEntryMatrixImage
         {
-            get {
-                if(_screenShotEntryMatrixImage == null)
+            get
+            {
+                if (_screenShotEntryMatrixImage == null)
                     _screenShotEntryMatrixImage = new ToolStripMenuItem(
-                        "Paint Matrix as Image", 
-                        null, 
+                        "Paint Matrix as Image",
+                        null,
                         screenShotEntryMatrixImage_Click,
                         Keys.Control | Keys.I);
-                return _screenShotEntryMatrixImage; 
+                return _screenShotEntryMatrixImage;
             }
         }
 
         ToolStripMenuItem _screenShotEntry;
-        public ToolStripMenuItem screenShotManuEntry
+        public ToolStripMenuItem screenShotMenuEntry
         {
-            get {
+            get
+            {
                 if (_screenShotEntry == null)
                 {
-                   _screenShotEntry = new ToolStripMenuItem("&Screen Shot");
-                   _screenShotEntry.DropDownItems.Add(screenShotEntryMatrix);
-                   _screenShotEntry.DropDownItems.Add(screenShotEntryMatrixImage);
+                    _screenShotEntry = new ToolStripMenuItem("&Screen Shot");
+                    _screenShotEntry.DropDownItems.Add(screenShotEntryMatrix);
+                    _screenShotEntry.DropDownItems.Add(screenShotEntryMatrixImage);
                 }
-                return _screenShotEntry; 
+                return _screenShotEntry;
             }
         }
 
+
+        /// <summary>
+        /// The show screenshot menu configuration key to search for in the app.config file.
+        /// </summary>
+        internal const String SHOW_SCREENSHOT_MNU_CONFIG_KEY = "ShowOff_ShowScreenshotMenu";
+        /// <summary>
+        /// Shows the screenshot menu if the corresponding key <see cref="SHOW_SCREENSHOT_MNU_CONFIG_KEY"/> 
+        /// was set to <c>true</c> in the app.config of the current running application.
+        /// </summary>
+        internal void showScreenshotMenuFromConfig()
+        {
+            try
+            {
+                var config = System.Configuration.ConfigurationManager.AppSettings;
+                if (config != null && config.Count > 0)
+                {
+                    var value = config[SHOW_SCREENSHOT_MNU_CONFIG_KEY];
+                    bool val = Convert.ToBoolean(value);
+                    if (val) {
+                        ShowScreenshotMenu();
+                    }
+                }
+            }
+            catch { }
+        }
 
         /// <summary>
         /// Shows the menu for storing screen shots of the current rendered matrix.
@@ -516,7 +543,7 @@ namespace BrailleIO
             if (strip == null) strip = this.menuStripMain;
             if (strip != null)
             {
-                strip.Items.Add(screenShotManuEntry);
+                strip.Items.Add(screenShotMenuEntry);
                 ShowMenuStrip();
             }
 
@@ -557,8 +584,12 @@ namespace BrailleIO
 
         #endregion
 
-
-
+        /// <summary>
+        /// Exports the tactile matrix.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="m">The matrix.</param>
+        /// <param name="format">The image format for storing - default is PNG.</param>
         public void ExportTactileMatrix(string filePath, bool[,] m = null, System.Drawing.Imaging.ImageFormat format = null)
         {
             if (m == null) m = _renderedMatrix;
@@ -571,7 +602,7 @@ namespace BrailleIO
                 }
                 catch (Exception)
                 {
-                    filePath = "Matrix_export_" + DateTime.Now.Ticks.ToString() + ".png"; 
+                    filePath = "Matrix_export_" + DateTime.Now.Ticks.ToString() + ".png";
                 }
 
             if (m != null)
@@ -617,9 +648,6 @@ namespace BrailleIO
             }
             return bmp;
         }
-
-
-
 
         private static Object gLock = new Object();
         private static Pen _p = new Pen(Brushes.LightGray, 0.4F);
@@ -680,12 +708,7 @@ namespace BrailleIO
             }
         }
 
-
-
-
-
         #endregion
-
 
     }
 }
