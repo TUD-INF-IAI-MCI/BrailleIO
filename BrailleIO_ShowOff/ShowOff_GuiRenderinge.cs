@@ -525,7 +525,7 @@ namespace BrailleIO
                     var value = config[SHOW_SCREENSHOT_MNU_CONFIG_KEY];
                     bool val = Convert.ToBoolean(value);
                     if (val) {
-                        ShowScreenshotMenu();
+                            ShowScreenshotMenu(); 
                     }
                 }
             }
@@ -540,14 +540,25 @@ namespace BrailleIO
         public bool ShowScreenshotMenu(MenuStrip strip = null)
         {
 
-            if (strip == null) strip = this.menuStripMain;
-            if (strip != null)
+            try
             {
-                strip.Items.Add(screenShotMenuEntry);
-                ShowMenuStrip();
+                if (strip == null) strip = this.menuStripMain;
+                if (strip != null)
+                {
+                    if (strip.InvokeRequired) strip.Invoke(new Action(() => { strip.Items.Add(screenShotMenuEntry); }));
+                    else strip.Items.Add(screenShotMenuEntry);
+                    int i = 0;
+                    while (!ShowMenuStrip() && i++ < 10) { Thread.Sleep(100); }
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+
             }
 
-            return true;
+            return false;
         }
 
         void screenShotEntryMatrix_Click(object sender, EventArgs e)

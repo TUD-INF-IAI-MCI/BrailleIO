@@ -519,7 +519,11 @@ namespace BrailleIO
         {
             try
             {
-                this.menuStripMain.Invoke(new Action(() => { this.menuStripMain.Visible = true; }));
+                if (this.menuStripMain.InvokeRequired)
+                {
+                    this.menuStripMain.Invoke(new Action(() => { this.menuStripMain.Visible = true; }));
+                }
+                else { this.menuStripMain.Visible = true; }
                 return this.menuStripMain.Visible;
             }
             catch (Exception)
@@ -536,7 +540,11 @@ namespace BrailleIO
         {
             try
             {
-                this.menuStripMain.Invoke(new Action(() => { this.menuStripMain.Visible = false; }));
+                if (this.MainMenuStrip.InvokeRequired)
+                {
+                    this.menuStripMain.Invoke(new Action(() => { this.menuStripMain.Visible = false; }));
+                }
+                else { this.menuStripMain.Visible = false; }
                 return !this.menuStripMain.Visible;
             }
             catch (Exception) { }
@@ -554,13 +562,23 @@ namespace BrailleIO
             try
             {
                 if (item != null)
-                    this.menuStripMain.Invoke(
+
+                    if (this.MainMenuStrip.InvokeRequired)
+                    {
+                        this.menuStripMain.Invoke(
                         new Action(() =>
                         {
                             if (setAsMdiWindowListItem && item is ToolStripMenuItem)
                                 this.menuStripMain.MdiWindowListItem = item as ToolStripMenuItem;
                             this.menuStripMain.Items.Add(item);
                         }));
+                    }
+                    else
+                    {
+                        if (setAsMdiWindowListItem && item is ToolStripMenuItem)
+                            this.menuStripMain.MdiWindowListItem = item as ToolStripMenuItem;
+                        this.menuStripMain.Items.Add(item);
+                    }
             }
             catch (Exception) { }
             return false;
@@ -577,7 +595,9 @@ namespace BrailleIO
             try
             {
                 if (item != null)
-                    this.menuStripMain.Invoke(new Action(() =>
+                    if (this.MainMenuStrip.InvokeRequired)
+                    {
+                        this.menuStripMain.Invoke(new Action(() =>
                     {
                         if (this.menuStripMain.Items.Contains(item))
                         {
@@ -585,6 +605,14 @@ namespace BrailleIO
                             success = !this.menuStripMain.Items.Contains(item);
                         }
                     }));
+                    }
+                    else {
+                        if (this.menuStripMain.Items.Contains(item))
+                        {
+                            this.menuStripMain.Items.Remove(item);
+                            success = !this.menuStripMain.Items.Contains(item);
+                        }
+                    }
             }
             catch { }
             return success;
