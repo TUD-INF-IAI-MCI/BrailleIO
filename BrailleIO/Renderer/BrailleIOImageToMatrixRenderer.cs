@@ -250,7 +250,7 @@ namespace BrailleIO.Renderer
                     offsetX = (Int32)Math.Round(offsetX / zoom);
                     offsetY = (Int32)Math.Round(offsetY / zoom);
                 }
-                if (img != null)
+                if (img != null && img.PixelFormat != PixelFormat.Undefined)
                 {
                     try
                     {
