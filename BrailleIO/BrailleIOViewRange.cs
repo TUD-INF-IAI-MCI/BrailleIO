@@ -30,7 +30,7 @@ namespace BrailleIO
         bool[,] Matrix
         {
             get { return matrix; }
-            set      { matrix = value; }
+            set { matrix = value; }
         }
         private Bitmap _img;
         private readonly Object _imgLock = new Object();
@@ -768,7 +768,16 @@ namespace BrailleIO
         /// <param name="x">The horizontal position on the display.</param>
         /// <param name="y">The vertical position on the display.</param>
         /// <returns><c>true</c> if this view contain the point; otherwise <c>false</c>.</returns>
-        public bool ContainsPoint(int x, int y)
+        public bool ContainsPoint(int x, int y) { return ContainsPoint((double)x, (double)y); }
+        /// <summary>
+        /// Determines whether this view contains a specific point on the display.
+        /// Attention: a <c>true</c> does not mean that the point is in the content. 
+        /// It can be on a spacing or the border.
+        /// </summary>
+        /// <param name="x">The horizontal position on the display.</param>
+        /// <param name="y">The vertical position on the display.</param>
+        /// <returns><c>true</c> if this view contain the point; otherwise <c>false</c>.</returns>
+        public bool ContainsPoint(double x, double y)
         {
             if (x >= ViewBox.X && x < ViewBox.X + ViewBox.Width
                 && y >= ViewBox.Y && y < ViewBox.Height + ViewBox.Y
@@ -779,17 +788,24 @@ namespace BrailleIO
         }
 
         /// <summary>
-        /// Contents the contains point.
+        /// Chef if the contents contains the point.
         /// </summary>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
-        /// <returns></returns>
-        public bool ContentContainsPoint(int x, int y)
+        /// <param name="x">The x position to check.</param>
+        /// <param name="y">The y position to check.</param>
+        /// <returns><c>true</c> if the point is inside the content area; otherwise, <c>false</c>.</returns>
+        public bool ContentContainsPoint(int x, int y) { return ContentContainsPoint((double)x, (double)y); }
+        /// <summary>
+        /// Chef if the contents contains the point.
+        /// </summary>
+        /// <param name="x">The x position to check.</param>
+        /// <param name="y">The y position to check.</param>
+        /// <returns><c>true</c> if the point is inside the content area; otherwise, <c>false</c>.</returns>
+        public bool ContentContainsPoint(double x, double y)
         {
             if (ContainsPoint(x, y))
             {
-                int _x = x - ViewBox.X;
-                int _y = y - ViewBox.Y;
+                double _x = x - ViewBox.X;
+                double _y = y - ViewBox.Y;
 
                 if (_x >= ContentBox.X && _x < ContentBox.Right
                     && _y >= ContentBox.Y && _y < ContentBox.Bottom
@@ -808,12 +824,35 @@ namespace BrailleIO
         /// <returns>A point with the position inside the content if possible; otherwise a point with the coordinates -1,-1.</returns>
         public Point TranslateDevicePositionToContentPosition(int x, int y)
         {
-            Point p = new Point(-1, -1);
+            var p = TranslateDevicePositionToContentPosition((float)x, (float)y);
+            return new Point(
+                (int)Math.Round(p.X, 0, MidpointRounding.AwayFromZero),
+                (int)Math.Round(p.Y, 0, MidpointRounding.AwayFromZero)
+                );
+        }
+        /// <summary>
+        /// Translates the device position into a position inside the content with respect to 
+        /// ViewRange-, ContenBox- and Offset-Position.
+        /// </summary>
+        /// <param name="x">The horizontal position on the device.</param>
+        /// <param name="y">The vertical position on the device.</param>
+        /// <returns>A point with the position inside the content if possible; otherwise a point with the coordinates -1,-1.</returns>
+        public PointF TranslateDevicePositionToContentPosition(double x, double y) { return TranslateDevicePositionToContentPosition((float)x, (float)y); }
+        /// <summary>
+        /// Translates the device position into a position inside the content with respect to 
+        /// ViewRange-, ContenBox- and Offset-Position.
+        /// </summary>
+        /// <param name="x">The horizontal position on the device.</param>
+        /// <param name="y">The vertical position on the device.</param>
+        /// <returns>A point with the position inside the content if possible; otherwise a point with the coordinates -1,-1.</returns>
+        public PointF TranslateDevicePositionToContentPosition(float x, float y)
+        {
+            PointF p = new PointF(-1, -1);
 
-            if (ContentContainsPoint(x, y))
+            if (ContentContainsPoint((int)x, (int)y))
             {
-                int _x = x - ViewBox.X - ContentBox.X;
-                int _y = y - ViewBox.Y - ContentBox.Y;
+                float _x = x - ViewBox.X - ContentBox.X;
+                float _y = y - ViewBox.Y - ContentBox.Y;
 
                 p.X = _x - OffsetPosition.X;
                 p.Y = _y - OffsetPosition.Y;
