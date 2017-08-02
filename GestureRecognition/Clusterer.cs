@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-using Gestures.Geometrie.KdTree;
-using Gestures.Geometrie.Vertex;
-using Gestures.Recognition.Preprocessing;
-using Gestures.Recognition.GestureData;
+﻿using Gestures.Geometrie.Vertex;
+using System.Collections.Generic;
 
 namespace GestureRecognition
 {
     /// <summary>
     /// Clusters sensor data.
     /// </summary>
+    /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     public class Clusterer
     {
         #region  private fields
@@ -45,8 +43,9 @@ namespace GestureRecognition
 
         #region Segmentation
 
-        #region Blob Exctraction
-        private List<int> BlobExctraction(double[,] sensorMatrix, int connectivity, double threshold)
+        #region Blob Extraction
+
+        protected virtual List<int> BlobExctraction(double[,] sensorMatrix, int connectivity, double threshold)
         {
             int regionCounter = 0;
             bool increment;
@@ -121,11 +120,13 @@ namespace GestureRecognition
             }
             return moduleRegions;
         }
-        private bool CheckCriterion(double m1, double m2, double threshold)
+
+        protected virtual bool CheckCriterion(double m1, double m2, double threshold)
         {
             //if (m2 == null) { return false; }
             return (!((m1 > threshold) ^ (m2 > threshold)));
         }
+
         #endregion
 
         /// <summary>
@@ -134,7 +135,7 @@ namespace GestureRecognition
         /// <param name="sensorMatrix">The sensor data matrix.</param>
         /// <param name="threshold">The threshold.</param>
         /// <returns></returns>
-        public IDictionary<int, Cluster> Cluster(double[,] sensorMatrix, double threshold)
+        public virtual IDictionary<int, Cluster> Cluster(double[,] sensorMatrix, double threshold)
         {
             List<int> preSegmentedList = BlobExctraction(sensorMatrix, 8, threshold);
 
@@ -163,25 +164,19 @@ namespace GestureRecognition
                     }
                 }
             }
-            //for (int i = 0; i < currentClusterSet.Count; i++)
-            //{
-            //    foreach (int j in (currentClusterSet[i]).ClusterSet.Values)
-            //    {
-            //        sensorMatrix[j / sensorMatrix.GetLength(1), j % sensorMatrix.GetLength(0)] = (i + 1) * (100 / (currentClusterSet.Count + 1));
-            //    }
-            //}
+
             AddClusterMeans(sensorMatrix,currentClusterSet);
             return currentClusterSet;
         }
 
-        private Vertex GetClusterMean(double[,] sensorMatrix, Cluster c)
+        protected virtual Vertex GetClusterMean(double[,] sensorMatrix, Cluster c)
         {
             Vertex mean = new Vertex(0, 0);
             int meanNum = 0;
             foreach (int i in c.ClusterSet.Values)
             {
-                mean[0] += (double)(i / sensorMatrix.GetLength(1));
-                mean[1] += (double)(i % sensorMatrix.GetLength(1));
+                mean[1] += (double)(i / sensorMatrix.GetLength(1));
+                mean[0] += (double)(i % sensorMatrix.GetLength(1));
                 ++meanNum;
             }
             mean[0] /= meanNum;
@@ -190,24 +185,13 @@ namespace GestureRecognition
             return mean;
         }
 
-        private void AddClusterMeans(double[,] sensorMatrix, IDictionary<int, Cluster> clusterList)
+        protected virtual void AddClusterMeans(double[,] sensorMatrix, IDictionary<int, Cluster> clusterList)
         {
             foreach (Cluster c in clusterList.Values)
             {
                 c.Mean = GetClusterMean(sensorMatrix,c);
             }
         }
-
-        ///// <summary>
-        ///// Merges data within two clusters into one.
-        ///// </summary>
-        ///// <param name="target">The target.</param>
-        ///// <param name="source">The source.</param>
-        //public void MergeClusters(Cluster target, Cluster source)
-        //{
-        //    target.Merge(source);
-        //    target.Mean = GetClusterMean(target);
-        //}
 
         #endregion
     }

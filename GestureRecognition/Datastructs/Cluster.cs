@@ -6,6 +6,7 @@ namespace GestureRecognition
     /// <summary>
     /// Class for a complex cluster.
     /// </summary>
+    /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     public class Cluster
     {
         private int num;

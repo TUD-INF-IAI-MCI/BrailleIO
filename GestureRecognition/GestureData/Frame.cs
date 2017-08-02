@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BrailleIO.Structs;
+using System;
 using System.Collections.Generic;
 
 namespace Gestures.Recognition.GestureData
@@ -6,7 +7,8 @@ namespace Gestures.Recognition.GestureData
     /// <summary>
     /// Touch contact on the surface, i.e. closed area or cluster of sensor values.
     /// </summary>
-    public class Touch
+    /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
+    public class _Touch
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Touch"/> class.
@@ -17,44 +19,45 @@ namespace Gestures.Recognition.GestureData
         /// <param name="cx">The horizontal diameter of the touch.</param>
         /// <param name="cy">The vertical diameter of the touch.</param>
         /// <param name="intense">The intense of the sensory data.</param>
-        public Touch(int id, double x, double y, double cx, double cy, double intense)
+        public _Touch(int id, double x, double y, double cx, double cy, double intense)
         {
-            this.id = id;
-            this.x = x;
-            this.y = y;
-            this.cx = cx;
-            this.cy = cy;
-            this.intense = intense;
+            this.ID = id;
+            this.X = x;
+            this.Y = y;
+            this.DimX = cx;
+            this.DimY = cy;
+            this.Intense = intense;
         }
         /// <summary>
         /// The identifier
         /// </summary>
-        public int id;
+        public int ID;
         /// <summary>
         /// horizontal position
         /// </summary>
-        public double x;
+        public double X;
         /// <summary>
         /// vertical position
         /// </summary>
-        public double y;
+        public double Y;
         /// <summary>
         /// horizontal diameter
         /// </summary>
-        public double cx;
+        public double DimX;
         /// <summary>
         /// vertical diameter
         /// </summary>
-        public double cy;
+        public double DimY;
         /// <summary>
         /// The sensory intense data value
         /// </summary>
-        public double intense;
+        public double Intense;
     }
 
     /// <summary>
     /// A sample of the sensor data, i.e. all current touches during one sampling step.
     /// </summary>
+    /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     public class Frame : IEnumerable<Touch>
     {
         IList<Touch> touches = new List<Touch>();
@@ -124,7 +127,7 @@ namespace Gestures.Recognition.GestureData
             if (sampleSet != null)
             {
                 var clusterer = new GestureRecognition.Clusterer(sampleSet.Length);
-                var cluster = clusterer.Cluster(sampleSet, 0);
+                var cluster = clusterer.Cluster(sampleSet, 4);
 
                 foreach (var c in cluster.Values)
                 {
@@ -158,7 +161,7 @@ namespace Gestures.Recognition.GestureData
         public void AddTouch(Touch touch)
         {
             touches.Add(touch);
-            dict.Add(touch.id, touch);
+            dict.Add(touch.ID, touch);
         }
 
         /// <summary>
@@ -223,10 +226,5 @@ namespace Gestures.Recognition.GestureData
 
         #endregion
 
-        
-        
-
-
     }
-
 }

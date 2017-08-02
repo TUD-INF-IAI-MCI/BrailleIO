@@ -6,11 +6,12 @@ using Gestures.Geometrie.Vertex;
 namespace Gestures.Recognition.GestureData
 {
     /// <summary>
-    /// Smallest component of a gesture. Actual consiting of input points with time stamps.
+    /// Smallest component of a gesture. Actual consisting of input points with time stamps.
     /// </summary>
     /// <remarks>
     /// Gesture tokens appear as trajectories and are output of the blob tracking procedure.
     /// </remarks>
+    /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     [System.Xml.Serialization.XmlRoot("GestureToken",IsNullable = true)]    
     public class GestureToken
     {
@@ -29,7 +30,7 @@ namespace Gestures.Recognition.GestureData
         /// </summary>
         /// <param name="id">The id.</param>
         /// <param name="points">Set of sample points forming a trajectory.</param>
-        public GestureToken(int id,Sample[] points)
+        public GestureToken(int id, List<Sample> points)
         {
             this.Id = id;
             this.Samples = points;
@@ -42,7 +43,7 @@ namespace Gestures.Recognition.GestureData
         /// </summary>
         /// <value>Number of sample points.</value>
         [System.Xml.Serialization.XmlAttribute("Length")]
-        public int Count { get { return Samples.Length; } set { } }
+        public int Count { get { return Samples.Count; } set { } }
 
         /// <summary>
         /// Gets or sets the id.
@@ -58,21 +59,15 @@ namespace Gestures.Recognition.GestureData
         /// </summary>
         /// <value>The samples.</value>
         [System.Xml.Serialization.XmlElement]
-        public Sample[] Samples { get; set; }
+        public List<Sample> Samples { get; set; }
 
         /// <summary>
-        /// Gets the <see cref="Sample"/> at the specified index.
+        /// Gets the <see cref="IVertex"/> at the specified index.
         /// </summary>
         /// <value></value>
         [System.Xml.Serialization.XmlIgnore]
-        public Sample this[int index]
-        {
-            get
-            {
-                if (index >= 0 && index < Samples.Length)
-                    return Samples[index];
-                throw new ArgumentOutOfRangeException();
-            }
+        public IVertex this[int index] { 
+            get { return index >= 0 && index < Samples.Count ? Samples[index] : null; }
         }
     }
 

@@ -4,15 +4,17 @@ using Gestures.Geometrie.Vertex;
 using Gestures.Recognition.GestureData;
 using Gestures.Recognition.Interfaces;
 using System.Drawing;
+using Gestures.Recognition.Classifier;
+using BrailleIO.Structs;
 
-namespace Gestures.Recognition
+namespace Gestures.Recognition.Classifier
 {
     /// <summary>
     /// A classifier to be used by a GestureRecognizer instance.
     /// </summary>
     public class MultitouchClassifier : IClassify
     {
-        #region IClassify<TrackedGesture> Members
+
 
         #region Constructors
         /// <summary>
@@ -24,49 +26,88 @@ namespace Gestures.Recognition
         }
         #endregion
 
-        /// <summary>
-        /// Classifies the specified input data.
-        /// </summary>
-        /// <param name="inputData">The input data.</param>
-        /// <returns>a classification result containing name and parameter of the recognized gesture if
-        /// recognition succeeds, null otherwise.</returns>
-        public IClassificationResult Classify(TrackedGesture inputData)
+        #region IClassify<TrackedGesture> Members
+
+        public IClassificationResult Classify(IList<Frame> frames, IDictionary<int, IList<Sample>> trajectories)
         {
             IClassificationResult result = null;
-            //RecognizePinchGesture(inputData);
-            if (inputData.Count == 0) { return result; }
-            //if (result == null)
-            //{
-            //    result = RecognizeSemiPinchGesture(inputData);
-            //}
-            if (result == null)
+
+            if (trajectories.Count == 0) { return null; }
+            else
             {
-                result = RecognizeBlurryPinchGesture(inputData);
+
+                //if (result == null)
+                //{
+                //    result = RecognizeSemiPinchGesture(inputData);
+                //}
+                if (result == null)
+                {
+                    result = RecognizeBlurryPinchGesture(frames);
+                }
+                if (result == null)
+                {
+                    result = RecognizeBlurryLineGesture(frames);
+                }
+                if (result == null)
+                {
+                    result = RecognizeBlurryCircleGesture(frames);
+                }
+                if (result == null)
+                {
+                    result = RecognizeXFingerDragging(frames, 3);
+                }
             }
-            if (result == null)
-            {
-                result = RecognizeBlurryLineGesture(inputData);
-            }
-            if (result == null)
-            {
-                result = RecognizeBlurryCircleGesture(inputData);
-            } 
-            if (result == null)
-            {
-                result = RecognizeXFingerDragging(inputData.FrameList, 3);
-            }
-            System.Diagnostics.Debug.WriteLine("recognized: " + (result == null ? "nothing" :
-                result.ToString()));
             return result;
         }
+
+        public String NotifyOnInput(IDictionary<int, IList<Sample>> trajectories)
+        {
+            return String.Empty;
+        }
+
+        ///// <summary>
+        ///// Classifies the specified input data.
+        ///// </summary>
+        ///// <param name="inputData">The input data.</param>
+        ///// <returns>a classification result containing name and parameter of the recognized gesture if
+        ///// recognition succeeds, null otherwise.</returns>
+        //public IClassificationResult Classify(IList<Frame> frames)
+        //{
+        //    IClassificationResult result = null;
+        //    //RecognizePinchGesture(inputData);
+        //    if (frames.Count == 0) { return result; }
+        //    //if (result == null)
+        //    //{
+        //    //    result = RecognizeSemiPinchGesture(frames);
+        //    //}
+        //    if (result == null)
+        //    {
+        //        result = RecognizeBlurryPinchGesture(frames);
+        //    }
+        //    if (result == null)
+        //    {
+        //        result = RecognizeBlurryLineGesture(frames);
+        //    }
+        //    if (result == null)
+        //    {
+        //        result = RecognizeBlurryCircleGesture(frames);
+        //    }
+        //    if (result == null)
+        //    {
+        //        // result = RecognizeXFingerDragging(frames, 3);
+        //    }
+        //    System.Diagnostics.Debug.WriteLine("recognized: " + (result == null ? "nothing" :
+        //        result.ToString()));
+        //    return result;
+        //}
 
         #endregion
 
         #region private members
 
         #region Parameters
-        
-        private const int TOKENMINBLOBCOUNT = 4;     
+
+        private const int TOKENMINBLOBCOUNT = 4;
         private double MAXDISTFROMLINE = 4; //max scattering of points to count as line
         private double MINLINELENGTH = 8;
         private int MINEMPTYFRAMES = 2; //at beginning and at the end of a gesture in each case is an empty frame
@@ -79,7 +120,7 @@ namespace Gestures.Recognition
 
         #region Pinch
 
-        private IClassificationResult RecognizeBlurryPinchGesture(TrackedGesture inputData)
+        private IClassificationResult RecognizeBlurryPinchGesture(IList<Frame> frames)
         {
             double maxTapDistance = 2;
             double startDist = double.MinValue,
@@ -88,29 +129,29 @@ namespace Gestures.Recognition
             bool semi1 = true;
             bool semi2 = true;
             //check for min blob relation
-            int equalToX=0,lessThanX=0,moreThanX=0;
+            int equalToX = 0, lessThanX = 0, moreThanX = 0;
             int i = 0;
-            while (i < inputData.FrameList.Length)
+            while (i < frames.Count)
             {
-                if (inputData.FrameList[i].Count == 2)
+                if (frames[i].Count == 2)
                 {
                     equalToX++;
                     //store the first two blobs occurring together as start blobs for the pinch gesture
                     if (startDist < 0.0)
                     {
                         //if more than 1/3 of the frames belongs to single line movement, than it is no pinch anymore
-                        if (i <= inputData.FrameList.Length / 3) 
+                        if (i <= frames.Count / 3)
                         {
                             //first fingers start contact for the pinch
                             startNode1 = new Sample(
-                                inputData.FrameList[i].TimeStamp,
-                                inputData.FrameList[i][0].x,
-                                inputData.FrameList[i][0].y);
+                                frames[i].TimeStamp,
+                                frames[i][0].X,
+                                frames[i][0].Y);
                             //second fingers start contact for the pinch
                             startNode2 = new Sample(
-                                inputData.FrameList[i].TimeStamp,
-                                inputData.FrameList[i][1].x,
-                                inputData.FrameList[i][1].y);
+                                frames[i].TimeStamp,
+                                frames[i][1].X,
+                                frames[i][1].Y);
                             //pinching fingers distance at the beginning
                             startDist =
                                 MetricDistances.EuclideanDistance(startNode1, startNode2);
@@ -119,27 +160,27 @@ namespace Gestures.Recognition
                     //check for a steady first finger (blobs stay close to first contact of one finger)
                     semi1 = semi1 &&
                         (
-                        (Math.Abs(startNode1[0] - inputData.FrameList[i][0].x) < maxTapDistance
+                        (Math.Abs(startNode1[0] - frames[i][0].X) < maxTapDistance
                         &&
-                        Math.Abs(startNode1[1] - inputData.FrameList[i][0].y) < maxTapDistance
+                        Math.Abs(startNode1[1] - frames[i][0].Y) < maxTapDistance
                         )
                         ||
-                        (Math.Abs(startNode1[0] - inputData.FrameList[i][1].x) < maxTapDistance
+                        (Math.Abs(startNode1[0] - frames[i][1].X) < maxTapDistance
                         &&
-                        Math.Abs(startNode1[1] - inputData.FrameList[i][1].y) < maxTapDistance
+                        Math.Abs(startNode1[1] - frames[i][1].Y) < maxTapDistance
                         )
                         );
                     //check for a steady second finger (blobs stay close to first contact of one finger)
                     semi2 = semi2 &&
                         (
-                        (Math.Abs(startNode2[0] - inputData.FrameList[i][0].x) < maxTapDistance
+                        (Math.Abs(startNode2[0] - frames[i][0].X) < maxTapDistance
                         &&
-                        Math.Abs(startNode2[1] - inputData.FrameList[i][0].y) < maxTapDistance
+                        Math.Abs(startNode2[1] - frames[i][0].Y) < maxTapDistance
                         )
                         ||
-                        (Math.Abs(startNode2[0] - inputData.FrameList[i][1].x) < maxTapDistance
+                        (Math.Abs(startNode2[0] - frames[i][1].X) < maxTapDistance
                         &&
-                        Math.Abs(startNode2[1] - inputData.FrameList[i][1].y) < maxTapDistance
+                        Math.Abs(startNode2[1] - frames[i][1].Y) < maxTapDistance
                         )
                         );
                 }
@@ -147,7 +188,7 @@ namespace Gestures.Recognition
                 {
                     //count cases of more or less than two blobs in one frame
                     //can be caused by performing another gesture, flickering or touch unsensitive modules
-                    if (inputData.FrameList[i].Count > 2) { moreThanX++; }
+                    if (frames[i].Count > 2) { moreThanX++; }
                     else { lessThanX++; }
                 }
                 i++;
@@ -155,28 +196,28 @@ namespace Gestures.Recognition
 
             //if there are to many frames with less or more than two blobs, reject pinch gesture assumption
             if ((double)equalToX / (lessThanX + moreThanX) < MINBLOBRELATION) { return null; }
-            
+
 
             //get last frame with two blobs for finding end positions of both fingers
-            i = inputData.FrameList.Length-1;
+            i = frames.Count - 1;
             while (endDist < 0.0 && i >= 0)
             {
                 //check if last frame with two fingers contact is within last third of frame-range
                 //if more than 1/3 of the frames belongs to single line movement, than it is no pinch anymore
-                if (i >= inputData.FrameList.Length * 2 /3 && inputData.FrameList[i].Count == 2)
+                if (i >= frames.Count * 2 / 3 && frames[i].Count == 2)
                 {
-                    IVertex endPoint1 = new Vertex(inputData.FrameList[i][0].x, inputData.FrameList[i][0].y);
-                    IVertex endPoint2 = new Vertex(inputData.FrameList[i][1].x, inputData.FrameList[i][1].y);
-                    endDist = MetricDistances.EuclideanDistance(endPoint1,endPoint2);
+                    IVertex endPoint1 = new Vertex(frames[i][0].X, frames[i][0].Y);
+                    IVertex endPoint2 = new Vertex(frames[i][1].X, frames[i][1].Y);
+                    endDist = MetricDistances.EuclideanDistance(endPoint1, endPoint2);
 
-                    if(startDist>endDist)
+                    if (startDist > endDist)
                     {
                         endPoint1 = startNode1;
                         endPoint2 = startNode2;
                     }
 
                     //if to much scattering of blobs along a given line between the outmost two fingers contact, reject pinch gesture assumption
-                    if(!CheckMaxDistanceFromLineKriterion(inputData.FrameList,endPoint1,endPoint2,MAXDISTFROMLINE))
+                    if (!CheckMaxDistanceFromLineKriterion(frames, endPoint1, endPoint2, MAXDISTFROMLINE))
                     {
                         return null;
                     }
@@ -186,16 +227,16 @@ namespace Gestures.Recognition
             //get direction out of change of start to end distances between the two fingers contacts
             bool direction = startDist > endDist; //pinch or reverse pinch
 
-//            GestureToken token = ConnectTokens(inputData);
-  //          if (!CheckMaxDistanceFromLineKriterion(token, 2 * MAXDISTFROMLINE)) { return null; }
+            //            GestureToken token = ConnectTokens(inputData);
+            //          if (!CheckMaxDistanceFromLineKriterion(token, 2 * MAXDISTFROMLINE)) { return null; }
 
-            bool pinch = startDist>0.0 && endDist >0.0 &&
+            bool pinch = startDist > 0.0 && endDist > 0.0 &&
                 ((direction ? (startDist / endDist) : endDist / startDist) > 0.5);
 
             return !pinch ? null :
                 new ClassificationResult(
                     (semi2 || semi1) ? "one finger pinch" : "pinch",
-                    1.0,new Sample[]{
+                    1.0, new Sample[]{
                     semi1 ? startNode1 : (semi2 ? startNode2 : 
                     new Sample(startNode2.TimeStamp,
                         (startNode1[0] + startNode2[0])/2,
@@ -204,12 +245,12 @@ namespace Gestures.Recognition
                                 (direction) ? -1.0 : 1.0));
         }
 
-        private int FindFirstFrameIndexWithCorrectCount(Frame[] frameList,int blobCount,bool forward)
+        private int FindFirstFrameIndexWithCorrectCount(IList<Frame> frameList, int blobCount, bool forward)
         {
-              //get last frame with two blobs for finding end positions of both fingers
-            int i = forward?0:frameList.Length-1;
+            //get last frame with two blobs for finding end positions of both fingers
+            int i = forward ? 0 : frameList.Count - 1;
 
-            while (forward?i<frameList.Length:(i >= 0))
+            while (forward ? i < frameList.Count : (i >= 0))
             {
                 if (frameList[i].Count == blobCount)
                 {
@@ -223,36 +264,36 @@ namespace Gestures.Recognition
         #endregion
 
         #region Blurry Line
-        private IClassificationResult RecognizeBlurryLineGesture(TrackedGesture inputData)
+        private IClassificationResult RecognizeBlurryLineGesture(IList<Frame> frames)
         {
-            if(!CheckTokenCriterion(inputData.FrameList, 1)){ return null; }
-            
-            Vertex startPoint, endPoint;
-            int startPointIndex = FindFirstFrameIndexWithCorrectCount(inputData.FrameList,1,true);
-            int endPointIndex = FindFirstFrameIndexWithCorrectCount(inputData.FrameList,1,false);
+            if (!CheckTokenCriterion(frames, 1)) { return null; }
 
-            Touch t = inputData.FrameList[startPointIndex][0];
-            startPoint = new Vertex(t.x, t.y);
+            Vertex startPoint, endPoint;
+            int startPointIndex = FindFirstFrameIndexWithCorrectCount(frames, 1, true);
+            int endPointIndex = FindFirstFrameIndexWithCorrectCount(frames, 1, false);
+
+            Touch t = frames[startPointIndex][0];
+            startPoint = new Vertex(t.X, t.Y);
 
             int maxDistantBlobFrameIndex;
             //search endpoint es point with max distance from start point
             //accounts for misleading data and offers robust identification of lines with disadvantage of
             //more wrong positive classifications
-            int maxDistantBlobIndex = GetBlobMaxDistantFromPointIndex(inputData.FrameList, startPoint, out maxDistantBlobFrameIndex);
+            int maxDistantBlobIndex = GetBlobMaxDistantFromPointIndex(frames, startPoint, out maxDistantBlobFrameIndex);
 
             if (startPointIndex == -1 || endPointIndex == -1
                 || startPointIndex == endPointIndex || maxDistantBlobFrameIndex == -1)
             { return null; }
 
-           
-            t = inputData.FrameList[endPointIndex][0];
-            endPoint = new Vertex(t.x, t.y);
+
+            t = frames[endPointIndex][0];
+            endPoint = new Vertex(t.X, t.Y);
 
 
             IClassificationResult result = null;
 
-            if (CheckMaxDistanceFromLineKriterion(inputData.FrameList, startPoint, endPoint, MAXDISTFROMLINE)
-                && MetricDistances.EuclideanDistance(startPoint, endPoint)> MINLINELENGTH)
+            if (CheckMaxDistanceFromLineKriterion(frames, startPoint, endPoint, MAXDISTFROMLINE)
+                && MetricDistances.EuclideanDistance(startPoint, endPoint) > MINLINELENGTH)
             {
                 //return RecognizeDirectionalLine(startPoint, endPoint);
                 result = new ClassificationResult("line", 100.0, new Sample[] { new Sample(DateTime.Now, startPoint), new Sample(DateTime.Now, endPoint) },
@@ -261,9 +302,9 @@ namespace Gestures.Recognition
             return result;
         }
 
-        private String RecognizeDirectionalLine<Vert1,Vert2>(Vert1 startPoint, Vert2 endPoint)
-            where Vert1 : struct, IVertex
-            where Vert2 : struct, IVertex
+        private String RecognizeDirectionalLine(Vertex startPoint, Vertex endPoint)
+            //where Vert1 : struct, IVertex
+            //where Vert2 : struct, IVertex
         {
             double angle = GetAngle(startPoint, endPoint);
             switch (((int)angle) / 45)
@@ -284,45 +325,45 @@ namespace Gestures.Recognition
 
         #region Blurry Semi Circle
 
-        private IClassificationResult RecognizeBlurryCircleGesture(TrackedGesture inputData)
+        private IClassificationResult RecognizeBlurryCircleGesture(IList<Frame> frames)
         {
             String resultString = null;
 
-            if(!CheckTokenCriterion(inputData.FrameList,1)){return null;}
-            int startPointIndex = FindFirstFrameIndexWithCorrectCount(inputData.FrameList,1,true);
-            int endPointIndex = FindFirstFrameIndexWithCorrectCount(inputData.FrameList,1,false);
-            if(startPointIndex==-1 || endPointIndex == -1){return null;}
+            if (!CheckTokenCriterion(frames, 1)) { return null; }
+            int startPointIndex = FindFirstFrameIndexWithCorrectCount(frames, 1, true);
+            int endPointIndex = FindFirstFrameIndexWithCorrectCount(frames, 1, false);
+            if (startPointIndex == -1 || endPointIndex == -1) { return null; }
 
-            Vertex startPoint = new Vertex(inputData.FrameList[startPointIndex][0].x,inputData.FrameList[startPointIndex][0].y);
-            Vertex endPoint = new Vertex(inputData.FrameList[endPointIndex][0].x,inputData.FrameList[endPointIndex][0].y);
-                        
+            Vertex startPoint = new Vertex(frames[startPointIndex][0].X, frames[startPointIndex][0].Y);
+            Vertex endPoint = new Vertex(frames[endPointIndex][0].X, frames[endPointIndex][0].Y);
+
             //search endpoint es point with max distance from start point
             Size dim;
-            var centre = GetCentre(inputData.FrameList, out dim); //centre of all blobs
+            var centre = GetCentre(frames, out dim); //centre of all blobs
 
             if (MetricDistances.EuclideanDistance(centre, startPoint)
                 > MetricDistances.EuclideanDistance(startPoint, endPoint))
             {
-                int endPointBlobIndex = GetBlobMaxDistantFromPointIndex(inputData.FrameList, startPoint, out endPointIndex);
+                int endPointBlobIndex = GetBlobMaxDistantFromPointIndex(frames, startPoint, out endPointIndex);
             }
 
-            if (CheckCircleFormKriterion(inputData.FrameList))
+            if (CheckCircleFormKriterion(frames))
             {
-                if (CheckForFullCircle(inputData.FrameList,startPoint,endPoint)) { resultString = "circle"; }
+                if (CheckForFullCircle(frames, startPoint, endPoint)) { resultString = "circle"; }
                 else { resultString = "semi circle"; }
             }
             else { return null; }
-          
+
             return new ClassificationResult(
-                resultString, 
-                100.0, 
-                new Sample[] { new Sample(DateTime.Now,startPoint)},
-                new KeyValuePair<String, double>("direction", GetCircleDirection(inputData.FrameList) ? 1.0 : -1.0),
+                resultString,
+                100.0,
+                new Sample[] { new Sample(DateTime.Now, startPoint) },
+                new KeyValuePair<String, double>("direction", GetCircleDirection(frames) ? 1.0 : -1.0),
                 new KeyValuePair<String, Size>("dimensions", dim)
                 );
         }
 
-        private bool CheckCircleFormKriterion(Frame[] frameList)
+        private bool CheckCircleFormKriterion(IList<Frame> frameList)
         {
             //all points must lay on a circular shape around the center 
             //so check variance of distance from center
@@ -330,22 +371,22 @@ namespace Gestures.Recognition
             var midPoint = GetCentre(frameList, out dim);
             int blobCount = 0;
             double averageDist = 0.0;
-            for (int i = 0; i < frameList.Length; i++)
+            for (int i = 0; i < frameList.Count; i++)
             {
                 for (int j = 0; j < frameList[i].Count; j++)
                 {
-                    averageDist += MetricDistances.EuclideanDistance(new Vertex(frameList[i][j].x, frameList[i][j].y), midPoint);
+                    averageDist += MetricDistances.EuclideanDistance(new Vertex(frameList[i][j].X, frameList[i][j].Y), midPoint);
                     blobCount++;
                 }
             }
             averageDist /= blobCount;
 
             double diff = 0.0;
-            for (int i = 0; i < frameList.Length; i++)
+            for (int i = 0; i < frameList.Count; i++)
             {
                 for (int j = 0; j < frameList[i].Count; j++)
                 {
-                    double dist = MetricDistances.EuclideanDistance(new Vertex(frameList[i][j].x, frameList[i][j].y), midPoint) - averageDist;
+                    double dist = MetricDistances.EuclideanDistance(new Vertex(frameList[i][j].X, frameList[i][j].Y), midPoint) - averageDist;
                     diff += dist * dist;
                 }
             }
@@ -356,8 +397,8 @@ namespace Gestures.Recognition
 
             return true;
         }
-                
-        private bool CheckForFullCircle(Frame[] frameList, IVertex lineThroughCentreStart, IVertex lineThroughCentreEnd)
+
+        private bool CheckForFullCircle(IList<Frame> frameList, IVertex lineThroughCentreStart, IVertex lineThroughCentreEnd)
         {
             int leftSideCount = 0;
             int rightSideCount = 0;
@@ -382,11 +423,11 @@ namespace Gestures.Recognition
             double o = c[0] - b[0];
             double r;
 
-            for (int i = 0; i < frameList.Length; i++)
+            for (int i = 0; i < frameList.Count; i++)
                 for (int j = 0; j < frameList[i].Count; j++)
                 {
                     {
-                        var a = new Vertex(frameList[i][j].x, frameList[i][j].y);
+                        var a = new Vertex(frameList[i][j].X, frameList[i][j].Y);
                         r = m + a[0] * n + a[1] * o;
                         if (r > 0)
                         {
@@ -413,20 +454,20 @@ namespace Gestures.Recognition
             return false;
         }
 
-        private bool GetCircleDirection(Frame[] frameList)
+        private bool GetCircleDirection(IList<Frame> frameList)
         {
             //return true for clockwise, false otherwise
             Size dim;
             var centre = GetCentre(frameList, out dim);
             int clockwise = 0, cclockwise = 0;
             var c = centre;
-            for (int i = 0; i < frameList.Length-1; i++)
+            for (int i = 0; i < frameList.Count - 1; i++)
             {
                 //check only on two blobs in consecutive frames
                 if (frameList[i].Count > 0 && frameList[i + 1].Count > 0)
                 {
-                    var b = new Vertex(frameList[i][0].x, frameList[i][0].y);
-                    var a = new Vertex(frameList[i+1][0].x, frameList[i+1][0].y);
+                    var b = new Vertex(frameList[i][0].X, frameList[i][0].Y);
+                    var a = new Vertex(frameList[i + 1][0].X, frameList[i + 1][0].Y);
                     double r = (b[0] * c[1] - c[0] * b[1]) + a[0] * (b[1] - c[1]) + a[1] * (c[0] - b[0]);
                     if (r > 0) { clockwise++; }
                     else { if (r < 0) { cclockwise++; } }
@@ -438,20 +479,20 @@ namespace Gestures.Recognition
         #endregion
 
         #region Three Finger Dragging
-               
+
         private static double MINBLOBRELATION = 0.5;
 
-        private IClassificationResult RecognizeXFingerDragging(Frame[] input, int finger)
+        private IClassificationResult RecognizeXFingerDragging(IList<Frame> input, int finger)
         {
-            int equalToX=0,lessThanX=0,moreThanX=0;
+            int equalToX = 0, lessThanX = 0, moreThanX = 0;
             int firstIndex = -1, lastIndex = 0;
             Vertex start, end;
             //find first and last index of frame with exactly x blobs
 
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < input.Count; i++)
             {
                 //check for three blobs most of time
-                if (input[i].Count == finger) 
+                if (input[i].Count == finger)
                 {
                     equalToX++;
                     if (firstIndex == -1) { firstIndex = i; }
@@ -465,11 +506,11 @@ namespace Gestures.Recognition
                         //TODO: maybe reduce possible noice blobs 
                         moreThanX++;
                     }
-                }            
+                }
             }
             //System.Diagnostics.Debug.WriteLine("expected continuous touch of " + finger.ToString() + " blobs and got:");
             //System.Diagnostics.Debug.WriteLine("==: " + equalToX.ToString() + "\t<: " + lessThanX + "\t>: " + moreThanX.ToString());
-                         
+
             //check for min blob relation
             if ((double)equalToX / (lessThanX + moreThanX) < MINBLOBRELATION) { return null; }
 
@@ -477,14 +518,14 @@ namespace Gestures.Recognition
             //at time to restrictive because of faulty sensor data
             //if (lastIndex < input.Count - MAXINDEXDIFF) { return null; }
             //if (firstIndex > MAXINDEXDIFF) { return null; }
-           
+
 
             //get parameters, i.e. start and end point of gesture
             Vertex[] temp = new Vertex[input[firstIndex].Count];
             for (int i = 0; i < input[firstIndex].Count; i++)
             {
                 temp[i] =
-                    new Vertex(input[firstIndex][i].x, input[firstIndex][i].y); 
+                    new Vertex(input[firstIndex][i].X, input[firstIndex][i].Y);
             }
             start = GetCentre(temp);
 
@@ -492,32 +533,32 @@ namespace Gestures.Recognition
             for (int i = 0; i < input[lastIndex].Count; i++)
             {
                 temp[i] =
-                    new Vertex(input[lastIndex][i].x, input[lastIndex][i].y);
+                    new Vertex(input[lastIndex][i].X, input[lastIndex][i].Y);
             }
             end = GetCentre(temp);
 
-            return new ClassificationResult("drag", 100.0,new Sample[] { (Sample)start, (Sample)end },
+            return new ClassificationResult("drag", 100.0, new Vertex[] { (Vertex)start, (Vertex)end },
                 new KeyValuePair<String, double>("contacts", finger));
         }
 
         #endregion
 
         #region Helper Methods
-       
-        private T GetCentre<T>(params T[] points)
-            where T : struct, IVertex
+
+        private Vertex GetCentre(Vertex[] points)
+            // where T : struct, IVertex
         {
             var result = points[0];
             for (int i = 1; i < points.Length; i++)
             {
-                result = result.Add(points[i]);
+                result = result + points[i];
             }
             result[0] /= points.Length;
             result[1] /= points.Length;
             return result;
         }
 
-        private IVertex GetCentre(Frame[] frameList, out Size dim)
+        private IVertex GetCentre(IList<Frame> frameList, out Size dim)
         {
             IVertex centre = new Vertex(0.0, 0.0);
             int blobCount = 0;
@@ -527,17 +568,17 @@ namespace Gestures.Recognition
             int maxX = 0;
             int maxY = 0;
 
-            for (int i = 0; i < frameList.Length; i++)
+            for (int i = 0; i < frameList.Count; i++)
             {
                 for (int j = 0; j < frameList[i].Count; j++)
                 {
-                    minX = Math.Min(minX, (int) frameList[i][j].x);
-                    maxX = Math.Max(maxX, (int) frameList[i][j].x);
-                    minY = Math.Min(minY, (int)frameList[i][j].y);
-                    maxY = Math.Max(maxY, (int)frameList[i][j].y);
+                    minX = Math.Min(minX, (int)frameList[i][j].X);
+                    maxX = Math.Max(maxX, (int)frameList[i][j].X);
+                    minY = Math.Min(minY, (int)frameList[i][j].Y);
+                    maxY = Math.Max(maxY, (int)frameList[i][j].Y);
 
-                    centre[0]+= frameList[i][j].x;
-                    centre[1]+=  frameList[i][j].y;
+                    centre[0] += frameList[i][j].X;
+                    centre[1] += frameList[i][j].Y;
                     blobCount++;
                 }
             }
@@ -547,9 +588,9 @@ namespace Gestures.Recognition
             return centre;
         }
 
-        private double GetAngle<Vert1,Vert2>(Vert1 startPoint, Vert2 endPoint)
-            where Vert1 : struct, IVertex
-            where Vert2 : struct, IVertex
+        private double GetAngle(Vertex startPoint, Vertex endPoint)
+            //where Vert1 : struct, IVertex
+            //where Vert2 : struct, IVertex
         {
             double x = 0, y = 0;
             double angle =
@@ -570,17 +611,17 @@ namespace Gestures.Recognition
 
         #region Criterions
 
-        private int GetBlobMaxDistantFromPointIndex(Frame[] frameList, IVertex point, out int frameIndex)
+        private int GetBlobMaxDistantFromPointIndex(IList<Frame> frameList, IVertex point, out int frameIndex)
         {
             double maxDist = 0;
             frameIndex = -1;
             int blobIndex = 0;
-            for(int f = 0; f<frameList.Length;f++)
+            for (int f = 0; f < frameList.Count; f++)
             {
-                for(int blob = 0;blob < frameList[f].Count; blob++)
+                for (int blob = 0; blob < frameList[f].Count; blob++)
                 {
-                    double temp = MetricDistances.EuclideanDistance(point, 
-                        new Vertex(frameList[f][blob].x, frameList[f][blob].y));
+                    double temp = MetricDistances.EuclideanDistance(point,
+                        new Vertex(frameList[f][blob].X, frameList[f][blob].Y));
                     if (temp > maxDist)
                     {
                         maxDist = temp;
@@ -591,8 +632,8 @@ namespace Gestures.Recognition
             }
             return frameIndex != -1 ? blobIndex : -1;
         }
-        
-        private bool CheckMaxDistanceFromLineKriterion(Frame[] frameList, IVertex linePointA, IVertex linePointB, double maxDistanceFromLine)
+
+        private bool CheckMaxDistanceFromLineKriterion(IList<Frame> frameList, IVertex linePointA, IVertex linePointB, double maxDistanceFromLine)
         {
             var pA = linePointA;
             var pB = linePointB;
@@ -602,7 +643,7 @@ namespace Gestures.Recognition
             {
                 foreach (var touch in frame)
                 {
-                    var pC = new Vertex(touch.x, touch.y);
+                    var pC = new Vertex(touch.X, touch.Y);
                     double lengthA = MetricDistances.EuclideanDistance(pB, pC);
                     double lengthB = MetricDistances.EuclideanDistance(pA, pC);
                     if (lengthA == 0 || lengthB == 0) { continue; }
@@ -626,12 +667,12 @@ namespace Gestures.Recognition
         }
 
         //checks if throughout the frame sequence consistently a fixed number of blobs is present
-        private bool CheckTokenCriterion(Frame[] frameList, int blobsPerFrame)
+        private bool CheckTokenCriterion(IList<Frame> frameList, int blobsPerFrame)
         {
             int correctBlobsCount = 0;
             int lessBlobsCount = 0;
             int moreBlobsCount = 0;
-            foreach(var frame in frameList)
+            foreach (var frame in frameList)
                 if (frame.Count == blobsPerFrame)
                 {
                     correctBlobsCount++;
@@ -642,7 +683,7 @@ namespace Gestures.Recognition
                     else { moreBlobsCount++; }
                 }
             lessBlobsCount -= MINEMPTYFRAMES;
-            return ((lessBlobsCount + moreBlobsCount)>correctBlobsCount * MINBLOBRELATION || correctBlobsCount == 0) ? false : true;
+            return ((lessBlobsCount + moreBlobsCount) > correctBlobsCount * MINBLOBRELATION || correctBlobsCount == 0) ? false : true;
         }
 
         #endregion

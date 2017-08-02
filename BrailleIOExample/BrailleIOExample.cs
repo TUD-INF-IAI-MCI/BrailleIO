@@ -9,6 +9,7 @@ using Gestures.Recognition;
 using Gestures.Recognition.Preprocessing;
 using Gestures.Recognition.Interfaces;
 using Gestures.Recognition.GestureData;
+using Gestures.Recognition.Classifier;
 
 namespace BraillIOExample
 {
@@ -64,14 +65,15 @@ namespace BraillIOExample
 
         void _bda_touchValuesChanged(object sender, BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("---> touch values changed");
+            //  System.Diagnostics.Debug.WriteLine("---> touch values changed");
 
             if (e != null)
             {
                 // add touches to the gesture recognizers
                 if (sender == showOff && interpretShowOfGesture && showOffGestureRecognizer != null)
                 {
-                    showOffGestureRecognizer.AddFrame(new Frame(e.touches));
+                    //showOffGestureRecognizer.AddFrame(new Frame(e.touches));
+                    showOffGestureRecognizer.AddFrame(new Frame(DateTime.Now, e.DetailedTouches.ToArray()));
                 }
             }
 

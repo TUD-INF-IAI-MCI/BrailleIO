@@ -97,9 +97,13 @@
       <Project>{9CF455A0-B3B8-4D16-B54C-8EAF6BC97E06}</Project>
       <Name>BrailleIO_ShowOff</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GestureRecognizer\GestureRecognizer.csproj">
-      <Project>{73bd1f41-ce19-40de-a0ec-a70a9f003dec}</Project>
-      <Name>GestureRecognizer</Name>
+    <ProjectReference Include="..\GestureRecognition\GestureRecognition.csproj">
+      <Project>{ad929d1d-1054-43e8-af88-78bdbc7a2bea}</Project>
+      <Name>GestureRecognition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NaiveGestureRecognizer\NaiveGestureClassifiers.csproj">
+      <Project>{0185202c-7878-4e53-b422-a1e8e38c496b}</Project>
+      <Name>NaiveGestureClassifiers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

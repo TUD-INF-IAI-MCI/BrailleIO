@@ -8,40 +8,131 @@ namespace BrailleIO.Structs
     /// <summary>
     /// A structure for holding informations about touches 
     /// </summary>
-    public struct Touch
+    public class Touch
     {
+        private int _id = int.MinValue;
+        /// <summary>
+        /// The identifier
+        /// </summary>
+        public int ID
+        {
+            get
+            {
+                if (_id == int.MinValue)
+                {
+                    _id = (int)(DateTime.Now.Ticks % int.MaxValue);
+                }
+                return _id;
+            }
+            set { _id = value; }
+        }
+
+        private double _x = -1;
         /// <summary>
         /// The horizontal position of the center of a 
         /// touch in relation to the display matrix.
         /// </summary>
-        public readonly double X;
+        public double X
+        {
+            get { return _x; }
+            private set
+            {
+                _x = value;
+                int px = (int)Math.Round(_x, 0, MidpointRounding.AwayFromZero);
+                if (PinX != px) PinX = px;
+            }
+        }
+
+        private double _y = -1;
         /// <summary>
         /// The vertical position of the center of a 
         /// touch in relation to the display matrix.
         /// </summary>
-        public readonly double Y;
+        public double Y
+        {
+            get { return _y; }
+            private set
+            {
+                _y = value;
+                int py = (int)Math.Round(_y, 0, MidpointRounding.AwayFromZero);
+                if (PinY != py) PinY = py;
+            }
+        }
+
+        private int _pinX = -1;
         /// <summary>
         /// The horizontal pin position of the center of a 
         /// touch in relation to the display matrix.
         /// </summary>
-        public readonly int PinX;
+        public int PinX
+        {
+            get { return _pinX; }
+            private set
+            {
+                _pinX = value;
+                if (X < _pinX - 0.5 || X > _pinX + 0.5) X = _pinX;
+            }
+        }
+
+        private int _pinY = -1;
         /// <summary>
         /// The vertical position of the center of a 
         /// touch in relation to the display matrix.
         /// </summary>
-        public readonly int PinY;
+        public int PinY
+        {
+            get { return _pinY; }
+            private set
+            {
+                _pinY = value;
+                if (Y < _pinY - 0.5 || Y > _pinY + 0.5) Y = _pinY;
+            }
+        }
+
+        private double _intense = 0;
         /// <summary>
         /// The intense sensory value of the detected touch between 0 and 1.
         /// </summary>
-        public readonly double Intense;
+        public double Intense
+        {
+            get { return _intense; }
+            private set { _intense = value; }
+        }
+
+        private double _dimX = 0.5;
         /// <summary>
         /// The horizontal diameter of the touch.
         /// </summary>
-        public readonly double DimX;
+        public double DimX
+        {
+            get { return _dimX; }
+            private set { _dimX = value; }
+        }
+
+        private double _dimY = 0.5;
         /// <summary>
         /// The vertical diameter of the touch.
         /// </summary>
-        public readonly double DimY;
+        public double DimY
+        {
+            get { return _dimY; }
+            private set { _dimX = value; }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Touch"/> class.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="x">The horizontal x position of the touch.</param>
+        /// <param name="y">The vertical y position of the touch.</param>
+        /// <param name="cx">The horizontal diameter of the touch.</param>
+        /// <param name="cy">The vertical diameter of the touch.</param>
+        /// <param name="intense">The intense of the sensory data.</param>
+        public Touch(int id, double x, double y, double cx, double cy, double intense)
+            : this(x, y, cx, cy, intense)
+        {
+            ID = id;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Touch" /> struct.
