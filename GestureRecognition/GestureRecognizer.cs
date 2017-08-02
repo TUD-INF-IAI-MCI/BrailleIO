@@ -70,7 +70,8 @@ namespace Gestures.Recognition
             return result;
         }
 
-        public virtual IClassificationResult FinishEvaluation()
+        public virtual IClassificationResult FinishEvaluation() { return FinishEvaluation(true); } 
+        public virtual IClassificationResult FinishEvaluation(bool clear)
         {
             IClassificationResult classificationResult = null;
 
@@ -85,10 +86,10 @@ namespace Gestures.Recognition
                     foreach (IClassify classifier in classifiers)
                     {
                         classificationResult = classifier.Classify(blobTracker.FrameList, blobTracker.Trajectories);
-                        // if (classificationResult != null) { return classificationResult; }
+                        if (classificationResult != null) { break; }
                     }
                 }
-                blobTracker.InitiateTracking();
+                if(clear) blobTracker.InitiateTracking();
             }
             return classificationResult;
         }

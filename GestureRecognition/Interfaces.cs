@@ -76,6 +76,12 @@ namespace Gestures.Recognition.Interfaces
         void StartEvaluation();
         String AddFrame(Frame frame);
         IClassificationResult FinishEvaluation();
+        /// <summary>
+        /// Finishes the evaluation and clears the related blob tracker if set.
+        /// </summary>
+        /// <param name="_clear">if set to <c>true</c> the blob tracker is cleared.</param>
+        /// <returns>A recognized gesture or <c>Null</c></returns>
+        IClassificationResult FinishEvaluation(bool _clear);
     }
     public delegate void TrackedTouchesDelegate(Frame previousFrame, Frame trackedFrame);
     public interface ITrackBlobs
