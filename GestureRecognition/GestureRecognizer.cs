@@ -33,6 +33,7 @@ namespace Gestures.Recognition
         #endregion
 
         #region public members
+
         #region ISynchronizable
         /// <summary>
         /// Gets the synchronization lock object.
@@ -42,6 +43,25 @@ namespace Gestures.Recognition
         #endregion
 
         #region IRecognizeGestures
+
+        private double _probabilityThreshold = 0.7;
+        /// <summary>
+        /// Gets or sets the probability threshold for directly accepting a classification result.
+        /// </summary>
+        /// <value>
+        /// The probability threshold.
+        /// </value>
+        public double ProbabilityThreshold
+        {
+            get { return _probabilityThreshold; }
+            set
+            {
+                value = Math.Min(Math.Max(0, value), 1);
+                _probabilityThreshold = value;
+            }
+        }
+
+
         public virtual void AddClassifier(IClassify classifier)
         {
             classifiers.Add(classifier);
@@ -70,7 +90,7 @@ namespace Gestures.Recognition
             return result;
         }
 
-        public virtual IClassificationResult FinishEvaluation() { return FinishEvaluation(true); } 
+        public virtual IClassificationResult FinishEvaluation() { return FinishEvaluation(true); }
         public virtual IClassificationResult FinishEvaluation(bool clear)
         {
             IClassificationResult classificationResult = null;
@@ -82,14 +102,36 @@ namespace Gestures.Recognition
                 if (blobTracker.Trajectories.Count > 0)
                 {
                     Console.WriteLine("Gesture trajectories to evaluate:" + blobTracker.Trajectories.Count);
-
-                    foreach (IClassify classifier in classifiers)
+                    List<IClassificationResult> oldResults = new List<IClassificationResult>();
+                    // foreach (IClassify classifier in classifiers){
+                    for (int i = 0; i < classifiers.Count; i++)
                     {
-                        classificationResult = classifier.Classify(blobTracker.FrameList, blobTracker.Trajectories);
-                        if (classificationResult != null) { break; }
+                        IClassify classifier = classifiers[i];
+                        if (classifier != null)
+                        {
+                            classificationResult = classifier.Classify(blobTracker.FrameList, blobTracker.Trajectories);
+                            if (classificationResult != null)
+                            {
+                                if (classificationResult.Probability > ProbabilityThreshold) { break; }
+                                else
+                                {
+                                    oldResults.Add(classificationResult);
+                                }
+                            }
+                        }
+                    }
+
+                    // no result was taken directly, so find the first one with the highest probability
+                    if (oldResults != null && oldResults.Count > 0)
+                    {
+                        foreach (var result in oldResults)
+                        {
+                            if (classificationResult == null || result.Probability > classificationResult.Probability)
+                                classificationResult = result;
+                        }
                     }
                 }
-                if(clear) blobTracker.InitiateTracking();
+                if (clear) blobTracker.InitiateTracking();
             }
             return classificationResult;
         }
@@ -143,7 +185,6 @@ namespace Gestures.Recognition
         }
 
         #endregion
-
 
         public virtual IClassificationResult RecognizeTemplate(GestureTemplate template)
         {
@@ -222,6 +263,7 @@ namespace Gestures.Recognition
         }
 
         #endregion
+
         #endregion
 
         #region private members

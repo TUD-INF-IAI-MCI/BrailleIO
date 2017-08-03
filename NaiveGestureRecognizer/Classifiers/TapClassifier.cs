@@ -26,7 +26,7 @@ namespace Gestures.Recognition.Classifier
             Console.WriteLine("Tap at " + tappedPos[0] + ", " + tappedPos[1]);
 
             String resultString = "tap";
-            return new ClassificationResult(resultString, 100.0, new IVertex[] { tappedPos },
+            return new ClassificationResult(resultString, 1.0, new IVertex[] { tappedPos },
                 new KeyValuePair<String, double>("taps", result));
         }
 

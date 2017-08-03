@@ -236,7 +236,7 @@ namespace Gestures.Recognition.Classifier
             return !pinch ? null :
                 new ClassificationResult(
                     (semi2 || semi1) ? "one finger pinch" : "pinch",
-                    1.0, new Sample[]{
+                    0.8, new Sample[]{
                     semi1 ? startNode1 : (semi2 ? startNode2 : 
                     new Sample(startNode2.TimeStamp,
                         (startNode1[0] + startNode2[0])/2,
@@ -296,7 +296,7 @@ namespace Gestures.Recognition.Classifier
                 && MetricDistances.EuclideanDistance(startPoint, endPoint) > MINLINELENGTH)
             {
                 //return RecognizeDirectionalLine(startPoint, endPoint);
-                result = new ClassificationResult("line", 100.0, new Sample[] { new Sample(DateTime.Now, startPoint), new Sample(DateTime.Now, endPoint) },
+                result = new ClassificationResult("line", 0.9, new Sample[] { new Sample(DateTime.Now, startPoint), new Sample(DateTime.Now, endPoint) },
                     new KeyValuePair<String, double>("angle", GetAngle(startPoint, endPoint)));
             }
             return result;
@@ -346,17 +346,17 @@ namespace Gestures.Recognition.Classifier
             {
                 int endPointBlobIndex = GetBlobMaxDistantFromPointIndex(frames, startPoint, out endPointIndex);
             }
-
+            bool fullCircle = false;
             if (CheckCircleFormKriterion(frames))
             {
-                if (CheckForFullCircle(frames, startPoint, endPoint)) { resultString = "circle"; }
+                if (CheckForFullCircle(frames, startPoint, endPoint)) { resultString = "circle"; fullCircle = true; }
                 else { resultString = "semi circle"; }
             }
             else { return null; }
 
             return new ClassificationResult(
                 resultString,
-                100.0,
+                fullCircle ? 0.7 : 0.6,
                 new Sample[] { new Sample(DateTime.Now, startPoint) },
                 new KeyValuePair<String, double>("direction", GetCircleDirection(frames) ? 1.0 : -1.0),
                 new KeyValuePair<String, Size>("dimensions", dim)
@@ -537,7 +537,7 @@ namespace Gestures.Recognition.Classifier
             }
             end = GetCentre(temp);
 
-            return new ClassificationResult("drag", 100.0, new Vertex[] { (Vertex)start, (Vertex)end },
+            return new ClassificationResult("drag", 0.95, new Vertex[] { (Vertex)start, (Vertex)end },
                 new KeyValuePair<String, double>("contacts", finger));
         }
 

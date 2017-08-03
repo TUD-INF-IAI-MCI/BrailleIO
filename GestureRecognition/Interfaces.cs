@@ -72,6 +72,13 @@ namespace Gestures.Recognition.Interfaces
 
     public interface IRecognizeGestures : ISynchronizable
     {
+        /// <summary>
+        /// Gets or sets the probability threshold for directly accepting a classification result.
+        /// </summary>
+        /// <value>
+        /// The probability threshold. Must be in range of 0 - 1.0.
+        /// </value>
+        double ProbabilityThreshold { get; set; }
         void AddClassifier(IClassify classifier);
         void StartEvaluation();
         String AddFrame(Frame frame);
