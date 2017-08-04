@@ -13,10 +13,10 @@ namespace Gestures.Recognition
     public class GestureRecognizer : IRecognizeGestures, IRecordTemplates, ILoadGestureTemplates
     {
         #region private fields
-        private ITrackBlobs blobTracker;
-        private readonly object synchLock = new object();
+        protected ITrackBlobs blobTracker;
+        protected readonly object synchLock = new object();
 
-        private List<IClassify> classifiers = new List<IClassify>();
+        protected List<IClassify> classifiers = new List<IClassify>();
         #endregion
 
         #region Constructor
@@ -204,6 +204,8 @@ namespace Gestures.Recognition
 
         #region ILoadGestureTemplates Members
 
+        static readonly StandardTemplateLoader trw = new StandardTemplateLoader();
+
         /// <summary>
         /// Initializes templates set with XML templates given at specified tempFileName.
         /// </summary>
@@ -221,27 +223,45 @@ namespace Gestures.Recognition
 
         public virtual void AddTemplate(GestureTemplate template)
         {
-            throw new NotImplementedException();
+            foreach (Object o in classifiers)
+            {
+                if (o is ILoadGestureTemplates)
+                {
+                    (o as ILoadGestureTemplates).AddTemplate(template);
+                }
+            }
         }
 
         public virtual void RemoveTemplates(string className)
         {
-            throw new NotImplementedException();
+            foreach (Object o in classifiers)
+            {
+                if (o is ILoadGestureTemplates)
+                {
+                    (o as ILoadGestureTemplates).RemoveTemplates(className);
+                }
+            }
         }
 
         public virtual void StoreTemplates(string templatePath)
         {
-            throw new NotImplementedException();
+            foreach (Object o in classifiers)
+            {
+                if (o is ILoadGestureTemplates)
+                {
+                    (o as ILoadGestureTemplates).StoreTemplates(templatePath);
+                }
+            }
         }
 
         public virtual void StoreTemplate(string templatePath, String templateFileName, GestureTemplate template)
         {
-            throw new NotImplementedException();
+            trw.StoreTemplate(templatePath, templateFileName, template);
         }
 
         public virtual void StoreTemplate(string templatePath, GestureTemplate template)
         {
-            throw new NotImplementedException();
+            trw.StoreTemplate(templatePath, template);
         }
 
         public virtual GestureClass[] GetGestureClasses()
