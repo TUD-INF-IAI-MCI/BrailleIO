@@ -38,6 +38,11 @@ namespace Gestures.InOut
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xmlFile);
+            
+            if (File.Exists(xmlFilePath))
+            {
+                File.Delete(xmlFilePath);
+            }
             doc.Save(xmlFilePath);
         }
         public virtual GestureTemplate GetGestureFromXmlTemplate(String xml)

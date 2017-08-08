@@ -172,6 +172,7 @@ namespace BrailleIO.Structs
             this.Intense = Math.Min(1, intense);
             DimX = 0.5;
             DimY = 0.5;
+            ID = this.GetHashCode();
 
         }
 

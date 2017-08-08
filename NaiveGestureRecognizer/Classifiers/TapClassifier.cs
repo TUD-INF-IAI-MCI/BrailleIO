@@ -27,7 +27,7 @@ namespace Gestures.Recognition.Classifier
 
             String resultString = "tap";
             return new ClassificationResult(resultString, 1.0, new IVertex[] { tappedPos },
-                new KeyValuePair<String, double>("taps", result));
+               new Dictionary<String,Object>(){ {"taps", result}});
         }
 
         #endregion

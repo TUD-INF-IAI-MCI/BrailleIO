@@ -15,10 +15,10 @@ namespace Gestures.Recognition.Classifier
     public class ClassificationResult : IClassificationResult
     {
         protected IList<IVertex> nodeParameters;
-        protected IList<Object> additionalParameters;
-        
+        protected IDictionary<String, Object> additionalParameters;
+
         public ClassificationResult(String name, double probability, IVertex[] nodeParameters,
-            params Object[] additionalParameters)
+            IDictionary<String, Object> additionalParameters = null)
         {
             this.Name = name;
             this.Probability = probability;
@@ -29,16 +29,19 @@ namespace Gestures.Recognition.Classifier
                 {
                     this.nodeParameters.Add(nodeParameters[i]);
                 }
-            }                            
+            }
 
-            this.additionalParameters = new List<Object>();
-            if (additionalParameters != null)
+            this.additionalParameters = new Dictionary<String, Object>();
+            if (additionalParameters != null && additionalParameters.Count > 0)
             {
-                for (int i = 0; i < additionalParameters.Length; i++)
+                //for (int i = 0; i < additionalParameters.Length; i++)
+                foreach (var item in additionalParameters)
                 {
-                    this.additionalParameters.Add(additionalParameters[i]);
+                    if (this.additionalParameters.ContainsKey(item.Key))
+                        this.additionalParameters[item.Key] = item.Value;
+                    this.additionalParameters.Add(item.Key, item.Value);
                 }
-            }            
+            }
         }
 
         #region IClassificationResult Members
@@ -52,7 +55,7 @@ namespace Gestures.Recognition.Classifier
             get { return nodeParameters; }
         }
 
-        public IList<Object> AdditionalParameters
+        public IDictionary<String,Object> AdditionalParameters
         {
             get { return additionalParameters; }
         }
@@ -71,9 +74,13 @@ namespace Gestures.Recognition.Classifier
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     /// <seealso cref="Gestures.Recognition.Classifier.ClassificationResult" />
     public class OnlineClassificationResult : ClassificationResult
-    {   
+    {
         public OnlineClassificationResult(ClassificationResult originalResult)
-            : base(originalResult.Name, originalResult.Probability, originalResult.NodeParameters.ToArray(), originalResult.AdditionalParameters.ToArray())
+            : base(
+                originalResult.Name, 
+                originalResult.Probability, 
+                originalResult.NodeParameters.ToArray(), 
+                originalResult.AdditionalParameters)
         { }
     }
 }

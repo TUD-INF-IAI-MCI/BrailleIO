@@ -6,6 +6,7 @@ using Gestures.Recognition.GestureData;
 using Gestures.Recognition.Interfaces;
 using Gestures.Geometrie.Vertex;
 using Gestures.InOut;
+using System.IO;
 
 namespace Gestures.InOut
 {  
@@ -67,7 +68,37 @@ namespace Gestures.InOut
                     GestureTemplate gestureTemplate =
                         templateReaderWriter.GetGestureFromXmlTemplate(
                         templateReaderWriter.LoadXmlTemplate(file));
-                    AddTemplate(gestureTemplate);
+
+                    if (gestureTemplate != null)
+                    {
+                        var name = Path.GetFileNameWithoutExtension(file);
+                        var num = name.Substring(name.LastIndexOf("_"));
+                        int templateNum = 0;
+                        bool store = false;
+
+                        if (String.IsNullOrWhiteSpace(gestureTemplate.ClassName))
+                        {                            
+                            var cname = name.Substring(0, name.LastIndexOf("_"));
+                            gestureTemplate.ClassName = cname;
+                            store = true;
+                        }
+                        if (!String.IsNullOrWhiteSpace(num))
+                        {
+                            bool succ = Int32.TryParse(num, out templateNum);
+                            if (succ && templateNum != gestureTemplate.TemplateNumber)
+                            {
+                                gestureTemplate.TemplateNumber = templateNum;
+                                store = true;
+                            }
+                        }
+                        if(store)
+                        {
+                            try { this.StoreTemplate(Path.GetDirectoryName(file), Path.GetFileName(file), gestureTemplate); }
+                            catch { }
+                        }
+
+                        AddTemplate(gestureTemplate);
+                    }
                 }
             }
 

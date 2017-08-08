@@ -241,8 +241,8 @@ namespace Gestures.Recognition.Classifier
                     new Sample(startNode2.TimeStamp,
                         (startNode1[0] + startNode2[0])/2,
                         (startNode1[1] + startNode2[1])/2))},
-                    new KeyValuePair<String, double>("expanding",
-                                (direction) ? -1.0 : 1.0));
+                        new Dictionary<String, Object>(){
+                        {"expanding",(direction) ? -1.0 : 1.0}});
         }
 
         private int FindFirstFrameIndexWithCorrectCount(IList<Frame> frameList, int blobCount, bool forward)
@@ -297,14 +297,14 @@ namespace Gestures.Recognition.Classifier
             {
                 //return RecognizeDirectionalLine(startPoint, endPoint);
                 result = new ClassificationResult("line", 0.9, new Sample[] { new Sample(DateTime.Now, startPoint), new Sample(DateTime.Now, endPoint) },
-                    new KeyValuePair<String, double>("angle", GetAngle(startPoint, endPoint)));
+                    new Dictionary<String, Object>(){{"angle", GetAngle(startPoint, endPoint)}});
             }
             return result;
         }
 
         private String RecognizeDirectionalLine(Vertex startPoint, Vertex endPoint)
-            //where Vert1 : struct, IVertex
-            //where Vert2 : struct, IVertex
+        //where Vert1 : struct, IVertex
+        //where Vert2 : struct, IVertex
         {
             double angle = GetAngle(startPoint, endPoint);
             switch (((int)angle) / 45)
@@ -358,9 +358,10 @@ namespace Gestures.Recognition.Classifier
                 resultString,
                 fullCircle ? 0.7 : 0.6,
                 new Sample[] { new Sample(DateTime.Now, startPoint) },
-                new KeyValuePair<String, double>("direction", GetCircleDirection(frames) ? 1.0 : -1.0),
-                new KeyValuePair<String, Size>("dimensions", dim)
-                );
+                new Dictionary<String, Object>(){
+                    {"direction", GetCircleDirection(frames) ? 1.0 : -1.0},
+                    {"dimensions", dim}
+                });
         }
 
         private bool CheckCircleFormKriterion(IList<Frame> frameList)
@@ -538,7 +539,7 @@ namespace Gestures.Recognition.Classifier
             end = GetCentre(temp);
 
             return new ClassificationResult("drag", 0.95, new Vertex[] { (Vertex)start, (Vertex)end },
-                new KeyValuePair<String, double>("contacts", finger));
+                new Dictionary<String, Object>(){{"contacts", finger}});
         }
 
         #endregion
@@ -546,7 +547,7 @@ namespace Gestures.Recognition.Classifier
         #region Helper Methods
 
         private Vertex GetCentre(Vertex[] points)
-            // where T : struct, IVertex
+        // where T : struct, IVertex
         {
             var result = points[0];
             for (int i = 1; i < points.Length; i++)
@@ -589,8 +590,8 @@ namespace Gestures.Recognition.Classifier
         }
 
         private double GetAngle(Vertex startPoint, Vertex endPoint)
-            //where Vert1 : struct, IVertex
-            //where Vert2 : struct, IVertex
+        //where Vert1 : struct, IVertex
+        //where Vert2 : struct, IVertex
         {
             double x = 0, y = 0;
             double angle =

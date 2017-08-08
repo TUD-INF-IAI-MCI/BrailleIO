@@ -160,8 +160,15 @@ namespace Gestures.Recognition.GestureData
         /// <param name="touch">The touch.</param>
         public void AddTouch(Touch touch)
         {
-            touches.Add(touch);
-            dict.Add(touch.ID, touch);
+            if (touch != null)
+            {                
+                while (dict.ContainsKey(touch.ID))
+                {
+                    touch.ID++;
+                }
+                touches.Add(touch);
+                dict.Add(touch.ID, touch); 
+            }
         }
 
         /// <summary>

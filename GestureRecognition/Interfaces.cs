@@ -30,7 +30,7 @@ namespace Gestures.Recognition.Interfaces
         String Name { get; }
         double Probability { get; }
         IList<IVertex> NodeParameters { get; }
-        IList<Object> AdditionalParameters { get; }
+        IDictionary<String, Object> AdditionalParameters { get; }
     }
 
     public interface IClassify
