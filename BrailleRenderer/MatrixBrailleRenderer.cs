@@ -87,18 +87,31 @@ namespace BrailleIO.Renderer
         /// </returns>
         public override bool[,] RenderMatrix(IViewBoxModel view, object content, bool callHooks = true)
         {
-            if (callHooks) callAllPreHooks(ref view, ref content);
+            if (view != null && content != null)
+            {
+                if (callHooks) callAllPreHooks(ref view, ref content);
 
-            int width = view.ContentBox.Width;
-            bool scrolleBars = false;
-            var matrix = RenderMatrix(width, content, scrolleBars);
+                bool renderScrollbars = view is IPannable ? ((IPannable)view).ShowScrollbars : false;
 
-            view.ContentHeight = matrix.GetLength(0);
-            view.ContentWidth = matrix.GetLength(1);
+                int width = view.ContentBox.Width;
+                int height = view.ContentBox.Height;
+                bool scrolleBars = renderScrollbars && EstimateNeedOfScrollBar(content as String, width, height);
+                var matrix = RenderMatrix(width, content, scrolleBars);
 
-            if (callHooks) callAllPostHooks(view, content, ref matrix);
+                // rerender if scrollbars were needed
+                if (renderScrollbars && !scrolleBars && matrix.GetLength(0) > height)
+                {
+                    matrix = RenderMatrix(width, content, true);
+                }
 
-            return matrix;
+                view.ContentHeight = matrix.GetLength(0);
+                view.ContentWidth = matrix.GetLength(1);
+
+                if (callHooks) callAllPostHooks(view, content, ref matrix);
+
+                return matrix;
+            }
+            return new bool[1, 1];
         }
 
         /// <summary>
@@ -406,12 +419,12 @@ namespace BrailleIO.Renderer
 
                         //update the available width
                         availableWidth -= getMinWidthOfString(dots);
-                        if(availableWidth > INTER_CHAR_WIDTH ) availableWidth -= +INTER_CHAR_WIDTH;
+                        if (availableWidth > INTER_CHAR_WIDTH) availableWidth -= +INTER_CHAR_WIDTH;
 
                         e.Width = minWidth + (availableWidth > INTER_CHAR_WIDTH ? INTER_CHAR_WIDTH : 0);
                         e.Height = BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT;
 
-                        
+
                     }
 
                     #region Rendering Element
