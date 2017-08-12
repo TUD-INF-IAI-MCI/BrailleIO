@@ -849,14 +849,14 @@ namespace BrailleIO
         {
             PointF p = new PointF(-1, -1);
 
-            if (ContentContainsPoint((int)x, (int)y))
-            {
+            //if (ContentContainsPoint((int)x, (int)y))
+            //{
                 float _x = x - ViewBox.X - ContentBox.X;
                 float _y = y - ViewBox.Y - ContentBox.Y;
 
                 p.X = _x - OffsetPosition.X;
                 p.Y = _y - OffsetPosition.Y;
-            }
+            //}
             return p;
         }
 

@@ -242,7 +242,10 @@ namespace Gestures.Recognition.Classifier
                         (startNode1[0] + startNode2[0])/2,
                         (startNode1[1] + startNode2[1])/2))},
                         new Dictionary<String, Object>(){
-                        {"expanding",(direction) ? -1.0 : 1.0}});
+                            {"FirstTouch", startNode1},
+                            {"LastTouch", startNode2},
+                            {"expanding",(direction) ? -1.0 : 1.0}
+                        });
         }
 
         private int FindFirstFrameIndexWithCorrectCount(IList<Frame> frameList, int blobCount, bool forward)
@@ -296,8 +299,18 @@ namespace Gestures.Recognition.Classifier
                 && MetricDistances.EuclideanDistance(startPoint, endPoint) > MINLINELENGTH)
             {
                 //return RecognizeDirectionalLine(startPoint, endPoint);
-                result = new ClassificationResult("line", 0.9, new Sample[] { new Sample(DateTime.Now, startPoint), new Sample(DateTime.Now, endPoint) },
-                    new Dictionary<String, Object>(){{"angle", GetAngle(startPoint, endPoint)}});
+                result = new ClassificationResult(
+                    "line",
+                    0.9,
+                    new Sample[] { 
+                        new Sample(DateTime.Now, startPoint), 
+                        new Sample(DateTime.Now, endPoint) 
+                    },
+                    new Dictionary<String, Object>(){
+                        {"FirstTouch", startPoint},
+                        {"LastTouch", endPoint},
+                        {"angle", GetAngle(startPoint, endPoint)}                    
+                    });
             }
             return result;
         }
@@ -359,6 +372,8 @@ namespace Gestures.Recognition.Classifier
                 fullCircle ? 0.7 : 0.6,
                 new Sample[] { new Sample(DateTime.Now, startPoint) },
                 new Dictionary<String, Object>(){
+                    {"FirstTouch", startPoint},
+                    {"LastTouch", endPoint},
                     {"direction", GetCircleDirection(frames) ? 1.0 : -1.0},
                     {"dimensions", dim}
                 });
@@ -538,8 +553,14 @@ namespace Gestures.Recognition.Classifier
             }
             end = GetCentre(temp);
 
-            return new ClassificationResult("drag", 0.95, new Vertex[] { (Vertex)start, (Vertex)end },
-                new Dictionary<String, Object>(){{"contacts", finger}});
+            return new ClassificationResult("drag", 
+                0.95, 
+                new Vertex[] { (Vertex)start, (Vertex)end },
+                new Dictionary<String, Object>() { 
+                {"FirstTouch", start},
+                {"LastTouch", end},
+                { "contacts", finger } 
+                });
         }
 
         #endregion
