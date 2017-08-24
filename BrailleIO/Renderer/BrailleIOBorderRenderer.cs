@@ -21,7 +21,7 @@ namespace BrailleIO.Renderer
         /// while i is the index of the row (is the y position) 
         /// and j is the index of the column (is the x position). 
         /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins</returns>
-        public static bool[,] renderMatrix(AbstractViewBorderBase view, bool[,] contentMatrix)
+        public static bool[,] RenderMatrix(AbstractViewBorderBase view, bool[,] contentMatrix)
         {
             if (view != null && view.HasBorder && contentMatrix != null)
             {

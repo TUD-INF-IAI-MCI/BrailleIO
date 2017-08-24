@@ -293,7 +293,7 @@ namespace BrailleIO
         /// <summary>
         /// separate thread for building the resulting matrix
         /// </summary>
-        private Thread renderingTread;
+        private static Thread renderingTread;
         /// <summary>
         /// Builds the resulting matrix that will be send to the adapters by calling the renderer for each view range.
         /// </summary>
@@ -476,7 +476,7 @@ namespace BrailleIO
                 //place the content matrix (contentMatrix) in the view range matrix with aware of the box model 
                 viewBoxMatrix = vmr.RenderMatrix(vr, contentMatrix, handlePanning);
                 // Border rendering
-                viewBoxMatrix = BrailleIO.Renderer.BrailleIOBorderRenderer.renderMatrix(vr, viewBoxMatrix);
+                viewBoxMatrix = BrailleIO.Renderer.BrailleIOBorderRenderer.RenderMatrix(vr, viewBoxMatrix);
                 bool pl = pins_locked;
                 pins_locked = true;
 
