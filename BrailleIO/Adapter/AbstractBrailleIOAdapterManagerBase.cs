@@ -111,15 +111,45 @@ namespace BrailleIO
         public bool Synchronize(bool[,] matrix)
         {
             bool success = true;
-            if (ActiveAdapter != null) ActiveAdapter.Synchronize(matrix);
-            foreach (var item in Adapters)
+            if (ActiveAdapter != null)
             {
-                try
+                System.Threading.Tasks.Task T = new System.Threading.Tasks.Task(() =>
                 {
-                    if (item != null && item != ActiveAdapter && item is AbstractBrailleIOAdapterBase && ((AbstractBrailleIOAdapterBase)item).Synch)
-                        item.Synchronize(matrix);
+                    ActiveAdapter.Synchronize(matrix);
+                });
+                T.Start();
+            }
+
+            if (Adapters.Count > 0)
+            {
+                if (Adapters.Count > 1)
+                {
+                    System.Threading.Tasks.Parallel.ForEach<IBrailleIOAdapter>(Adapters, (item) =>
+                    {
+                        try
+                        {
+                            if (item != null && item != ActiveAdapter && item is AbstractBrailleIOAdapterBase && ((AbstractBrailleIOAdapterBase)item).Synch)
+                                item.Synchronize(matrix);
+                        }
+                        catch { success = false; }
+                    });
                 }
-                catch { success = false; }
+                else if (ActiveAdapter == null)
+                {
+                    System.Threading.Tasks.Task T2 = new System.Threading.Tasks.Task(() =>
+                    {
+                        try
+                        {
+                            IBrailleIOAdapter item = null;
+                            item = Adapters.ElementAt(0);
+
+                            if (item != null && item != ActiveAdapter && item is AbstractBrailleIOAdapterBase && ((AbstractBrailleIOAdapterBase)item).Synch)
+                                item.Synchronize(matrix);
+                        }
+                        catch { success = false; }
+                    });
+                    T2.Start();
+                }
             }
             return success;
         }
@@ -200,7 +230,7 @@ namespace BrailleIO
                         if (item != null)
                         {
                             item.Disconnect();
-                            if (item is IDisposable) ((IDisposable)item).Dispose(); 
+                            if (item is IDisposable) ((IDisposable)item).Dispose();
                         }
                     }
                     catch { }
