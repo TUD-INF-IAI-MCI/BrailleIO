@@ -301,28 +301,30 @@ namespace BrailleIO.Renderer
                                         int rw = lockBitmap.Width;
                                         int rh = lockBitmap.Height;
 
-                                        System.Threading.Tasks.Parallel.For(0, matrixWidth, x =>
+                                        //for (int y = 0; y < matrixHeight; y++)
+                                        System.Threading.Tasks.Parallel.For(0, matrixHeight, y =>
                                         {
-                                            System.Threading.Tasks.Parallel.For(0, matrixHeight, y =>
+                                            //System.Threading.Tasks.Parallel.For(0, matrixWidth, x =>
+                                            for (int x = 0; x < matrixWidth; x++)
                                             {
-                                                int cX = x;
-                                                if (cX >= 0)
+                                                //int cX = x;
+                                                if (x >= 0)
                                                 {
-                                                    int cY = y;
-                                                    if (cY >= 0)
+                                                    //int cY = y;
+                                                    if (y >= 0)
                                                     {
                                                         if (x < rw && y < rh)
                                                         {
                                                             Color c = lockBitmap.GetPixel(x, y);
                                                             var l = GraphicUtils.GetLightness(c);
-                                                            m[cY, cX] = (l >= Threshold) ?
+                                                            m[y, x] = (l >= Threshold) ?
                                                                 (invert ? true : false)
                                                                 :
                                                                 (invert ? false : true);
                                                         }
                                                     }
                                                 }
-                                            });
+                                            }//);
                                         });
                                     }
                                 }
@@ -339,7 +341,7 @@ namespace BrailleIO.Renderer
             }
             finally
             {
-                if(img != null) img.Dispose();
+                if (img != null) img.Dispose();
             }
         }
 
