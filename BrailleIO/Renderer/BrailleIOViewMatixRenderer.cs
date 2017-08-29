@@ -73,12 +73,14 @@ namespace BrailleIO.Renderer
                 int cw = contentMatrix.GetLength(1);
                 int ch = contentMatrix.GetLength(0);
 
+                //for (int x = 0; x < cb.Width; x++)
                 System.Threading.Tasks.Parallel.For(0, cb.Width, x =>
                 {
                     int cX = oX + x;
                     if (cX >= 0 && contentMatrix.GetLength(1) > cX)
                     {
-                        System.Threading.Tasks.Parallel.For(0, cb.Height, y =>
+                        for (int y = 0; y < cb.Height; y++)
+                        //System.Threading.Tasks.Parallel.For(0, cb.Height, y =>
                         {
                             int cY = oY + y;
                             if (cY >= 0 && contentMatrix.GetLength(0) > cY)
@@ -88,7 +90,7 @@ namespace BrailleIO.Renderer
                                     viewMatrix[y + t, x + l] = contentMatrix[cY, cX];
                                 }
                             }
-                        });
+                        }//);
                     }
                 });
             }

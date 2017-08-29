@@ -229,7 +229,7 @@ namespace BrailleIO
             {
                 try
                 {
-                    renderingTread = new Thread(delegate() { renderDisplay(); });
+                    renderingTread = new Thread(delegate () { renderDisplay(); });
                     renderingTread.Name = "RenderingThread";
                     renderingTread.Priority = ThreadPriority.Highest;
                     renderingTread.Start();
@@ -285,6 +285,7 @@ namespace BrailleIO
 
         #region THE RENDERING OF THE VIEW RANGES
 
+        volatile int _renderingCount = 0;
         /// <summary>
         /// helping stack that helps to determine if a rendering is necessary.
         /// Collects all render calls and the rendering thread can decide if to render or not.
@@ -502,7 +503,12 @@ namespace BrailleIO
             catch { }
             finally
             {
-                GC.Collect();
+                _renderingCount++;
+                if (_renderingCount > 20)
+                {
+                    GC.Collect();
+                    _renderingCount = 0;
+                }
             }
 
             return matrix;
