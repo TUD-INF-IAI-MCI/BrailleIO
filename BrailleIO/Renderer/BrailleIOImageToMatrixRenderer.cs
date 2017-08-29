@@ -254,7 +254,18 @@ namespace BrailleIO.Renderer
                 {
                     try
                     {
-                        using (Bitmap _img = img.Clone() as Bitmap)
+                        Bitmap _img = null;
+                        int trys = 0;
+                        while (_img == null && trys++ < 10)
+                        {
+                            try {
+                                _img = img.Clone() as Bitmap;
+                            }
+                            catch { System.Threading.Thread.Sleep(2); }
+                        }
+
+                        if(_img != null)
+                        //using (Bitmap _img = img.Clone() as Bitmap)
                         {
                             Int32 contentWidth = (Int32)Math.Max(Math.Round(_img.Width * zoom), 1);
                             Int32 contentHeight = (Int32)Math.Max(Math.Round(_img.Height * zoom), 1);
@@ -329,6 +340,12 @@ namespace BrailleIO.Renderer
                                     }
                                 }
                             }
+
+                            _img.Dispose();
+                        }
+                        else
+                        {
+
                         }
                     }
                     catch (ArgumentException) { }

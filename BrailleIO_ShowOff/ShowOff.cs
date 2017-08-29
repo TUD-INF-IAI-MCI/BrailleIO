@@ -37,15 +37,18 @@ namespace BrailleIO
         /// </summary>
         public void InitForm()
         {
-            try
+            if (!this.IsDisposed && !this.Disposing)
             {
-                this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+                try
+                {
+                    this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
-                Application.EnableVisualStyles();
-            }
-            catch (System.InvalidOperationException e)
-            {
-                System.Diagnostics.Debug.WriteLine("Exception  in Init show off form\n" + e);
+                    Application.EnableVisualStyles();
+                }
+                catch (System.InvalidOperationException e)
+                {
+                    System.Diagnostics.Debug.WriteLine("Exception  in Init show off form\n" + e);
+                }
             }
         }
 
@@ -211,7 +214,7 @@ namespace BrailleIO
         private readonly Object touchMatrixLock = new Object();
         private void paintTouchImage()
         {
-            if (!this.Disposing)
+            if (!this.IsDisposed && !this.Disposing)
             {
                 lock (touchMatrixLock)
                 {
@@ -289,7 +292,7 @@ namespace BrailleIO
         {
             try
             {
-                if (this.pictureBox_overAllOverlay != null)
+                if (!this.IsDisposed && !this.Disposing && this.pictureBox_overAllOverlay != null)
                 {
                     //if (this.InvokeRequired)
                     //{
@@ -313,19 +316,22 @@ namespace BrailleIO
 
         void setPictureOverlay(Image image)
         {
-            lock (overlayLock)
+            if (!this.IsDisposed && !this.Disposing)
             {
-                try
+                lock (overlayLock)
                 {
-                    if (this.pictureBox_overAllOverlay != null)
+                    try
                     {
-                        this.pictureBox_overAllOverlay.Enabled = true;
-                        pictureBoxOverlayImage = image;
+                        if (this.pictureBox_overAllOverlay != null)
+                        {
+                            this.pictureBox_overAllOverlay.Enabled = true;
+                            pictureBoxOverlayImage = image;
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    System.Diagnostics.Debug.WriteLine("Exception in private set picture overlay " + e);
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Exception in private set picture overlay " + e);
+                    }
                 }
             }
         }
@@ -335,23 +341,26 @@ namespace BrailleIO
         /// </summary>
         public void ResetPictureOverlay()
         {
-            try
+            if (!this.IsDisposed && !this.Disposing)
             {
-                if (this.pictureBox_overAllOverlay != null)
+                try
                 {
-                    if (this.InvokeRequired)
+                    if (this.pictureBox_overAllOverlay != null)
                     {
-                        this.Invoke((MethodInvoker)delegate
+                        if (this.InvokeRequired)
                         {
-                            resetPictureOverlay();
-                        });
-                    }
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                resetPictureOverlay();
+                            });
+                        }
 
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine("Exception in reset picture overlay " + e);
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine("Exception in reset picture overlay " + e);
+                }
             }
         }
 
@@ -381,21 +390,24 @@ namespace BrailleIO
         /// <returns>the current set overlay image or <c>null</c></returns>
         public Image GetPictureOverlay()
         {
-            lock (overlayLock)
+            if (!this.IsDisposed && !this.Disposing)
             {
-                try
+                lock (overlayLock)
                 {
-                    if (this.pictureBox_overAllOverlay != null)
+                    try
                     {
-                        if (pictureBoxOverlayImage != null)
+                        if (this.pictureBox_overAllOverlay != null)
                         {
-                            return pictureBoxOverlayImage.Clone() as Image;
+                            if (pictureBoxOverlayImage != null)
+                            {
+                                return pictureBoxOverlayImage.Clone() as Image;
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("Exception in getting picture overlay " + ex);
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Exception in getting picture overlay " + ex);
+                    }
                 }
             }
             return null;
@@ -439,7 +451,7 @@ namespace BrailleIO
         /// <param name="text">The text to display in the status bar.</param>
         public void SetStatusText(string text)
         {
-            if (!this.Disposing)
+            if (!this.IsDisposed && !this.Disposing)
             {
                 try
                 {
@@ -474,7 +486,7 @@ namespace BrailleIO
         /// </summary>
         public void ResetStatusText()
         {
-            if (!this.Disposing)
+            if (!this.IsDisposed && !this.Disposing)
             {
                 try
                 {
@@ -517,19 +529,20 @@ namespace BrailleIO
         /// <returns><c>true</c> if the menu strip is visible.</returns>
         public bool ShowMenuStrip()
         {
-            try
+            if (!this.IsDisposed && !this.Disposing)
             {
-                if (this.menuStripMain.InvokeRequired)
+                try
                 {
-                    this.menuStripMain.Invoke(new Action(() => { this.menuStripMain.Visible = true; }));
+                    if (this.menuStripMain.InvokeRequired)
+                    {
+                        this.menuStripMain.Invoke(new Action(() => { this.menuStripMain.Visible = true; }));
+                    }
+                    else { this.menuStripMain.Visible = true; }
+                    return this.menuStripMain.Visible;
                 }
-                else { this.menuStripMain.Visible = true; }
-                return this.menuStripMain.Visible;
+                catch (Exception) { }
             }
-            catch (Exception)
-            {
-                return false;
-            }
+            return false;
         }
 
         /// <summary>
@@ -538,16 +551,19 @@ namespace BrailleIO
         /// <returns><c>true</c> if the menu strip is not visible.</returns>
         public bool HideMenuStrip()
         {
-            try
+            if (!this.IsDisposed && !this.Disposing)
             {
-                if (this.MainMenuStrip.InvokeRequired)
+                try
                 {
-                    this.menuStripMain.Invoke(new Action(() => { this.menuStripMain.Visible = false; }));
+                    if (this.MainMenuStrip.InvokeRequired)
+                    {
+                        this.menuStripMain.Invoke(new Action(() => { this.menuStripMain.Visible = false; }));
+                    }
+                    else { this.menuStripMain.Visible = false; }
+                    return !this.menuStripMain.Visible;
                 }
-                else { this.menuStripMain.Visible = false; }
-                return !this.menuStripMain.Visible;
+                catch (Exception) { }
             }
-            catch (Exception) { }
             return false;
         }
 
@@ -559,28 +575,31 @@ namespace BrailleIO
         /// <returns></returns>
         public bool AddMenuItem(ToolStripItem item, bool setAsMdiWindowListItem = false)
         {
-            try
+            if (!this.IsDisposed && !this.Disposing)
             {
-                if (item != null)
+                try
+                {
+                    if (item != null)
 
-                    if (this.MainMenuStrip.InvokeRequired)
-                    {
-                        this.menuStripMain.Invoke(
-                        new Action(() =>
+                        if (this.MainMenuStrip.InvokeRequired)
+                        {
+                            this.menuStripMain.Invoke(
+                            new Action(() =>
+                            {
+                                if (setAsMdiWindowListItem && item is ToolStripMenuItem)
+                                    this.menuStripMain.MdiWindowListItem = item as ToolStripMenuItem;
+                                this.menuStripMain.Items.Add(item);
+                            }));
+                        }
+                        else
                         {
                             if (setAsMdiWindowListItem && item is ToolStripMenuItem)
                                 this.menuStripMain.MdiWindowListItem = item as ToolStripMenuItem;
                             this.menuStripMain.Items.Add(item);
-                        }));
-                    }
-                    else
-                    {
-                        if (setAsMdiWindowListItem && item is ToolStripMenuItem)
-                            this.menuStripMain.MdiWindowListItem = item as ToolStripMenuItem;
-                        this.menuStripMain.Items.Add(item);
-                    }
+                        }
+                }
+                catch (Exception) { }
             }
-            catch (Exception) { }
             return false;
         }
 
@@ -592,29 +611,33 @@ namespace BrailleIO
         public bool RemoveMenuItem(ToolStripItem item)
         {
             bool success = false;
-            try
+            if (!this.IsDisposed && !this.Disposing)
             {
-                if (item != null)
-                    if (this.MainMenuStrip.InvokeRequired)
-                    {
-                        this.menuStripMain.Invoke(new Action(() =>
-                    {
-                        if (this.menuStripMain.Items.Contains(item))
+                try
+                {
+                    if (item != null)
+                        if (this.MainMenuStrip.InvokeRequired)
                         {
-                            this.menuStripMain.Items.Remove(item);
-                            success = !this.menuStripMain.Items.Contains(item);
-                        }
-                    }));
-                    }
-                    else {
-                        if (this.menuStripMain.Items.Contains(item))
+                            this.menuStripMain.Invoke(new Action(() =>
                         {
-                            this.menuStripMain.Items.Remove(item);
-                            success = !this.menuStripMain.Items.Contains(item);
+                            if (this.menuStripMain.Items.Contains(item))
+                            {
+                                this.menuStripMain.Items.Remove(item);
+                                success = !this.menuStripMain.Items.Contains(item);
+                            }
+                        }));
                         }
-                    }
+                        else
+                        {
+                            if (this.menuStripMain.Items.Contains(item))
+                            {
+                                this.menuStripMain.Items.Remove(item);
+                                success = !this.menuStripMain.Items.Contains(item);
+                            }
+                        }
+                }
+                catch { }
             }
-            catch { }
             return success;
         }
 
@@ -627,14 +650,17 @@ namespace BrailleIO
         public String GetTitle()
         {
             String title = String.Empty;
-            try
+            if (!this.IsDisposed && !this.Disposing)
             {
-                this.Invoke(new Action(() =>
+                try
                 {
-                    title = this.Text;
-                }));
+                    this.Invoke(new Action(() =>
+                    {
+                        title = this.Text;
+                    }));
+                }
+                catch (Exception) { }
             }
-            catch (Exception) { }
             return title;
         }
 
@@ -645,15 +671,19 @@ namespace BrailleIO
         /// <returns><c>true</c> if the title was changed</returns>
         public bool SetTitle(String title)
         {
-            try
+            if (!this.IsDisposed && !this.Disposing)
             {
-                this.Invoke(new Action(() =>
+                try
                 {
-                    this.Text = title;
-                }));
+                    this.Invoke(new Action(() =>
+                    {
+                        this.Text = title;
+                    }));
+                }
+                catch (Exception) { }
+                return this.Text.Equals(title);
             }
-            catch (Exception) { }
-            return this.Text.Equals(title);
+            return false;
         }
 
         #endregion
@@ -662,15 +692,17 @@ namespace BrailleIO
 
         private void AddContextMenu()
         {
-            ContextMenu mnuContextMenu = new ContextMenu();
-            this.ContextMenu = mnuContextMenu;
-            //add menu item
-            MenuItem mnuItemReset = new MenuItem();
-            mnuItemReset.Text = "&Reset Monitor";
-            mnuContextMenu.MenuItems.Add(mnuItemReset);
+            if (!this.IsDisposed && !this.Disposing)
+            {
+                ContextMenu mnuContextMenu = new ContextMenu();
+                this.ContextMenu = mnuContextMenu;
+                //add menu item
+                MenuItem mnuItemReset = new MenuItem();
+                mnuItemReset.Text = "&Reset Monitor";
+                mnuContextMenu.MenuItems.Add(mnuItemReset);
 
-            mnuItemReset.Click += new EventHandler(mnuItemReset_Click);
-
+                mnuItemReset.Click += new EventHandler(mnuItemReset_Click);
+            }
         }
 
         void mnuItemReset_Click(object sender, EventArgs e)
