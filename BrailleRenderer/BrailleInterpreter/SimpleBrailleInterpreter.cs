@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BrailleIO.Renderer.BrailleInterpreter
 {
@@ -240,9 +241,10 @@ namespace BrailleIO.Renderer.BrailleInterpreter
             if (dots != null)
             {
                 dots.Sort();
-                if (dotsToCharList.ContainsKey(dots))
+                var dotsAsString = String.Join(" ", dots);
+                if (dotsToCharList.Any(p => String.Join(" ", p.Key).Equals(dotsAsString)))
                 {
-                    return dotsToCharList[dots];
+                    return dotsToCharList.First(p => String.Join(" ", p.Key).Equals(dotsAsString)).Value;
                 }
             }
             return ' ';
