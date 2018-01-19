@@ -961,7 +961,7 @@
             render the border defined for an <see cref="T:BrailleIO.Interface.AbstractViewBorderBase"/> view range
             </summary>
         </member>
-        <member name="M:BrailleIO.Renderer.BrailleIOBorderRenderer.renderMatrix(BrailleIO.Interface.AbstractViewBorderBase,System.Boolean[0:,0:])">
+        <member name="M:BrailleIO.Renderer.BrailleIOBorderRenderer.RenderMatrix(BrailleIO.Interface.AbstractViewBorderBase,System.Boolean[0:,0:])">
             <summary>
             Renders a content object into an boolean matrix;
             while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins

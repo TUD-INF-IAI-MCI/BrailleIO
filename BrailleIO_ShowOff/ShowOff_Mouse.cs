@@ -93,7 +93,7 @@ namespace BrailleIO
                 this.PaintTouchMatrix(tm);
 
                 List<Touch> detailedTouches = new List<Touch>(1);
-                detailedTouches.Add(new Touch(x, y, 1.0D, TouchSizeRadiusX * 2, TouchSizeRadiusY * 2));
+                detailedTouches.Add(new Touch(x, y, 1.0D, TouchSizeRadiusX * 2.0, TouchSizeRadiusY * 2.0));
 
                 // fire event
                 fireTouchEvent(detailedTouches, tm);
@@ -128,7 +128,8 @@ namespace BrailleIO
         /// Converts a pixel point into a pin
         /// </summary>
         /// <param name="p">The mouse point in pixel.</param>
-        /// <returns></returns>
+        /// <param name="pinX">The pin x.</param>
+        /// <param name="pinY">The pin y.</param>
         private void getDetailedPinForPoint(Point p, out double pinX, out double pinY)
         {
             pinX = -1;
@@ -142,7 +143,9 @@ namespace BrailleIO
                 double ratioY = (double)p.Y / (double)pbs.Height;
 
                 pinX = ratioX * cols;
+                pinX = Math.Max(0, pinX);
                 pinY = ratioY * rows;
+                pinY = Math.Max(0, pinY);
             }
         }
 

@@ -116,7 +116,7 @@ namespace BrailleIO.Structs
         public double DimY
         {
             get { return _dimY; }
-            private set { _dimX = value; }
+            private set { _dimY = value; }
         }
 
         /// <summary>
