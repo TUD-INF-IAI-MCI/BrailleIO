@@ -500,7 +500,7 @@ namespace BrailleIO
                 vr.Render = false;
                 pins_locked = pl;
             }
-            catch { }
+            catch (Exception ex){ }
             finally
             {
                 _renderingCount++;

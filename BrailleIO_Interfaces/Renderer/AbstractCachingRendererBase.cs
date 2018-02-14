@@ -33,12 +33,12 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// The cached rendered result matrix
         /// </summary>
-        private bool[,] _cachedMatrix;
+        protected bool[,] _cachedMatrix;
 
         /// <summary>
         /// The last view used for rendering.
         /// </summary>
-        private IViewBoxModel lastView;
+        protected IViewBoxModel lastView;
         /// <summary>
         /// The last content
         /// </summary>
@@ -187,7 +187,7 @@ namespace BrailleIO.Renderer
                 ContentChanged = false;
             }
 
-            bool[,] output = GetCachedMatrix().Clone() as bool[,];
+            bool[,] output = (GetCachedMatrix() != null) ? GetCachedMatrix().Clone() as bool[,] : new bool[0, 0];
             callAllPostHooks(view, content, ref output, null);
 
             return output;
@@ -212,7 +212,20 @@ namespace BrailleIO.Renderer
         /// <exception cref="System.NotImplementedException"></exception>
         public virtual bool[,] RenderMatrix(IViewBoxModel view, object content, bool callHooks = true)
         {
-            throw new NotImplementedException();
+            if (callHooks) return RenderMatrix(view, content);
+            else
+            {
+                var cache = GetCachedMatrix();
+                if (cache == null)
+                {
+                    PrerenderMatrix(view, content);
+                }
+
+                bool[,] output =(GetCachedMatrix() != null) ? GetCachedMatrix().Clone() as bool[,] : new bool[0,0];
+                return output;
+            }
+
+            return null;
         }
 
         #endregion
