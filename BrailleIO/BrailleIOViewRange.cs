@@ -560,14 +560,25 @@ namespace BrailleIO
         /// Sets the actual zoom.
         /// </summary>
         /// <param name="zoom">The zoom value as ratio.</param>
-        public void SetZoom(double zoom)
+        public void SetZoom(double zoom) { SetZoom(zoom, true); }
+
+        /// <summary>
+        /// Sets the actual zoom.
+        /// </summary>
+        /// <param name="zoom">The zoom value as ratio.</param>
+        /// <param name="rerender">if set to <c>true</c> to force a rerendering and an update of the content size.</param>
+        /// <exception cref="System.ArgumentException">The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than " + MAX_ZOOM_LEVEL + ". - zoom</exception>
+        public void SetZoom(double zoom, bool rerender = true)
         {
             if (zoom > MAX_ZOOM_LEVEL) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than " + MAX_ZOOM_LEVEL + ".", "zoom");
             //TODO: update the content size
-            this.zoom = zoom;
-            Render = true;
-            UpdateContentSize();
-            firePropertyChangedEvent("Zoom");
+            if (this.zoom != zoom)
+            {
+                this.zoom = zoom;
+                Render = true;
+                if (rerender) UpdateContentSize();
+                firePropertyChangedEvent("Zoom"); 
+            }
         }
 
         /// <summary>

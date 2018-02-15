@@ -128,7 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BrailleIO_Interfaces\BrailleIO_Interfaces.csproj">
-      <Project>{168EC2F2-7E4A-493A-AB4A-9FB1B45DAB64}</Project>
+      <Project>{168ec2f2-7e4a-493a-ab4a-9fb1b45dab64}</Project>
       <Name>BrailleIO_Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\BrailleRenderer\BrailleRenderer.csproj">
