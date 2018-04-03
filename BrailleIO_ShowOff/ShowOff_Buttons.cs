@@ -1,10 +1,10 @@
-﻿using System;
+﻿using BrailleIO.Interface;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Drawing;
-using BrailleIO.Interface;
 using System.Windows.Input;
 
 namespace BrailleIO
@@ -74,10 +74,10 @@ namespace BrailleIO
 
         private void button_KEY_LEFT_CURSORS_DOWN_Click(object sender, EventArgs e)
         {
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.DownDown,
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.Unknown,
                 BrailleIO_BrailleKeyboardButtonStates.None, new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn5Down }, 
                 new List<string>() { "cld" }, null, (int)DateTime.UtcNow.Ticks);
-            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.DownUp,
+            fireKeyStateChangeEvent(Interface.BrailleIO_DeviceButtonStates.Unknown,
                 BrailleIO_BrailleKeyboardButtonStates.None, new BrailleIO_AdditionalButtonStates[1] { BrailleIO_AdditionalButtonStates.fn5Up }, 
                 null, new List<string>() { "cld" }, (int)DateTime.UtcNow.Ticks);
         }
@@ -604,16 +604,20 @@ namespace BrailleIO
         public void UnmarkButtons(List<String> releasedButtons)
         {
             if (releasedButtons != null && releasedButtons.Count > 0)
-                foreach (var buttonName in releasedButtons)
+                try
                 {
-                    Control button = getButtonFromGenericName(buttonName.ToString().Trim());
-                    if (button != null)
+                    foreach (var buttonName in releasedButtons)
                     {
-                        button.BackColor = releasingButtonBgColor;
-                        System.Threading.Thread.Sleep(100);
-                        button.BackColor = normalButtonBgColor;
+                        Control button = getButtonFromGenericName(buttonName.ToString().Trim());
+                        if (button != null)
+                        {
+                            button.BackColor = releasingButtonBgColor;
+                            System.Threading.Thread.Sleep(100);
+                            button.BackColor = normalButtonBgColor;
+                        }
                     }
                 }
+                catch {}
         }
 
         private Control getButtonFromGenericName(String name)
@@ -701,6 +705,5 @@ namespace BrailleIO
         }
 
         #endregion
-
     }
 }

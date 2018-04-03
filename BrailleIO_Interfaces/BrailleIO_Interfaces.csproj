@@ -71,6 +71,7 @@
     <Compile Include="Renderer\ITouchableRenderer.cs" />
     <Compile Include="Renderer\LockBitmap.cs" />
     <Compile Include="Structs\BoxModel.cs" />
+    <Compile Include="Structs\KeyCombinationItem.cs" />
     <Compile Include="Structs\RenderElement.cs" />
     <Compile Include="Structs\Touch.cs" />
     <Compile Include="Utils.cs" />

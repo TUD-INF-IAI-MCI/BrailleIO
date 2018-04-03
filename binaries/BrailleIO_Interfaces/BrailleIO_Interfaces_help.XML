@@ -775,6 +775,12 @@
             The currently pressed additional buttons.
             </value>
         </member>
+        <member name="E:BrailleIO.Interface.IBrailleIOAdapter2.keyCombinationReleased">
+            <summary>
+            Occurs when a key combination was released.
+            ATTENTION: proprietary raw key-codes are NOT stored or handled.
+            </summary>
+        </member>
         <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.createDevice">
             <summary>
             Creates an dummy device width dimensions of a Metec BrailleDis device.
@@ -825,6 +831,17 @@
             <param name="keyboardCode">optional combined Braille keyboard button states.</param>
             <param name="additionalKeyCode">list of optional combined additional button states.</param>
         </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.checkForKeyCombination(BrailleIO.Interface.BrailleIO_DeviceButton,BrailleIO.Interface.BrailleIO_DeviceButton,BrailleIO.Interface.BrailleIO_BrailleKeyboardButton,BrailleIO.Interface.BrailleIO_BrailleKeyboardButton,System.Collections.Generic.Dictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton},System.Collections.Generic.Dictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton})">
+            <summary>
+            Checks if a key combination was released.
+            </summary>
+            <param name="pressed">The pressed general buttons.</param>
+            <param name="released">The released general buttons.</param>
+            <param name="pressedKbB">The pressed Braille keyboard buttons.</param>
+            <param name="releasedKbB">The released Braille keyboard buttons.</param>
+            <param name="pressedAdBs">The pressed additional buttons.</param>
+            <param name="releasedAdBs">The released additional buttons.</param>
+        </member>
         <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireInputChanged(System.Boolean[0:,0:],System.Int32,System.Collections.Specialized.OrderedDictionary@)">
             <summary>
             Fires an input changed event.
@@ -832,6 +849,12 @@
             <param name="touches">The touches.</param>
             <param name="timestamp">The timestamp.</param>
             <param name="raw">The raw.</param>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireKeyCombinationReleased(BrailleIO.Structs.KeyCombinationItem)">
+            <summary>
+            Fires the key combination released event.
+            </summary>
+            <param name="keyCombination">The key combination container item.</param>
         </member>
         <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireTouchValuesChanged(System.Double[0:,0:],System.Int32,System.Collections.Specialized.OrderedDictionary@)">
             <summary>
@@ -878,6 +901,11 @@
             returns a matrix full of raised pins.
             </summary>
             <returns>a matrix full of raised pins in the dimension of the device.</returns>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
         </member>
         <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.Synch">
             <summary>
@@ -981,6 +1009,34 @@
             <summary>
             Occurs when an error has occurred.
             </summary>
+        </member>
+        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.keyCombinationReleased">
+            <summary>
+            Occurs when a key combination was released.
+            </summary>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.KeyCombinationTimeout">
+            <summary>
+            The time interval for collecting key released events to combine them as one 
+            key combination in milliseconds.
+            After this timespan the released keys are sent as a key combination.
+            </summary>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.Kc">
+            <summary>
+            A placeholder for a global collection of button states.
+            </summary>
+            <value>
+            The key combination collector.
+            </value>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.keyCombinationTimer">
+            <summary>
+            Gets or sets the key combination timer collection.
+            </summary>
+            <value>
+            The key combination timer.
+            </value>
         </member>
         <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.touchCorrectionMatrix">
             <summary>
@@ -1965,6 +2021,23 @@
             OPTIONAL list of more detailed touch information.
             </summary>
         </member>
+        <member name="T:BrailleIO.Interface.BrailleIO_KeyCombinationReleased_EventArgs">
+            <summary>
+            Event arguments for BrailleIO events for pressed keys
+            </summary>
+        </member>
+        <member name="F:BrailleIO.Interface.BrailleIO_KeyCombinationReleased_EventArgs.KeyCombination">
+            <summary>
+            Collector for complex key combinations.
+            ATTENTION: proprietary key-codes are NOT stored or handled.
+            </summary>
+        </member>
+        <member name="M:BrailleIO.Interface.BrailleIO_KeyCombinationReleased_EventArgs.#ctor(BrailleIO.Structs.KeyCombinationItem)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_KeyPressed_EventArgs"/> class.
+            </summary>
+            <param name="kc">The kc.</param>
+        </member>
         <member name="T:BrailleIO.Interface.BrailleIO_PinStateChanged_EventArgs">
             <summary>
             Event for BrailleIO Adapter to indicate that the sate of there presented pins has changed
@@ -2662,6 +2735,84 @@
             	<c>true</c> if this instance has box; otherwise, <c>false</c>.
             </returns>
         </member>
+        <member name="T:BrailleIO.Structs.KeyCombinationItem">
+            <summary>
+            Bundle of information for a key combination
+            </summary>
+        </member>
+        <member name="F:BrailleIO.Structs.KeyCombinationItem.PressedGeneralKeys">
+            <summary>
+            Enum flag of all currently pressed general buttons
+            </summary>
+        </member>
+        <member name="F:BrailleIO.Structs.KeyCombinationItem.ReleasedGeneralKeys">
+            <summary>
+            Enum flag of all released general buttons
+            </summary>
+        </member>
+        <member name="F:BrailleIO.Structs.KeyCombinationItem.PressedKeyboardKeys">
+            <summary>
+            Enum flag of all currently pressed Braille-keyboard buttons
+            </summary>
+        </member>
+        <member name="F:BrailleIO.Structs.KeyCombinationItem.ReleasedKeyboardKeys">
+            <summary>
+            Enum flag of all released Braille-keyboard buttons
+            </summary>
+        </member>
+        <member name="F:BrailleIO.Structs.KeyCombinationItem.PressedAdditionalKeys">
+            <summary>
+            List of enum flag of all currently pressed additional button sets
+            </summary>
+        </member>
+        <member name="F:BrailleIO.Structs.KeyCombinationItem.ReleasedAdditionalKeys">
+            <summary>
+            List of enum flag of all released additional button sets
+            </summary>
+        </member>
+        <member name="M:BrailleIO.Structs.KeyCombinationItem.#ctor(BrailleIO.Interface.BrailleIO_DeviceButton,BrailleIO.Interface.BrailleIO_DeviceButton,BrailleIO.Interface.BrailleIO_BrailleKeyboardButton,BrailleIO.Interface.BrailleIO_BrailleKeyboardButton,BrailleIO.Interface.BrailleIO_AdditionalButton[],BrailleIO.Interface.BrailleIO_AdditionalButton[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.Structs.KeyCombinationItem"/> struct.
+            </summary>
+            <param name="pressedGeneralKeys">The pressed general keys.</param>
+            <param name="releasedGeneralKeys">The released general keys.</param>
+            <param name="pressedKeyboardKeys">The pressed keyboard keys.</param>
+            <param name="releasedKeyboardKeys">The released keyboard keys.</param>
+            <param name="pressedAdditionalKeys">The pressed additional keys.</param>
+            <param name="releasedAdditionalKeys">The released additional keys.</param>
+        </member>
+        <member name="M:BrailleIO.Structs.KeyCombinationItem.AreButtonsPressed">
+            <summary>
+            Determines whether some currently pressed buttons are detected or not.
+            </summary>
+            <returns><c>true</c> if some pressed buttons are registered; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:BrailleIO.Structs.KeyCombinationItem.AreButtonsReleased">
+            <summary>
+            Determines whether some released buttons are detected or not.
+            </summary>
+            <returns><c>true</c> if some released buttons are registered; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:BrailleIO.Structs.KeyCombinationItem.PressedButtonsToString">
+            <summary>
+            Returns a comma separated list of all currently pressed buttons.
+            </summary>
+            <returns>String of currently pressed buttons.</returns>
+        </member>
+        <member name="M:BrailleIO.Structs.KeyCombinationItem.ReleasedButtonsToString">
+            <summary>
+            Returns a comma separated list of all released buttons.
+            </summary>
+            <returns>String of released buttons.</returns>
+        </member>
+        <member name="M:BrailleIO.Structs.KeyCombinationItem.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
         <member name="T:BrailleIO.Renderer.Structs.RenderElement">
             <summary>
             Element that represent a rendered Element an can be used for collision testings, building tree structures and other stuff
@@ -3173,6 +3324,30 @@
             </summary>
             <param name="state">The state.</param>
             <returns>Flag of all pressed additional device buttons</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.CombineAdditionalButtonCollections(System.Collections.Generic.IDictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton},System.Collections.Generic.IDictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton})">
+            <summary>
+            Combines two collections of additional buttons.
+            </summary>
+            <param name="dict1">The first collection.</param>
+            <param name="dict2">The second collection.</param>
+            <returns>A collection containing all buttons from both additional button collections.</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.CombineAdditionalButtonCollections(BrailleIO.Interface.BrailleIO_AdditionalButton[],System.Collections.Generic.IDictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton})">
+            <summary>
+            Combines two collections of additional buttons.
+            </summary>
+            <param name="arr">An array of additional buttons.</param>
+            <param name="dict">A dictionary of additional buttons.</param>
+            <returns>An combined array of additional buttons.</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.CombineAdditionalButtonCollections(BrailleIO.Interface.BrailleIO_AdditionalButton[],BrailleIO.Interface.BrailleIO_AdditionalButton[])">
+            <summary>
+            Combines two collections of additional buttons.
+            </summary>
+            <param name="arr1">The first array of additional buttons.</param>
+            <param name="arr2">The second array of additional buttons.</param>
+            <returns>An combined array of additional buttons.</returns>
         </member>
         <member name="M:BrailleIO.Interface.Utils.GetButtonUpFlags(System.Int32)">
             <summary>

@@ -736,6 +736,14 @@
             </summary>
             <param name="zoom">The zoom value as ratio.</param>
         </member>
+        <member name="M:BrailleIO.BrailleIOViewRange.SetZoom(System.Double,System.Boolean)">
+            <summary>
+            Sets the actual zoom.
+            </summary>
+            <param name="zoom">The zoom value as ratio.</param>
+            <param name="rerender">if set to <c>true</c> to force a rerendering and an update of the content size.</param>
+            <exception cref="T:System.ArgumentException">The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than " + MAX_ZOOM_LEVEL + ". - zoom</exception>
+        </member>
         <member name="M:BrailleIO.BrailleIOViewRange.SetContrastThreshold(System.Int32)">
             <summary>
             Sets the contrast threshold for image contrast rastering.

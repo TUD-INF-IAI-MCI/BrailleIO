@@ -729,6 +729,27 @@ namespace BrailleIO.Interface
     }
 
     /// <summary>
+    /// Event arguments for BrailleIO events for pressed keys
+    /// </summary>
+    public class BrailleIO_KeyCombinationReleased_EventArgs : EventArgs
+    {
+        /// <summary>
+        /// Collector for complex key combinations.
+        /// ATTENTION: proprietary key-codes are NOT stored or handled.
+        /// </summary>
+        public KeyCombinationItem KeyCombination;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIO_KeyPressed_EventArgs"/> class.
+        /// </summary>
+        /// <param name="kc">The kc.</param>
+        public BrailleIO_KeyCombinationReleased_EventArgs(KeyCombinationItem kc)
+        {
+            KeyCombination = kc;
+        }
+    }
+
+    /// <summary>
     /// Event for BrailleIO Adapter to indicate that the sate of there presented pins has changed
     /// NOT USED YET
     /// </summary>
@@ -968,7 +989,11 @@ namespace BrailleIO.Interface
         /// </value>
         BrailleIO_AdditionalButton[] PressedAdditionalButtons { get; }
 
+        /// <summary>
+        /// Occurs when a key combination was released.
+        /// ATTENTION: proprietary raw key-codes are NOT stored or handled.
+        /// </summary>
+        event EventHandler<BrailleIO_KeyCombinationReleased_EventArgs> keyCombinationReleased;
         #endregion
-
     }
 }

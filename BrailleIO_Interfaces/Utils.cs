@@ -9,7 +9,7 @@ namespace BrailleIO.Interface
     public static class Utils
     {
         #region DeviceButtons
-        
+
         /// <summary>
         /// Gets the 'up' state value for a certain device button.
         /// </summary>
@@ -89,7 +89,8 @@ namespace BrailleIO.Interface
         public static BrailleIO_DeviceButton GetAllUpDeviceButtons(BrailleIO_DeviceButtonStates state)
         {
             BrailleIO_DeviceButton result = BrailleIO_DeviceButton.None;
-            try {
+            try
+            {
                 result = (BrailleIO_DeviceButton)GetButtonUpFlags((int)state);
             }
             catch (Exception) { }
@@ -149,7 +150,7 @@ namespace BrailleIO.Interface
             catch (Exception) { }
             return result;
         }
-        
+
         /// <summary>
         /// Gets the device button for one Braille keyboard button state.
         /// </summary>
@@ -255,7 +256,6 @@ namespace BrailleIO.Interface
             return buttons;
         }
 
-
         /// <summary>
         /// Gets all released additional device buttons.
         /// </summary>
@@ -285,6 +285,96 @@ namespace BrailleIO.Interface
                 result = (BrailleIO_AdditionalButton)ShiftDownButtonsToUpButtonStates(GetButtonDownFlags((int)state));
             }
             catch (Exception) { }
+            return result;
+        }
+
+        /// <summary>
+        /// Combines two collections of additional buttons.
+        /// </summary>
+        /// <param name="dict1">The first collection.</param>
+        /// <param name="dict2">The second collection.</param>
+        /// <returns>A collection containing all buttons from both additional button collections.</returns>
+        public static IDictionary<int, BrailleIO_AdditionalButton> CombineAdditionalButtonCollections(IDictionary<int, BrailleIO_AdditionalButton> dict1, IDictionary<int, BrailleIO_AdditionalButton> dict2)
+        {
+            if (dict1 == null) dict1 = new Dictionary<int, BrailleIO_AdditionalButton>();
+
+            var result = dict1;
+
+            if (dict2 != null && dict2.Count > 0)
+            {
+                foreach (var kvPair in dict2)
+                {
+                    if (result.ContainsKey(kvPair.Key))
+                    {
+                        result[kvPair.Key] |= kvPair.Value;
+                    }
+                    else
+                    {
+                        if (kvPair.Value != BrailleIO_AdditionalButton.None)
+                        {
+                            result.Add(kvPair.Key, kvPair.Value);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Combines two collections of additional buttons.
+        /// </summary>
+        /// <param name="arr">An array of additional buttons.</param>
+        /// <param name="dict">A dictionary of additional buttons.</param>
+        /// <returns>An combined array of additional buttons.</returns>
+        public static BrailleIO_AdditionalButton[] CombineAdditionalButtonCollections(BrailleIO_AdditionalButton[] arr, IDictionary<int, BrailleIO_AdditionalButton> dict)
+        {
+            // build list out of the array
+            List<BrailleIO_AdditionalButton> resultList = new List<BrailleIO_AdditionalButton>(arr != null ? arr : new BrailleIO_AdditionalButton[0]);
+
+            // add dictionary
+            if (dict != null && dict.Count > 0)
+            {
+                foreach (var kvPair in dict)
+                {
+                    if (kvPair.Value != BrailleIO_AdditionalButton.None)
+                    {
+                        int i = kvPair.Key;
+                        // extend list
+                        while (i >= resultList.Count)
+                        {
+                            resultList.Add(BrailleIO_AdditionalButton.None);
+                        }
+                        // combine
+                        resultList[i] |= kvPair.Value;
+                    }
+                }
+            }
+            return resultList.ToArray();
+        }
+
+        /// <summary>
+        /// Combines two collections of additional buttons.
+        /// </summary>
+        /// <param name="arr1">The first array of additional buttons.</param>
+        /// <param name="arr2">The second array of additional buttons.</param>
+        /// <returns>An combined array of additional buttons.</returns>
+        public static BrailleIO_AdditionalButton[] CombineAdditionalButtonCollections(BrailleIO_AdditionalButton[] arr1, BrailleIO_AdditionalButton[] arr2)
+        {
+            if (arr1 == null) return arr2;
+
+            BrailleIO_AdditionalButton[] result = arr1;
+
+            if (arr2.Length > 0)
+            {
+                BrailleIO_AdditionalButton[] inserter = arr2;
+                // check for the larger one
+                if (arr1.Length < arr2.Length) { result = arr2; inserter = arr1; }
+
+                for (int i = 0; i < inserter.Length; i++)
+                {
+                    result[i] |= inserter[i];
+                }
+            }
             return result;
         }
 
@@ -393,6 +483,6 @@ namespace BrailleIO.Interface
 
 
         #endregion
-        
+
     }
 }
