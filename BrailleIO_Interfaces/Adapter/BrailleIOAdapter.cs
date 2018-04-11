@@ -528,7 +528,7 @@ namespace BrailleIO
                     }
                     else
                     {
-                        System.Diagnostics.Debug.WriteLine(@"\\\\\\\\ ERROR: Timer elapsed but no event is fired");
+
                     }
                 }
             }
