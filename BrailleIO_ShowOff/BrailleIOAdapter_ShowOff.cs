@@ -16,11 +16,12 @@ namespace BrailleIO
         /// <summary>
         /// The Windows Forms Application that should display the matrix. It is the Emulation of the presenting hardware.
         /// </summary>
-        public IBrailleIOShowOffMonitor Monitor{
+        public IBrailleIOShowOffMonitor Monitor
+        {
             get
             {
                 if (_mon == null) _mon = ShowOff.ActiveForm as IBrailleIOShowOffMonitor;
-               
+
                 return _mon;
             }
             set { _mon = value; }
@@ -63,16 +64,6 @@ namespace BrailleIO
         /// <param name="manager">The IBrailleIOAdapterManager the device hase to be registerd to.</param>
         /// <param name="gui">The ShowOff windows forms application that is used as displaying or user interaction GUI.</param>
         public BrailleIOAdapter_ShowOff(IBrailleIOAdapterManager manager, ShowOff gui)
-            : this(manager)
-        {
-            driver.Monitor = gui;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BrailleIOAdapter_ShowOff"/> class.
-        /// </summary>
-        /// <param name="manager">The IBrailleIOAdapterManager the device has to be registered to.</param>
-        public BrailleIOAdapter_ShowOff(IBrailleIOAdapterManager manager)
             : base(manager)
         {
             this.manager = manager;
@@ -82,6 +73,16 @@ namespace BrailleIO
                 manager.AddAdapter(this);
             }
             Connect();
+            driver.Monitor = gui;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrailleIOAdapter_ShowOff"/> class.
+        /// </summary>
+        /// <param name="manager">The IBrailleIOAdapterManager the device has to be registered to.</param>
+        public BrailleIOAdapter_ShowOff(IBrailleIOAdapterManager manager)
+            : this(manager,  new ShowOff())
+        {
         }
 
         /// <summary>
@@ -92,7 +93,7 @@ namespace BrailleIO
         /// <param name="m">The matrix.</param>
         public override void Synchronize(bool[,] m)
         {
-            if(!LockPins)driver.SetMatrix(m);
+            if (!LockPins) driver.SetMatrix(m);
         }
 
         /// <summary>
@@ -103,13 +104,12 @@ namespace BrailleIO
         /// </returns>
         public override bool Connect()
         {
-            if (base.Connect())
-            {
-                this.Connected = true;
-                fireInitialized(new BrailleIO_Initialized_EventArgs(Device));
-                return true;
-            }
-            return false;
+            base.Connect();
+
+            this.Connected = true;
+            fireInitialized(new BrailleIO_Initialized_EventArgs(Device));
+
+            return Connected;
         }
 
         /// <summary>

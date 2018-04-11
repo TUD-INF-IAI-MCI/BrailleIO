@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9CF455A0-B3B8-4D16-B54C-8EAF6BC97E06}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BrailleIO_ShowOff</RootNamespace>
     <AssemblyName>BrailleIO_ShowOff</AssemblyName>
