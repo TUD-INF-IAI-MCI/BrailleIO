@@ -74,6 +74,7 @@ namespace BrailleIO
             }
             Connect();
             driver.Monitor = gui;
+            gui.ShowOffAdapter = this;
         }
 
         /// <summary>

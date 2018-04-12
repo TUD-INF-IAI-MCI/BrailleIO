@@ -28,9 +28,9 @@ namespace BrailleIO
         /// <value>
         /// The show off adapter.
         /// </value>
-        public BrailleIOAdapter_ShowOff ShowOffAdapter { get; private set; }
+        public BrailleIOAdapter_ShowOff ShowOffAdapter { get; set; }
 
-        #endregion
+        #endregion  
 
         /// <summary>
         /// Important function! Call this if you don't rum the ShowOffAdapter out of an windows form application.
@@ -50,6 +50,15 @@ namespace BrailleIO
                     System.Diagnostics.Debug.WriteLine("Exception  in Init show off form\n" + e);
                 }
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShowOff" /> class.
+        /// </summary>
+        /// <param name="_showOffAdapter">The related show off adapter to this GUI.</param>
+        public ShowOff(BrailleIOAdapter_ShowOff _showOffAdapter) : this()
+        {
+            ShowOffAdapter = _showOffAdapter;
         }
 
         /// <summary>
@@ -146,8 +155,7 @@ namespace BrailleIO
         /// </returns>
         public AbstractBrailleIOAdapterBase GetAdapter(IBrailleIOAdapterManager manager)
         {
-            ShowOffAdapter = new BrailleIOAdapter_ShowOff(manager, this);
-            return ShowOffAdapter;
+            return ShowOffAdapter == null ? new BrailleIOAdapter_ShowOff(manager, this) : ShowOffAdapter;
         }
 
         #endregion
