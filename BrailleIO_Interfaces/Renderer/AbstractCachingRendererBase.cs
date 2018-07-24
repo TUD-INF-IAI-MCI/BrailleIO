@@ -73,7 +73,7 @@ namespace BrailleIO.Renderer
         /// <value>
         /// The last time stamp of content rendering rendered.
         /// </value>
-        public virtual DateTime LastRendered { get; private set; }
+        public virtual DateTime LastRendered { get; protected set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is currently rendering.
@@ -81,7 +81,7 @@ namespace BrailleIO.Renderer
         /// <value>
         /// <c>true</c> if this instance is currently rendering; otherwise, <c>false</c>.
         /// </value>
-        public bool IsRendering { get; private set; }
+        public bool IsRendering { get; protected set; }
 
         /// <summary>
         /// Informs the renderer that the content the or view has changed.
