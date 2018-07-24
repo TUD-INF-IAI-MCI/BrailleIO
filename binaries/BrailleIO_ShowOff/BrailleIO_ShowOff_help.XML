@@ -297,6 +297,12 @@
             Important function! Call this if you don't rum the ShowOffAdapter out of an windows form application.
             </summary>
         </member>
+        <member name="M:BrailleIO.ShowOff.#ctor(BrailleIO.BrailleIOAdapter_ShowOff)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.ShowOff"/> class.
+            </summary>
+            <param name="_showOffAdapter">The related show off adapter to this GUI.</param>
+        </member>
         <member name="M:BrailleIO.ShowOff.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:BrailleIO.ShowOff"/> class.
