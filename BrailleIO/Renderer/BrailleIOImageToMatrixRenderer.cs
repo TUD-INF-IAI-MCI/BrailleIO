@@ -10,8 +10,15 @@ namespace BrailleIO.Renderer
     /// </summary>
     /// <seealso cref="BrailleIO.Renderer.AbstractCachingRendererBase" />
     /// <seealso cref="BrailleIO.Interface.IBrailleIOContentRenderer" />
-    public class BrailleIOImageToMatrixRenderer : AbstractCachingRendererBase, IBrailleIOContentRenderer
+    public class BrailleIOImageToMatrixRenderer : AbstractCachingRendererBase
     {
+        /// <summary>
+        /// Indicates to the combining renderer if this renderer handles panning by its own or not.
+        /// <c>true</c> means the renderer has already handled panning (offsets) and returns the correct result.
+        /// <c>false</c> means the render does not handle panning (offset), returns the whole rendering result
+        /// and the combination renderer has to take care about the panning (offsets)
+        /// </summary>
+        public override bool DoesPanning { get { return true; } }
         /// <summary>
         /// If lightness of a color is lower than this threshold, the pin will be lowered. 
         /// A higher threshold leads lighter points to raise pins. 
@@ -199,7 +206,7 @@ namespace BrailleIO.Renderer
         /// <returns>
         /// a bool matrix
         /// </returns>
-        public bool[,] RenderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom) { return RenderImage(img, view, null, invert, zoom); }
+        public bool[,] RenderImage(Bitmap img, IViewBoxModel view, bool invert, double zoom) { return RenderImage(img, view, view as IPannable, invert, zoom); }
 
         /// <summary>
         /// Renders the image.
@@ -227,9 +234,6 @@ namespace BrailleIO.Renderer
                 object cImg = img as object;
                 if (callHooks) callAllPreHooks(ref view, ref cImg, offset, invert, zoom);
                 img = cImg as Bitmap;
-
-                //if (zoom > 3) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than 3.", "zoom");
-                if (zoom < 0) throw new ArgumentException("The zoom level is with a value of " + zoom + "to low. The zoom level should be between 0 and 3.", "zoom");
 
                 if (view == null) return new bool[0, 0];
                 //TODO: bring in threshold here
@@ -267,6 +271,23 @@ namespace BrailleIO.Renderer
                         if(_img != null)
                         //using (Bitmap _img = img.Clone() as Bitmap)
                         {
+
+
+                            // Fix zoom -1 = fit to available space
+                            //if (zoom > 3) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than 3.", "zoom");
+                            if (zoom < 0)
+                            {
+
+                                var Bounds = _img.Size;
+                                zoom = Math.Min(
+                                   (double)view.ContentBox.Height / (double)Bounds.Height + 0.000000001,
+                                    (double)view.ContentBox.Width / (double)Bounds.Width + 0.000000001
+                                    );
+                                ((IZoomable)view).SetZoom(zoom);
+
+                                //  throw new ArgumentException("The zoom level is with a value of " + zoom + "to low. The zoom level should be between 0 and 3.", "zoom");
+                            }
+                            
                             Int32 contentWidth = (Int32)Math.Max(Math.Round(_img.Width * zoom), 1);
                             Int32 contentHeight = (Int32)Math.Max(Math.Round(_img.Height * zoom), 1);
                             //set the content size fields in the view.

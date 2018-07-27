@@ -45,6 +45,24 @@ namespace BrailleIO.Interface
         bool[,] RenderMatrix(IViewBoxModel view, object content);
     }
 
+
+    /// <summary>
+    /// Generic interface for providing information if an renderer does 
+    /// panning handling by its own or not.
+    /// </summary>
+    /// <seealso cref="BrailleIO.Interface.IBrailleIORendererInterfaces"/>
+    public interface IBrailleIOPanningRendererInterfaces : IBrailleIORendererInterfaces
+    {
+        /// <summary>
+        /// Indicates to the combining renderer if this renderer handles panning by its own or not.
+        /// <c>true</c> means the renderer has already handled panning (offsets) and returns the correct result. 
+        /// <c>false</c> means the render does not handle panning (offset), returns the whole rendering result 
+        /// and the combination renderer has to take care about the panning (offsets) 
+        /// </summary>
+        bool DoesPanning { get; }
+    }
+
+
     #region Hook
 
     /// <summary>

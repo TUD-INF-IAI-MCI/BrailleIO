@@ -439,13 +439,14 @@ namespace BrailleIO
                     {
                         if (vr.ContentRender is BrailleIOImageToMatrixRenderer)
                         {
+                            handlePanning = false;
                             if (th >= 0)
                             {
                                 contentMatrix = ((BrailleIOImageToMatrixRenderer)vr.ContentRender).RenderImage(img, vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), th);
                             }
                             else
                             {
-                                contentMatrix = ((BrailleIOImageToMatrixRenderer)vr.ContentRender).RenderImage(img, vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), true);
+                                contentMatrix = ((BrailleIOImageToMatrixRenderer)vr.ContentRender).RenderImage(img, vr, vr as IPannable, vr.InvertImage, vr.GetZoom(), true, handlePanning);
                             }
                         }
                         else
@@ -453,7 +454,6 @@ namespace BrailleIO
                             contentMatrix = vr.ContentRender.RenderMatrix(vr, img);
                         }
                     }
-                    handlePanning = false;
                 }
                 // Text rendering
                 else if (vr.IsText())
@@ -475,6 +475,7 @@ namespace BrailleIO
                 else return matrix;
 
                 //place the content matrix (contentMatrix) in the view range matrix with aware of the box model 
+                if (vr.ContentRender is IBrailleIOPanningRendererInterfaces) handlePanning = !((IBrailleIOPanningRendererInterfaces)vr.ContentRender).DoesPanning;
                 viewBoxMatrix = vmr.RenderMatrix(vr, contentMatrix, handlePanning);
                 // Border rendering
                 viewBoxMatrix = BrailleIO.Renderer.BrailleIOBorderRenderer.RenderMatrix(vr, viewBoxMatrix);

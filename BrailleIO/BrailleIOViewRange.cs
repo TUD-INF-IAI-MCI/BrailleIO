@@ -158,9 +158,9 @@ namespace BrailleIO
                     Object cnt = GetContent();
                     ContentRender.RenderMatrix(this, cnt);
 
-                    //clean up the cloned elements (e.g. images)
-                    if (cnt is IDisposable) { ((IDisposable)cnt).Dispose(); }
-                    else { cnt = null; }
+                    ////clean up the cloned elements (e.g. images)
+                    //if (cnt is IDisposable) { ((IDisposable)cnt).Dispose(); }
+                    //else { cnt = null; }
                 }
             }
         }

@@ -1214,6 +1214,14 @@
             <param name="view">The view.</param>
             <param name="content">The content.</param>
         </member>
+        <member name="P:BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.DoesPanning">
+            <summary>
+            Indicates to the combining renderer if this renderer handles panning by its own or not.
+            <c>true</c> means the renderer has already handled panning (offsets) and returns the correct result.
+            <c>false</c> means the render does not handle panning (offset), returns the whole rendering result
+            and the combination renderer has to take care about the panning (offsets)
+            </summary>
+        </member>
         <member name="P:BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.Invert">
             <summary>
             Gets or sets a value indicating whether this <see cref="T:BrailleIO.Renderer.BrailleIOImageToMatrixRenderer"/> image should be rendered inverted.

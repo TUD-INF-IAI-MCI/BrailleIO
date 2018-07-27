@@ -17,7 +17,7 @@ namespace BrailleIO.Renderer
     /// <seealso cref="BrailleIO.Interface.BrailleIOHookableRendererBase" />
     /// <seealso cref="BrailleIO.Renderer.ICacheingRenderer" />
     /// <seealso cref="BrailleIO.Interface.IBrailleIORendererInterfaces" />
-    public class AbstractCachingRendererBase : BrailleIOHookableRendererBase, ICacheingRenderer, IBrailleIORendererInterfaces
+    public class AbstractCachingRendererBase : BrailleIOHookableRendererBase, ICacheingRenderer, IBrailleIOPanningRendererInterfaces
     {
 
         #region Members
@@ -104,9 +104,9 @@ namespace BrailleIO.Renderer
         public virtual void PrerenderMatrix(IViewBoxModel view, object content)
         {
             int trys = 0;
-            while (IsRendering && trys++ < maxRenderingWaitTrys) { Thread.Sleep(renderingWaitTimeout); }
             Task t = new Task(() =>
             {
+                while (IsRendering && trys++ < maxRenderingWaitTrys) { Thread.Sleep(renderingWaitTimeout); }
                 IsRendering = true;
                 ContentChanged = false;
                 _cachedMatrix = this.RenderMatrix(view, content, CallHooksOnCacherendering);
@@ -167,7 +167,7 @@ namespace BrailleIO.Renderer
         /// and j is the index of the column (is the x position).
         /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </returns>
-        public bool[,] RenderMatrix(IViewBoxModel view, object content)
+        public virtual bool[,] RenderMatrix(IViewBoxModel view, object content)
         {
             callAllPreHooks(ref view, ref content, null);
 
@@ -180,7 +180,7 @@ namespace BrailleIO.Renderer
                 ContentOrViewHasChanged(view, content);
             }
 
-            if (ContentChanged )
+            if (ContentChanged)
             {
                 _cachedMatrix = RenderMatrix(view, content, CallHooksOnCacherendering);
                 LastRendered = DateTime.Now;
@@ -221,7 +221,7 @@ namespace BrailleIO.Renderer
                     PrerenderMatrix(view, content);
                 }
 
-                bool[,] output =(GetCachedMatrix() != null) ? GetCachedMatrix().Clone() as bool[,] : new bool[0,0];
+                bool[,] output = (GetCachedMatrix() != null) ? GetCachedMatrix().Clone() as bool[,] : new bool[0, 0];
                 return output;
             }
 
@@ -287,8 +287,24 @@ namespace BrailleIO.Renderer
                 return (T)formatter.Deserialize(stream);
             }
         }
-        
+
         #endregion
 
+        #region IBrailleIOPanningRendererInterfaces
+
+        bool _doesPanning = false;
+        /// <summary>
+        /// Indicates to the combining renderer if this renderer handles panning by its own or not.
+        /// <c>true</c> means the renderer has already handled panning (offsets) and returns the correct result.
+        /// <c>false</c> means the render does not handle panning (offset), returns the whole rendering result
+        /// and the combination renderer has to take care about the panning (offsets)
+        /// </summary>
+        public virtual bool DoesPanning
+        {
+            get { return _doesPanning; }
+            protected set { _doesPanning = value; }
+        }
+
+        #endregion
     }
 }

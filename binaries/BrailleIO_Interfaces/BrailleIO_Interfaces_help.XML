@@ -2280,6 +2280,21 @@
             and j is the index of the column (is the x position). 
             In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins</returns>
         </member>
+        <member name="T:BrailleIO.Interface.IBrailleIOPanningRendererInterfaces">
+            <summary>
+            Generic interface for providing information if an renderer does 
+            panning handling by its own or not.
+            </summary>
+            <seealso cref="T:BrailleIO.Interface.IBrailleIORendererInterfaces"/>
+        </member>
+        <member name="P:BrailleIO.Interface.IBrailleIOPanningRendererInterfaces.DoesPanning">
+            <summary>
+            Indicates to the combining renderer if this renderer handles panning by its own or not.
+            <c>true</c> means the renderer has already handled panning (offsets) and returns the correct result. 
+            <c>false</c> means the render does not handle panning (offset), returns the whole rendering result 
+            and the combination renderer has to take care about the panning (offsets) 
+            </summary>
+        </member>
         <member name="T:BrailleIO.Interface.IBailleIORendererHook">
             <summary>
             Interface a renderer hook has to implement
@@ -2543,6 +2558,14 @@
             <value>
             <c>true</c> if this instance is currently rendering; otherwise, <c>false</c>.
             </value>
+        </member>
+        <member name="P:BrailleIO.Renderer.AbstractCachingRendererBase.DoesPanning">
+            <summary>
+            Indicates to the combining renderer if this renderer handles panning by its own or not.
+            <c>true</c> means the renderer has already handled panning (offsets) and returns the correct result.
+            <c>false</c> means the render does not handle panning (offset), returns the whole rendering result
+            and the combination renderer has to take care about the panning (offsets)
+            </summary>
         </member>
         <member name="T:BrailleIO.Renderer.ITouchableRenderer">
             <summary>
