@@ -1214,6 +1214,24 @@
             <param name="view">The view.</param>
             <param name="content">The content.</param>
         </member>
+        <member name="M:BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.SetContrastThreshold(System.Int32)">
+            <summary>
+            Sets the contrast threshold.
+            </summary>
+            <param name="threshold">The threshold.</param>
+            <returns>
+            the new set threshold
+            </returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.GetContrastThreshold">
+            <summary>
+            Gets the contrast threshold.
+            </summary>
+            <returns>
+            the threshold
+            </returns>
+        </member>
         <member name="P:BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.DoesPanning">
             <summary>
             Indicates to the combining renderer if this renderer handles panning by its own or not.

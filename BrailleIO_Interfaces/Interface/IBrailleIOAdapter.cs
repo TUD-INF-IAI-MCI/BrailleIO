@@ -546,7 +546,7 @@ namespace BrailleIO.Interface
 
     #endregion
 
-    #region EvetClasses
+    #region Event Args
 
     public class BrailleIO_KeyEventArgs : System.EventArgs
     {

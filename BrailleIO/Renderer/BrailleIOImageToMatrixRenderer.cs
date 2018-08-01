@@ -10,7 +10,7 @@ namespace BrailleIO.Renderer
     /// </summary>
     /// <seealso cref="BrailleIO.Renderer.AbstractCachingRendererBase" />
     /// <seealso cref="BrailleIO.Interface.IBrailleIOContentRenderer" />
-    public class BrailleIOImageToMatrixRenderer : AbstractCachingRendererBase
+    public class BrailleIOImageToMatrixRenderer : AbstractCachingRendererBase, IContrastThreshold
     {
         /// <summary>
         /// Indicates to the combining renderer if this renderer handles panning by its own or not.
@@ -420,6 +420,35 @@ namespace BrailleIO.Renderer
         {
             base.ContentOrViewHasChanged(view, content);
             PrerenderMatrix(view, content);
+        }
+
+        #endregion
+
+        #region IContrastThreshold
+
+        /// <summary>
+        /// Sets the contrast threshold.
+        /// </summary>
+        /// <param name="threshold">The threshold.</param>
+        /// <returns>
+        /// the new set threshold
+        /// </returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public int SetContrastThreshold(int threshold)
+        {
+            Threshold = (float)threshold;
+            return Convert.ToInt32(Threshold);
+        }
+
+        /// <summary>
+        /// Gets the contrast threshold.
+        /// </summary>
+        /// <returns>
+        /// the threshold
+        /// </returns>
+        public int GetContrastThreshold()
+        {
+            return Convert.ToInt32(Threshold);
         }
 
         #endregion

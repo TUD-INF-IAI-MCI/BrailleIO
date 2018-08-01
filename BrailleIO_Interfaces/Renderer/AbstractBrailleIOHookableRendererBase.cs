@@ -16,6 +16,8 @@ namespace BrailleIO.Interface
 
         #endregion
 
+        #region IBrailleIOHookableRenderer
+
         /// <summary>
         /// Register a hook.
         /// </summary>
@@ -40,6 +42,8 @@ namespace BrailleIO.Interface
             }
         }
 
+        #endregion
+
         /// <summary>
         /// Calls all registered pre-renderer hooks.
         /// </summary>
@@ -54,7 +58,8 @@ namespace BrailleIO.Interface
                 {
                     foreach (IBailleIORendererHook hook in hooks.Values)
                     {
-                        hook.PreRenderHook(ref view, ref content, additionalParams);
+                        if (!(hook is IActivatable) || ((IActivatable)hook).Active) 
+                            hook.PreRenderHook(ref view, ref content, additionalParams);
                     }
                 }
                 catch (System.Exception ex)
@@ -79,7 +84,8 @@ namespace BrailleIO.Interface
                 {
                     foreach (IBailleIORendererHook hook in hooks.Values)
                     {
-                        hook.PostRenderHook(view, content, ref result, additionalParams);
+                        if (!(hook is IActivatable) || ((IActivatable)hook).Active) 
+                         hook.PostRenderHook(view, content, ref result, additionalParams);
                     }
                 }
                 catch (System.Exception ex)
