@@ -20,12 +20,12 @@
 3. [Deep Dive](#deep-dive)
 	1. [Build your own renderer](#build-your-own-renderer)
 		1. [Make the renderer hookable](#make-the-renderer-hookable)
-		2. [Make a renderer cacheable] (#make-a-renderer-cacheable)
+		2. [Make a renderer cacheable](#make-a-renderer-cacheable)
 		3. [Make your renderer touchable](#make-your-renderer-touchable)
 
 
 
-#BrailleIO
+# BrailleIO
 
 Abstraction Framework for tactile pin-matrix devices' output and user input modelling.
 
