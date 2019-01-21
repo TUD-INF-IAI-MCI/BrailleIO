@@ -115,5 +115,13 @@ namespace BrailleIO
             this.RefreshRate = hertz;
             this.AdapterType = typeof(Object).ToString();
         }
+
+        /// <summary>Returns a <see cref="System.String"/> that represents this instance.</summary>
+        /// <returns>A <see cref="System.String"/> that represents this instance.</returns>
+        public override string ToString()
+        {
+            return String.Format("BrailleIODevice: '{0}' Name:'{1}' Size(w/h):'{2}//{3}'", AdapterType, Name, DeviceSizeX, DeviceSizeY);
+        }
+
     }
 }
