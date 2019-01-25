@@ -302,7 +302,7 @@ namespace BrailleIO
 
         private object _syncLock = new Object();
 
-        private void updatePressedAdditionalButtons(
+        protected virtual void updatePressedAdditionalButtons(
             BrailleIO_AdditionalButtonStates[] additionalKeyCode,
             out Dictionary<int, BrailleIO_AdditionalButton> pressedAdBs,
             out Dictionary<int, BrailleIO_AdditionalButton> releasedAdBs
@@ -330,14 +330,14 @@ namespace BrailleIO
                         PressedAdditionalButtons[i] = PressedAdditionalButtons[i] | pressedAdB;
                         pressedAdBs.Add(i, pressedAdB);
                         var releasedAdB = Utils.GetAllUpAdditionalButtons(additionalKeyCode[i]);
-                        PressedAdditionalButtons[i] = PressedAdditionalButtons[i] ^ releasedAdB;
+                        PressedAdditionalButtons[i] = PressedAdditionalButtons[i] & ~releasedAdB;
                         releasedAdBs.Add(i, releasedAdB);
                     }
                 }
             }
         }
 
-        private void updatePressedKeyboardButtons(
+        protected virtual void updatePressedKeyboardButtons(
             BrailleIO_BrailleKeyboardButtonStates keyboardCode,
             out BrailleIO_BrailleKeyboardButton pressedKbB,
             out BrailleIO_BrailleKeyboardButton releasedKbB)
@@ -352,12 +352,12 @@ namespace BrailleIO
                     pressedKbB = Utils.GetAllDownBrailleKeyboardButtons(keyboardCode);
                     PressedBrailleKeyboardButtons = PressedBrailleKeyboardButtons | pressedKbB;
                     releasedKbB = Utils.GetAllUpBrailleKeyboardButtons(keyboardCode);
-                    PressedBrailleKeyboardButtons = PressedBrailleKeyboardButtons ^ releasedKbB;
+                    PressedBrailleKeyboardButtons = PressedBrailleKeyboardButtons & ~releasedKbB;
                 }
             }
         }
 
-        private void updatePressedDeviceButtons(BrailleIO_DeviceButtonStates keyCode,
+        protected virtual void updatePressedDeviceButtons(BrailleIO_DeviceButtonStates keyCode,
             out BrailleIO_DeviceButton pressedDB,
             out BrailleIO_DeviceButton releasedDB)
         {
@@ -371,14 +371,14 @@ namespace BrailleIO
                     pressedDB = Utils.GetAllDownDeviceButtons(keyCode);
                     PressedDeviceButtons = PressedDeviceButtons | pressedDB;
                     releasedDB = Utils.GetAllUpDeviceButtons(keyCode);
-                    PressedDeviceButtons = PressedDeviceButtons ^ releasedDB;
+                    PressedDeviceButtons = PressedDeviceButtons & ~releasedDB;
                 }
             }
         }
 
         #region Key Combination Interpreter
 
-        private double _keyCombinationTimerInterval = 500;
+        private double _keyCombinationTimerInterval = 300;
         /// <summary>
         /// The time interval for collecting key released events to combine them as one 
         /// key combination in milliseconds.
@@ -429,11 +429,13 @@ namespace BrailleIO
                 if (_keyCombinationTimer == null)
                 {
                     _keyCombinationTimer = new System.Timers.Timer(KeyCombinationTimeout);
+                    _keyCombinationTimer.Elapsed += new System.Timers.ElapsedEventHandler(t_Elapsed); ;
                 }
                 return _keyCombinationTimer;
             }
             set { _keyCombinationTimer = value; }
         }
+
 
         /// <summary>
         /// Checks if a key combination was released.
@@ -444,7 +446,7 @@ namespace BrailleIO
         /// <param name="releasedKbB">The released Braille keyboard buttons.</param>
         /// <param name="pressedAdBs">The pressed additional buttons.</param>
         /// <param name="releasedAdBs">The released additional buttons.</param>
-        private void checkForKeyCombination(
+        protected virtual void checkForKeyCombination(
             BrailleIO_DeviceButton pressed,
             BrailleIO_DeviceButton released,
             BrailleIO_BrailleKeyboardButton pressedKbB,
@@ -497,6 +499,14 @@ namespace BrailleIO
                 {
                     t_Elapsed(keyCombinationTimer, null);
                 }
+                else
+                {
+                    keyCombinationTimer.Start();
+                }
+            }
+            else // no timer is running
+            {
+
             }
         }
 
