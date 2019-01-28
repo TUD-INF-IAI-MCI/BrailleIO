@@ -18,7 +18,7 @@ namespace BrailleIO
         /// Gets or sets a value indicating whether this <see cref="AbstractBrailleIOAdapterBase"/> is synchronize.
         /// </summary>
         /// <value><c>true</c> if synchronize; otherwise, <c>false</c>.</value>
-        public bool Synch
+        public virtual bool Synch
         {
             get;
             set;
@@ -30,7 +30,7 @@ namespace BrailleIO
         /// The last pin state stays as set until the lock is released and Synchronize(bool[,] matrix) is called.
         /// </summary>
         /// <value><c>true</c> if [lock pins]; otherwise, <c>false</c>.</value>
-        public bool LockPins
+        public virtual bool LockPins
         {
             get;
             set;
@@ -42,7 +42,7 @@ namespace BrailleIO
         /// The device gives access to specific properties of the modeled hardware device.
         /// </summary>
         /// <value>The device.</value>
-        public BrailleIODevice Device
+        public virtual BrailleIODevice Device
         {
             get { if (_device == null) _device = createDevice(); return _device; }
             protected set { _device = value; }
@@ -57,7 +57,7 @@ namespace BrailleIO
             return new BrailleIODevice(120, 60, "UNKNOWN", true, true, 10, this.GetType().ToString());
         }
 
-        private float _dpiX = 10;
+        protected float _dpiX = 10;
         /// <summary>
         /// Gets or sets the horizontal resolution of the pin matrix for this device.
         /// </summary>
@@ -67,7 +67,7 @@ namespace BrailleIO
             get { return _dpiX; }
         }
 
-        private float _dpiY = 10;
+        protected float _dpiY = 10;
         /// <summary>
         /// Gets or sets the vertical resolution of the pin matrix for this device.
         /// </summary>
@@ -77,12 +77,12 @@ namespace BrailleIO
             get { return _dpiY; }
         }
 
-        private bool _connected = false;
+        protected bool _connected = false;
         /// <summary>
         /// Gets a value indicating whether this <see cref="AbstractBrailleIOAdapterBase"/> is connected or not.
         /// </summary>
         /// <value><c>true</c> if connected; otherwise, <c>false</c>.</value>
-        public bool Connected
+        public virtual bool Connected
         {
             get
             {
@@ -105,7 +105,7 @@ namespace BrailleIO
         /// <value>
         /// The currently pressed device buttons.
         /// </value>
-        public BrailleIO_DeviceButton PressedDeviceButtons { get; protected set; }
+        public virtual BrailleIO_DeviceButton PressedDeviceButtons { get; protected set; }
 
         /// <summary>
         /// Gets all currently pressed braille keyboard buttons.
@@ -113,7 +113,7 @@ namespace BrailleIO
         /// <value>
         /// The currently pressed braille keyboard buttons.
         /// </value>
-        public BrailleIO_BrailleKeyboardButton PressedBrailleKeyboardButtons { get; protected set; }
+        public virtual BrailleIO_BrailleKeyboardButton PressedBrailleKeyboardButtons { get; protected set; }
 
         /// <summary>
         /// Gets all currently pressed additional buttons.
@@ -121,7 +121,7 @@ namespace BrailleIO
         /// <value>
         /// The currently pressed additional buttons.
         /// </value>
-        public BrailleIO_AdditionalButton[] PressedAdditionalButtons { get; protected set; }
+        public virtual BrailleIO_AdditionalButton[] PressedAdditionalButtons { get; protected set; }
 
         #endregion
 
@@ -174,39 +174,39 @@ namespace BrailleIO
         /// <summary>
         /// Occurs when a key was pressed.
         /// </summary>
-        public event EventHandler<BrailleIO_KeyPressed_EventArgs> keyPressed;
+        public virtual event EventHandler<BrailleIO_KeyPressed_EventArgs> keyPressed;
         /// <summary>
         /// Occurs when the state of a key has changed. This can be a pressed or a released
         /// </summary>
-        public event EventHandler<BrailleIO_KeyStateChanged_EventArgs> keyStateChanged;
+        public virtual event EventHandler<BrailleIO_KeyStateChanged_EventArgs> keyStateChanged;
         /// <summary>
         /// Occurs when the device was successfully initialized.
         /// </summary>
-        public event EventHandler<BrailleIO_Initialized_EventArgs> initialized;
+        public virtual event EventHandler<BrailleIO_Initialized_EventArgs> initialized;
         /// <summary>
         /// Occurs when the device was closed.
         /// </summary>
-        public event EventHandler<BrailleIO_Initialized_EventArgs> closed;
+        public virtual event EventHandler<BrailleIO_Initialized_EventArgs> closed;
         /// <summary>
         /// Occurs when some properties of the input changes.
         /// </summary>
-        public event EventHandler<BrailleIO_InputChanged_EventArgs> inputChanged;
+        public virtual event EventHandler<BrailleIO_InputChanged_EventArgs> inputChanged;
         /// <summary>
         /// Occurs when some touch values had changed.
         /// </summary>
-        public event EventHandler<BrailleIO_TouchValuesChanged_EventArgs> touchValuesChanged;
+        public virtual event EventHandler<BrailleIO_TouchValuesChanged_EventArgs> touchValuesChanged;
         /// <summary>
         /// Occurs when  some pin states had changed.
         /// </summary>
-        public event EventHandler<BrailleIO_PinStateChanged_EventArgs> pinStateChanged;
+        public virtual event EventHandler<BrailleIO_PinStateChanged_EventArgs> pinStateChanged;
         /// <summary>
         /// Occurs when an error has occurred.
         /// </summary>
-        public event EventHandler<BrailleIO_ErrorOccured_EventArgs> errorOccurred;
+        public virtual event EventHandler<BrailleIO_ErrorOccured_EventArgs> errorOccurred;
         /// <summary>
         /// Occurs when a key combination was released.
         /// </summary>
-        public event EventHandler<BrailleIO_KeyCombinationReleased_EventArgs> keyCombinationReleased;
+        public virtual event EventHandler<BrailleIO_KeyCombinationReleased_EventArgs> keyCombinationReleased;
 
         /// <summary>
         /// Fires an initialized event.
