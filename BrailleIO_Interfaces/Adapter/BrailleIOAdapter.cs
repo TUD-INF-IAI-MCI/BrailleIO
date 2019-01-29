@@ -171,9 +171,9 @@ namespace BrailleIO
         internal virtual void OnBrailleIO_ErrorOccured_EventHandler(BrailleIO_ErrorOccured_EventArgs e) { errorOccurred(this, e); }
         #endregion
 
-        /// <summary>
-        /// Occurs when a key was pressed.
-        /// </summary>
+        ///// <summary>
+        ///// Occurs when a key was pressed.
+        ///// </summary>
         public virtual event EventHandler<BrailleIO_KeyPressed_EventArgs> keyPressed;
         /// <summary>
         /// Occurs when the state of a key has changed. This can be a pressed or a released
@@ -241,6 +241,28 @@ namespace BrailleIO
             }
         }
 
+        protected virtual void fireKeyPressed(
+            BrailleIO_DeviceButtonStates keyCode, 
+            ref OrderedDictionary raw,
+            BrailleIO_BrailleKeyboardButtonStates keyboardButtonStates,
+            BrailleIO_AdditionalButtonStates[] additionalButtonStates
+            )
+        {
+            if(keyPressed != null)
+            {
+                try
+                {
+                    keyPressed.Invoke(
+                        this,
+                        new BrailleIO_KeyPressed_EventArgs(
+                            keyCode, ref raw,
+                            keyboardButtonStates, additionalButtonStates));
+                }
+                catch { }
+            }
+        }
+
+
         /// <summary>
         /// Fires a key state changed event.
         /// </summary>
@@ -281,6 +303,26 @@ namespace BrailleIO
             {
                 // TODO: what to do to get it valid again?!
             }
+
+            if(pressed != BrailleIO_DeviceButton.None || pressedKbB != BrailleIO_BrailleKeyboardButton.None)
+            {
+                fireKeyPressed(keyCode, ref raw, keyboardCode, additionalKeyCode);
+            }
+            else
+            {
+                if(pressedAdBs != null && pressedAdBs.Count > 0)
+                {
+                    foreach (var item in pressedAdBs)
+                    {
+                        if(item.Value != BrailleIO_AdditionalButton.None)
+                        {
+                            fireKeyPressed(keyCode, ref raw, keyboardCode, additionalKeyCode);
+                            break;
+                        }
+                    }
+                }
+            }
+
 
             if (keyStateChanged != null)
             {
