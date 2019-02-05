@@ -38,7 +38,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// The last view used for rendering.
         /// </summary>
-        protected IViewBoxModel lastView;
+        protected String lastView;
         /// <summary>
         /// The last content
         /// </summary>
@@ -91,7 +91,14 @@ namespace BrailleIO.Renderer
         /// <param name="content">The content.</param>
         public virtual void ContentOrViewHasChanged(IViewBoxModel view, object content)
         {
-            if (!ViewBoxModelEquals(lastView, view)) lastView = view; //Clone(view);
+            string viewString = viewToString(view);
+            // if (!ViewBoxModelEquals(lastView, view))
+            ContentOrViewHasChanged(viewString, content);
+        }
+
+        private void ContentOrViewHasChanged(string viewString, object content)
+        {
+            lastView = viewString; //Clone(view);
             lastContent = content;
             ContentChanged = true;
         }
@@ -171,9 +178,11 @@ namespace BrailleIO.Renderer
         {
             callAllPreHooks(ref view, ref content, null);
 
-            if (!ViewBoxModelEquals(lastView, view))
+
+            string viewString = viewToString(view);
+            if (!viewString.Equals(lastView))// !ViewBoxModelEquals(lastView, view))
             {
-                ContentOrViewHasChanged(view, content);
+                ContentOrViewHasChanged(viewString, content);
             }
             else if (!lastContent.Equals(content))
             {
@@ -192,6 +201,7 @@ namespace BrailleIO.Renderer
 
             return output;
         }
+
 
         /// <summary>
         /// Renders a content object into an boolean matrix;
@@ -258,35 +268,58 @@ namespace BrailleIO.Renderer
             return false;
         }
 
-        /// <summary>
-        /// Perform a deep Copy of the object.
-        /// Reference Article http://www.codeproject.com/KB/tips/SerializedObjectCloner.aspx.
-        /// </summary>
-        /// <typeparam name="T">The type of object being copied.</typeparam>
-        /// <param name="source">The object instance to copy.</param>
-        /// <returns>The copied object.</returns>
-        public static T Clone<T>(T source)
+        ///// <summary>
+        ///// Perform a deep Copy of the object.
+        ///// Reference Article http://www.codeproject.com/KB/tips/SerializedObjectCloner.aspx.
+        ///// </summary>
+        ///// <typeparam name="T">The type of object being copied.</typeparam>
+        ///// <param name="source">The object instance to copy.</param>
+        ///// <returns>The copied object.</returns>
+        //public static T Clone<T>(T source)
+        //{
+        //    if (!typeof(T).IsSerializable)
+        //    {
+        //        throw new ArgumentException("The type must be serializable.", "source");
+        //    }
+
+        //    // Don't serialize a null object, simply return the default for that object
+        //    if (Object.ReferenceEquals(source, null))
+        //    {
+        //        return default(T);
+        //    }
+
+        //    IFormatter formatter = new BinaryFormatter();
+        //    Stream stream = new MemoryStream();
+        //    using (stream)
+        //    {
+        //        formatter.Serialize(stream, source);
+        //        stream.Seek(0, SeekOrigin.Begin);
+        //        return (T)formatter.Deserialize(stream);
+        //    }
+        //}
+
+            /// <summary>
+            /// Function to turn the view into a 
+            /// </summary>
+            /// <param name="a"></param>
+            /// <returns></returns>
+            protected virtual string viewToString(IViewBoxModel a)
         {
-            if (!typeof(T).IsSerializable)
+            string unique = string.Empty;
+
+            if(a != null)
             {
-                throw new ArgumentException("The type must be serializable.", "source");
+                unique = a.ContentBox.Width + "," + a.ContentBox.Height + "," + a.ContentBox.X + "," + a.ContentBox.Y +
+                     "_" + a.ViewBox.Width + "," + a.ViewBox.Height + "," + a.ViewBox.X + "," + a.ViewBox.Y +
+                     "_" + a.ContentHeight + a.ContentWidth
+                    ;
+
+                if (a is IZoomable ) unique += "_" + ((IZoomable)a).GetZoom();
             }
 
-            // Don't serialize a null object, simply return the default for that object
-            if (Object.ReferenceEquals(source, null))
-            {
-                return default(T);
-            }
-
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new MemoryStream();
-            using (stream)
-            {
-                formatter.Serialize(stream, source);
-                stream.Seek(0, SeekOrigin.Begin);
-                return (T)formatter.Deserialize(stream);
-            }
+            return unique;
         }
+
 
         #endregion
 
