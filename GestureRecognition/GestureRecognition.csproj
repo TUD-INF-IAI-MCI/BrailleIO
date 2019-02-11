@@ -63,6 +63,7 @@
     <ProjectReference Include="..\BrailleIO_Interfaces\BrailleIO_Interfaces.csproj">
       <Project>{168ec2f2-7e4a-493a-ab4a-9fb1b45dab64}</Project>
       <Name>BrailleIO_Interfaces</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

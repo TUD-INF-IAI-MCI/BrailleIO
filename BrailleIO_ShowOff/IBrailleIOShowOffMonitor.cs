@@ -70,6 +70,7 @@ namespace BrailleIO
         /// <value>The size of the overlay image.</value>
         Size PictureOverlaySize{get;}
 
+
         /// <summary>
         /// Sets the text in the status bar.
         /// </summary>
@@ -80,18 +81,31 @@ namespace BrailleIO
         /// Resets the text in the status bar.
         /// </summary>
         void ResetStatusText();
-        
+
         /// <summary>
         /// Marks the button as pressed.
         /// </summary>
-        /// <param name="pressedButtons">The pressed buttons.</param>
+        /// <param name="pressedButtons">The pressed proprietary buttons.</param>
         void MarkButtonAsPressed(List<String> pressedButtons);
+        /// <summary>Marks the button as pressed.</summary>
+        /// <param name="pressedGeneralKeys">newly pressed general keys</param>
+        /// <param name="pressedBrailleKeyboardKeys">newly pressed Braille-keyboard keys</param>
+        /// <param name="pressedAdditionalKeys">the newly pressed additional keys</param>
+        void MarkButtonAsPressed(BrailleIO_DeviceButton pressedGeneralKeys, BrailleIO_BrailleKeyboardButton pressedBrailleKeyboardKeys = BrailleIO_BrailleKeyboardButton.None, BrailleIO_AdditionalButton[] pressedAdditionalKeys = null);
+
 
         /// <summary>
         /// Reset the buttons to normal mode.
         /// </summary>
-        /// <param name="releasedButtons">The released buttons.</param>
+        /// <param name="releasedButtons">The released proprietary buttons.</param>
         void UnmarkButtons(List<String> releasedButtons);
+        /// <summary>
+        /// Reset the buttons to normal mode.
+        /// </summary>
+        /// <param name="pressedGeneralKeys">newly pressed general keys</param>
+        /// <param name="pressedBrailleKeyboardKeys">newly pressed Braille-keyboard keys</param>
+        /// <param name="pressedAdditionalKeys">the newly pressed additional keys</param>
+        void UnmarkButtons(BrailleIO_DeviceButton pressedGeneralKeys, BrailleIO_BrailleKeyboardButton pressedBrailleKeyboardKeys = BrailleIO_BrailleKeyboardButton.None, BrailleIO_AdditionalButton[] pressedAdditionalKeys = null);
 
         /// <summary>
         /// Paints the specified matrix to the GUI.

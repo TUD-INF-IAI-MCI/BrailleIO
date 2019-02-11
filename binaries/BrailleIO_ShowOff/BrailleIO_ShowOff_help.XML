@@ -8,7 +8,7 @@
             <summary>
             A interface for monitoring other adapterse.g. for debugging or monitoring / mirroring.
             </summary>
-            <seealso cref="T:System.IDisposable"/>
+            <seealso cref="T:System.IDisposable" />
         </member>
         <member name="M:BrailleIO.IBrailleIOShowOffMonitor.InitializeBrailleIO(BrailleIO.Interface.IBrailleIOAdapterManager,System.Boolean)">
             <summary>
@@ -61,6 +61,12 @@
             </summary>
             <returns>the current set overlay image or <c>null</c></returns>
         </member>
+        <member name="P:BrailleIO.IBrailleIOShowOffMonitor.PictureOverlaySize">
+            <summary>
+            Gets the size of the picture overlay image.
+            </summary>
+            <value>The size of the overlay image.</value>
+        </member>
         <member name="M:BrailleIO.IBrailleIOShowOffMonitor.SetStatusText(System.String)">
             <summary>
             Sets the text in the status bar.
@@ -76,25 +82,33 @@
             <summary>
             Marks the button as pressed.
             </summary>
-            <param name="pressedButtons">The pressed buttons.</param>
+            <param name="pressedButtons">The pressed proprietary buttons.</param>
+        </member>
+        <member name="M:BrailleIO.IBrailleIOShowOffMonitor.MarkButtonAsPressed(BrailleIO.Interface.BrailleIO_DeviceButton,BrailleIO.Interface.BrailleIO_BrailleKeyboardButton,BrailleIO.Interface.BrailleIO_AdditionalButton[])">
+            <summary>Marks the button as pressed.</summary>
+            <param name="pressedGeneralKeys">newly pressed general keys</param>
+            <param name="pressedBrailleKeyboardKeys">newly pressed Braille-keyboard keys</param>
+            <param name="pressedAdditionalKeys">the newly pressed additional keys</param>
         </member>
         <member name="M:BrailleIO.IBrailleIOShowOffMonitor.UnmarkButtons(System.Collections.Generic.List{System.String})">
             <summary>
             Reset the buttons to normal mode.
             </summary>
-            <param name="releasedButtons">The released buttons.</param>
+            <param name="releasedButtons">The released proprietary buttons.</param>
+        </member>
+        <member name="M:BrailleIO.IBrailleIOShowOffMonitor.UnmarkButtons(BrailleIO.Interface.BrailleIO_DeviceButton,BrailleIO.Interface.BrailleIO_BrailleKeyboardButton,BrailleIO.Interface.BrailleIO_AdditionalButton[])">
+            <summary>
+            Reset the buttons to normal mode.
+            </summary>
+            <param name="pressedGeneralKeys">newly pressed general keys</param>
+            <param name="pressedBrailleKeyboardKeys">newly pressed Braille-keyboard keys</param>
+            <param name="pressedAdditionalKeys">the newly pressed additional keys</param>
         </member>
         <member name="M:BrailleIO.IBrailleIOShowOffMonitor.Paint(System.Boolean[0:,0:])">
             <summary>
             Paints the specified matrix to the GUI.
             </summary>
             <param name="m">The pin matrix.</param>
-        </member>
-        <member name="P:BrailleIO.IBrailleIOShowOffMonitor.PictureOverlaySize">
-            <summary>
-            Gets the size of the picture overlay image.
-            </summary>
-            <value>The size of the overlay image.</value>
         </member>
         <member name="E:BrailleIO.IBrailleIOShowOffMonitor.Disposed">
             <summary>
@@ -105,18 +119,16 @@
             <summary>
             A software adapter simulating a Metec BarilleDis 7200.
             </summary>
-            <seealso cref="T:System.Windows.Forms.Form"/>
-            <seealso cref="T:BrailleIO.IBrailleIOShowOffMonitor"/>
+            <seealso cref="T:System.Windows.Forms.Form" />
+            <seealso cref="T:BrailleIO.IBrailleIOShowOffMonitor" />
         </member>
-        <member name="F:BrailleIO.ShowOff.pixelFactor">
+        <member name="P:BrailleIO.ShowOff.Ctr">
             <summary>
-            Factor for pins to pixels
+            determines if the CTR-key is pressed or not
             </summary>
-        </member>
-        <member name="F:BrailleIO.ShowOff.SHOW_SCREENSHOT_MNU_CONFIG_KEY">
-            <summary>
-            The show screenshot menu configuration key to search for in the app.config file.
-            </summary>
+            <value>
+              <c>true</c> if CTR-Key is pressed; otherwise, <c>false</c>.
+            </value>
         </member>
         <member name="M:BrailleIO.ShowOff.MarkButtonAsPressed(System.Collections.Generic.List{System.String})">
             <summary>
@@ -129,6 +141,11 @@
             Reset the buttons to normal mode.
             </summary>
             <param name="releasedButtons">The released buttons.</param>
+        </member>
+        <member name="F:BrailleIO.ShowOff.pixelFactor">
+            <summary>
+            Factor for pins to pixels
+            </summary>
         </member>
         <member name="F:BrailleIO.ShowOff.MartixStack">
             <summary>
@@ -193,6 +210,11 @@
             Gets a image representing the touched pins.
             </summary>
             <returns></returns>
+        </member>
+        <member name="F:BrailleIO.ShowOff.SHOW_SCREENSHOT_MNU_CONFIG_KEY">
+            <summary>
+            The show screenshot menu configuration key to search for in the app.config file.
+            </summary>
         </member>
         <member name="M:BrailleIO.ShowOff.showScreenshotMenuFromConfig">
             <summary>
@@ -292,6 +314,14 @@
             Value must be smaller or equal to 1 - than the point is inside the ellipse, otherwise it is outside
             </returns>
         </member>
+        <member name="P:BrailleIO.ShowOff.ShowOffAdapter">
+            <summary>
+            Gets the show off adapter. This is the <see cref="T:BrailleIO.Interface.IBrailleIOAdapter"/> implementation simulating a hardware in- output adapter.
+            </summary>
+            <value>
+            The show off adapter.
+            </value>
+        </member>
         <member name="M:BrailleIO.ShowOff.InitForm">
             <summary>
             Important function! Call this if you don't rum the ShowOffAdapter out of an windows form application.
@@ -299,7 +329,7 @@
         </member>
         <member name="M:BrailleIO.ShowOff.#ctor(BrailleIO.BrailleIOAdapter_ShowOff)">
             <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.ShowOff"/> class.
+            Initializes a new instance of the <see cref="T:BrailleIO.ShowOff" /> class.
             </summary>
             <param name="_showOffAdapter">The related show off adapter to this GUI.</param>
         </member>
@@ -326,7 +356,7 @@
         </member>
         <member name="M:BrailleIO.ShowOff.GetAdapter(BrailleIO.Interface.IBrailleIOAdapterManager)">
             <summary>
-            creates a new <see cref="T:BrailleIO.BrailleIOAdapter_ShowOff"/> and returns it
+            creates a new <see cref="T:BrailleIO.BrailleIOAdapter_ShowOff" /> and returns it
             </summary>
             <param name="manager">the corresponding adapter manager</param>
             <returns>
@@ -366,6 +396,12 @@
             Gets the current overlay image.
             </summary>
             <returns>the current set overlay image or <c>null</c></returns>
+        </member>
+        <member name="P:BrailleIO.ShowOff.PictureOverlaySize">
+            <summary>
+            Gets the size of the picture overlay image.
+            </summary>
+            <value>The size of the overlay image.</value>
         </member>
         <member name="M:BrailleIO.ShowOff.SetStatusText(System.String)">
             <summary>
@@ -435,28 +471,6 @@
             Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
             </summary>
         </member>
-        <member name="P:BrailleIO.ShowOff.Ctr">
-            <summary>
-            determines if the CTR-key is pressed or not
-            </summary>
-            <value>
-              <c>true</c> if CTR-Key is pressed; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:BrailleIO.ShowOff.ShowOffAdapter">
-            <summary>
-            Gets the show off adapter. This is the <see cref="T:BrailleIO.Interface.IBrailleIOAdapter"/> implementation simulating a hardware in- output adapter.
-            </summary>
-            <value>
-            The show off adapter.
-            </value>
-        </member>
-        <member name="P:BrailleIO.ShowOff.PictureOverlaySize">
-            <summary>
-            Gets the size of the picture overlay image.
-            </summary>
-            <value>The size of the overlay image.</value>
-        </member>
         <member name="M:BrailleIO.Program.Main">
             <summary>
             Der Haupteinstiegspunkt für die Anwendung.
@@ -466,7 +480,15 @@
             <summary>
             Basic ApadapterManager automatically sets up a ShowOffAdaper and provide it as a global monitor field.
             </summary>
-            <seealso cref="T:BrailleIO.AbstractBrailleIOAdapterManagerBase"/>
+            <seealso cref="T:BrailleIO.AbstractBrailleIOAdapterManagerBase" />
+        </member>
+        <member name="P:BrailleIO.ShowOffBrailleIOAdapterManager.Monitor">
+            <summary>
+            Gets the automatically instantiated monitor component.
+            </summary>
+            <value>
+            The monitor.
+            </value>
         </member>
         <member name="M:BrailleIO.ShowOffBrailleIOAdapterManager.#ctor">
             <summary>
@@ -479,17 +501,14 @@
             </summary>
             <param name="io">The <see cref="T:BrailleIO.BrailleIOMediator"/> this relates to.</param>
         </member>
-        <member name="P:BrailleIO.ShowOffBrailleIOAdapterManager.Monitor">
-            <summary>
-            Gets the automatically instantiated monitor component.
-            </summary>
-            <value>
-            The monitor.
-            </value>
-        </member>
         <member name="T:BrailleIO.MockDriver">
             <summary>
             Driver to emulate an real hardware driver that is responsible for sending the bool matrix to the hardware device
+            </summary>
+        </member>
+        <member name="P:BrailleIO.MockDriver.Monitor">
+            <summary>
+            The Windows Forms Application that should display the matrix. It is the Emulation of the presenting hardware.
             </summary>
         </member>
         <member name="M:BrailleIO.MockDriver.#ctor">
@@ -508,11 +527,6 @@
             Sends the Matrix to the windows forms application to display
             </summary>
             <param name="m">The m.</param>
-        </member>
-        <member name="P:BrailleIO.MockDriver.Monitor">
-            <summary>
-            The Windows Forms Application that should display the matrix. It is the Emulation of the presenting hardware.
-            </summary>
         </member>
         <member name="T:BrailleIO.BrailleIOAdapter_ShowOff">
             <summary>
