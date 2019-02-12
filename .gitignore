@@ -10,3 +10,7 @@ BrailleIO_Interfaces/obj/
 NaiveGestureRecognizer/obj/
 BrailleIO_Interfaces/bin/
 BrailleIO/obj/
+BrailleIOExample/bin/
+BrailleIOExample/obj/
+*.log
+*.suo
