@@ -6,181 +6,11 @@
     <members>
         <member name="T:BrailleIO.Interface.AbstractViewBorderBase">
             <summary>
-            Abstract Implementation for <see cref="T:BrailleIO.Interface.IViewBorder"/> ==&gt; This element has a full box model including margin, border and padding.
+            Abstract Implementation for <see cref="T:BrailleIO.Interface.IViewBorder"/> ==> This element has a full box model including margin, border and padding.
             Enables the direct usage of the reimplemented interface <seealso cref="T:BrailleIO.Interface.IViewBorder"/>
             Enables the direct usage of the reimplemented interface <seealso cref="T:BrailleIO.Interface.IViewPadding"/>
             Enables the direct usage of the reimplemented interface <seealso cref="T:BrailleIO.Interface.IViewMargin"/>
             </summary>
-        </member>
-        <member name="T:BrailleIO.Interface.AbstractViewPaddingBase">
-            <summary>
-            Abstract Implementation for <see cref="T:BrailleIO.Interface.IViewPadding"/>
-            Enables the direct usage of the reimplemented interface <seealso cref="T:BrailleIO.Interface.IViewPadding"/>
-            Enables the direct usage of the reimplemented interface <seealso cref="T:BrailleIO.Interface.IViewMargin"/>
-            </summary>
-        </member>
-        <member name="T:BrailleIO.Interface.AbstractViewMarginBase">
-            <summary>
-            Abstract Implementation for <see cref="T:BrailleIO.Interface.IViewMargin"/>
-            Enables the direct usage of the reimplemented interface <seealso cref="T:BrailleIO.Interface.IViewMargin"/>
-            </summary>
-        </member>
-        <member name="T:BrailleIO.Interface.IViewMargin">
-            <summary>
-            get access to properties for a margin (distance between other surrounding objects and the border)
-            </summary>
-        </member>
-        <member name="P:BrailleIO.Interface.IViewMargin.HasMargin">
-            <summary>
-            Gets or sets a value indicating whether this instance has a margin.
-            </summary>
-            <value>
-            	<c>true</c> if this instance has a margin; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Interface.IViewMargin.Margin">
-            <summary>
-            Gets or sets the margin. The margin is the outer space around an area. Space between the objects and the border.
-            </summary>
-            <value>The margin.</value>
-        </member>
-        <member name="M:BrailleIO.Interface.AbstractViewMarginBase.SetMargin(BrailleIO.Structs.BoxModel)">
-            <summary>
-            Sets the margin.
-            </summary>
-            <param name="box">The margin box model.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.AbstractViewMarginBase.SetMargin(System.UInt32)">
-            <summary>
-            Sets all margins.
-            </summary>
-            <param name="width">The margin in all direction.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.AbstractViewMarginBase.SetMargin(System.UInt32,System.UInt32,System.UInt32,System.UInt32)">
-            <summary>
-            Sets the margins.
-            </summary>
-            <param name="top">The top margin.</param>
-            <param name="right">The right margin.</param>
-            <param name="bottom">The bottom margin.</param>
-            <param name="left">The left margin.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.AbstractViewMarginBase.SetMargin(System.UInt32,System.UInt32,System.UInt32)">
-            <summary>
-            Sets the margins.
-            </summary>
-            <param name="top">The top margin.</param>
-            <param name="horizontal">The horizontal margins (left + right).</param>
-            <param name="bottom">The bottom margin.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.AbstractViewMarginBase.SetMargin(System.UInt32,System.UInt32)">
-            <summary>
-            Sets the horizontal and vertical margins.
-            </summary>
-            <param name="vertical">The vertical margins (top + bottom).</param>
-            <param name="horizontal">The horizontal margins (left + right).</param>
-        </member>
-        <member name="P:BrailleIO.Interface.AbstractViewMarginBase.HasMargin">
-            <summary>
-            Gets or sets a value indicating whether this instance has a margin.
-            </summary>
-            <value>
-            	<c>true</c> if this instance has a margin; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Interface.AbstractViewMarginBase.Margin">
-            <summary>
-            Gets or sets the margin. The margin is the outer space around an area. Space between the objects and the border.
-            </summary>
-            <value>The margin.</value>
-        </member>
-        <member name="T:BrailleIO.Interface.IViewPadding">
-            <summary>
-            get access to properties for a padding (distance between the border and the content)
-            </summary>
-        </member>
-        <member name="P:BrailleIO.Interface.IViewPadding.HasPadding">
-            <summary>
-            Gets or sets a value indicating whether this instance has a padding.
-            </summary>
-            <value>
-            	<c>true</c> if this instance has a padding; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Interface.IViewPadding.Padding">
-            <summary>
-            Gets or sets the padding. The padding is the inner space between the border and the content.
-            </summary>
-            <value>The padding.</value>
-        </member>
-        <member name="M:BrailleIO.Interface.AbstractViewPaddingBase.SetPadding(BrailleIO.Structs.BoxModel)">
-            <summary>
-            Sets the padding.
-            </summary>
-            <param name="box">The padding box model.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.AbstractViewPaddingBase.SetPadding(System.UInt32)">
-            <summary>
-            Sets all paddings.
-            </summary>
-            <param name="width">The padding in all direction.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.AbstractViewPaddingBase.SetPadding(System.UInt32,System.UInt32,System.UInt32,System.UInt32)">
-            <summary>
-            Sets the paddings.
-            </summary>
-            <param name="top">The top padding.</param>
-            <param name="right">The right padding.</param>
-            <param name="bottom">The bottom padding.</param>
-            <param name="left">The left padding.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.AbstractViewPaddingBase.SetPadding(System.UInt32,System.UInt32,System.UInt32)">
-            <summary>
-            Sets the paddings.
-            </summary>
-            <param name="top">The top padding.</param>
-            <param name="horizontal">The horizontal paddings (left + right).</param>
-            <param name="bottom">The bottom padding.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.AbstractViewPaddingBase.SetPadding(System.UInt32,System.UInt32)">
-            <summary>
-            Sets the horizontal and vertical paddings.
-            </summary>
-            <param name="vertical">The vertical paddings (top + bottom).</param>
-            <param name="horizontal">The horizontal paddings (left + right).</param>
-        </member>
-        <member name="P:BrailleIO.Interface.AbstractViewPaddingBase.HasPadding">
-            <summary>
-            Gets or sets a value indicating whether this instance has a padding.
-            </summary>
-            <value>
-            	<c>true</c> if this instance has a padding; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Interface.AbstractViewPaddingBase.Padding">
-            <summary>
-            Gets or sets the padding. The padding is the inner space between the border and the content.
-            </summary>
-            <value>The padding.</value>
-        </member>
-        <member name="T:BrailleIO.Interface.IViewBorder">
-            <summary>
-            get access to properties for a border 
-            </summary>
-        </member>
-        <member name="P:BrailleIO.Interface.IViewBorder.HasBorder">
-            <summary>
-            Gets or sets a value indicating whether this instance has a border.
-            </summary>
-            <value>
-            	<c>true</c> if this instance has a border; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Interface.IViewBorder.Border">
-            <summary>
-            Gets or sets the border.
-            </summary>
-            <value>The border.</value>
         </member>
         <member name="M:BrailleIO.Interface.AbstractViewBorderBase.SetBorder(BrailleIO.Structs.BoxModel)">
             <summary>
@@ -234,7 +64,7 @@
         </member>
         <member name="T:BrailleIO.Interface.AbstractViewBoxModelBase">
             <summary>
-            Abstract Implementation for an Element that has a fully functional view box ==&gt; This element has also a full box model including margin, border and padding.
+            Abstract Implementation for an Element that has a fully functional view box ==> This element has also a full box model including margin, border and padding.
             Enables the direct usage of the reimplemented interface <seealso cref="T:BrailleIO.Interface.IViewBoxModel"/> for defining a viewable area
             Enables the direct usage of the reimplemented interface <seealso cref="T:BrailleIO.Interface.IPosition"/> for set and get positions
             Enables the direct usage of the reimplemented interface <seealso cref="T:BrailleIO.Interface.IPannable"/> for making a oversize content pannable
@@ -243,175 +73,62 @@
             Enables the direct usage of the reimplemented interface <seealso cref="T:BrailleIO.Interface.IViewMargin"/> for defining a margin
             </summary>
         </member>
-        <member name="T:BrailleIO.Interface.IViewBoxModel">
+        <member name="P:BrailleIO.Interface.AbstractViewBoxModelBase.Name">
             <summary>
-            Interface for properties for handling a view box setting. 
-            This means there is a content that can be larger or smaller than the available display space. 
+            Gets or sets the name of this View - Some kind of UID.
+            </summary>
+            <value>
+            The name.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Interface.AbstractViewBoxModelBase.ViewBox">
+            <summary>
+            Rectangle given dimensions and position of the whole view range or screen including the ContentBox, margin, padding and border (see BoxModel).
             </summary>
         </member>
-        <member name="P:BrailleIO.Interface.IViewBoxModel.ViewBox">
+        <member name="P:BrailleIO.Interface.AbstractViewBoxModelBase.ContentBox">
             <summary>
-            Gets or sets the view box. The viewBox defines the viewBox in size and offset to the content
+            Rectangle given dimensions and position of the view range or screen that can be used for displaying content.
+            
+            
+            BrailleIOScreen                                   ViewBox
+            ┌───────────────────────────────────────────────╱───┐
+            │              BrailleIOViewRange              ╱    │
+            │╔═ Margin ════════════════════════════════════════╗│
+            │║   Border                                        ║│
+            │║    Padding                                      ║│
+            │║  ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┐ ║│
+            │║  ┆                                            ┆ ║│
+            │║  ┆                                            ┆ ║│
+            │║  ┆                                            ┆ ║│
+            │║  ┆              ContentBox                    ┆ ║│
+            │║  ┆      = space to present content            ┆ ║│
+            │║  ┆                                            ┆ ║│
+            │║  ┆                                            ┆ ║│
+            │║  ┆                                            ┆ ║│
+            │║  └┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┘ ║│
+            │║                                                 ║│
+            │╚═════════════════════════════════════════════════╝│
+            │╔═════════════════════════════════════════════════╗│
+            │║           another BrailleIOViewRange            ║│
+            │╚═════════════════════════════════════════════════╝│
+            └───────────────────────────────────────────────────┘
+            
             </summary>
-            <value>The view box.</value>
         </member>
-        <member name="P:BrailleIO.Interface.IViewBoxModel.ContentBox">
+        <member name="P:BrailleIO.Interface.AbstractViewBoxModelBase.ContentWidth">
             <summary>
-            Gets or sets the content box. The real view box. 
-            The space that can be used to show content. It can maximum be the Size of the ViewBox.
-            Normally it is less. The Size of the ContentBox depends on the size of the ViewBox with respect of margin, border and padding.
-            </summary>
-            <value>The content box.</value>
-        </member>
-        <member name="P:BrailleIO.Interface.IViewBoxModel.ContentWidth">
-            <summary>
-            Gets or sets the width of the content. 
+            Gets or sets the width of the content.
             This is used to show the Scrollbars and to estimate the ratio between the content box and the hidden content.
             </summary>
             <value>The width of the whole content.</value>
         </member>
-        <member name="P:BrailleIO.Interface.IViewBoxModel.ContentHeight">
+        <member name="P:BrailleIO.Interface.AbstractViewBoxModelBase.ContentHeight">
             <summary>
-            Gets or sets the height of the content. 
+            Gets or sets the height of the content.
             This is used to show the Scrollbars and to estimate the ratio between the content box and the hidden content.
             </summary>
             <value>The height of the whole content.</value>
-        </member>
-        <member name="T:BrailleIO.Interface.IPosition">
-            <summary>
-            Enables an implementing instance to enable access to there position properties
-            </summary>
-        </member>
-        <member name="M:BrailleIO.Interface.IPosition.SetLeft(System.Int32)">
-            <summary>
-            Sets the horizontal, left start position left ==> The X position.
-            </summary>
-            <param name="left">The left.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.IPosition.GetLeft">
-            <summary>
-            Gets the horizontal, left start position ==> the X position.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:BrailleIO.Interface.IPosition.SetTop(System.Int32)">
-            <summary>
-            Sets the vertical, top position 00> the Y position.
-            </summary>
-            <param name="top">The top.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.IPosition.GetTop">
-            <summary>
-            Gets the vertical, top position ==> the Y position./// </summary>
-            <returns></returns>
-        </member>
-        <member name="M:BrailleIO.Interface.IPosition.SetWidth(System.Int32)">
-            <summary>
-            Sets the width.
-            </summary>
-            <param name="width">The width.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.IPosition.GetWidth">
-            <summary>
-            Gets the width.
-            </summary>
-            <returns>the width</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.IPosition.SetHeight(System.Int32)">
-            <summary>
-            Sets the height.
-            </summary>
-            <param name="height">The height.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.IPosition.GetHeight">
-            <summary>
-            Gets the height.
-            </summary>
-            <returns>the height</returns>
-        </member>
-        <member name="T:BrailleIO.Interface.IPannable">
-            <summary>
-            Enables an implementing instance to indicate the possibilities for panning operation 
-            </summary>
-        </member>
-        <member name="M:BrailleIO.Interface.IPannable.GetXOffset">
-            <summary>
-            Gets the offset in horizontal direction.
-            Should normally be negative. Moves the position of the content by the offset.
-            E.g. a negative offset should move the content to the left and the viewable 
-            region to the right.
-            </summary>
-            <returns>the horizontal offset</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.IPannable.SetXOffset(System.Int32)">
-            <summary>
-            Sets the offset in horizontal direction.
-            Should normally be negative. Moves the position of the content by the offset.
-            E.g. a negative offset should move the content to the left and the viewable 
-            region to the right.
-            </summary>
-            <param name="x">The offset in horizontal direction.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.IPannable.GetYOffset">
-            <summary>
-            Gets the offset in vertical direction.
-            Should normally be negative. Moves the position of the content by the offset.
-            E.g. a negative offset should move the content to up and the viewable 
-            region down.
-            </summary>
-            <returns>the vertical offset</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.IPannable.SetYOffset(System.Int32)">
-            <summary>
-            Sets the offset in vertical direction.
-            Should normally be negative. Moves the position of the content by the offset.
-            E.g. a negative offset should move the content to up and the viewable
-            region down.
-            </summary>
-            <param name="y">The offset in vertical direction.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.IPannable.Move(System.Drawing.Point)">
-            <summary>
-            Move the content in both direction simultaneous. 
-            So the vertical and horizontal offset will been set at the same time.
-            </summary>
-            <param name="p">The offsets in vertical and horizontal direction to move.</param>
-            <returns>the new point</returns>
-        </member>
-        <member name="P:BrailleIO.Interface.IPannable.ShowScrollbars">
-            <summary>
-            Gets or sets a value indicating whether to show some scrollbars.
-            </summary>
-            <value><c>true</c> if to show scrollbars; otherwise, <c>false</c>.</value>
-        </member>
-        <member name="T:BrailleIO.Interface.IBrailleIOPropertiesChangedEventSupplier">
-            <summary>
-            Event supplier for property changed events.
-            </summary>
-        </member>
-        <member name="E:BrailleIO.Interface.IBrailleIOPropertiesChangedEventSupplier.PropertyChanged">
-            <summary>
-            Occurs when a property has changed.
-            </summary>
-        </member>
-        <member name="T:BrailleIO.Interface.IViewable">
-            <summary>
-            Enables an implementing instance to give access to properties of there visibility
-            </summary>
-        </member>
-        <member name="M:BrailleIO.Interface.IViewable.SetVisibility(System.Boolean)">
-            <summary>
-            Sets the visibility.
-            </summary>
-            <param name="visible">if set to <c>true</c> the instance should bee visible; otherwise the instance is hidden</param>
-        </member>
-        <member name="M:BrailleIO.Interface.IViewable.IsVisible">
-            <summary>
-            Determines whether this instance is visible.
-            </summary>
-            <returns>
-            	<c>true</c> if this instance is visible; otherwise, <c>false</c> if the instance is hidden.
-            </returns>
         </member>
         <member name="M:BrailleIO.Interface.AbstractViewBoxModelBase.SetLeft(System.Int32)">
             <summary>
@@ -468,6 +185,26 @@
             get Height on Device
             </summary>
             <returns></returns>
+        </member>
+        <member name="P:BrailleIO.Interface.AbstractViewBoxModelBase.OffsetPosition">
+            <summary>
+            Gets or sets the offset position.
+            The offset position is the position of the content related to the view port - 
+            the visible part.
+            For handling panning the content is moved underneath view port - like a sheet
+            of paper under a fixed microscope. This means the offsets normally are negative values! 
+            </summary>
+            <value>
+            The offset position of the content related to the view port.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Interface.AbstractViewBoxModelBase.ShowScrollbars">
+            <summary>
+            Gets or sets a value indicating whether to show some scrollbars.
+            </summary>
+            <value>
+              <c>true</c> if to show scrollbars; otherwise, <c>false</c>.
+            </value>
         </member>
         <member name="M:BrailleIO.Interface.AbstractViewBoxModelBase.GetXOffset">
             <summary>
@@ -545,6 +282,11 @@
             <param name="point">Position to which the viewBox should be moved.</param>
             <returns>The new ViewBox</returns>
         </member>
+        <member name="E:BrailleIO.Interface.AbstractViewBoxModelBase.PropertyChanged">
+            <summary>
+            Occurs when a property has changed.
+            </summary>
+        </member>
         <member name="M:BrailleIO.Interface.AbstractViewBoxModelBase.SetVisibility(System.Boolean)">
             <summary>
             set Visibility of ViewRange
@@ -561,601 +303,123 @@
               <c>true</c> if this instance is visible; otherwise, <c>false</c> if the instance is hidden.
             </returns>
         </member>
-        <member name="P:BrailleIO.Interface.AbstractViewBoxModelBase.Name">
+        <member name="T:BrailleIO.Interface.AbstractViewMarginBase">
             <summary>
-            Gets or sets the name of this View - Some kind of UID.
+            Abstract Implementation for <see cref="T:BrailleIO.Interface.IViewMargin"/>
+            Enables the direct usage of the reimplemented interface <seealso cref="T:BrailleIO.Interface.IViewMargin"/>
+            </summary>
+        </member>
+        <member name="M:BrailleIO.Interface.AbstractViewMarginBase.SetMargin(BrailleIO.Structs.BoxModel)">
+            <summary>
+            Sets the margin.
+            </summary>
+            <param name="box">The margin box model.</param>
+        </member>
+        <member name="M:BrailleIO.Interface.AbstractViewMarginBase.SetMargin(System.UInt32)">
+            <summary>
+            Sets all margins.
+            </summary>
+            <param name="width">The margin in all direction.</param>
+        </member>
+        <member name="M:BrailleIO.Interface.AbstractViewMarginBase.SetMargin(System.UInt32,System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            Sets the margins.
+            </summary>
+            <param name="top">The top margin.</param>
+            <param name="right">The right margin.</param>
+            <param name="bottom">The bottom margin.</param>
+            <param name="left">The left margin.</param>
+        </member>
+        <member name="M:BrailleIO.Interface.AbstractViewMarginBase.SetMargin(System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            Sets the margins.
+            </summary>
+            <param name="top">The top margin.</param>
+            <param name="horizontal">The horizontal margins (left + right).</param>
+            <param name="bottom">The bottom margin.</param>
+        </member>
+        <member name="M:BrailleIO.Interface.AbstractViewMarginBase.SetMargin(System.UInt32,System.UInt32)">
+            <summary>
+            Sets the horizontal and vertical margins.
+            </summary>
+            <param name="vertical">The vertical margins (top + bottom).</param>
+            <param name="horizontal">The horizontal margins (left + right).</param>
+        </member>
+        <member name="P:BrailleIO.Interface.AbstractViewMarginBase.HasMargin">
+            <summary>
+            Gets or sets a value indicating whether this instance has a margin.
             </summary>
             <value>
-            The name.
+            	<c>true</c> if this instance has a margin; otherwise, <c>false</c>.
             </value>
         </member>
-        <member name="P:BrailleIO.Interface.AbstractViewBoxModelBase.ViewBox">
+        <member name="P:BrailleIO.Interface.AbstractViewMarginBase.Margin">
             <summary>
-            Rectangle given dimensions and position of the whole view range or screen including the ContentBox, margin, padding and border (see BoxModel).
+            Gets or sets the margin. The margin is the outer space around an area. Space between the objects and the border.
+            </summary>
+            <value>The margin.</value>
+        </member>
+        <member name="T:BrailleIO.Interface.AbstractViewPaddingBase">
+            <summary>
+            Abstract Implementation for <see cref="T:BrailleIO.Interface.IViewPadding"/>
+            Enables the direct usage of the reimplemented interface <seealso cref="T:BrailleIO.Interface.IViewPadding"/>
+            Enables the direct usage of the reimplemented interface <seealso cref="T:BrailleIO.Interface.IViewMargin"/>
             </summary>
         </member>
-        <member name="P:BrailleIO.Interface.AbstractViewBoxModelBase.ContentBox">
+        <member name="M:BrailleIO.Interface.AbstractViewPaddingBase.SetPadding(BrailleIO.Structs.BoxModel)">
             <summary>
-            Rectangle given dimensions and position of the view range or screen that can be used for displaying content.
-            
-            
-            BrailleIOScreen                                   ViewBox
-            ┌───────────────────────────────────────────────╱───┐
-            │              BrailleIOViewRange              ╱    │
-            │╔═ Margin ════════════════════════════════════════╗│
-            │║   Border                                        ║│
-            │║    Padding                                      ║│
-            │║  ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┐ ║│
-            │║  ┆                                            ┆ ║│
-            │║  ┆                                            ┆ ║│
-            │║  ┆                                            ┆ ║│
-            │║  ┆              ContentBox                    ┆ ║│
-            │║  ┆      = space to present content            ┆ ║│
-            │║  ┆                                            ┆ ║│
-            │║  ┆                                            ┆ ║│
-            │║  ┆                                            ┆ ║│
-            │║  └┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┘ ║│
-            │║                                                 ║│
-            │╚═════════════════════════════════════════════════╝│
-            │╔═════════════════════════════════════════════════╗│
-            │║           another BrailleIOViewRange            ║│
-            │╚═════════════════════════════════════════════════╝│
-            └───────────────────────────────────────────────────┘
-            
+            Sets the padding.
             </summary>
+            <param name="box">The padding box model.</param>
         </member>
-        <member name="P:BrailleIO.Interface.AbstractViewBoxModelBase.ContentWidth">
+        <member name="M:BrailleIO.Interface.AbstractViewPaddingBase.SetPadding(System.UInt32)">
             <summary>
-            Gets or sets the width of the content.
-            This is used to show the Scrollbars and to estimate the ratio between the content box and the hidden content.
+            Sets all paddings.
             </summary>
-            <value>The width of the whole content.</value>
+            <param name="width">The padding in all direction.</param>
         </member>
-        <member name="P:BrailleIO.Interface.AbstractViewBoxModelBase.ContentHeight">
+        <member name="M:BrailleIO.Interface.AbstractViewPaddingBase.SetPadding(System.UInt32,System.UInt32,System.UInt32,System.UInt32)">
             <summary>
-            Gets or sets the height of the content.
-            This is used to show the Scrollbars and to estimate the ratio between the content box and the hidden content.
+            Sets the paddings.
             </summary>
-            <value>The height of the whole content.</value>
+            <param name="top">The top padding.</param>
+            <param name="right">The right padding.</param>
+            <param name="bottom">The bottom padding.</param>
+            <param name="left">The left padding.</param>
         </member>
-        <member name="P:BrailleIO.Interface.AbstractViewBoxModelBase.OffsetPosition">
+        <member name="M:BrailleIO.Interface.AbstractViewPaddingBase.SetPadding(System.UInt32,System.UInt32,System.UInt32)">
             <summary>
-            Gets or sets the offset position.
-            The offset position is the position of the content related to the view port - 
-            the visible part.
-            For handling panning the content is moved underneath view port - like a sheet
-            of paper under a fixed microscope. This means the offsets normally are negative values! 
+            Sets the paddings.
+            </summary>
+            <param name="top">The top padding.</param>
+            <param name="horizontal">The horizontal paddings (left + right).</param>
+            <param name="bottom">The bottom padding.</param>
+        </member>
+        <member name="M:BrailleIO.Interface.AbstractViewPaddingBase.SetPadding(System.UInt32,System.UInt32)">
+            <summary>
+            Sets the horizontal and vertical paddings.
+            </summary>
+            <param name="vertical">The vertical paddings (top + bottom).</param>
+            <param name="horizontal">The horizontal paddings (left + right).</param>
+        </member>
+        <member name="P:BrailleIO.Interface.AbstractViewPaddingBase.HasPadding">
+            <summary>
+            Gets or sets a value indicating whether this instance has a padding.
             </summary>
             <value>
-            The offset position of the content related to the view port.
+            	<c>true</c> if this instance has a padding; otherwise, <c>false</c>.
             </value>
         </member>
-        <member name="P:BrailleIO.Interface.AbstractViewBoxModelBase.ShowScrollbars">
+        <member name="P:BrailleIO.Interface.AbstractViewPaddingBase.Padding">
             <summary>
-            Gets or sets a value indicating whether to show some scrollbars.
+            Gets or sets the padding. The padding is the inner space between the border and the content.
             </summary>
-            <value>
-              <c>true</c> if to show scrollbars; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="E:BrailleIO.Interface.AbstractViewBoxModelBase.PropertyChanged">
-            <summary>
-            Occurs when a property has changed.
-            </summary>
-        </member>
-        <member name="T:BrailleIO.AbstractBrailleIOAdapterBase">
-            <summary>
-            Abstract implementation for basic functions a real Hardware modeling device Adapter has to implement
-            </summary>
-        </member>
-        <member name="T:BrailleIO.Interface.IBrailleIOAdapter2">
-            <summary>
-            Interface an adapter (means a real hardware abstracting implementation for an input or output device) has to implement.
-            In addition, the current pressed button states are available through this interface.
-            </summary>
-        </member>
-        <member name="T:BrailleIO.Interface.IBrailleIOAdapter">
-            <summary>
-            Interface an adapter (means a real hardware abstracting implementation for an input or output device) has to implement.
-            </summary>
-        </member>
-        <member name="M:BrailleIO.Interface.IBrailleIOAdapter.Connect">
-            <summary>
-            Connects this instance.
-            </summary>
-            <returns>if the device could been connected or not</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.IBrailleIOAdapter.Disconnect">
-            <summary>
-            Disconnects this instance.
-            </summary>
-            <returns>if the device could been disconnected or not</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.IBrailleIOAdapter.Synchronize(System.Boolean[0:,0:])">
-            <summary>
-            Synchronizes the specified matrix. That means the matrix will be send to the hardware device as output
-            </summary>
-            <param name="matrix">The matrix to show.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.IBrailleIOAdapter.Recalibrate(System.Double)">
-            <summary>
-            Recalibrate the touch abilities of the device with  the specified threshold.
-            </summary>
-            <param name="threshold">The threshold.</param>
-            <returns>if the device could been calibrated or not</returns>
-        </member>
-        <member name="P:BrailleIO.Interface.IBrailleIOAdapter.Connected">
-            <summary>
-            Gets a value indicating whether this <see cref="T:BrailleIO.Interface.IBrailleIOAdapter"/> is connected.
-            </summary>
-            <value>
-              <c>true</c> if connected; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Interface.IBrailleIOAdapter.DpiX">
-            <summary>
-            Gets the horizontal resolution of this device in Dots Per Inch.
-            </summary>
-            <value>
-            The horizontal DPI.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Interface.IBrailleIOAdapter.DpiY">
-            <summary>
-            Gets the vertical resolution of this device in Dots Per Inch.
-            </summary>
-            <value>
-            The vertical DPI.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Interface.IBrailleIOAdapter.Device">
-            <summary>
-            Gets the corresponding hardware device to this wrapper.
-            </summary>
-            <value>
-            The device.
-            </value>
-        </member>
-        <member name="E:BrailleIO.Interface.IBrailleIOAdapter.keyPressed">
-            <summary>
-            Occurs when a key was pressed.
-            </summary>
-        </member>
-        <member name="E:BrailleIO.Interface.IBrailleIOAdapter.keyStateChanged">
-            <summary>
-            Occurs when the state of a key has changed. This can be a pressed or a released
-            </summary>
-        </member>
-        <member name="E:BrailleIO.Interface.IBrailleIOAdapter.initialized">
-            <summary>
-            Occurs when the device was successfully initialized.
-            </summary>
-        </member>
-        <member name="E:BrailleIO.Interface.IBrailleIOAdapter.inputChanged">
-            <summary>
-            Occurs when some properties of the input changes.
-            </summary>
-        </member>
-        <member name="E:BrailleIO.Interface.IBrailleIOAdapter.touchValuesChanged">
-            <summary>
-            Occurs when some touch values had changed.
-            </summary>
-        </member>
-        <member name="E:BrailleIO.Interface.IBrailleIOAdapter.pinStateChanged">
-            <summary>
-            Occurs when  some pin states had changed.
-            </summary>
-        </member>
-        <member name="E:BrailleIO.Interface.IBrailleIOAdapter.errorOccurred">
-            <summary>
-            Occurs when an error has occurred.
-            </summary>
-        </member>
-        <member name="P:BrailleIO.Interface.IBrailleIOAdapter2.PressedDeviceButtons">
-            <summary>
-            Gets all currently pressed device buttons.
-            </summary>
-            <value>
-            The currently pressed device buttons.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Interface.IBrailleIOAdapter2.PressedBrailleKeyboardButtons">
-            <summary>
-            Gets all currently pressed braille keyboard buttons.
-            </summary>
-            <value>
-            The currently pressed braille keyboard buttons.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Interface.IBrailleIOAdapter2.PressedAdditionalButtons">
-            <summary>
-            Gets all currently pressed additional buttons.
-            </summary>
-            <value>
-            The currently pressed additional buttons.
-            </value>
-        </member>
-        <member name="E:BrailleIO.Interface.IBrailleIOAdapter2.keyCombinationReleased">
-            <summary>
-            Occurs when a key combination was released.
-            ATTENTION: proprietary raw key-codes are NOT stored or handled.
-            </summary>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.createDevice">
-            <summary>
-            Creates an dummy device width dimensions of a Metec BrailleDis device.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="F:BrailleIO.AbstractBrailleIOAdapterBase.manager">
-            <summary>
-            The adapter manager this adapter is registered in.
-            </summary>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.#ctor(BrailleIO.Interface.IBrailleIOAdapterManager)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.AbstractBrailleIOAdapterBase"/> class.
-            </summary>
-            <param name="manager">The manager.</param>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.Connect">
-            <summary>
-            Connects this instance.
-            </summary>
-            <returns><c>true</c> if connected successfully; otherwise, <c>false</c>.</returns>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.Disconnect">
-            <summary>
-            Disconnects this instance.
-            </summary>
-            <returns><c>true</c> if disconnected successfully; otherwise, <c>false</c>.</returns>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireInitialized(BrailleIO.Interface.BrailleIO_Initialized_EventArgs)">
-            <summary>
-            Fires an initialized event.
-            </summary>
-            <param name="e">The <see cref="T:BrailleIO.Interface.BrailleIO_Initialized_EventArgs"/> instance containing the event data.</param>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireClosed(BrailleIO.Interface.BrailleIO_Initialized_EventArgs)">
-            <summary>
-            Fires an initialized event.
-            </summary>
-            <param name="e">The <see cref="T:BrailleIO.Interface.BrailleIO_Initialized_EventArgs"/> instance containing the event data.</param>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireKeyStateChanged(BrailleIO.Interface.BrailleIO_DeviceButtonStates,System.Collections.Specialized.OrderedDictionary@,BrailleIO.Interface.BrailleIO_BrailleKeyboardButtonStates,BrailleIO.Interface.BrailleIO_AdditionalButtonStates[])">
-            <summary>
-            Fires a key state changed event.
-            </summary>
-            <param name="keyCode">The key code.</param>
-            <param name="raw">The raw.</param>
-            <param name="keyboardCode">optional combined Braille keyboard button states.</param>
-            <param name="additionalKeyCode">list of optional combined additional button states.</param>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.checkForKeyCombination(BrailleIO.Interface.BrailleIO_DeviceButton,BrailleIO.Interface.BrailleIO_DeviceButton,BrailleIO.Interface.BrailleIO_BrailleKeyboardButton,BrailleIO.Interface.BrailleIO_BrailleKeyboardButton,System.Collections.Generic.Dictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton},System.Collections.Generic.Dictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton})">
-            <summary>
-            Checks if a key combination was released.
-            </summary>
-            <param name="pressed">The pressed general buttons.</param>
-            <param name="released">The released general buttons.</param>
-            <param name="pressedKbB">The pressed Braille keyboard buttons.</param>
-            <param name="releasedKbB">The released Braille keyboard buttons.</param>
-            <param name="pressedAdBs">The pressed additional buttons.</param>
-            <param name="releasedAdBs">The released additional buttons.</param>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireInputChanged(System.Boolean[0:,0:],System.Int32,System.Collections.Specialized.OrderedDictionary@)">
-            <summary>
-            Fires an input changed event.
-            </summary>
-            <param name="touches">The touches.</param>
-            <param name="timestamp">The timestamp.</param>
-            <param name="raw">The raw.</param>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireKeyCombinationReleased(BrailleIO.Structs.KeyCombinationItem)">
-            <summary>
-            Fires the key combination released event.
-            </summary>
-            <param name="keyCombination">The key combination container item.</param>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireTouchValuesChanged(System.Double[0:,0:],System.Int32,System.Collections.Specialized.OrderedDictionary@)">
-            <summary>
-            Fires a touch values changed event.
-            </summary>
-            <param name="touches">The touches.</param>
-            <param name="timestamp">The timestamp.</param>
-            <param name="raw">The raw.</param>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireTouchValuesChanged(System.Double[0:,0:],System.Int32,System.Collections.Specialized.OrderedDictionary@,System.Collections.Generic.List{BrailleIO.Structs.Touch})">
-            <summary>
-            Fires a touch values changed event.
-            </summary>
-            <param name="touches">The touches.</param>
-            <param name="timestamp">The timestamp.</param>
-            <param name="raw">The raw.</param>
-            <param name="detailedTouch">An optional list of detailed touch information.</param>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireErrorOccured(BrailleIO.Interface.ErrorCode,System.Collections.Specialized.OrderedDictionary@)">
-            <summary>
-            Fires an error occurred event.
-            </summary>
-            <param name="errorCode">The error code.</param>
-            <param name="raw">The raw.</param>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.Synchronize(System.Boolean[0:,0:])">
-            <summary>
-            Synchronizes the specified matrix. 
-            That means the Adapter try to sent the given Matrix to the real hardware 
-            device as an output.
-            </summary>
-            <param name="matrix">The matrix.</param>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.Recalibrate(System.Double)">
-            <summary>
-            Recalibrate the Touch detection Adapter with the specified threshold.
-            //FIXME: BAD-HACK function to find bad detectors. Make this real working
-            </summary>
-            <param name="threshold">The threshold.</param>
-            <returns><c>true</c> if the devices touch abilities could be recalibrated</returns>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.GetFullSetMatrix">
-            <summary>
-            returns a matrix full of raised pins.
-            </summary>
-            <returns>a matrix full of raised pins in the dimension of the device.</returns>
-        </member>
-        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.Dispose">
-            <summary>
-            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-            </summary>
-        </member>
-        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.Synch">
-            <summary>
-            Gets or sets a value indicating whether this <see cref="T:BrailleIO.AbstractBrailleIOAdapterBase"/> is synchronize.
-            </summary>
-            <value><c>true</c> if synchronize; otherwise, <c>false</c>.</value>
-        </member>
-        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.LockPins">
-            <summary>
-            Gets or sets a flag indicating whether the pins should bee locked.
-            This means no more synchronization should be possible. 
-            The last pin state stays as set until the lock is released and Synchronize(bool[,] matrix) is called.
-            </summary>
-            <value><c>true</c> if [lock pins]; otherwise, <c>false</c>.</value>
-        </member>
-        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.Device">
-            <summary>
-            Gets or sets the device.
-            The device gives access to specific properties of the modeled hardware device.
-            </summary>
-            <value>The device.</value>
-        </member>
-        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.DpiX">
-            <summary>
-            Gets or sets the horizontal resolution of the pin matrix for this device.
-            </summary>
-            <value>The horizontal device resolution in dpi.</value>
-        </member>
-        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.DpiY">
-            <summary>
-            Gets or sets the vertical resolution of the pin matrix for this device.
-            </summary>
-            <value>The vertical device resolution in dpi.</value>
-        </member>
-        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.Connected">
-            <summary>
-            Gets a value indicating whether this <see cref="T:BrailleIO.AbstractBrailleIOAdapterBase"/> is connected or not.
-            </summary>
-            <value><c>true</c> if connected; otherwise, <c>false</c>.</value>
-        </member>
-        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.PressedDeviceButtons">
-            <summary>
-            Gets all currently pressed device buttons.
-            </summary>
-            <value>
-            The currently pressed device buttons.
-            </value>
-        </member>
-        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.PressedBrailleKeyboardButtons">
-            <summary>
-            Gets all currently pressed braille keyboard buttons.
-            </summary>
-            <value>
-            The currently pressed braille keyboard buttons.
-            </value>
-        </member>
-        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.PressedAdditionalButtons">
-            <summary>
-            Gets all currently pressed additional buttons.
-            </summary>
-            <value>
-            The currently pressed additional buttons.
-            </value>
-        </member>
-        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.keyPressed">
-            <summary>
-            Occurs when a key was pressed.
-            </summary>
-        </member>
-        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.keyStateChanged">
-            <summary>
-            Occurs when the state of a key has changed. This can be a pressed or a released
-            </summary>
-        </member>
-        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.initialized">
-            <summary>
-            Occurs when the device was successfully initialized.
-            </summary>
-        </member>
-        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.closed">
-            <summary>
-            Occurs when the device was closed.
-            </summary>
-        </member>
-        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.inputChanged">
-            <summary>
-            Occurs when some properties of the input changes.
-            </summary>
-        </member>
-        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.touchValuesChanged">
-            <summary>
-            Occurs when some touch values had changed.
-            </summary>
-        </member>
-        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.pinStateChanged">
-            <summary>
-            Occurs when  some pin states had changed.
-            </summary>
-        </member>
-        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.errorOccurred">
-            <summary>
-            Occurs when an error has occurred.
-            </summary>
-        </member>
-        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.keyCombinationReleased">
-            <summary>
-            Occurs when a key combination was released.
-            </summary>
-        </member>
-        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.KeyCombinationTimeout">
-            <summary>
-            The time interval for collecting key released events to combine them as one 
-            key combination in milliseconds.
-            After this timespan the released keys are sent as a key combination.
-            </summary>
-        </member>
-        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.Kc">
-            <summary>
-            A placeholder for a global collection of button states.
-            </summary>
-            <value>
-            The key combination collector.
-            </value>
-        </member>
-        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.keyCombinationTimer">
-            <summary>
-            Gets or sets the key combination timer collection.
-            </summary>
-            <value>
-            The key combination timer.
-            </value>
-        </member>
-        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.touchCorrectionMatrix">
-            <summary>
-            Gets or sets the touch correction matrix.
-            This matrix will be subtracted from the incoming touch matrix to correct the 
-            sensory data.
-            </summary>
-            <value>
-            The touch correction matrix.
-            </value>
-        </member>
-        <member name="T:BrailleIO.BrailleIODevice">
-            <summary>
-            A class collecting important features and properties of a specific hardware device.
-            </summary>
-        </member>
-        <member name="F:BrailleIO.BrailleIODevice.DeviceSizeX">
-            <summary>
-            Count of pins in horizontal direction (width)
-            </summary>
-        </member>
-        <member name="F:BrailleIO.BrailleIODevice.DeviceSizeY">
-            <summary>
-            Count of pins in vertical direction (height)
-            </summary>
-        </member>
-        <member name="F:BrailleIO.BrailleIODevice.Name">
-            <summary>
-            Name of the device (try to keep it unique)
-            </summary>
-        </member>
-        <member name="F:BrailleIO.BrailleIODevice.HasKeys">
-            <summary>
-            indicates if the device has keys or not
-            </summary>
-        </member>
-        <member name="F:BrailleIO.BrailleIODevice.HasTouch">
-            <summary>
-            indicates if the device is touch sensitive or not
-            </summary>
-        </member>
-        <member name="F:BrailleIO.BrailleIODevice.RefreshRate">
-            <summary>
-            rate for refreshing the display in Hz = count/sec
-            </summary>
-        </member>
-        <member name="F:BrailleIO.BrailleIODevice.AdapterType">
-            <summary>
-            String representation for the Type of the adapter 
-            </summary>
-        </member>
-        <member name="M:BrailleIO.BrailleIODevice.#ctor(System.Int32,System.Int32,System.String,System.Boolean,System.Boolean,System.Int32,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.BrailleIODevice"/> class.
-            </summary>
-            <param name="size_x">Count of pins in horizontal direction (width)</param>
-            <param name="size_y">Count of pins in vertical direction (height)</param>
-            <param name="device_name">Name of the device (try to keep it unique)</param>
-            <param name="has_keys">indicates if the device has keys or not</param>
-            <param name="has_touch">indicates if the device is touch sensitive or not</param>
-            <param name="hertz">rate for refreshing the display in hz = count/sec</param>
-            <param name="adapterType">String representation for the Type of the adapter</param>
-        </member>
-        <member name="M:BrailleIO.BrailleIODevice.#ctor(System.Int32,System.Int32,System.String,System.Boolean,System.Boolean,System.Int32,System.Object)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.BrailleIODevice"/> class.
-            </summary>
-            <param name="size_x">Count of pins in horizontal direction (width)</param>
-            <param name="size_y">Count of pins in vertical direction (height)</param>
-            <param name="device_name">Name of the device (try to keep it unique)</param>
-            <param name="has_keys">indicates if the device has keys or not</param>
-            <param name="has_touch">indicates if the device is touch sensitive or not</param>
-            <param name="hertz">rate for refreshing the display in hz = count/sec</param>
-            <param name="adapter">the implemented adapter for this device</param>
-        </member>
-        <member name="M:BrailleIO.BrailleIODevice.#ctor(System.Int32,System.Int32,System.String,System.Boolean,System.Boolean,System.Int32,System.Type)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.BrailleIODevice"/> class.
-            </summary>
-            <param name="size_x">Count of pins in horizontal direction (width)</param>
-            <param name="size_y">Count of pins in vertical direction (height)</param>
-            <param name="device_name">Name of the device (try to keep it unique)</param>
-            <param name="has_keys">indicates if the device has keys or not</param>
-            <param name="has_touch">indicates if the device is touch sensitive or not</param>
-            <param name="hertz">rate for refreshing the display in hz = count/sec</param>
-            <param name="adapterType">Type of the implemented adapter for this device</param>
-        </member>
-        <member name="M:BrailleIO.BrailleIODevice.#ctor(System.Int32,System.Int32,System.String,System.Boolean,System.Boolean,System.Int32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.BrailleIODevice"/> class.
-            </summary>
-            <param name="size_x">Count of pins in horizontal direction (width)</param>
-            <param name="size_y">Count of pins in vertical direction (height)</param>
-            <param name="device_name">Name of the device (try to keep it unique)</param>
-            <param name="has_keys">indicates if the device has keys or not</param>
-            <param name="has_touch">indicates if the device is touch sensitive or not</param>
-            <param name="hertz">rate for refreshing the display in hz = count/sec</param>
+            <value>The padding.</value>
         </member>
         <member name="T:BrailleIO.Interface.BrailleIOHookableRendererBase">
             <summary>
             Abstract basis class for a renderer that enables hooking
             </summary>
-        </member>
-        <member name="T:BrailleIO.Interface.IBrailleIOHookableRenderer">
-            <summary>
-            Interface that a renderer has to implement if he wants to allow hooking
-            </summary>
-        </member>
-        <member name="M:BrailleIO.Interface.IBrailleIOHookableRenderer.RegisterHook(BrailleIO.Interface.IBailleIORendererHook)">
-            <summary>
-            Register a hook.
-            </summary>
-            <param name="hook">The hook.</param>
-        </member>
-        <member name="M:BrailleIO.Interface.IBrailleIOHookableRenderer.UnregisterHook(BrailleIO.Interface.IBailleIORendererHook)">
-            <summary>
-            Unregisters a hook.
-            </summary>
-            <param name="hook">The hook.</param>
         </member>
         <member name="F:BrailleIO.Interface.BrailleIOHookableRendererBase.hooks">
             <summary>
@@ -1203,56 +467,6 @@
             <value>
               <c>true</c> if active; otherwise, <c>false</c>.
             </value>
-        </member>
-        <member name="T:BrailleIO.Renderer.BrailleInterpreter.IBrailleInterpreter">
-            <summary>
-            Interface for Braille interpreters. 
-            They should transform strings or characters into dot patterns.
-            </summary>
-        </member>
-        <member name="M:BrailleIO.Renderer.BrailleInterpreter.IBrailleInterpreter.GetDotsFromChar(System.Char)">
-            <summary>
-            Converts a character (e.g. T) to a list of integer (e.g. 2,3,4,5,7) that 
-            indicates the positions of raised pins in a Braille cell.
-            </summary>
-            <param name="c">The character to interpret.</param>
-            <returns>
-            a List of integer indicating the raised dots as a position in a Braille cell.
-            1 4
-            2 5
-            3 6
-            7 8
-            </returns>
-        </member>
-        <member name="M:BrailleIO.Renderer.BrailleInterpreter.IBrailleInterpreter.GetDotsFromString(System.String)">
-            <summary>
-            Gets the dot pattern lists from string.
-            </summary>
-            <param name="text">The text to convert.</param>
-            <returns>
-            A list of interpreted characters. Each child list of this list 
-            stands for one Braille cell.
-            The Braille cell is given as a sublist, containing a list of 
-            raised pin positions inside a Braille cell.
-            </returns>
-        </member>
-        <member name="M:BrailleIO.Renderer.BrailleInterpreter.IBrailleInterpreter.GetCharFromDots(System.Collections.Generic.List{System.Int32})">
-            <summary>
-            Gets the char from a dot pattern. Only one-cell patterns can be interpreted.
-            </summary>
-            <param name="dots">The dot pattern to interpret as a list of raised pin-positions 
-            inside a Braille cell . E.g. 2,3,4,5,7 will become a 'T'</param>
-            <returns>The correlated character to the requested dot pattern for one Braille cell.</returns>
-        </member>
-        <member name="M:BrailleIO.Renderer.BrailleInterpreter.IBrailleInterpreter.GetStringFormDots(System.Collections.Generic.List{System.Collections.Generic.List{System.Int32}})">
-            <summary>
-            Gets the string form a list of dot patterns.
-            Each sublist stands for one Braille cell.
-            </summary>
-            <param name="dots">The dot patterns to interpret. 
-            Each sublist is one Braille cell. The Sublist is a list of raised 
-            pin positions inside one Braille cell.</param>
-            <returns>A string of interpreted Braille dot patterns.</returns>
         </member>
         <member name="T:BrailleIO.Interface.BrailleIO_DeviceButtonStates">
             <summary>
@@ -1907,7 +1121,7 @@
         </member>
         <member name="M:BrailleIO.Interface.BrailleIO_KeyEventArgs.#ctor(BrailleIO.Interface.BrailleIO_DeviceButtonStates,System.Collections.Specialized.OrderedDictionary@,BrailleIO.Interface.BrailleIO_BrailleKeyboardButtonStates,BrailleIO.Interface.BrailleIO_AdditionalButtonStates[])">
             <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_KeyPressed_EventArgs"/> class.
+            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_KeyPressed_EventArgs" /> class.
             </summary>
             <param name="keyCode">The key code.</param>
             <param name="raw">The original raw event data from the device.</param>
@@ -1916,7 +1130,7 @@
         </member>
         <member name="M:BrailleIO.Interface.BrailleIO_KeyEventArgs.#ctor(BrailleIO.Interface.BrailleIO_DeviceButtonStates)">
             <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_KeyPressed_EventArgs"/> class.
+            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_KeyPressed_EventArgs" /> class.
             </summary>
             <param name="keyCode">The key code.</param>
         </member>
@@ -1934,7 +1148,7 @@
         </member>
         <member name="M:BrailleIO.Interface.BrailleIO_KeyPressed_EventArgs.#ctor(BrailleIO.Interface.BrailleIO_DeviceButtonStates)">
             <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_KeyPressed_EventArgs"/> class.
+            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_KeyPressed_EventArgs" /> class.
             </summary>
             <param name="keyCode">The key code.</param>
         </member>
@@ -1952,7 +1166,7 @@
         </member>
         <member name="M:BrailleIO.Interface.BrailleIO_KeyStateChanged_EventArgs.#ctor(BrailleIO.Interface.BrailleIO_DeviceButtonStates)">
             <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_KeyStateChanged_EventArgs"/> class.
+            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_KeyStateChanged_EventArgs" /> class.
             </summary>
             <param name="keyCode">The key code.</param>
         </member>
@@ -1975,6 +1189,11 @@
         <member name="T:BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs">
             <summary>
             Event arguments for BrailleIO events that indicates a change in the touch detection of an adapter
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs.DetailedTouches">
+            <summary>
+            OPTIONAL list of more detailed touch information.
             </summary>
         </member>
         <member name="F:BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs.touches">
@@ -2014,7 +1233,7 @@
         </member>
         <member name="M:BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs.#ctor(System.Double[0:,0:],System.Int32)">
             <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs"/> class.
+            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs" /> class.
             </summary>
             <param name="touches">the normalized matrix (from 0.0 to 1.0) of detected touch values per pin.</param>
             <param name="timestamp">The original event args from the device in raw format without interpretation.
@@ -2022,17 +1241,12 @@
         </member>
         <member name="M:BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs.#ctor(System.Double[0:,0:],System.Int32,System.Collections.Generic.List{BrailleIO.Structs.Touch})">
             <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs"/> class.
+            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs" /> class.
             </summary>
             <param name="touches">the normalized matrix (from 0.0 to 1.0) of detected touch values per pin.</param>
             <param name="timestamp">The original event args from the device in raw format without interpretation.
             But could also be an own timestamp such as <c>(int)DateTime.UtcNow.Ticks</c>.</param>
             <param name="detailedTouches">The detailed touches.</param>
-        </member>
-        <member name="P:BrailleIO.Interface.BrailleIO_TouchValuesChanged_EventArgs.DetailedTouches">
-            <summary>
-            OPTIONAL list of more detailed touch information.
-            </summary>
         </member>
         <member name="T:BrailleIO.Interface.BrailleIO_KeyCombinationReleased_EventArgs">
             <summary>
@@ -2081,7 +1295,7 @@
         </member>
         <member name="M:BrailleIO.Interface.BrailleIO_ErrorOccured_EventArgs.#ctor(BrailleIO.Interface.ErrorCode)">
             <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_ErrorOccured_EventArgs"/> class.
+            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_ErrorOccured_EventArgs" /> class.
             </summary>
             <param name="errorCode">Code for indicating the class of error that is occurred.</param>
         </member>
@@ -2145,15 +1359,156 @@
         </member>
         <member name="M:BrailleIO.Interface.BrailleIO_InputChanged_EventArgs.#ctor(System.Boolean[0:,0:],System.Int32)">
             <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_InputChanged_EventArgs"/> class.
+            Initializes a new instance of the <see cref="T:BrailleIO.Interface.BrailleIO_InputChanged_EventArgs" /> class.
             </summary>
             <param name="touches">the normalized matrix (from 0.0 to 1.0) of detected touch values per pin  .</param>
             <param name="timestamp">time stamp of the occurred event for temporal order.</param>
+        </member>
+        <member name="T:BrailleIO.Interface.IBrailleIOAdapter">
+            <summary>
+            Interface an adapter (means a real hardware abstracting implementation for an input or output device) has to implement.
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Interface.IBrailleIOAdapter.Connected">
+            <summary>
+            Gets a value indicating whether this <see cref="T:BrailleIO.Interface.IBrailleIOAdapter"/> is connected.
+            </summary>
+            <value>
+              <c>true</c> if connected; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Interface.IBrailleIOAdapter.DpiX">
+            <summary>
+            Gets the horizontal resolution of this device in Dots Per Inch.
+            </summary>
+            <value>
+            The horizontal DPI.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Interface.IBrailleIOAdapter.DpiY">
+            <summary>
+            Gets the vertical resolution of this device in Dots Per Inch.
+            </summary>
+            <value>
+            The vertical DPI.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Interface.IBrailleIOAdapter.Device">
+            <summary>
+            Gets the corresponding hardware device to this wrapper.
+            </summary>
+            <value>
+            The device.
+            </value>
+        </member>
+        <member name="M:BrailleIO.Interface.IBrailleIOAdapter.Connect">
+            <summary>
+            Connects this instance.
+            </summary>
+            <returns>if the device could been connected or not</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.IBrailleIOAdapter.Disconnect">
+            <summary>
+            Disconnects this instance.
+            </summary>
+            <returns>if the device could been disconnected or not</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.IBrailleIOAdapter.Synchronize(System.Boolean[0:,0:])">
+            <summary>
+            Synchronizes the specified matrix. That means the matrix will be send to the hardware device as output
+            </summary>
+            <param name="matrix">The matrix to show.</param>
+        </member>
+        <member name="M:BrailleIO.Interface.IBrailleIOAdapter.Recalibrate(System.Double)">
+            <summary>
+            Recalibrate the touch abilities of the device with  the specified threshold.
+            </summary>
+            <param name="threshold">The threshold.</param>
+            <returns>if the device could been calibrated or not</returns>
+        </member>
+        <member name="E:BrailleIO.Interface.IBrailleIOAdapter.keyPressed">
+            <summary>
+            Occurs when a key was pressed.
+            </summary>
+        </member>
+        <member name="E:BrailleIO.Interface.IBrailleIOAdapter.keyStateChanged">
+            <summary>
+            Occurs when the state of a key has changed. This can be a pressed or a released
+            </summary>
+        </member>
+        <member name="E:BrailleIO.Interface.IBrailleIOAdapter.initialized">
+            <summary>
+            Occurs when the device was successfully initialized.
+            </summary>
+        </member>
+        <member name="E:BrailleIO.Interface.IBrailleIOAdapter.inputChanged">
+            <summary>
+            Occurs when some properties of the input changes.
+            </summary>
+        </member>
+        <member name="E:BrailleIO.Interface.IBrailleIOAdapter.touchValuesChanged">
+            <summary>
+            Occurs when some touch values had changed.
+            </summary>
+        </member>
+        <member name="E:BrailleIO.Interface.IBrailleIOAdapter.pinStateChanged">
+            <summary>
+            Occurs when  some pin states had changed.
+            </summary>
+        </member>
+        <member name="E:BrailleIO.Interface.IBrailleIOAdapter.errorOccurred">
+            <summary>
+            Occurs when an error has occurred.
+            </summary>
+        </member>
+        <member name="T:BrailleIO.Interface.IBrailleIOAdapter2">
+            <summary>
+            Interface an adapter (means a real hardware abstracting implementation for an input or output device) has to implement.
+            In addition, the current pressed button states are available through this interface.
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Interface.IBrailleIOAdapter2.PressedDeviceButtons">
+            <summary>
+            Gets all currently pressed device buttons.
+            </summary>
+            <value>
+            The currently pressed device buttons.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Interface.IBrailleIOAdapter2.PressedBrailleKeyboardButtons">
+            <summary>
+            Gets all currently pressed braille keyboard buttons.
+            </summary>
+            <value>
+            The currently pressed braille keyboard buttons.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Interface.IBrailleIOAdapter2.PressedAdditionalButtons">
+            <summary>
+            Gets all currently pressed additional buttons.
+            </summary>
+            <value>
+            The currently pressed additional buttons.
+            </value>
+        </member>
+        <member name="E:BrailleIO.Interface.IBrailleIOAdapter2.keyCombinationReleased">
+            <summary>
+            Occurs when a key combination was released.
+            ATTENTION: proprietary raw key-codes are NOT stored or handled.
+            </summary>
         </member>
         <member name="T:BrailleIO.Interface.IBrailleIOAdapterManager">
             <summary>
             Interface an manager for in- and output adapters have to implement.
             </summary>
+        </member>
+        <member name="P:BrailleIO.Interface.IBrailleIOAdapterManager.ActiveAdapter">
+            <summary>
+            Gets or sets the active adapter.
+            This is the main Adapter the output is sent to.
+            At least one Adapter has to be active. Otherwise no rendering will happen.
+            </summary>
+            <value>The active adapter.</value>
         </member>
         <member name="M:BrailleIO.Interface.IBrailleIOAdapterManager.AddAdapter(BrailleIO.Interface.IBrailleIOAdapter)">
             <summary>
@@ -2184,14 +1539,6 @@
             <param name="matrix">The matrix to show on the output device.</param>
             <returns><c>true</c> if the matrix could been displayed successfully on the output device</returns>
         </member>
-        <member name="P:BrailleIO.Interface.IBrailleIOAdapterManager.ActiveAdapter">
-            <summary>
-            Gets or sets the active adapter.
-            This is the main Adapter the output is sent to.
-            At least one Adapter has to be active. Otherwise no rendering will happen.
-            </summary>
-            <value>The active adapter.</value>
-        </member>
         <member name="E:BrailleIO.Interface.IBrailleIOAdapterManager.NewAdapterRegistered">
             <summary>
             Occurs when a new adapter was registered.
@@ -2211,7 +1558,7 @@
             <summary>
             Event arguments for submitting <see cref="T:BrailleIO.Interface.IBrailleIOAdapter"/> to event handler.
             </summary>
-            <seealso cref="T:System.EventArgs"/>
+            <seealso cref="T:System.EventArgs" />
         </member>
         <member name="F:BrailleIO.Interface.IBrailleIOAdapterEventArgs.Adapter">
             <summary>
@@ -2234,11 +1581,21 @@
             Occurs when the content has been changed.
             </summary>
         </member>
+        <member name="T:BrailleIO.Interface.IBrailleIOPropertiesChangedEventSupplier">
+            <summary>
+            Event supplier for property changed events.
+            </summary>
+        </member>
+        <member name="E:BrailleIO.Interface.IBrailleIOPropertiesChangedEventSupplier.PropertyChanged">
+            <summary>
+            Occurs when a property has changed.
+            </summary>
+        </member>
         <member name="T:BrailleIO.Interface.BrailleIOPropertyChangedEventArgs">
             <summary>
             Event arguments for changed properties.
             </summary>
-            <seealso cref="T:System.EventArgs"/>
+            <seealso cref="T:System.EventArgs" />
         </member>
         <member name="F:BrailleIO.Interface.BrailleIOPropertyChangedEventArgs.PropertyName">
             <summary>
@@ -2255,7 +1612,22 @@
             <summary>
             Interface a renderer component have to implement to transform a specific content object into a bool matrix.
             </summary>
-            <seealso cref="T:BrailleIO.Interface.IBrailleIOContentRenderer"/>
+            <seealso cref="T:BrailleIO.Interface.IBrailleIOContentRenderer" />
+        </member>
+        <member name="M:BrailleIO.Interface.IBrailleIORendererInterfaces.RenderMatrix(BrailleIO.Interface.IViewBoxModel,System.Boolean[0:,0:])">
+            <summary>
+            Renders a content object into an boolean matrix;
+            while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
+            </summary>
+            <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a BrailleIOViewRange.</param>
+            <param name="matrix">The content to render.</param>
+            <returns>
+            A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
+            and N is the count of columns (which is the width). 
+            Positions in the Matrix are of type [i,j] 
+            while i is the index of the row (is the y position) 
+            and j is the index of the column (is the x position). 
+            In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins</returns>
         </member>
         <member name="T:BrailleIO.Interface.IBrailleIOContentRenderer">
             <summary>
@@ -2278,21 +1650,6 @@
             and j is the index of the column (is the x position). 
             In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins</returns>
         </member>
-        <member name="M:BrailleIO.Interface.IBrailleIORendererInterfaces.RenderMatrix(BrailleIO.Interface.IViewBoxModel,System.Boolean[0:,0:])">
-            <summary>
-            Renders a content object into an boolean matrix;
-            while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
-            </summary>
-            <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a BrailleIOViewRange.</param>
-            <param name="matrix">The content to render.</param>
-            <returns>
-            A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
-            and N is the count of columns (which is the width). 
-            Positions in the Matrix are of type [i,j] 
-            while i is the index of the row (is the y position) 
-            and j is the index of the column (is the x position). 
-            In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins</returns>
-        </member>
         <member name="T:BrailleIO.Interface.IBrailleIOPanningRendererInterfaces">
             <summary>
             Generic interface for providing information if an renderer does 
@@ -2307,6 +1664,23 @@
             <c>false</c> means the render does not handle panning (offset), returns the whole rendering result 
             and the combination renderer has to take care about the panning (offsets) 
             </summary>
+        </member>
+        <member name="T:BrailleIO.Interface.IBrailleIOHookableRenderer">
+            <summary>
+            Interface that a renderer has to implement if he wants to allow hooking
+            </summary>
+        </member>
+        <member name="M:BrailleIO.Interface.IBrailleIOHookableRenderer.RegisterHook(BrailleIO.Interface.IBailleIORendererHook)">
+            <summary>
+            Register a hook.
+            </summary>
+            <param name="hook">The hook.</param>
+        </member>
+        <member name="M:BrailleIO.Interface.IBrailleIOHookableRenderer.UnregisterHook(BrailleIO.Interface.IBailleIORendererHook)">
+            <summary>
+            Unregisters a hook.
+            </summary>
+            <param name="hook">The hook.</param>
         </member>
         <member name="T:BrailleIO.Interface.IBailleIORendererHook">
             <summary>
@@ -2348,6 +1722,223 @@
             </summary>
             <returns>the threshold</returns>
         </member>
+        <member name="T:BrailleIO.Interface.IPannable">
+            <summary>
+            Enables an implementing instance to indicate the possibilities for panning operation 
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Interface.IPannable.ShowScrollbars">
+            <summary>
+            Gets or sets a value indicating whether to show some scrollbars.
+            </summary>
+            <value><c>true</c> if to show scrollbars; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="M:BrailleIO.Interface.IPannable.GetXOffset">
+            <summary>
+            Gets the offset in horizontal direction.
+            Should normally be negative. Moves the position of the content by the offset.
+            E.g. a negative offset should move the content to the left and the viewable 
+            region to the right.
+            </summary>
+            <returns>the horizontal offset</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.IPannable.SetXOffset(System.Int32)">
+            <summary>
+            Sets the offset in horizontal direction.
+            Should normally be negative. Moves the position of the content by the offset.
+            E.g. a negative offset should move the content to the left and the viewable 
+            region to the right.
+            </summary>
+            <param name="x">The offset in horizontal direction.</param>
+        </member>
+        <member name="M:BrailleIO.Interface.IPannable.GetYOffset">
+            <summary>
+            Gets the offset in vertical direction.
+            Should normally be negative. Moves the position of the content by the offset.
+            E.g. a negative offset should move the content to up and the viewable 
+            region down.
+            </summary>
+            <returns>the vertical offset</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.IPannable.SetYOffset(System.Int32)">
+            <summary>
+            Sets the offset in vertical direction.
+            Should normally be negative. Moves the position of the content by the offset.
+            E.g. a negative offset should move the content to up and the viewable
+            region down.
+            </summary>
+            <param name="y">The offset in vertical direction.</param>
+        </member>
+        <member name="M:BrailleIO.Interface.IPannable.Move(System.Drawing.Point)">
+            <summary>
+            Move the content in both direction simultaneous. 
+            So the vertical and horizontal offset will been set at the same time.
+            </summary>
+            <param name="p">The offsets in vertical and horizontal direction to move.</param>
+            <returns>the new point</returns>
+        </member>
+        <member name="T:BrailleIO.Interface.IPosition">
+            <summary>
+            Enables an implementing instance to enable access to there position properties
+            </summary>
+        </member>
+        <member name="M:BrailleIO.Interface.IPosition.SetLeft(System.Int32)">
+            <summary>
+            Sets the horizontal, left start position left ==> The X position.
+            </summary>
+            <param name="left">The left.</param>
+        </member>
+        <member name="M:BrailleIO.Interface.IPosition.GetLeft">
+            <summary>
+            Gets the horizontal, left start position ==> the X position.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BrailleIO.Interface.IPosition.SetTop(System.Int32)">
+            <summary>
+            Sets the vertical, top position 00> the Y position.
+            </summary>
+            <param name="top">The top.</param>
+        </member>
+        <member name="M:BrailleIO.Interface.IPosition.GetTop">
+            <summary>
+            Gets the vertical, top position ==> the Y position./// </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BrailleIO.Interface.IPosition.SetWidth(System.Int32)">
+            <summary>
+            Sets the width.
+            </summary>
+            <param name="width">The width.</param>
+        </member>
+        <member name="M:BrailleIO.Interface.IPosition.GetWidth">
+            <summary>
+            Gets the width.
+            </summary>
+            <returns>the width</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.IPosition.SetHeight(System.Int32)">
+            <summary>
+            Sets the height.
+            </summary>
+            <param name="height">The height.</param>
+        </member>
+        <member name="M:BrailleIO.Interface.IPosition.GetHeight">
+            <summary>
+            Gets the height.
+            </summary>
+            <returns>the height</returns>
+        </member>
+        <member name="T:BrailleIO.Interface.IViewable">
+            <summary>
+            Enables an implementing instance to give access to properties of there visibility
+            </summary>
+        </member>
+        <member name="M:BrailleIO.Interface.IViewable.SetVisibility(System.Boolean)">
+            <summary>
+            Sets the visibility.
+            </summary>
+            <param name="visible">if set to <c>true</c> the instance should bee visible; otherwise the instance is hidden</param>
+        </member>
+        <member name="M:BrailleIO.Interface.IViewable.IsVisible">
+            <summary>
+            Determines whether this instance is visible.
+            </summary>
+            <returns>
+            	<c>true</c> if this instance is visible; otherwise, <c>false</c> if the instance is hidden.
+            </returns>
+        </member>
+        <member name="T:BrailleIO.Interface.IViewBorder">
+            <summary>
+            get access to properties for a border 
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Interface.IViewBorder.HasBorder">
+            <summary>
+            Gets or sets a value indicating whether this instance has a border.
+            </summary>
+            <value>
+            	<c>true</c> if this instance has a border; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Interface.IViewBorder.Border">
+            <summary>
+            Gets or sets the border.
+            </summary>
+            <value>The border.</value>
+        </member>
+        <member name="T:BrailleIO.Interface.IViewBoxModel">
+            <summary>
+            Interface for properties for handling a view box setting. 
+            This means there is a content that can be larger or smaller than the available display space. 
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Interface.IViewBoxModel.ViewBox">
+            <summary>
+            Gets or sets the view box. The viewBox defines the viewBox in size and offset to the content
+            </summary>
+            <value>The view box.</value>
+        </member>
+        <member name="P:BrailleIO.Interface.IViewBoxModel.ContentBox">
+            <summary>
+            Gets or sets the content box. The real view box. 
+            The space that can be used to show content. It can maximum be the Size of the ViewBox.
+            Normally it is less. The Size of the ContentBox depends on the size of the ViewBox with respect of margin, border and padding.
+            </summary>
+            <value>The content box.</value>
+        </member>
+        <member name="P:BrailleIO.Interface.IViewBoxModel.ContentWidth">
+            <summary>
+            Gets or sets the width of the content. 
+            This is used to show the Scrollbars and to estimate the ratio between the content box and the hidden content.
+            </summary>
+            <value>The width of the whole content.</value>
+        </member>
+        <member name="P:BrailleIO.Interface.IViewBoxModel.ContentHeight">
+            <summary>
+            Gets or sets the height of the content. 
+            This is used to show the Scrollbars and to estimate the ratio between the content box and the hidden content.
+            </summary>
+            <value>The height of the whole content.</value>
+        </member>
+        <member name="T:BrailleIO.Interface.IViewMargin">
+            <summary>
+            get access to properties for a margin (distance between other surrounding objects and the border)
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Interface.IViewMargin.HasMargin">
+            <summary>
+            Gets or sets a value indicating whether this instance has a margin.
+            </summary>
+            <value>
+            	<c>true</c> if this instance has a margin; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Interface.IViewMargin.Margin">
+            <summary>
+            Gets or sets the margin. The margin is the outer space around an area. Space between the objects and the border.
+            </summary>
+            <value>The margin.</value>
+        </member>
+        <member name="T:BrailleIO.Interface.IViewPadding">
+            <summary>
+            get access to properties for a padding (distance between the border and the content)
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Interface.IViewPadding.HasPadding">
+            <summary>
+            Gets or sets a value indicating whether this instance has a padding.
+            </summary>
+            <value>
+            	<c>true</c> if this instance has a padding; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Interface.IViewPadding.Padding">
+            <summary>
+            Gets or sets the padding. The padding is the inner space between the border and the content.
+            </summary>
+            <value>The padding.</value>
+        </member>
         <member name="T:BrailleIO.Interface.IZoomable">
             <summary>
             get Access to the properties for zooming
@@ -2365,6 +1956,594 @@
             </summary>
             <param name="zoom">The zoom value as ratio (zoom factor).</param>
         </member>
+        <member name="T:BrailleIO.Interface.Utils">
+            <summary>
+            Utils for some working with the interface definitions
+            </summary>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetUpStateForDeviceButton(BrailleIO.Interface.BrailleIO_DeviceButton)">
+            <summary>
+            Gets the 'up' state value for a certain device button.
+            </summary>
+            <param name="button">The button.</param>
+            <returns>the enum value for the 'up' state of the button.</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetDownStateForDeviceButton(BrailleIO.Interface.BrailleIO_DeviceButton)">
+            <summary>
+            Gets the 'down' state value for a certain device button.
+            </summary>
+            <param name="button">The button.</param>
+            <returns>the enum value for the 'down' state of the button</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetDeviceButtonsOfStates(BrailleIO.Interface.BrailleIO_DeviceButtonStates)">
+            <summary>
+            Gets the device buttons contained in the states flags.
+            </summary>
+            <param name="states">The states.</param>
+            <returns>List of buttons contained in that state flag</returns>
+            <remarks>DEPRECATED! use flag stuff instead <see cref="M:BrailleIO.Interface.Utils.GetDeviceButtonFlagsOfState(BrailleIO.Interface.BrailleIO_DeviceButtonStates)"/></remarks>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetDeviceButtonFlagsOfState(BrailleIO.Interface.BrailleIO_DeviceButtonStates)">
+            <summary>
+            Gets the device button for one certain button state.
+            </summary>
+            <param name="state">The state.</param>
+            <returns>the button related to this state</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetAllUpDeviceButtons(BrailleIO.Interface.BrailleIO_DeviceButtonStates)">
+            <summary>
+            Gets all released device buttons.
+            </summary>
+            <param name="state">The state.</param>
+            <returns>Flag of all released device buttons</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetAllDownDeviceButtons(BrailleIO.Interface.BrailleIO_DeviceButtonStates)">
+            <summary>
+            Gets all pressed device buttons.
+            </summary>
+            <param name="state">The state.</param>
+            <returns>Flag of all pressed device buttons</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetUpStateForDeviceButton(BrailleIO.Interface.BrailleIO_BrailleKeyboardButton)">
+            <summary>
+            Gets the 'up' state value for a certain Braille keyboard button.
+            </summary>
+            <param name="button">The button.</param>
+            <returns>the enum value for the 'up' state of the button.</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetDownStateForDeviceButton(BrailleIO.Interface.BrailleIO_BrailleKeyboardButton)">
+            <summary>
+            Gets the 'down' state value for a certain Braille keyboard button.
+            </summary>
+            <param name="button">The button.</param>
+            <returns>the enum value for the 'down' state of the button</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetDeviceButtonFlagsOfState(BrailleIO.Interface.BrailleIO_BrailleKeyboardButtonStates)">
+            <summary>
+            Gets the device button for one Braille keyboard button state.
+            </summary>
+            <param name="state">The state.</param>
+            <returns>the button related to this state</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetAllUpBrailleKeyboardButtons(BrailleIO.Interface.BrailleIO_BrailleKeyboardButtonStates)">
+            <summary>
+            Gets all released Braille keyboard buttons.
+            </summary>
+            <param name="state">The state.</param>
+            <returns>Flag of all released Braille keyboard buttons</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetAllDownBrailleKeyboardButtons(BrailleIO.Interface.BrailleIO_BrailleKeyboardButtonStates)">
+            <summary>
+            Gets all pressed Braille keyboard buttons.
+            </summary>
+            <param name="state">The state.</param>
+            <returns>Flag of all pressed Braille keyboard buttons</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetUpStateForDeviceButton(BrailleIO.Interface.BrailleIO_AdditionalButton)">
+            <summary>
+            Gets the 'up' state value for a certain additional device button.
+            </summary>
+            <param name="button">The button.</param>
+            <returns>the enum value for the 'up' state of the button.</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetDownStateForDeviceButton(BrailleIO.Interface.BrailleIO_AdditionalButton)">
+            <summary>
+            Gets the 'down' state value for a certain additional device button.
+            </summary>
+            <param name="button">The button.</param>
+            <returns>the enum value for the 'down' state of the button</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetDeviceButtonFlagsOfState(BrailleIO.Interface.BrailleIO_AdditionalButtonStates)">
+            <summary>
+            Gets the additional device button for one certain button state.
+            </summary>
+            <param name="state">The state.</param>
+            <returns>the button related to this state</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetAllUpAdditionalButtons(BrailleIO.Interface.BrailleIO_AdditionalButtonStates)">
+            <summary>
+            Gets all released additional device buttons.
+            </summary>
+            <param name="state">The state.</param>
+            <returns>Flag of all released additional device buttons</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetAllDownAdditionalButtons(BrailleIO.Interface.BrailleIO_AdditionalButtonStates)">
+            <summary>
+            Gets all pressed additional device buttons.
+            </summary>
+            <param name="state">The state.</param>
+            <returns>Flag of all pressed additional device buttons</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.CombineAdditionalButtonCollections(System.Collections.Generic.IDictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton},System.Collections.Generic.IDictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton})">
+            <summary>
+            Combines two collections of additional buttons.
+            </summary>
+            <param name="dict1">The first collection.</param>
+            <param name="dict2">The second collection.</param>
+            <returns>A collection containing all buttons from both additional button collections.</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.CombineAdditionalButtonCollections(BrailleIO.Interface.BrailleIO_AdditionalButton[],System.Collections.Generic.IDictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton})">
+            <summary>
+            Combines two collections of additional buttons.
+            </summary>
+            <param name="arr">An array of additional buttons.</param>
+            <param name="dict">A dictionary of additional buttons.</param>
+            <returns>An combined array of additional buttons.</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.CombineAdditionalButtonCollections(BrailleIO.Interface.BrailleIO_AdditionalButton[],BrailleIO.Interface.BrailleIO_AdditionalButton[])">
+            <summary>
+            Combines two collections of additional buttons.
+            </summary>
+            <param name="arr1">The first array of additional buttons.</param>
+            <param name="arr2">The second array of additional buttons.</param>
+            <returns>An combined array of additional buttons.</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetButtonUpFlags(System.Int32)">
+            <summary>
+            Gets all flags indicating a released button in this enum flag value.
+            </summary>
+            <param name="i">The combined flag enum value.</param>
+            <returns>a flag enum value containing only released buttons.</returns>
+            <remarks>Does only work for the button flags defined in BrailleIO.Interface. 
+            Here the 0x0 = NONE, 0x1 = UNKOWN, 'up' starts from 0x2 directly followed by its related 'down' state (0x4)!</remarks>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.GetButtonDownFlags(System.Int32)">
+            <summary>
+            Gets all flags indicating a pressed button in this enum flag value.
+            </summary>
+            <param name="i">The combined flag enum value.</param>
+            <returns>a flag enum value containing only pressed buttons.</returns>
+            <remarks>Does only work for the button flags defined in BrailleIO.Interface. 
+            Here the 0x0 = NONE, 0x1 = UNKOWN, 'up' starts from 0x2 directly followed by its related 'down' state (0x4)!</remarks>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.ShiftDownButtonsToUpButtonStates(System.Int32)">
+            <summary>
+            Shifts button states from a 'down' state to its related 'up' state.
+            Contained 'up' states are kept.
+            </summary>
+            <param name="i">The button States.</param>
+            <returns>The new button states with all states are up states</returns>
+            <remarks>Does only work for the button flags defined in BrailleIO.Interface. 
+            Here the 0x0 = NONE, 0x1 = UNKOWN, 'up' starts from 0x2 directly followed by its related 'down' state (0x4)!</remarks>
+        </member>
+        <member name="M:BrailleIO.Interface.Utils.ShiftUpButtonsToUpDownStates(System.Int32)">
+            <summary>
+            Shifts button states from a up state to its related down state.
+            Contained down states are kept.
+            </summary>
+            <param name="i">The button States.</param>
+            <returns>The new button states with all states are down states</returns>
+            <remarks>Does only work for the button flags defined in BrailleIO.Interface. 
+            Here the 0x0 = NONE, 0x1 = UNKOWN, 'up' starts from 0x2 directly followed by its related 'down' state (0x4)!</remarks>
+        </member>
+        <member name="T:BrailleIO.AbstractBrailleIOAdapterBase">
+            <summary>
+            Abstract implementation for basic functions a real Hardware modeling device Adapter has to implement
+            </summary>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.Synch">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:BrailleIO.AbstractBrailleIOAdapterBase"/> is synchronize.
+            </summary>
+            <value><c>true</c> if synchronize; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.LockPins">
+            <summary>
+            Gets or sets a flag indicating whether the pins should bee locked.
+            This means no more synchronization should be possible. 
+            The last pin state stays as set until the lock is released and Synchronize(bool[,] matrix) is called.
+            </summary>
+            <value><c>true</c> if [lock pins]; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.Device">
+            <summary>
+            Gets or sets the device.
+            The device gives access to specific properties of the modeled hardware device.
+            </summary>
+            <value>The device.</value>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.createDevice">
+            <summary>
+            Creates an dummy device width dimensions of a Metec BrailleDis device.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.DpiX">
+            <summary>
+            Gets or sets the horizontal resolution of the pin matrix for this device.
+            </summary>
+            <value>The horizontal device resolution in dpi.</value>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.DpiY">
+            <summary>
+            Gets or sets the vertical resolution of the pin matrix for this device.
+            </summary>
+            <value>The vertical device resolution in dpi.</value>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.Connected">
+            <summary>
+            Gets a value indicating whether this <see cref="T:BrailleIO.AbstractBrailleIOAdapterBase"/> is connected or not.
+            </summary>
+            <value><c>true</c> if connected; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="F:BrailleIO.AbstractBrailleIOAdapterBase.manager">
+            <summary>
+            The adapter manager this adapter is registered in.
+            </summary>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.PressedDeviceButtons">
+            <summary>
+            Gets all currently pressed device buttons.
+            </summary>
+            <value>
+            The currently pressed device buttons.
+            </value>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.PressedBrailleKeyboardButtons">
+            <summary>
+            Gets all currently pressed braille keyboard buttons.
+            </summary>
+            <value>
+            The currently pressed braille keyboard buttons.
+            </value>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.PressedAdditionalButtons">
+            <summary>
+            Gets all currently pressed additional buttons.
+            </summary>
+            <value>
+            The currently pressed additional buttons.
+            </value>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.#ctor(BrailleIO.Interface.IBrailleIOAdapterManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.AbstractBrailleIOAdapterBase"/> class.
+            </summary>
+            <param name="manager">The manager.</param>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.Connect">
+            <summary>
+            Connects this instance.
+            </summary>
+            <returns><c>true</c> if connected successfully; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.Disconnect">
+            <summary>
+            Disconnects this instance.
+            </summary>
+            <returns><c>true</c> if disconnected successfully; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.keyStateChanged">
+            <summary>
+            Occurs when the state of a key has changed. This can be a pressed or a released
+            </summary>
+        </member>
+        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.initialized">
+            <summary>
+            Occurs when the device was successfully initialized.
+            </summary>
+        </member>
+        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.closed">
+            <summary>
+            Occurs when the device was closed.
+            </summary>
+        </member>
+        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.inputChanged">
+            <summary>
+            Occurs when some properties of the input changes.
+            </summary>
+        </member>
+        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.touchValuesChanged">
+            <summary>
+            Occurs when some touch values had changed.
+            </summary>
+        </member>
+        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.pinStateChanged">
+            <summary>
+            Occurs when  some pin states had changed.
+            </summary>
+        </member>
+        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.errorOccurred">
+            <summary>
+            Occurs when an error has occurred.
+            </summary>
+        </member>
+        <member name="E:BrailleIO.AbstractBrailleIOAdapterBase.keyCombinationReleased">
+            <summary>
+            Occurs when a key combination was released.
+            </summary>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireInitialized(BrailleIO.Interface.BrailleIO_Initialized_EventArgs)">
+            <summary>
+            Fires an initialized event.
+            </summary>
+            <param name="e">The <see cref="T:BrailleIO.Interface.BrailleIO_Initialized_EventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireClosed(BrailleIO.Interface.BrailleIO_Initialized_EventArgs)">
+            <summary>
+            Fires an initialized event.
+            </summary>
+            <param name="e">The <see cref="T:BrailleIO.Interface.BrailleIO_Initialized_EventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireKeyStateChanged(BrailleIO.Interface.BrailleIO_DeviceButtonStates,System.Collections.Specialized.OrderedDictionary@,BrailleIO.Interface.BrailleIO_BrailleKeyboardButtonStates,BrailleIO.Interface.BrailleIO_AdditionalButtonStates[])">
+            <summary>
+            Fires a key state changed event.
+            </summary>
+            <param name="keyCode">The key code.</param>
+            <param name="raw">The raw.</param>
+            <param name="keyboardCode">optional combined Braille keyboard button states.</param>
+            <param name="additionalKeyCode">list of optional combined additional button states.</param>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.KeyCombinationTimeout">
+            <summary>
+            The time interval for collecting key released events to combine them as one 
+            key combination in milliseconds.
+            After this timespan the released keys are sent as a key combination.
+            </summary>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.Kc">
+            <summary>
+            A placeholder for a global collection of button states.
+            </summary>
+            <value>
+            The key combination collector.
+            </value>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.keyCombinationTimer">
+            <summary>
+            Gets or sets the key combination timer collection.
+            </summary>
+            <value>
+            The key combination timer.
+            </value>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.checkForKeyCombination(BrailleIO.Interface.BrailleIO_DeviceButton,BrailleIO.Interface.BrailleIO_DeviceButton,BrailleIO.Interface.BrailleIO_BrailleKeyboardButton,BrailleIO.Interface.BrailleIO_BrailleKeyboardButton,System.Collections.Generic.Dictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton},System.Collections.Generic.Dictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton})">
+            <summary>
+            Checks if a key combination was released.
+            </summary>
+            <param name="pressed">The pressed general buttons.</param>
+            <param name="released">The released general buttons.</param>
+            <param name="pressedKbB">The pressed Braille keyboard buttons.</param>
+            <param name="releasedKbB">The released Braille keyboard buttons.</param>
+            <param name="pressedAdBs">The pressed additional buttons.</param>
+            <param name="releasedAdBs">The released additional buttons.</param>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireInputChanged(System.Boolean[0:,0:],System.Int32,System.Collections.Specialized.OrderedDictionary@)">
+            <summary>
+            Fires an input changed event.
+            </summary>
+            <param name="touches">The touches.</param>
+            <param name="timestamp">The timestamp.</param>
+            <param name="raw">The raw.</param>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireKeyCombinationReleased(BrailleIO.Structs.KeyCombinationItem)">
+            <summary>
+            Fires the key combination released event.
+            </summary>
+            <param name="keyCombination">The key combination container item.</param>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireTouchValuesChanged(System.Double[0:,0:],System.Int32,System.Collections.Specialized.OrderedDictionary@)">
+            <summary>
+            Fires a touch values changed event.
+            </summary>
+            <param name="touches">The touches.</param>
+            <param name="timestamp">The timestamp.</param>
+            <param name="raw">The raw.</param>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireTouchValuesChanged(System.Double[0:,0:],System.Int32,System.Collections.Specialized.OrderedDictionary@,System.Collections.Generic.List{BrailleIO.Structs.Touch})">
+            <summary>
+            Fires a touch values changed event.
+            </summary>
+            <param name="touches">The touches.</param>
+            <param name="timestamp">The timestamp.</param>
+            <param name="raw">The raw.</param>
+            <param name="detailedTouch">An optional list of detailed touch information.</param>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.fireErrorOccured(BrailleIO.Interface.ErrorCode,System.Collections.Specialized.OrderedDictionary@)">
+            <summary>
+            Fires an error occurred event.
+            </summary>
+            <param name="errorCode">The error code.</param>
+            <param name="raw">The raw.</param>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.Synchronize(System.Boolean[0:,0:])">
+            <summary>
+            Synchronizes the specified matrix. 
+            That means the Adapter try to sent the given Matrix to the real hardware 
+            device as an output.
+            </summary>
+            <param name="matrix">The matrix.</param>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.Recalibrate(System.Double)">
+            <summary>
+            Recalibrate the Touch detection Adapter with the specified threshold.
+            //FIXME: BAD-HACK function to find bad detectors. Make this real working
+            </summary>
+            <param name="threshold">The threshold.</param>
+            <returns><c>true</c> if the devices touch abilities could be recalibrated</returns>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.touchCorrectionMatrix">
+            <summary>
+            Gets or sets the touch correction matrix.
+            This matrix will be subtracted from the incoming touch matrix to correct the 
+            sensory data.
+            </summary>
+            <value>
+            The touch correction matrix.
+            </value>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.GetFullSetMatrix">
+            <summary>
+            returns a matrix full of raised pins.
+            </summary>
+            <returns>a matrix full of raised pins in the dimension of the device.</returns>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:BrailleIO.BrailleIODevice">
+            <summary>
+            A class collecting important features and properties of a specific hardware device.
+            </summary>
+        </member>
+        <member name="F:BrailleIO.BrailleIODevice.DeviceSizeX">
+            <summary>
+            Count of pins in horizontal direction (width)
+            </summary>
+        </member>
+        <member name="F:BrailleIO.BrailleIODevice.DeviceSizeY">
+            <summary>
+            Count of pins in vertical direction (height)
+            </summary>
+        </member>
+        <member name="F:BrailleIO.BrailleIODevice.Name">
+            <summary>
+            Name of the device (try to keep it unique)
+            </summary>
+        </member>
+        <member name="F:BrailleIO.BrailleIODevice.HasKeys">
+            <summary>
+            indicates if the device has keys or not
+            </summary>
+        </member>
+        <member name="F:BrailleIO.BrailleIODevice.HasTouch">
+            <summary>
+            indicates if the device is touch sensitive or not
+            </summary>
+        </member>
+        <member name="F:BrailleIO.BrailleIODevice.RefreshRate">
+            <summary>
+            rate for refreshing the display in Hz = count/sec
+            </summary>
+        </member>
+        <member name="F:BrailleIO.BrailleIODevice.AdapterType">
+            <summary>
+            String representation for the Type of the adapter 
+            </summary>
+        </member>
+        <member name="M:BrailleIO.BrailleIODevice.#ctor(System.Int32,System.Int32,System.String,System.Boolean,System.Boolean,System.Int32,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.BrailleIODevice"/> class.
+            </summary>
+            <param name="size_x">Count of pins in horizontal direction (width)</param>
+            <param name="size_y">Count of pins in vertical direction (height)</param>
+            <param name="device_name">Name of the device (try to keep it unique)</param>
+            <param name="has_keys">indicates if the device has keys or not</param>
+            <param name="has_touch">indicates if the device is touch sensitive or not</param>
+            <param name="hertz">rate for refreshing the display in hz = count/sec</param>
+            <param name="adapterType">String representation for the Type of the adapter</param>
+        </member>
+        <member name="M:BrailleIO.BrailleIODevice.#ctor(System.Int32,System.Int32,System.String,System.Boolean,System.Boolean,System.Int32,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.BrailleIODevice"/> class.
+            </summary>
+            <param name="size_x">Count of pins in horizontal direction (width)</param>
+            <param name="size_y">Count of pins in vertical direction (height)</param>
+            <param name="device_name">Name of the device (try to keep it unique)</param>
+            <param name="has_keys">indicates if the device has keys or not</param>
+            <param name="has_touch">indicates if the device is touch sensitive or not</param>
+            <param name="hertz">rate for refreshing the display in hz = count/sec</param>
+            <param name="adapter">the implemented adapter for this device</param>
+        </member>
+        <member name="M:BrailleIO.BrailleIODevice.#ctor(System.Int32,System.Int32,System.String,System.Boolean,System.Boolean,System.Int32,System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.BrailleIODevice"/> class.
+            </summary>
+            <param name="size_x">Count of pins in horizontal direction (width)</param>
+            <param name="size_y">Count of pins in vertical direction (height)</param>
+            <param name="device_name">Name of the device (try to keep it unique)</param>
+            <param name="has_keys">indicates if the device has keys or not</param>
+            <param name="has_touch">indicates if the device is touch sensitive or not</param>
+            <param name="hertz">rate for refreshing the display in hz = count/sec</param>
+            <param name="adapterType">Type of the implemented adapter for this device</param>
+        </member>
+        <member name="M:BrailleIO.BrailleIODevice.#ctor(System.Int32,System.Int32,System.String,System.Boolean,System.Boolean,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.BrailleIODevice"/> class.
+            </summary>
+            <param name="size_x">Count of pins in horizontal direction (width)</param>
+            <param name="size_y">Count of pins in vertical direction (height)</param>
+            <param name="device_name">Name of the device (try to keep it unique)</param>
+            <param name="has_keys">indicates if the device has keys or not</param>
+            <param name="has_touch">indicates if the device is touch sensitive or not</param>
+            <param name="hertz">rate for refreshing the display in hz = count/sec</param>
+        </member>
+        <member name="M:BrailleIO.BrailleIODevice.ToString">
+            <summary>Returns a <see cref="T:System.String"/> that represents this instance.</summary>
+            <returns>A <see cref="T:System.String"/> that represents this instance.</returns>
+        </member>
+        <member name="T:BrailleIO.Renderer.BrailleInterpreter.IBrailleInterpreter">
+            <summary>
+            Interface for Braille interpreters. 
+            They should transform strings or characters into dot patterns.
+            </summary>
+        </member>
+        <member name="M:BrailleIO.Renderer.BrailleInterpreter.IBrailleInterpreter.GetDotsFromChar(System.Char)">
+            <summary>
+            Converts a character (e.g. T) to a list of integer (e.g. 2,3,4,5,7) that 
+            indicates the positions of raised pins in a Braille cell.
+            </summary>
+            <param name="c">The character to interpret.</param>
+            <returns>
+            a List of integer indicating the raised dots as a position in a Braille cell.
+            1 4
+            2 5
+            3 6
+            7 8
+            </returns>
+        </member>
+        <member name="M:BrailleIO.Renderer.BrailleInterpreter.IBrailleInterpreter.GetDotsFromString(System.String)">
+            <summary>
+            Gets the dot pattern lists from string.
+            </summary>
+            <param name="text">The text to convert.</param>
+            <returns>
+            A list of interpreted characters. Each child list of this list 
+            stands for one Braille cell.
+            The Braille cell is given as a sublist, containing a list of 
+            raised pin positions inside a Braille cell.
+            </returns>
+        </member>
+        <member name="M:BrailleIO.Renderer.BrailleInterpreter.IBrailleInterpreter.GetCharFromDots(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Gets the char from a dot pattern. Only one-cell patterns can be interpreted.
+            </summary>
+            <param name="dots">The dot pattern to interpret as a list of raised pin-positions 
+            inside a Braille cell . E.g. 2,3,4,5,7 will become a 'T'</param>
+            <returns>The correlated character to the requested dot pattern for one Braille cell.</returns>
+        </member>
+        <member name="M:BrailleIO.Renderer.BrailleInterpreter.IBrailleInterpreter.GetStringFormDots(System.Collections.Generic.List{System.Collections.Generic.List{System.Int32}})">
+            <summary>
+            Gets the string form a list of dot patterns.
+            Each sublist stands for one Braille cell.
+            </summary>
+            <param name="dots">The dot patterns to interpret. 
+            Each sublist is one Braille cell. The Sublist is a list of raised 
+            pin positions inside one Braille cell.</param>
+            <returns>A string of interpreted Braille dot patterns.</returns>
+        </member>
         <member name="T:BrailleIO.Renderer.AbstractCachingRendererBase">
             <summary>
             Abstract implementation for renderer that allow for a caching. 
@@ -2372,55 +2551,16 @@
             rendering request force them for a rendering, they will return the cached result 
             without any new rendering.
             </summary>
-            <seealso cref="T:BrailleIO.Interface.BrailleIOHookableRendererBase"/>
-            <seealso cref="T:BrailleIO.Renderer.ICacheingRenderer"/>
-            <seealso cref="T:BrailleIO.Interface.IBrailleIORendererInterfaces"/>
+            <seealso cref="T:BrailleIO.Interface.BrailleIOHookableRendererBase" />
+            <seealso cref="T:BrailleIO.Renderer.ICacheingRenderer" />
+            <seealso cref="T:BrailleIO.Interface.IBrailleIORendererInterfaces" />
         </member>
-        <member name="T:BrailleIO.Renderer.ICacheingRenderer">
+        <member name="P:BrailleIO.Renderer.AbstractCachingRendererBase.CallHooksOnCacherendering">
             <summary>
-            Interface for caching rendering results.
-            </summary>
-        </member>
-        <member name="M:BrailleIO.Renderer.ICacheingRenderer.ContentOrViewHasChanged(BrailleIO.Interface.IViewBoxModel,System.Object)">
-            <summary>
-            Informs the renderer that the content the or view has changed.
-            </summary>
-            <param name="view">The view.</param>
-            <param name="content">The content.</param>
-        </member>
-        <member name="M:BrailleIO.Renderer.ICacheingRenderer.PrerenderMatrix(BrailleIO.Interface.IViewBoxModel,System.Object)">
-            <summary>
-            Renders the current content
-            </summary>
-        </member>
-        <member name="M:BrailleIO.Renderer.ICacheingRenderer.GetCachedMatrix">
-            <summary>
-            Gets the previously rendered and cached matrix.
-            </summary>
-            <returns>The cached rendering result</returns>
-        </member>
-        <member name="P:BrailleIO.Renderer.ICacheingRenderer.ContentChanged">
-            <summary>
-            Gets or sets a value indicating whether content changed or not to check if a new rendering is necessary.
+            Gets or sets a value indicating whether [call hooks on rendering for caching].
             </summary>
             <value>
-              <c>true</c> if [content has changed]; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Renderer.ICacheingRenderer.LastRendered">
-            <summary>
-            Gets the time stamp for the last content rendering.
-            </summary>
-            <value>
-            The last time stamp of content rendering rendered.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Renderer.ICacheingRenderer.IsRendering">
-            <summary>
-            Gets a value indicating whether this instance is currently rendering.
-            </summary>
-            <value>
-            <c>true</c> if this instance is currently rendering; otherwise, <c>false</c>.
+            <c>true</c> if [call hooks on rendering for caching]; otherwise, <c>false</c>.
             </value>
         </member>
         <member name="F:BrailleIO.Renderer.AbstractCachingRendererBase._cachedMatrix">
@@ -2447,6 +2587,31 @@
             <summary>
             The maximum attempts for waiting for completing the rendering.
             </summary>
+        </member>
+        <member name="P:BrailleIO.Renderer.AbstractCachingRendererBase.ContentChanged">
+            <summary>
+            Gets or sets a value indicating whether content changed or not to check if a new rendering is necessary.
+            You have to call the PrerenderMatrix function manually if you want to have a cached result.
+            </summary>
+            <value>
+              <c>true</c> if [content has changed]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Renderer.AbstractCachingRendererBase.LastRendered">
+            <summary>
+            Gets the time stamp for the last content rendering.
+            </summary>
+            <value>
+            The last time stamp of content rendering rendered.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Renderer.AbstractCachingRendererBase.IsRendering">
+            <summary>
+            Gets a value indicating whether this instance is currently rendering.
+            </summary>
+            <value>
+            <c>true</c> if this instance is currently rendering; otherwise, <c>false</c>.
+            </value>
         </member>
         <member name="M:BrailleIO.Renderer.AbstractCachingRendererBase.ContentOrViewHasChanged(BrailleIO.Interface.IViewBoxModel,System.Object)">
             <summary>
@@ -2530,47 +2695,12 @@
             <param name="b">Another IViewBoxModel</param>
             <returns><c>true</c> if both IViewBoxModels are equal; otherwise, <c>false</c>.</returns>
         </member>
-        <member name="M:BrailleIO.Renderer.AbstractCachingRendererBase.Clone``1(``0)">
+        <member name="M:BrailleIO.Renderer.AbstractCachingRendererBase.viewToString(BrailleIO.Interface.IViewBoxModel)">
             <summary>
-            Perform a deep Copy of the object.
-            Reference Article http://www.codeproject.com/KB/tips/SerializedObjectCloner.aspx.
+            Function to turn the view into a 
             </summary>
-            <typeparam name="T">The type of object being copied.</typeparam>
-            <param name="source">The object instance to copy.</param>
-            <returns>The copied object.</returns>
-        </member>
-        <member name="P:BrailleIO.Renderer.AbstractCachingRendererBase.CallHooksOnCacherendering">
-            <summary>
-            Gets or sets a value indicating whether [call hooks on rendering for caching].
-            </summary>
-            <value>
-            <c>true</c> if [call hooks on rendering for caching]; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Renderer.AbstractCachingRendererBase.ContentChanged">
-            <summary>
-            Gets or sets a value indicating whether content changed or not to check if a new rendering is necessary.
-            You have to call the PrerenderMatrix function manually if you want to have a cached result.
-            </summary>
-            <value>
-              <c>true</c> if [content has changed]; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Renderer.AbstractCachingRendererBase.LastRendered">
-            <summary>
-            Gets the time stamp for the last content rendering.
-            </summary>
-            <value>
-            The last time stamp of content rendering rendered.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Renderer.AbstractCachingRendererBase.IsRendering">
-            <summary>
-            Gets a value indicating whether this instance is currently rendering.
-            </summary>
-            <value>
-            <c>true</c> if this instance is currently rendering; otherwise, <c>false</c>.
-            </value>
+            <param name="a"></param>
+            <returns></returns>
         </member>
         <member name="P:BrailleIO.Renderer.AbstractCachingRendererBase.DoesPanning">
             <summary>
@@ -2579,6 +2709,53 @@
             <c>false</c> means the render does not handle panning (offset), returns the whole rendering result
             and the combination renderer has to take care about the panning (offsets)
             </summary>
+        </member>
+        <member name="T:BrailleIO.Renderer.ICacheingRenderer">
+            <summary>
+            Interface for caching rendering results.
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Renderer.ICacheingRenderer.ContentChanged">
+            <summary>
+            Gets or sets a value indicating whether content changed or not to check if a new rendering is necessary.
+            </summary>
+            <value>
+              <c>true</c> if [content has changed]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Renderer.ICacheingRenderer.LastRendered">
+            <summary>
+            Gets the time stamp for the last content rendering.
+            </summary>
+            <value>
+            The last time stamp of content rendering rendered.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Renderer.ICacheingRenderer.IsRendering">
+            <summary>
+            Gets a value indicating whether this instance is currently rendering.
+            </summary>
+            <value>
+            <c>true</c> if this instance is currently rendering; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:BrailleIO.Renderer.ICacheingRenderer.ContentOrViewHasChanged(BrailleIO.Interface.IViewBoxModel,System.Object)">
+            <summary>
+            Informs the renderer that the content the or view has changed.
+            </summary>
+            <param name="view">The view.</param>
+            <param name="content">The content.</param>
+        </member>
+        <member name="M:BrailleIO.Renderer.ICacheingRenderer.PrerenderMatrix(BrailleIO.Interface.IViewBoxModel,System.Object)">
+            <summary>
+            Renders the current content
+            </summary>
+        </member>
+        <member name="M:BrailleIO.Renderer.ICacheingRenderer.GetCachedMatrix">
+            <summary>
+            Gets the previously rendered and cached matrix.
+            </summary>
+            <returns>The cached rendering result</returns>
         </member>
         <member name="T:BrailleIO.Renderer.ITouchableRenderer">
             <summary>
@@ -2608,6 +2785,38 @@
             <summary>
             Class for faster handling of images
             </summary>
+        </member>
+        <member name="P:BrailleIO.Renderer.LockBitmap.Pixels">
+            <summary>
+            Gets or sets the pixels of the bitmap.
+            </summary>
+            <value>
+            The pixels.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Renderer.LockBitmap.Depth">
+            <summary>
+            Gets the color depth.
+            </summary>
+            <value>
+            The depth.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Renderer.LockBitmap.Width">
+            <summary>
+            Gets the width of the bitmap.
+            </summary>
+            <value>
+            The width.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Renderer.LockBitmap.Height">
+            <summary>
+            Gets the height of the bitmap.
+            </summary>
+            <value>
+            The height.
+            </value>
         </member>
         <member name="M:BrailleIO.Renderer.LockBitmap.#ctor(System.Drawing.Bitmap)">
             <summary>
@@ -2646,209 +2855,6 @@
             Dispose this instance.
             </summary>
         </member>
-        <member name="P:BrailleIO.Renderer.LockBitmap.Pixels">
-            <summary>
-            Gets or sets the pixels of the bitmap.
-            </summary>
-            <value>
-            The pixels.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Renderer.LockBitmap.Depth">
-            <summary>
-            Gets the color depth.
-            </summary>
-            <value>
-            The depth.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Renderer.LockBitmap.Width">
-            <summary>
-            Gets the width of the bitmap.
-            </summary>
-            <value>
-            The width.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Renderer.LockBitmap.Height">
-            <summary>
-            Gets the height of the bitmap.
-            </summary>
-            <value>
-            The height.
-            </value>
-        </member>
-        <member name="T:BrailleIO.Structs.BoxModel">
-            <summary>
-            A Struct wrapping the four dimensions of a box model member
-            </summary>
-        </member>
-        <member name="F:BrailleIO.Structs.BoxModel.Top">
-            <summary>
-            dimension/width to the top
-            </summary>
-        </member>
-        <member name="F:BrailleIO.Structs.BoxModel.Bottom">
-            <summary>
-            dimension/width to the bottom
-            </summary>
-        </member>
-        <member name="F:BrailleIO.Structs.BoxModel.Left">
-            <summary>
-            dimension/width to the left
-            </summary>
-        </member>
-        <member name="F:BrailleIO.Structs.BoxModel.Right">
-            <summary>
-            dimension/width to the right
-            </summary>
-        </member>
-        <member name="M:BrailleIO.Structs.BoxModel.ToString">
-            <summary>
-            Returns a <see cref="T:System.String"/> that represents this instance.
-            </summary>
-            <returns>
-            A <see cref="T:System.String"/> that represents this instance.
-            </returns>
-        </member>
-        <member name="M:BrailleIO.Structs.BoxModel.Equals(System.Object)">
-            <summary>
-            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-            </summary>
-            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
-            <returns>
-            	<c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
-            </returns>
-        </member>
-        <member name="M:BrailleIO.Structs.BoxModel.GetHashCode">
-            <summary>
-            Returns a hash code for this instance.
-            </summary>
-            <returns>
-            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-            </returns>
-        </member>
-        <member name="M:BrailleIO.Structs.BoxModel.#ctor(System.UInt32,System.UInt32,System.UInt32,System.UInt32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Structs.BoxModel"/> struct.
-            </summary>
-            <param name="top">The dimension/width to the top.</param>
-            <param name="right">The dimension/width to the right.</param>
-            <param name="bottom">The dimension/width to the bottom.</param>
-            <param name="left">The dimension/width to the left.</param>
-        </member>
-        <member name="M:BrailleIO.Structs.BoxModel.#ctor(System.UInt32,System.UInt32,System.UInt32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Structs.BoxModel"/> struct.
-            </summary>
-            <param name="top">The dimension/width to the top.</param>
-            <param name="horizontal">The dimension/width to the horizontal values (left + right).</param>
-            <param name="bottom">The dimension/width to the bottom.</param>
-        </member>
-        <member name="M:BrailleIO.Structs.BoxModel.#ctor(System.UInt32,System.UInt32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Structs.BoxModel"/> struct.
-            </summary>
-            <param name="vertical">The dimension/width to the vertical values (top + bottom).</param>
-            <param name="horizontal">The dimension/width to the horizontal values (left + right).</param>
-        </member>
-        <member name="M:BrailleIO.Structs.BoxModel.#ctor(System.UInt32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Structs.BoxModel"/> struct.
-            </summary>
-            <param name="width">The dimension/width to all values (top, bottom, left and right).</param>
-        </member>
-        <member name="M:BrailleIO.Structs.BoxModel.Clear">
-            <summary>
-            Set all dimension/width to 0
-            </summary>
-        </member>
-        <member name="M:BrailleIO.Structs.BoxModel.HasBox">
-            <summary>
-            Determines whether this instance has box Which means that at least one dimension is larger than 0.
-            </summary>
-            <returns>
-            	<c>true</c> if this instance has box; otherwise, <c>false</c>.
-            </returns>
-        </member>
-        <member name="T:BrailleIO.Structs.KeyCombinationItem">
-            <summary>
-            Bundle of information for a key combination
-            </summary>
-        </member>
-        <member name="F:BrailleIO.Structs.KeyCombinationItem.PressedGeneralKeys">
-            <summary>
-            Enum flag of all currently pressed general buttons
-            </summary>
-        </member>
-        <member name="F:BrailleIO.Structs.KeyCombinationItem.ReleasedGeneralKeys">
-            <summary>
-            Enum flag of all released general buttons
-            </summary>
-        </member>
-        <member name="F:BrailleIO.Structs.KeyCombinationItem.PressedKeyboardKeys">
-            <summary>
-            Enum flag of all currently pressed Braille-keyboard buttons
-            </summary>
-        </member>
-        <member name="F:BrailleIO.Structs.KeyCombinationItem.ReleasedKeyboardKeys">
-            <summary>
-            Enum flag of all released Braille-keyboard buttons
-            </summary>
-        </member>
-        <member name="F:BrailleIO.Structs.KeyCombinationItem.PressedAdditionalKeys">
-            <summary>
-            List of enum flag of all currently pressed additional button sets
-            </summary>
-        </member>
-        <member name="F:BrailleIO.Structs.KeyCombinationItem.ReleasedAdditionalKeys">
-            <summary>
-            List of enum flag of all released additional button sets
-            </summary>
-        </member>
-        <member name="M:BrailleIO.Structs.KeyCombinationItem.#ctor(BrailleIO.Interface.BrailleIO_DeviceButton,BrailleIO.Interface.BrailleIO_DeviceButton,BrailleIO.Interface.BrailleIO_BrailleKeyboardButton,BrailleIO.Interface.BrailleIO_BrailleKeyboardButton,BrailleIO.Interface.BrailleIO_AdditionalButton[],BrailleIO.Interface.BrailleIO_AdditionalButton[])">
-            <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Structs.KeyCombinationItem"/> struct.
-            </summary>
-            <param name="pressedGeneralKeys">The pressed general keys.</param>
-            <param name="releasedGeneralKeys">The released general keys.</param>
-            <param name="pressedKeyboardKeys">The pressed keyboard keys.</param>
-            <param name="releasedKeyboardKeys">The released keyboard keys.</param>
-            <param name="pressedAdditionalKeys">The pressed additional keys.</param>
-            <param name="releasedAdditionalKeys">The released additional keys.</param>
-        </member>
-        <member name="M:BrailleIO.Structs.KeyCombinationItem.AreButtonsPressed">
-            <summary>
-            Determines whether some currently pressed buttons are detected or not.
-            </summary>
-            <returns><c>true</c> if some pressed buttons are registered; otherwise, <c>false</c>.</returns>
-        </member>
-        <member name="M:BrailleIO.Structs.KeyCombinationItem.AreButtonsReleased">
-            <summary>
-            Determines whether some released buttons are detected or not.
-            </summary>
-            <returns><c>true</c> if some released buttons are registered; otherwise, <c>false</c>.</returns>
-        </member>
-        <member name="M:BrailleIO.Structs.KeyCombinationItem.PressedButtonsToString">
-            <summary>
-            Returns a comma separated list of all currently pressed buttons.
-            </summary>
-            <returns>String of currently pressed buttons.</returns>
-        </member>
-        <member name="M:BrailleIO.Structs.KeyCombinationItem.ReleasedButtonsToString">
-            <summary>
-            Returns a comma separated list of all released buttons.
-            </summary>
-            <returns>String of released buttons.</returns>
-        </member>
-        <member name="M:BrailleIO.Structs.KeyCombinationItem.ToString">
-            <summary>
-            Returns a <see cref="T:System.String"/> that represents this instance.
-            </summary>
-            <returns>
-            A <see cref="T:System.String"/> that represents this instance.
-            </returns>
-        </member>
         <member name="T:BrailleIO.Renderer.Structs.RenderElement">
             <summary>
             Element that represent a rendered Element an can be used for collision testings, building tree structures and other stuff
@@ -2868,6 +2874,35 @@
         <member name="F:BrailleIO.Renderer.Structs.RenderElement.Parent">
             <summary>
             Parent. Must be an Object to set it <c>null</c>
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Renderer.Structs.RenderElement.DisplayName">
+            <summary>
+            Gets or sets the optional display name. 
+            Will returned by calling the toString() method. 
+            </summary>
+            <value>
+            The display name.
+            </value>
+        </member>
+        <member name="P:BrailleIO.Renderer.Structs.RenderElement.X">
+            <summary>
+            Horizontal start position of this element's bonding box 
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Renderer.Structs.RenderElement.Y">
+            <summary>
+            Vertical start position of this element's bonding box 
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Renderer.Structs.RenderElement.Width">
+            <summary>
+            Width of the element's bonding box
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Renderer.Structs.RenderElement.Height">
+            <summary>
+            Height of the element's bonding box
             </summary>
         </member>
         <member name="F:BrailleIO.Renderer.Structs.RenderElement.Type">
@@ -3080,19 +3115,19 @@
         </member>
         <member name="M:BrailleIO.Renderer.Structs.RenderElement.ToString">
             <summary>
-            Returns a <see cref="T:System.String"/> that represents this instance.
+            Returns a <see cref="T:System.String" /> that represents this instance.
             </summary>
             <returns>
-            A <see cref="T:System.String"/> that represents this instance.
+            A <see cref="T:System.String" /> that represents this instance.
             </returns>
         </member>
         <member name="M:BrailleIO.Renderer.Structs.RenderElement.Equals(System.Object)">
             <summary>
-            Determines whether the specified <see cref="T:System.Object"/>, is equal to this instance.
+            Determines whether the specified <see cref="T:System.Object" />, is equal to this instance.
             </summary>
-            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <param name="obj">The <see cref="T:System.Object" /> to compare with this instance.</param>
             <returns>
-              <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+              <c>true</c> if the specified <see cref="T:System.Object" /> is equal to this instance; otherwise, <c>false</c>.
             </returns>
         </member>
         <member name="M:BrailleIO.Renderer.Structs.RenderElement.GetHashCode">
@@ -3103,78 +3138,32 @@
             A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
             </returns>
         </member>
-        <member name="P:BrailleIO.Renderer.Structs.RenderElement.DisplayName">
+        <member name="T:BrailleIO.Structs.BoxModel">
             <summary>
-            Gets or sets the optional display name. 
-            Will returned by calling the toString() method. 
-            </summary>
-            <value>
-            The display name.
-            </value>
-        </member>
-        <member name="P:BrailleIO.Renderer.Structs.RenderElement.X">
-            <summary>
-            Horizontal start position of this element's bonding box 
+            A Struct wrapping the four dimensions of a box model member
             </summary>
         </member>
-        <member name="P:BrailleIO.Renderer.Structs.RenderElement.Y">
+        <member name="F:BrailleIO.Structs.BoxModel.Top">
             <summary>
-            Vertical start position of this element's bonding box 
+            dimension/width to the top
             </summary>
         </member>
-        <member name="P:BrailleIO.Renderer.Structs.RenderElement.Width">
+        <member name="F:BrailleIO.Structs.BoxModel.Bottom">
             <summary>
-            Width of the element's bonding box
+            dimension/width to the bottom
             </summary>
         </member>
-        <member name="P:BrailleIO.Renderer.Structs.RenderElement.Height">
+        <member name="F:BrailleIO.Structs.BoxModel.Left">
             <summary>
-            Height of the element's bonding box
+            dimension/width to the left
             </summary>
         </member>
-        <member name="T:BrailleIO.Structs.Touch">
+        <member name="F:BrailleIO.Structs.BoxModel.Right">
             <summary>
-            A structure for holding informations about touches 
+            dimension/width to the right
             </summary>
         </member>
-        <member name="M:BrailleIO.Structs.Touch.#ctor(System.Int32,System.Double,System.Double,System.Double,System.Double,System.Double)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Structs.Touch"/> class.
-            </summary>
-            <param name="id">The identifier.</param>
-            <param name="x">The horizontal x position of the touch.</param>
-            <param name="y">The vertical y position of the touch.</param>
-            <param name="cx">The horizontal diameter of the touch.</param>
-            <param name="cy">The vertical diameter of the touch.</param>
-            <param name="intense">The intense of the sensory data.</param>
-        </member>
-        <member name="M:BrailleIO.Structs.Touch.#ctor(System.Double,System.Double,System.Double,System.Double,System.Double)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Structs.Touch"/> struct.
-            </summary>
-            <param name="x">The horizontal position of the center of a
-            touch in relation to the display matrix.</param>
-            <param name="y">The vertical position of the center of a
-            touch in relation to the display matrix.</param>
-            <param name="intense">The intense sensory value of the detected touch between 0 and 1.</param>
-            <param name="dimX">The horizontal diameter of the touch.</param>
-            <param name="dimY">The vertical diameter of the touch.</param>
-        </member>
-        <member name="M:BrailleIO.Structs.Touch.#ctor(System.Double,System.Double,System.Double)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BrailleIO.Structs.Touch"/> struct.
-            </summary>
-            <param name="x">
-            The horizontal position of the center of a 
-            touch in relation to the display matrix.
-            </param>
-            <param name="y">
-            The vertical position of the center of a 
-            touch in relation to the display matrix.
-            </param>
-            <param name="intense">The intense sensory value of the detected touch between 0 and 1.</param>
-        </member>
-        <member name="M:BrailleIO.Structs.Touch.ToString">
+        <member name="M:BrailleIO.Structs.BoxModel.ToString">
             <summary>
             Returns a <see cref="T:System.String"/> that represents this instance.
             </summary>
@@ -3182,22 +3171,148 @@
             A <see cref="T:System.String"/> that represents this instance.
             </returns>
         </member>
-        <member name="M:BrailleIO.Structs.Touch.Equals(System.Object)">
+        <member name="M:BrailleIO.Structs.BoxModel.Equals(System.Object)">
             <summary>
-            Determines whether the specified <see cref="T:System.Object"/>, is equal to this instance.
+            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
             </summary>
             <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
             <returns>
-              <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            	<c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="M:BrailleIO.Structs.Touch.GetHashCode">
+        <member name="M:BrailleIO.Structs.BoxModel.GetHashCode">
             <summary>
             Returns a hash code for this instance.
             </summary>
             <returns>
             A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
             </returns>
+        </member>
+        <member name="M:BrailleIO.Structs.BoxModel.#ctor(System.UInt32,System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.Structs.BoxModel"/> struct.
+            </summary>
+            <param name="top">The dimension/width to the top.</param>
+            <param name="right">The dimension/width to the right.</param>
+            <param name="bottom">The dimension/width to the bottom.</param>
+            <param name="left">The dimension/width to the left.</param>
+        </member>
+        <member name="M:BrailleIO.Structs.BoxModel.#ctor(System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.Structs.BoxModel"/> struct.
+            </summary>
+            <param name="top">The dimension/width to the top.</param>
+            <param name="horizontal">The dimension/width to the horizontal values (left + right).</param>
+            <param name="bottom">The dimension/width to the bottom.</param>
+        </member>
+        <member name="M:BrailleIO.Structs.BoxModel.#ctor(System.UInt32,System.UInt32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.Structs.BoxModel"/> struct.
+            </summary>
+            <param name="vertical">The dimension/width to the vertical values (top + bottom).</param>
+            <param name="horizontal">The dimension/width to the horizontal values (left + right).</param>
+        </member>
+        <member name="M:BrailleIO.Structs.BoxModel.#ctor(System.UInt32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.Structs.BoxModel"/> struct.
+            </summary>
+            <param name="width">The dimension/width to all values (top, bottom, left and right).</param>
+        </member>
+        <member name="M:BrailleIO.Structs.BoxModel.Clear">
+            <summary>
+            Set all dimension/width to 0
+            </summary>
+        </member>
+        <member name="M:BrailleIO.Structs.BoxModel.HasBox">
+            <summary>
+            Determines whether this instance has box Which means that at least one dimension is larger than 0.
+            </summary>
+            <returns>
+            	<c>true</c> if this instance has box; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="T:BrailleIO.Structs.KeyCombinationItem">
+            <summary>
+            Bundle of information for a key combination
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Structs.KeyCombinationItem.PressedGeneralKeys">
+            <summary>
+            Enum flag of all currently pressed general buttons
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Structs.KeyCombinationItem.ReleasedGeneralKeys">
+            <summary>
+            Enum flag of all released general buttons
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Structs.KeyCombinationItem.PressedKeyboardKeys">
+            <summary>
+            Enum flag of all currently pressed Braille-keyboard buttons
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Structs.KeyCombinationItem.ReleasedKeyboardKeys">
+            <summary>
+            Enum flag of all released Braille-keyboard buttons
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Structs.KeyCombinationItem.PressedAdditionalKeys">
+            <summary>
+            List of enum flag of all currently pressed additional button sets
+            </summary>
+        </member>
+        <member name="P:BrailleIO.Structs.KeyCombinationItem.ReleasedAdditionalKeys">
+            <summary>
+            List of enum flag of all released additional button sets
+            </summary>
+        </member>
+        <member name="M:BrailleIO.Structs.KeyCombinationItem.#ctor(BrailleIO.Interface.BrailleIO_DeviceButton,BrailleIO.Interface.BrailleIO_DeviceButton,BrailleIO.Interface.BrailleIO_BrailleKeyboardButton,BrailleIO.Interface.BrailleIO_BrailleKeyboardButton,BrailleIO.Interface.BrailleIO_AdditionalButton[],BrailleIO.Interface.BrailleIO_AdditionalButton[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.Structs.KeyCombinationItem" /> struct.
+            </summary>
+            <param name="pressedGeneralKeys">The pressed general keys.</param>
+            <param name="releasedGeneralKeys">The released general keys.</param>
+            <param name="pressedKeyboardKeys">The pressed keyboard keys.</param>
+            <param name="releasedKeyboardKeys">The released keyboard keys.</param>
+            <param name="pressedAdditionalKeys">The pressed additional keys.</param>
+            <param name="releasedAdditionalKeys">The released additional keys.</param>
+        </member>
+        <member name="M:BrailleIO.Structs.KeyCombinationItem.AreButtonsPressed">
+            <summary>
+            Determines whether some currently pressed buttons are detected or not.
+            </summary>
+            <returns><c>true</c> if some pressed buttons are registered; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:BrailleIO.Structs.KeyCombinationItem.AreButtonsReleased">
+            <summary>
+            Determines whether some released buttons are detected or not.
+            </summary>
+            <returns><c>true</c> if some released buttons are registered; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:BrailleIO.Structs.KeyCombinationItem.PressedButtonsToString">
+            <summary>
+            Returns a comma separated list of all currently pressed buttons.
+            </summary>
+            <returns>String of currently pressed buttons.</returns>
+        </member>
+        <member name="M:BrailleIO.Structs.KeyCombinationItem.ReleasedButtonsToString">
+            <summary>
+            Returns a comma separated list of all released buttons.
+            </summary>
+            <returns>String of released buttons.</returns>
+        </member>
+        <member name="M:BrailleIO.Structs.KeyCombinationItem.ToString">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String" /> that represents this instance.
+            </returns>
+        </member>
+        <member name="T:BrailleIO.Structs.Touch">
+            <summary>
+            A structure for holding informations about touches 
+            </summary>
         </member>
         <member name="P:BrailleIO.Structs.Touch.ID">
             <summary>
@@ -3243,185 +3358,67 @@
             The vertical diameter of the touch.
             </summary>
         </member>
-        <member name="T:BrailleIO.Interface.Utils">
+        <member name="M:BrailleIO.Structs.Touch.#ctor(System.Int32,System.Double,System.Double,System.Double,System.Double,System.Double)">
             <summary>
-            Utils for some working with the interface definitions
+            Initializes a new instance of the <see cref="T:BrailleIO.Structs.Touch"/> class.
             </summary>
+            <param name="id">The identifier.</param>
+            <param name="x">The horizontal x position of the touch.</param>
+            <param name="y">The vertical y position of the touch.</param>
+            <param name="cx">The horizontal diameter of the touch.</param>
+            <param name="cy">The vertical diameter of the touch.</param>
+            <param name="intense">The intense of the sensory data.</param>
         </member>
-        <member name="M:BrailleIO.Interface.Utils.GetUpStateForDeviceButton(BrailleIO.Interface.BrailleIO_DeviceButton)">
+        <member name="M:BrailleIO.Structs.Touch.#ctor(System.Double,System.Double,System.Double,System.Double,System.Double)">
             <summary>
-            Gets the 'up' state value for a certain device button.
+            Initializes a new instance of the <see cref="T:BrailleIO.Structs.Touch" /> struct.
             </summary>
-            <param name="button">The button.</param>
-            <returns>the enum value for the 'up' state of the button.</returns>
+            <param name="x">The horizontal position of the center of a
+            touch in relation to the display matrix.</param>
+            <param name="y">The vertical position of the center of a
+            touch in relation to the display matrix.</param>
+            <param name="intense">The intense sensory value of the detected touch between 0 and 1.</param>
+            <param name="dimX">The horizontal diameter of the touch.</param>
+            <param name="dimY">The vertical diameter of the touch.</param>
         </member>
-        <member name="M:BrailleIO.Interface.Utils.GetDownStateForDeviceButton(BrailleIO.Interface.BrailleIO_DeviceButton)">
+        <member name="M:BrailleIO.Structs.Touch.#ctor(System.Double,System.Double,System.Double)">
             <summary>
-            Gets the 'down' state value for a certain device button.
+            Initializes a new instance of the <see cref="T:BrailleIO.Structs.Touch"/> struct.
             </summary>
-            <param name="button">The button.</param>
-            <returns>the enum value for the 'down' state of the button</returns>
+            <param name="x">
+            The horizontal position of the center of a 
+            touch in relation to the display matrix.
+            </param>
+            <param name="y">
+            The vertical position of the center of a 
+            touch in relation to the display matrix.
+            </param>
+            <param name="intense">The intense sensory value of the detected touch between 0 and 1.</param>
         </member>
-        <member name="M:BrailleIO.Interface.Utils.GetDeviceButtonsOfStates(BrailleIO.Interface.BrailleIO_DeviceButtonStates)">
+        <member name="M:BrailleIO.Structs.Touch.ToString">
             <summary>
-            Gets the device buttons contained in the states flags.
+            Returns a <see cref="T:System.String" /> that represents this instance.
             </summary>
-            <param name="states">The states.</param>
-            <returns>List of buttons contained in that state flag</returns>
-            <remarks>DEPRECATED! use flag stuff instead <see cref="M:BrailleIO.Interface.Utils.GetDeviceButtonFlagsOfState(BrailleIO.Interface.BrailleIO_DeviceButtonStates)"/></remarks>
+            <returns>
+            A <see cref="T:System.String" /> that represents this instance.
+            </returns>
         </member>
-        <member name="M:BrailleIO.Interface.Utils.GetDeviceButtonFlagsOfState(BrailleIO.Interface.BrailleIO_DeviceButtonStates)">
+        <member name="M:BrailleIO.Structs.Touch.Equals(System.Object)">
             <summary>
-            Gets the device button for one certain button state.
+            Determines whether the specified <see cref="T:System.Object" />, is equal to this instance.
             </summary>
-            <param name="state">The state.</param>
-            <returns>the button related to this state</returns>
+            <param name="obj">The <see cref="T:System.Object" /> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
         </member>
-        <member name="M:BrailleIO.Interface.Utils.GetAllUpDeviceButtons(BrailleIO.Interface.BrailleIO_DeviceButtonStates)">
+        <member name="M:BrailleIO.Structs.Touch.GetHashCode">
             <summary>
-            Gets all released device buttons.
+            Returns a hash code for this instance.
             </summary>
-            <param name="state">The state.</param>
-            <returns>Flag of all released device buttons</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.GetAllDownDeviceButtons(BrailleIO.Interface.BrailleIO_DeviceButtonStates)">
-            <summary>
-            Gets all pressed device buttons.
-            </summary>
-            <param name="state">The state.</param>
-            <returns>Flag of all pressed device buttons</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.GetUpStateForDeviceButton(BrailleIO.Interface.BrailleIO_BrailleKeyboardButton)">
-            <summary>
-            Gets the 'up' state value for a certain Braille keyboard button.
-            </summary>
-            <param name="button">The button.</param>
-            <returns>the enum value for the 'up' state of the button.</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.GetDownStateForDeviceButton(BrailleIO.Interface.BrailleIO_BrailleKeyboardButton)">
-            <summary>
-            Gets the 'down' state value for a certain Braille keyboard button.
-            </summary>
-            <param name="button">The button.</param>
-            <returns>the enum value for the 'down' state of the button</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.GetDeviceButtonFlagsOfState(BrailleIO.Interface.BrailleIO_BrailleKeyboardButtonStates)">
-            <summary>
-            Gets the device button for one Braille keyboard button state.
-            </summary>
-            <param name="state">The state.</param>
-            <returns>the button related to this state</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.GetAllUpBrailleKeyboardButtons(BrailleIO.Interface.BrailleIO_BrailleKeyboardButtonStates)">
-            <summary>
-            Gets all released Braille keyboard buttons.
-            </summary>
-            <param name="state">The state.</param>
-            <returns>Flag of all released Braille keyboard buttons</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.GetAllDownBrailleKeyboardButtons(BrailleIO.Interface.BrailleIO_BrailleKeyboardButtonStates)">
-            <summary>
-            Gets all pressed Braille keyboard buttons.
-            </summary>
-            <param name="state">The state.</param>
-            <returns>Flag of all pressed Braille keyboard buttons</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.GetUpStateForDeviceButton(BrailleIO.Interface.BrailleIO_AdditionalButton)">
-            <summary>
-            Gets the 'up' state value for a certain additional device button.
-            </summary>
-            <param name="button">The button.</param>
-            <returns>the enum value for the 'up' state of the button.</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.GetDownStateForDeviceButton(BrailleIO.Interface.BrailleIO_AdditionalButton)">
-            <summary>
-            Gets the 'down' state value for a certain additional device button.
-            </summary>
-            <param name="button">The button.</param>
-            <returns>the enum value for the 'down' state of the button</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.GetDeviceButtonFlagsOfState(BrailleIO.Interface.BrailleIO_AdditionalButtonStates)">
-            <summary>
-            Gets the additional device button for one certain button state.
-            </summary>
-            <param name="state">The state.</param>
-            <returns>the button related to this state</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.GetAllUpAdditionalButtons(BrailleIO.Interface.BrailleIO_AdditionalButtonStates)">
-            <summary>
-            Gets all released additional device buttons.
-            </summary>
-            <param name="state">The state.</param>
-            <returns>Flag of all released additional device buttons</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.GetAllDownAdditionalButtons(BrailleIO.Interface.BrailleIO_AdditionalButtonStates)">
-            <summary>
-            Gets all pressed additional device buttons.
-            </summary>
-            <param name="state">The state.</param>
-            <returns>Flag of all pressed additional device buttons</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.CombineAdditionalButtonCollections(System.Collections.Generic.IDictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton},System.Collections.Generic.IDictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton})">
-            <summary>
-            Combines two collections of additional buttons.
-            </summary>
-            <param name="dict1">The first collection.</param>
-            <param name="dict2">The second collection.</param>
-            <returns>A collection containing all buttons from both additional button collections.</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.CombineAdditionalButtonCollections(BrailleIO.Interface.BrailleIO_AdditionalButton[],System.Collections.Generic.IDictionary{System.Int32,BrailleIO.Interface.BrailleIO_AdditionalButton})">
-            <summary>
-            Combines two collections of additional buttons.
-            </summary>
-            <param name="arr">An array of additional buttons.</param>
-            <param name="dict">A dictionary of additional buttons.</param>
-            <returns>An combined array of additional buttons.</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.CombineAdditionalButtonCollections(BrailleIO.Interface.BrailleIO_AdditionalButton[],BrailleIO.Interface.BrailleIO_AdditionalButton[])">
-            <summary>
-            Combines two collections of additional buttons.
-            </summary>
-            <param name="arr1">The first array of additional buttons.</param>
-            <param name="arr2">The second array of additional buttons.</param>
-            <returns>An combined array of additional buttons.</returns>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.GetButtonUpFlags(System.Int32)">
-            <summary>
-            Gets all flags indicating a released button in this enum flag value.
-            </summary>
-            <param name="i">The combined flag enum value.</param>
-            <returns>a flag enum value containing only released buttons.</returns>
-            <remarks>Does only work for the button flags defined in BrailleIO.Interface. 
-            Here the 0x0 = NONE, 0x1 = UNKOWN, 'up' starts from 0x2 directly followed by its related 'down' state (0x4)!</remarks>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.GetButtonDownFlags(System.Int32)">
-            <summary>
-            Gets all flags indicating a pressed button in this enum flag value.
-            </summary>
-            <param name="i">The combined flag enum value.</param>
-            <returns>a flag enum value containing only pressed buttons.</returns>
-            <remarks>Does only work for the button flags defined in BrailleIO.Interface. 
-            Here the 0x0 = NONE, 0x1 = UNKOWN, 'up' starts from 0x2 directly followed by its related 'down' state (0x4)!</remarks>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.ShiftDownButtonsToUpButtonStates(System.Int32)">
-            <summary>
-            Shifts button states from a 'down' state to its related 'up' state.
-            Contained 'up' states are kept.
-            </summary>
-            <param name="i">The button States.</param>
-            <returns>The new button states with all states are up states</returns>
-            <remarks>Does only work for the button flags defined in BrailleIO.Interface. 
-            Here the 0x0 = NONE, 0x1 = UNKOWN, 'up' starts from 0x2 directly followed by its related 'down' state (0x4)!</remarks>
-        </member>
-        <member name="M:BrailleIO.Interface.Utils.ShiftUpButtonsToUpDownStates(System.Int32)">
-            <summary>
-            Shifts button states from a up state to its related down state.
-            Contained down states are kept.
-            </summary>
-            <param name="i">The button States.</param>
-            <returns>The new button states with all states are down states</returns>
-            <remarks>Does only work for the button flags defined in BrailleIO.Interface. 
-            Here the 0x0 = NONE, 0x1 = UNKOWN, 'up' starts from 0x2 directly followed by its related 'down' state (0x4)!</remarks>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
         </member>
     </members>
 </doc>
