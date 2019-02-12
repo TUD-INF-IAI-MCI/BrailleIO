@@ -1,0 +1,12 @@
+BrailleIO/bin/
+GestureRecognition/bin/
+BrailleRenderer/obj/
+GestureRecognition/obj/
+BrailleRenderer/bin/
+NaiveGestureRecognizer/bin/
+BrailleIO_ShowOff/bin/
+BrailleIO_ShowOff/obj/
+BrailleIO_Interfaces/obj/
+NaiveGestureRecognizer/obj/
+BrailleIO_Interfaces/bin/
+BrailleIO/obj/
