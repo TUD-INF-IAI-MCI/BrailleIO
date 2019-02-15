@@ -17,7 +17,7 @@ namespace BrailleIO.Renderer
     /// <seealso cref="BrailleIO.Interface.BrailleIOHookableRendererBase" />
     /// <seealso cref="BrailleIO.Renderer.ICacheingRenderer" />
     /// <seealso cref="BrailleIO.Interface.IBrailleIORendererInterfaces" />
-    public class AbstractCachingRendererBase : BrailleIOHookableRendererBase, ICacheingRenderer, IBrailleIOPanningRendererInterfaces
+    public abstract class AbstractCachingRendererBase : BrailleIOHookableRendererBase, ICacheingRenderer, IBrailleIOPanningRendererInterfaces
     {
 
         #region Members
@@ -116,12 +116,15 @@ namespace BrailleIO.Renderer
                 while (IsRendering && trys++ < maxRenderingWaitTrys) { Thread.Sleep(renderingWaitTimeout); }
                 IsRendering = true;
                 ContentChanged = false;
-                _cachedMatrix = this.RenderMatrix(view, content, CallHooksOnCacherendering);
+                _cachedMatrix = renderMatrix(view, content, CallHooksOnCacherendering);
                 LastRendered = DateTime.Now;
                 IsRendering = false;
             });
             t.Start();
         }
+
+        protected abstract bool[,] renderMatrix(IViewBoxModel view, object content, bool CallHooksOnCacherendering);
+
 
         /// <summary>
         /// Gets the previously rendered and cached matrix.
@@ -191,7 +194,7 @@ namespace BrailleIO.Renderer
 
             if (ContentChanged)
             {
-                _cachedMatrix = RenderMatrix(view, content, CallHooksOnCacherendering);
+                _cachedMatrix = renderMatrix(view, content, CallHooksOnCacherendering);
                 LastRendered = DateTime.Now;
                 ContentChanged = false;
             }
@@ -234,8 +237,6 @@ namespace BrailleIO.Renderer
                 bool[,] output = (GetCachedMatrix() != null) ? GetCachedMatrix().Clone() as bool[,] : new bool[0, 0];
                 return output;
             }
-
-            return null;
         }
 
         #endregion

@@ -172,6 +172,12 @@ namespace BrailleIO.Renderer
             }
         }
 
+        protected override bool[,] renderMatrix(IViewBoxModel view, object content, bool CallHooksOnCacherendering)
+        {
+            return RenderMatrix(view, content, CallHooksOnCacherendering);
+        }
+
+
         #endregion
 
         #region String Handling

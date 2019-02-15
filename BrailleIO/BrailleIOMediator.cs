@@ -213,6 +213,8 @@ namespace BrailleIO
             }
         }
 
+        object _renderCallLock = new object();
+
         /// <summary>
         /// Forces the rendering thread to build the resulting Matrix by
         /// calling all renderer for the visible view ranges.
@@ -225,19 +227,22 @@ namespace BrailleIO
             //"[" + DateTime.UtcNow.ToString("HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) + "]\t[RENDER DISPLAY CALL]");
 
             stack.Push(true);
-            if (stack.Count > 0 && (renderingTread == null || !renderingTread.IsAlive))
+            lock (_renderCallLock)
             {
-                try
+                if (stack.Count > 0 && (renderingTread == null || !renderingTread.IsAlive))
                 {
-                    renderingTread = new Thread(delegate () { renderDisplay(); });
-                    renderingTread.Name = "RenderingThread";
-                    renderingTread.Priority = ThreadPriority.Highest;
-                    renderingTread.Start();
+                    try
+                    {
+                        renderingTread = new Thread(delegate () { renderDisplay(); });
+                        renderingTread.Name = "RenderingThread";
+                        renderingTread.Priority = ThreadPriority.Highest;
+                        renderingTread.Start();
+                    }
+                    catch (Exception)
+                    { }
                 }
-                catch (Exception)
-                { }
+                else { } 
             }
-            else { }
         }
 
         #endregion

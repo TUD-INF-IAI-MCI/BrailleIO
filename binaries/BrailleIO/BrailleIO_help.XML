@@ -1204,24 +1204,6 @@
             The zoom level is with a value of  + zoom + to low. The zoom level should be between 0 and 3.;zoom
             </exception>
         </member>
-        <member name="M:BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.RenderMatrix(BrailleIO.Interface.IViewBoxModel,System.Object,System.Boolean)">
-            <summary>
-            Renders a content object into an boolean matrix;
-            while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
-            ATTENTION: have to be implemented. check for the
-            </summary>
-            <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="T:BrailleIO.BrailleIOViewRange" />.</param>
-            <param name="content">The content to render.</param>
-            <param name="callHooks">if set to <c>true</c> [call the pre- and post-rendering hooks].</param>
-            <returns>
-            A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
-            and N is the count of columns (which is the width).
-            Positions in the Matrix are of type [i,j]
-            while i is the index of the row (is the y position)
-            and j is the index of the column (is the x position).
-            In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
-            </returns>
-        </member>
         <member name="M:BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.ContentOrViewHasChanged(BrailleIO.Interface.IViewBoxModel,System.Object)">
             <summary>
             Informs the renderer that the content the or view has changed.

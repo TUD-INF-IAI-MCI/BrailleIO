@@ -1,7 +1,7 @@
-﻿using System;
+﻿using BrailleIO.Interface;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using BrailleIO.Interface;
 
 namespace BrailleIO.Renderer
 {
@@ -229,50 +229,57 @@ namespace BrailleIO.Renderer
         {
             try
             {
-
                 //call pre hooks
                 object cImg = img as object;
                 if (callHooks) callAllPreHooks(ref view, ref cImg, offset, invert, zoom);
                 img = cImg as Bitmap;
 
-                if (view == null) return new bool[0, 0];
-                //TODO: bring in threshold here
-                //TODO: check how to get the threshold 
-                Rectangle viewRange = view.ContentBox;
-                int matrixWidth = viewRange.Width;
-                int matrixHeight = viewRange.Height;
+                bool[,] m = new bool[0, 0];
 
-                bool[,] m = new bool[matrixHeight, matrixWidth];
-
-                int offsetX = 0;
-                int offsetY = 0;
-                if (offset != null && zoom > 0)
+                if (view != null && img != null &&
+                    img.PixelFormat != PixelFormat.Undefined && img.PixelFormat != PixelFormat.DontCare)
                 {
-                    offsetX = offset.GetXOffset();
-                    offsetY = offset.GetYOffset();
+                    //System.Diagnostics.Debug.WriteLine("\t\t\t--- pixel format: " + img.PixelFormat);
 
-                    offsetX = (Int32)Math.Round(offsetX / zoom);
-                    offsetY = (Int32)Math.Round(offsetY / zoom);
-                }
-                if (img != null && img.PixelFormat != PixelFormat.Undefined)
-                {
                     try
                     {
                         Bitmap _img = null;
                         int trys = 0;
-                        while (_img == null && trys++ < 10)
+                        while (_img == null && trys++ < 4)
                         {
-                            try {
+                            try
+                            {
                                 _img = img.Clone() as Bitmap;
                             }
-                            catch { System.Threading.Thread.Sleep(2); }
+                            catch
+                            {
+                                if (img.PixelFormat == PixelFormat.DontCare) return m;
+                                System.Threading.Thread.Sleep(2);
+                            }
                         }
 
-                        if(_img != null)
+                        //TODO: bring in threshold here
+                        //TODO: check how to get the threshold 
+                        Rectangle viewRange = view.ContentBox;
+                        int matrixWidth = viewRange.Width;
+                        int matrixHeight = viewRange.Height;
+
+                        m = new bool[matrixHeight, matrixWidth];
+
+                        int offsetX = 0;
+                        int offsetY = 0;
+                        if (offset != null && zoom > 0)
+                        {
+                            offsetX = offset.GetXOffset();
+                            offsetY = offset.GetYOffset();
+
+                            offsetX = (Int32)Math.Round(offsetX / zoom);
+                            offsetY = (Int32)Math.Round(offsetY / zoom);
+                        }
+
+                        if (_img != null)
                         //using (Bitmap _img = img.Clone() as Bitmap)
                         {
-
-
                             // Fix zoom -1 = fit to available space
                             //if (zoom > 3) throw new ArgumentException("The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than 3.", "zoom");
                             if (zoom < 0)
@@ -280,21 +287,21 @@ namespace BrailleIO.Renderer
 
                                 var Bounds = _img.Size;
                                 zoom = Math.Min(
-                                   (double)view.ContentBox.Height / (double)Bounds.Height + 0.000000001,
-                                    (double)view.ContentBox.Width / (double)Bounds.Width + 0.000000001
+                                   view.ContentBox.Height / (double)Bounds.Height + 0.000000001,
+                                    view.ContentBox.Width / (double)Bounds.Width + 0.000000001
                                     );
                                 ((IZoomable)view).SetZoom(zoom);
 
                                 //  throw new ArgumentException("The zoom level is with a value of " + zoom + "to low. The zoom level should be between 0 and 3.", "zoom");
                             }
-                            
+
                             Int32 contentWidth = (Int32)Math.Max(Math.Round(_img.Width * zoom), 1);
                             Int32 contentHeight = (Int32)Math.Max(Math.Round(_img.Height * zoom), 1);
                             //set the content size fields in the view.
                             view.ContentHeight = contentHeight;
                             view.ContentWidth = contentWidth;
 
-                            double vrZoom = zoom > 0 ? (double)1 / zoom : 0;
+                            double vrZoom = zoom > 0 ? 1 / zoom : 0;
 
                             Int32 zoomedVrWidth = (Int32)Math.Max(Math.Round(matrixWidth * vrZoom), 1);
                             Int32 zoomedVrHeight = (Int32)Math.Max(Math.Round(matrixHeight * vrZoom), 1);
@@ -372,6 +379,7 @@ namespace BrailleIO.Renderer
                     catch (ArgumentException) { }
                     catch (InvalidOperationException) { }
                 }
+
                 //call post hooks
                 if (callHooks) callAllPostHooks(view, img, ref m, offset, invert, zoom);
 
@@ -385,26 +393,26 @@ namespace BrailleIO.Renderer
 
         #region IBrailleIOContentRenderer
 
-        /// <summary>
-        /// Renders a content object into an boolean matrix;
-        /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
-        /// ATTENTION: have to be implemented. check for the
-        /// </summary>
-        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange" />.</param>
-        /// <param name="content">The content to render.</param>
-        /// <param name="callHooks">if set to <c>true</c> [call the pre- and post-rendering hooks].</param>
-        /// <returns>
-        /// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
-        /// and N is the count of columns (which is the width).
-        /// Positions in the Matrix are of type [i,j]
-        /// while i is the index of the row (is the y position)
-        /// and j is the index of the column (is the x position).
-        /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
-        /// </returns>
-        public override bool[,] RenderMatrix(IViewBoxModel view, object content, bool callHooks = true)
-        {
-            return RenderImage(content as Bitmap, view, Invert, view is IZoomable ? ((IZoomable)view).GetZoom() : 1);
-        }
+        ///// <summary>
+        ///// Renders a content object into an boolean matrix;
+        ///// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
+        ///// ATTENTION: have to be implemented. check for the
+        ///// </summary>
+        ///// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange" />.</param>
+        ///// <param name="content">The content to render.</param>
+        ///// <param name="callHooks">if set to <c>true</c> [call the pre- and post-rendering hooks].</param>
+        ///// <returns>
+        ///// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
+        ///// and N is the count of columns (which is the width).
+        ///// Positions in the Matrix are of type [i,j]
+        ///// while i is the index of the row (is the y position)
+        ///// and j is the index of the column (is the x position).
+        ///// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
+        ///// </returns>
+        //public override bool[,] RenderMatrix(IViewBoxModel view, object content, bool callHooks = true)
+        //{
+        //    return RenderImage(content as Bitmap, view, Invert, view is IZoomable ? ((IZoomable)view).GetZoom() : 1);
+        //}
 
         #endregion
 
@@ -436,7 +444,7 @@ namespace BrailleIO.Renderer
         /// <exception cref="System.NotImplementedException"></exception>
         public int SetContrastThreshold(int threshold)
         {
-            Threshold = (float)threshold;
+            Threshold = threshold;
             return Convert.ToInt32(Threshold);
         }
 
@@ -449,6 +457,11 @@ namespace BrailleIO.Renderer
         public int GetContrastThreshold()
         {
             return Convert.ToInt32(Threshold);
+        }
+
+        protected override bool[,] renderMatrix(IViewBoxModel view, object content, bool CallHooksOnCacherendering)
+        {
+            return RenderImage(content as Bitmap, view, Invert, view is IZoomable ? ((IZoomable)view).GetZoom() : 1);
         }
 
         #endregion
@@ -481,12 +494,12 @@ namespace BrailleIO.Renderer
         public static float GetLightness(Color c)
         {
             float aw, ar, ab, ag;
-            float correction = (float)c.A / 255F;
+            float correction = c.A / 255F;
             aw = (255F * (1F - correction));
 
-            ar = (((float)c.R * correction) + aw) * 0.3F;
-            ab = (((float)c.B * correction) + aw) * 0.11F;
-            ag = (((float)c.G * correction) + aw) * 0.59F;
+            ar = ((c.R * correction) + aw) * 0.3F;
+            ab = ((c.B * correction) + aw) * 0.11F;
+            ag = ((c.G * correction) + aw) * 0.59F;
             float b = (ar + ab + ag);
 
             return b;
