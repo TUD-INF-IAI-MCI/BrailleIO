@@ -123,6 +123,13 @@ namespace BrailleIO.Renderer
             t.Start();
         }
 
+        /// <summary>
+        /// the rendering method used from the prerendering and rendering mehods to produce the caching result.
+        /// </summary>
+        /// <param name="view">The view range</param>
+        /// <param name="content">the content object to render</param>
+        /// <param name="CallHooksOnCacherendering">flag determining if the hooks should be called or not while rendering</param>
+        /// <returns>the rendering result.</returns>
         protected abstract bool[,] renderMatrix(IViewBoxModel view, object content, bool CallHooksOnCacherendering);
 
 
