@@ -181,7 +181,11 @@ namespace BrailleIO
             addMatrixToStack(touchMatrix, detailedTouches);
             if (touchMatrixDrawerThread != null && !touchMatrixDrawerThread.IsAlive)
             {
-                touchMatrixDrawerThread.Start();
+                try
+                {
+                    touchMatrixDrawerThread.Start();
+                }
+                catch (ThreadStateException){ }
             }
         }
 
