@@ -10,9 +10,9 @@ namespace BrailleIO
     /// <summary>
     /// Abstract implementation for basic functions a real Hardware modeling device Adapter has to implement
     /// </summary>
-    public abstract class AbstractBrailleIOAdapterBase : IBrailleIOAdapter2, IDisposable
+    public abstract class AbstractBrailleIOAdapterBase : IBrailleIOAdapter2, ITouchDataAdapter, IDisposable
     {
-        // display options
+        #region Members
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="AbstractBrailleIOAdapterBase"/> is synchronize.
@@ -125,6 +125,10 @@ namespace BrailleIO
 
         #endregion
 
+        #endregion
+
+        #region Constructor
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractBrailleIOAdapterBase"/> class.
         /// </summary>
@@ -136,6 +140,8 @@ namespace BrailleIO
             PressedBrailleKeyboardButtons = BrailleIO_BrailleKeyboardButton.None;
             PressedAdditionalButtons = null;
         }
+
+        #endregion
 
         /// <summary>
         /// Connects this instance.
@@ -170,6 +176,8 @@ namespace BrailleIO
         internal virtual void OnBrailleIO_PinStateChanged_EventHandler(BrailleIO_PinStateChanged_EventArgs e) { pinStateChanged(this, e); }
         internal virtual void OnBrailleIO_ErrorOccured_EventHandler(BrailleIO_ErrorOccured_EventArgs e) { errorOccurred(this, e); }
         #endregion
+
+        #region Event Handling
 
         ///// <summary>
         ///// Occurs when a key was pressed.
@@ -242,13 +250,13 @@ namespace BrailleIO
         }
 
         protected virtual void fireKeyPressed(
-            BrailleIO_DeviceButtonStates keyCode, 
+            BrailleIO_DeviceButtonStates keyCode,
             ref OrderedDictionary raw,
             BrailleIO_BrailleKeyboardButtonStates keyboardButtonStates,
             BrailleIO_AdditionalButtonStates[] additionalButtonStates
             )
         {
-            if(keyPressed != null)
+            if (keyPressed != null)
             {
                 try
                 {
@@ -261,7 +269,6 @@ namespace BrailleIO
                 catch { }
             }
         }
-
 
         /// <summary>
         /// Fires a key state changed event.
@@ -304,17 +311,17 @@ namespace BrailleIO
                 // TODO: what to do to get it valid again?!
             }
 
-            if(pressed != BrailleIO_DeviceButton.None || pressedKbB != BrailleIO_BrailleKeyboardButton.None)
+            if (pressed != BrailleIO_DeviceButton.None || pressedKbB != BrailleIO_BrailleKeyboardButton.None)
             {
                 fireKeyPressed(keyCode, ref raw, keyboardCode, additionalKeyCode);
             }
             else
             {
-                if(pressedAdBs != null && pressedAdBs.Count > 0)
+                if (pressedAdBs != null && pressedAdBs.Count > 0)
                 {
                     foreach (var item in pressedAdBs)
                     {
-                        if(item.Value != BrailleIO_AdditionalButton.None)
+                        if (item.Value != BrailleIO_AdditionalButton.None)
                         {
                             fireKeyPressed(keyCode, ref raw, keyboardCode, additionalKeyCode);
                             break;
@@ -524,7 +531,7 @@ namespace BrailleIO
                 kc.PressedGeneralKeys = (this.PressedDeviceButtons & ~BrailleIO_DeviceButton.Unknown);
                 kc.ReleasedGeneralKeys |= released;
                 kc.ReleasedGeneralKeys = kc.ReleasedGeneralKeys & ~kc.PressedGeneralKeys & ~BrailleIO_DeviceButton.Unknown;
-                                
+
                 // keyboard
                 kc.PressedKeyboardKeys = this.PressedBrailleKeyboardButtons;
                 kc.ReleasedKeyboardKeys |= releasedKbB;
@@ -533,7 +540,7 @@ namespace BrailleIO
                 // additional
                 kc.PressedAdditionalKeys = this.PressedAdditionalButtons;
                 kc.ReleasedAdditionalKeys = Utils.CombineAdditionalButtonCollections(kc.ReleasedAdditionalKeys, pressedAdBs);
-                
+
                 Kc = kc; // store globally
                 keyCombinationTimer.Start();
 
@@ -644,6 +651,14 @@ namespace BrailleIO
         /// <param name="detailedTouch">An optional list of detailed touch information.</param>
         protected virtual void fireTouchValuesChanged(double[,] touches, int timestamp, ref OrderedDictionary raw, List<Touch> detailedTouch = null)
         {
+            try
+            {
+                _lastTouchUpdate = DateTime.Now;
+                currentTouchMatrix = touches;
+                currentTouches = detailedTouch;
+            }
+            catch { }
+
             if (touchValuesChanged != null)
                 try
                 {
@@ -667,6 +682,8 @@ namespace BrailleIO
                 catch { }
         }
 
+        #endregion
+
         /// <summary>
         /// Synchronizes the specified matrix. 
         /// That means the Adapter try to sent the given Matrix to the real hardware 
@@ -678,7 +695,7 @@ namespace BrailleIO
             if (!LockPins) manager.ActiveAdapter.Synchronize(matrix);
         }
 
-        #region Touch
+        #region Touch Recalibration
 
         /// <summary>
         /// Recalibrate the Touch detection Adapter with the specified threshold.
@@ -831,6 +848,54 @@ namespace BrailleIO
                 });
             }
             return _fullMatrix;
+        }
+
+        #endregion
+
+        #region ITouchDataAdapter
+
+        double[,] _currentTouchMatrix = null;
+        /// <summary>
+        /// cached touch data matrix
+        /// </summary>
+        protected double[,] currentTouchMatrix
+        {
+            get { return _currentTouchMatrix; }
+            set { _currentTouchMatrix = value; }
+        }
+
+        List<Touch> _currentTouches = null;
+        /// <summary>
+        /// cached list of detailed touches
+        /// </summary>
+        protected List<Touch> currentTouches
+        {
+            get { return _currentTouches; }
+            set { _currentTouches = value; }
+        }
+
+        DateTime _lastTouchUpdate = DateTime.Now;
+        /// <summary>
+        /// Lifetime, defining how long the cached Touch data should be valid.
+        /// </summary>
+        public TimeSpan ValidTouchLifetime = new TimeSpan(0, 1, 0);
+
+        /// <summary>return the current touch data matrix</summary>
+        /// <returns>the current touch data sensory matrix</returns>
+        public virtual double[,] GetCurrentTouchDataMatrix()
+        {
+            return (DateTime.Now - _lastTouchUpdate < ValidTouchLifetime) ?
+                currentTouchMatrix :
+                null;
+        }
+
+        /// <summary>return the current touches.</summary>
+        /// <returns>List of currently active touches</returns>
+        public virtual List<Touch> GetCurrentTouchData()
+        {
+            return (DateTime.Now - _lastTouchUpdate > ValidTouchLifetime || currentTouches == null)
+                ? null :
+                new List<Touch>(currentTouches);
         }
 
         #endregion

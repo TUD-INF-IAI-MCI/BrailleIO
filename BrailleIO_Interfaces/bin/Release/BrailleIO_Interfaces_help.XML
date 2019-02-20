@@ -416,6 +416,23 @@
             </summary>
             <value>The padding.</value>
         </member>
+        <member name="T:BrailleIO.Interface.ITouchDataAdapter">
+            <summary>
+            Interface for requesting the current touch data status beside event notification.
+            </summary>
+        </member>
+        <member name="M:BrailleIO.Interface.ITouchDataAdapter.GetCurrentTouchDataMatrix">
+            <summary>
+            return the current touch data matrix
+            </summary>
+            <returns>the current touch data sensory matrix</returns>
+        </member>
+        <member name="M:BrailleIO.Interface.ITouchDataAdapter.GetCurrentTouchData">
+            <summary>
+            return the current touches.
+            </summary>
+            <returns>List of currently active touches</returns>
+        </member>
         <member name="T:BrailleIO.Interface.BrailleIOHookableRendererBase">
             <summary>
             Abstract basis class for a renderer that enables hooking
@@ -2397,6 +2414,29 @@
             returns a matrix full of raised pins.
             </summary>
             <returns>a matrix full of raised pins in the dimension of the device.</returns>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.currentTouchMatrix">
+            <summary>
+            cached touch data matrix
+            </summary>
+        </member>
+        <member name="P:BrailleIO.AbstractBrailleIOAdapterBase.currentTouches">
+            <summary>
+            cached list of detailed touches
+            </summary>
+        </member>
+        <member name="F:BrailleIO.AbstractBrailleIOAdapterBase.ValidTouchLifetime">
+            <summary>
+            Lifetime, defining how long the cached Touch data should be valid.
+            </summary>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.GetCurrentTouchDataMatrix">
+            <summary>return the current touch data matrix</summary>
+            <returns>the current touch data sensory matrix</returns>
+        </member>
+        <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.GetCurrentTouchData">
+            <summary>return the current touches.</summary>
+            <returns>List of currently active touches</returns>
         </member>
         <member name="M:BrailleIO.AbstractBrailleIOAdapterBase.Dispose">
             <summary>

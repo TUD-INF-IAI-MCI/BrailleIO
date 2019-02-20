@@ -49,6 +49,7 @@
     <Compile Include="Abstract_Implementations\AbstractViewPaddingBase.cs" />
     <Compile Include="Adapter\BrailleIOAdapter.cs" />
     <Compile Include="BrailleIODevice.cs" />
+    <Compile Include="Interface\ITouchDataAdapter.cs" />
     <Compile Include="Renderer\AbstractBrailleIOHookableRendererBase.cs" />
     <Compile Include="Interface\IActivatable.cs" />
     <Compile Include="Interface\IBrailleInterpreter.cs" />
