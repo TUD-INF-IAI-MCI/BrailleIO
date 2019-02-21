@@ -15,6 +15,7 @@ namespace BrailleIO
     /// It gives you access to the hardware via the <see cref="IBrailleIOAdapterManager"/> AdapterManager.
     /// The GUI/TUI components are available through several methods. 
     /// </summary>
+		/// <remarks> </remarks>
     public class BrailleIOMediator : IDisposable
     {
         #region Members
@@ -24,15 +25,16 @@ namespace BrailleIO
         /// <summary>
         /// The singleton instance
         /// </summary>
+		/// <remarks> </remarks>
         private static BrailleIOMediator instance;
 
         /// <summary>
         /// Timer to enable a continuous refresh rate
         /// </summary>
+		/// <remarks> </remarks>
         private System.Timers.Timer _timer = new System.Timers.Timer();
-        /// <summary>
-        /// Timer to enable a continuous refresh rate
-        /// </summary>
+        /// <summary>Timer to enable a continuous refresh rate</summary>
+        /// <value>The rendering timer.</value>
         internal System.Timers.Timer RenderingTimer
         {
             get
@@ -49,6 +51,7 @@ namespace BrailleIO
         /// views are either Screens (combined ViewRanges) or simply ViewRanges
         /// Screens should be more comfortable to use for the developer
         /// </summary>
+		/// <remarks> </remarks>
         private ConcurrentDictionary<String, AbstractViewBoxModelBase> views = new ConcurrentDictionary<String, AbstractViewBoxModelBase>();
         private readonly object vvLock = new object();
         private ConcurrentDictionary<String, AbstractViewBoxModelBase> visibleViews
@@ -88,12 +91,14 @@ namespace BrailleIO
         /// <summary>
         /// Flag to determine it the resulting matrix is changeable or not
         /// </summary>
+		/// <remarks> </remarks>
         private volatile bool pins_locked = false;
 
         private bool[,] _matrix;
         /// <summary>
         ///  matrix to be displayed on device
         /// </summary>
+		/// <remarks> </remarks>
         private bool[,] Matrix
         {
             get
@@ -129,8 +134,11 @@ namespace BrailleIO
         /// <summary>
         /// The Adapter Manager that knows and handle the connected devices for the output
         /// </summary>
+		/// <remarks> </remarks>
         private IBrailleIOAdapterManager _adapterManager;
 
+        /// <summary>Gets or sets the adapter manager.</summary>
+        /// <value>The adapter manager.</value>
         public IBrailleIOAdapterManager AdapterManager
         {
             get { return _adapterManager; }
@@ -161,18 +169,21 @@ namespace BrailleIO
         /// <summary>
         /// Finalizes an instance of the <see cref="BrailleIOMediator"/> class.
         /// </summary>
+		/// <remarks> </remarks>
         ~BrailleIOMediator() { if (renderingTread != null) renderingTread.Abort(); }
 
         /// <summary>
         /// lock object so the instance can not been build twice.
         /// </summary>
+		/// <remarks> </remarks>
         private static object syncRoot = new Object();
         /// <summary>
-        /// Central instance for the BrailleIO Framework. 
+        /// Central instance for the BrailleIO Framework.
         /// It connects the hardware abstraction layers and the GUI/TUI components.
         /// It gives you access to the hardware via the <see cref="IBrailleIOAdapterManager"/> AdapterManager.
-        /// The GUI/TUI components are available through several methods. 
+        /// The GUI/TUI components are available through several methods.
         /// </summary>
+        /// <value>The singleton instance.</value>
         public static BrailleIOMediator Instance
         {
             get
@@ -203,6 +214,7 @@ namespace BrailleIO
         /// To enable a sending, the pins have to be unlocked (still rendering or maybe locked by the user)
         /// and at an Adapter has to be active.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="rerender">if set to <c>true</c> the mediator will force a rendering of the content.</param>
         public void RefreshDisplay(bool rerender = false)
         {
@@ -213,7 +225,7 @@ namespace BrailleIO
             }
         }
 
-        object _renderCallLock = new object();
+        readonly object _renderCallLock = new object();
 
         /// <summary>
         /// Forces the rendering thread to build the resulting Matrix by
@@ -221,6 +233,7 @@ namespace BrailleIO
         /// The matrix will not been sent until the refresh timer is elapsed or the
         /// <see cref="RefreshDisplay" /> Method was called.
         /// </summary>
+		/// <remarks> </remarks>
         public void RenderDisplay()
         {
             //System.Diagnostics.Debug.WriteLine(
@@ -233,9 +246,11 @@ namespace BrailleIO
                 {
                     try
                     {
-                        renderingTread = new Thread(delegate () { renderDisplay(); });
-                        renderingTread.Name = "RenderingThread";
-                        renderingTread.Priority = ThreadPriority.Highest;
+                        renderingTread = new Thread(delegate () { renderDisplay(); })
+                        {
+                            Name = "RenderingThread",
+                            Priority = ThreadPriority.Highest
+                        };
                         renderingTread.Start();
                     }
                     catch (Exception)
@@ -258,6 +273,7 @@ namespace BrailleIO
         /// Event handler for the refresh timer elapsed event.
         /// Refreshes the display.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="source">The source.</param>
         /// <param name="e">The <see cref="System.Timers.ElapsedEventArgs"/> instance containing the event data.</param>
         private void refreshDisplayEvent(object source, ElapsedEventArgs e)
@@ -295,14 +311,17 @@ namespace BrailleIO
         /// helping stack that helps to determine if a rendering is necessary.
         /// Collects all render calls and the rendering thread can decide if to render or not.
         /// </summary>
+		/// <remarks> </remarks>
         private readonly ConcurrentStack<object> stack = new ConcurrentStack<Object>();
         /// <summary>
         /// separate thread for building the resulting matrix
         /// </summary>
+		/// <remarks> </remarks>
         private static Thread renderingTread;
         /// <summary>
         /// Builds the resulting matrix that will be send to the adapters by calling the renderer for each view range.
         /// </summary>
+		/// <remarks> </remarks>
         void renderDisplay()
         {
             while (stack.Count > 0)
@@ -366,6 +385,7 @@ namespace BrailleIO
         /// <summary>
         /// Determines whether [is rendering necessary].
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>
         ///   <c>true</c> if [is rendering necessary]; otherwise, <c>false</c>.
         /// </returns>
@@ -403,6 +423,7 @@ namespace BrailleIO
         /// <summary>
         /// draw a ViewRange to this.matrix
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="vr">ViewRange</param>
         /// <param name="matrix">The matrix to render in.</param>
         /// <returns></returns>
@@ -506,7 +527,7 @@ namespace BrailleIO
                 vr.Render = false;
                 pins_locked = pl;
             }
-            catch (Exception ex){ }
+            catch { }
             finally
             {
                 _renderingCount++;
@@ -528,13 +549,14 @@ namespace BrailleIO
 
         #region Getter & Setter
 
-        private double _defaultInterval = 10;
+        private readonly double _defaultInterval = 10;
         /// <summary>
         /// Gets or sets the rendering timer interval in milliseconds.
         /// Every tick of the timer the manager checks for
         /// changed content by the renderers and submit it to the 
         /// adapters.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// The rendering timer interval.
         /// </value>
@@ -555,6 +577,7 @@ namespace BrailleIO
         /// anyway for refreshing them.
         /// The minimal refresh frequency is RenderingTimerInterval (ms) * MaxTicksToSynchronize.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// The maximum ticks before starting a synchronization anyway.
         /// </value>
@@ -572,6 +595,7 @@ namespace BrailleIO
         /// <summary>
         /// get current display-matrix.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>bool[,] matrix</returns>
         public bool[,] GetMatrix()
         {
@@ -582,6 +606,7 @@ namespace BrailleIO
         /// check if pins are locked. This indicates that a rendering is still going on 
         /// or the rendering is disabled by the user by locking the set matrix.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>bool pins_locked</returns>
         public bool ArePinsLocked() //TODO: check for this is necessary
         {
@@ -591,6 +616,7 @@ namespace BrailleIO
         /// <summary>
         /// Locks the pins. Stops renderers to do there work
         /// </summary>
+		/// <remarks> </remarks>
         public void LockPins()
         {
             pins_locked = true;
@@ -599,6 +625,7 @@ namespace BrailleIO
         /// <summary>
         /// Unlocks the pins. Enables renderers to refresh the matrix that is send to the devices
         /// </summary>
+		/// <remarks> </remarks>
         public void UnlockPins()
         {
             pins_locked = false;
@@ -614,6 +641,7 @@ namespace BrailleIO
         /// show a view.
         /// will be displayed with all other visible views at next display update.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="name">
         /// name of view
         /// </param>
@@ -650,6 +678,7 @@ namespace BrailleIO
         /// hide a view.
         /// hidden views still exist but will not show on display
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="name">
         /// name of view
         /// </param>
@@ -662,6 +691,7 @@ namespace BrailleIO
         /// hide a view.
         /// hidden views still exist but will not show on display
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="name">name of view</param>
         /// <param name="updateOldViewStates">if set to <c>true</c> [update old view states].</param>
         /// <exception cref="ArgumentException">View '" + name + "' is unknown;name</exception>
@@ -684,6 +714,7 @@ namespace BrailleIO
         /// <summary>
         /// Add a ViewRange or a Screen to list
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="name">
         /// name of view
         /// </param>
@@ -709,12 +740,9 @@ namespace BrailleIO
             return false;
         }
 
-        /// <summary>
-        /// remove view
-        /// </summary>
-        /// <param name="name">
-        /// name of view
-        /// </param>
+        /// <summary>remove view</summary>
+        /// <param name="name">name of view</param>
+        /// <returns><c>true</c> if the view was successfully removed; otherwise, <c>false</c>.</returns>
         public bool RemoveView(String name)
         {
             AbstractViewBoxModelBase trash;
@@ -732,6 +760,7 @@ namespace BrailleIO
         /// <summary>
         /// rename a view
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="from">
         /// old name
         /// </param>
@@ -748,6 +777,7 @@ namespace BrailleIO
         /// <summary>
         /// checks if Instance has a specific view
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="name">
         /// name of View
         /// </param>
@@ -759,11 +789,10 @@ namespace BrailleIO
             return this.views != null ? this.views.ContainsKey(name) : false;
         }
 
-        /// <summary>
-        /// get View by name
-        /// </summary>
+        /// <summary>get View by name</summary>
         /// <param name="name">Screen or ViewRange or null</param>
-        /// <returns></returns>
+        /// <returns>The view if exist or <c>null</c>.</returns>
+        /// <remarks></remarks>
         public Object GetView(String name)
         {
             if (ContainsView(name))
@@ -780,6 +809,7 @@ namespace BrailleIO
         /// <summary>
         /// Gets a list of all available top-level views.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>list of all available top-level views. Could be <see cref="BrailleIOScreen"/> or <see cref="BrailleIOViewRange"/></returns>
         public List<AbstractViewBoxModelBase> GetViews()
         {
@@ -789,6 +819,7 @@ namespace BrailleIO
         /// <summary>
         /// Gets the active views.Can be a <see cref="BrailleIOViewRange"/> or <see cref="BrailleIOScreen"/>
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>List of currently active views</returns>
         public List<AbstractViewBoxModelBase> GetActiveViews()
         {
@@ -799,6 +830,7 @@ namespace BrailleIO
         /// <summary>
         /// Gets the view at a position.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="x">The horizontal position on the device.</param>
         /// <param name="y">The vertical position on the device.</param>
         /// <returns>The topmost view range that containing the point or <c>null</c></returns>
@@ -846,6 +878,7 @@ namespace BrailleIO
         /// <summary>
         /// checks if there are any views yet
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>
         /// bool 
         /// </returns>
@@ -857,6 +890,7 @@ namespace BrailleIO
         /// <summary>
         /// count of available top-level views e.g. screens in a multi screen setting
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>
         /// int views.count
         /// </returns>
@@ -871,7 +905,7 @@ namespace BrailleIO
         {
             if (sender != null && sender is AbstractViewBoxModelBase && e != null && !String.IsNullOrWhiteSpace(e.PropertyName))
             {
-                /// visibility of a view has changed
+                // visibility of a view has changed
                 if (e.PropertyName.Equals("Visibility"))
                 {
                     // check if update is necessary or not
@@ -891,7 +925,7 @@ namespace BrailleIO
                     }
 
                 }
-                /// Name has changed
+                // Name has changed
                 else if (e.PropertyName.Equals("Name"))
                 {
                     string newName = ((AbstractViewBoxModelBase)sender).Name;
@@ -924,6 +958,7 @@ namespace BrailleIO
         /// <summary>
         /// get device Width from active adapter
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>int Width of device</returns>
         public int GetDeviceSizeX()
         {
@@ -935,6 +970,7 @@ namespace BrailleIO
         /// <summary>
         /// get device Height from active adapter
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>int Height of device</returns>
         public int GetDeviceSizeY()
         {
@@ -946,6 +982,7 @@ namespace BrailleIO
         /// <summary>
         /// Forces the current active adapter devices to recalibrate.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns><c>true</c> if the adapter is successfully recalibrated</returns>
         public bool Recalibrate()
         {
@@ -955,6 +992,7 @@ namespace BrailleIO
         /// <summary>
         /// Forces all connected adapter devices to recalibrate.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns><c>true</c> if all adapter are successfully recalibrated</returns>
         public bool RecalibrateAll()
         {
@@ -1025,16 +1063,19 @@ namespace BrailleIO
         /// <summary>
         /// Occurs when the visibility of view changed.
         /// </summary>
+		/// <remarks> </remarks>
         public event EventHandler<VisibilityChangedEventArgs> VisibleViewsChanged;
 
         /// <summary>
         /// Occurs when the adapter manager was changed.
         /// </summary>
+		/// <remarks> </remarks>
         public event EventHandler AdapterManagerChanged;
 
         /// <summary>
         /// Occurs when the active(main) adapter was changed.
         /// </summary>
+		/// <remarks> </remarks>
         public event EventHandler<IBrailleIOAdapterEventArgs> ActiveAdapterChanged;
 
         void fire_visibleViewChanged()
@@ -1073,6 +1114,7 @@ namespace BrailleIO
         /// Does not dispose this singleton because it cant be destroyed! 
         /// But it disposes the related Adapter manager and so on if they are disposable.
         /// </summary>
+		/// <remarks> </remarks>
         public void Dispose()
         {
             try
@@ -1090,18 +1132,24 @@ namespace BrailleIO
     /// <summary>
     /// Event arguments for a visibility changed event in the list of visible views.
     /// </summary>
+		/// <remarks> </remarks>
     /// <seealso cref="System.EventArgs" />
     public class VisibilityChangedEventArgs : EventArgs
     {
         /// <summary>
         /// list of all visible views
         /// </summary>
+		/// <remarks> </remarks>
         public readonly List<AbstractViewBoxModelBase> VisibleViews;
         /// <summary>
         /// List of previously visible views
         /// </summary>
+		/// <remarks> </remarks>
         public readonly List<AbstractViewBoxModelBase> PreviouslyVisibleViews;
 
+        /// <summary>Initializes a new instance of the <see cref="VisibilityChangedEventArgs"/> class.</summary>
+        /// <param name="vvs">The VVS.</param>
+        /// <param name="pvvs">The PVVS.</param>
         public VisibilityChangedEventArgs(List<AbstractViewBoxModelBase> vvs, List<AbstractViewBoxModelBase> pvvs)
         {
             VisibleViews = vvs;

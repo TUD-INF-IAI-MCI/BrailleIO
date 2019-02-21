@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 
 namespace BrailleIO.Interface
@@ -15,6 +12,7 @@ namespace BrailleIO.Interface
     /// Enables the direct usage of the reimplemented interface <seealso cref="IViewPadding"/> for defining a padding
     /// Enables the direct usage of the reimplemented interface <seealso cref="IViewMargin"/> for defining a margin
     /// </summary>
+    /// <remarks> </remarks>
     public abstract class AbstractViewBoxModelBase : AbstractViewBorderBase, IViewBoxModel, IPosition, IPannable, IBrailleIOPropertiesChangedEventSupplier, IViewable
     {
         #region Members
@@ -23,6 +21,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets or sets the name of this View - Some kind of UID.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// The name.
         /// </value>
@@ -43,9 +42,8 @@ namespace BrailleIO.Interface
         private readonly object _viewLock = new object();
         private Rectangle _viewBox = new Rectangle();
 
-        /// <summary>
-        /// Rectangle given dimensions and position of the whole view range or screen including the ContentBox, margin, padding and border (see BoxModel).
-        /// </summary>
+        /// <summary>Rectangle given dimensions and position of the whole view range or screen including the ContentBox, margin, padding and border (see BoxModel).</summary>
+        /// <value>The available space on the display.</value>
         public virtual Rectangle ViewBox { get { return _viewBox; } set { lock (_viewLock) { _viewBox = value; updateContentBoxFromViewBox(); firePropertyChangedEvent("ViewBox"); } } }
         private readonly object _contLock = new object();
         private Rectangle _contBox = new Rectangle();
@@ -77,6 +75,8 @@ namespace BrailleIO.Interface
         /// └───────────────────────────────────────────────────┘
         /// 
         /// </summary>
+		/// <remarks> </remarks>
+        /// <value>the available space for the content</value>
         public virtual Rectangle ContentBox
         {
             get { updateContentBoxFromViewBox(); return _contBox; }
@@ -139,6 +139,7 @@ namespace BrailleIO.Interface
         /// Gets or sets the width of the content.
         /// This is used to show the Scrollbars and to estimate the ratio between the content box and the hidden content.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>The width of the whole content.</value>
         public virtual int ContentWidth
         {
@@ -151,6 +152,7 @@ namespace BrailleIO.Interface
         /// Gets or sets the height of the content.
         /// This is used to show the Scrollbars and to estimate the ratio between the content box and the hidden content.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>The height of the whole content.</value>
         public virtual int ContentHeight
         {
@@ -165,6 +167,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// set new X position on display
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="left">
         /// new x offset
         /// </param>
@@ -178,6 +181,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// get X Offset on device
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>
         /// int x_offset
         /// </returns>
@@ -189,6 +193,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// set new Y position on display
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="top">
         /// new y position
         /// </param>
@@ -202,6 +207,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// get Y Offset on device
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>
         /// int y_offset on device
         /// </returns>
@@ -213,6 +219,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// set Width on Device
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="width">width on device</param>
         public virtual void SetWidth(int width)
         {
@@ -224,7 +231,8 @@ namespace BrailleIO.Interface
         /// <summary>
         /// get Width on device
         /// </summary>
-        /// <returns></returns>
+		/// <remarks> </remarks>
+        /// <returns>The current width in pins</returns>
         public virtual int GetWidth()
         {
             return ViewBox.Width;
@@ -233,6 +241,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// set Height on device
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="height">height on device</param>
         public virtual void SetHeight(int height)
         {
@@ -244,7 +253,8 @@ namespace BrailleIO.Interface
         /// <summary>
         /// get Height on Device
         /// </summary>
-        /// <returns></returns>
+		/// <remarks> </remarks>
+        /// <returns>The current height in pins</returns>
         public virtual int GetHeight()
         {
             return ViewBox.Height;
@@ -261,6 +271,7 @@ namespace BrailleIO.Interface
         /// For handling panning the content is moved underneath view port - like a sheet
         /// of paper under a fixed microscope. This means the offsets normally are negative values! 
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// The offset position of the content related to the view port.
         /// </value>
@@ -270,6 +281,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets or sets a value indicating whether to show some scrollbars.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         ///   <c>true</c> if to show scrollbars; otherwise, <c>false</c>.
         /// </value>
@@ -281,6 +293,7 @@ namespace BrailleIO.Interface
         /// E.g. a negative offset should move the content to the left and the viewable
         /// region to the right.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>
         /// the horizontal offset
         /// </returns>
@@ -292,6 +305,7 @@ namespace BrailleIO.Interface
         /// E.g. a negative offset should move the content to the left and the viewable
         /// region to the right.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="x">The offset in horizontal direction.</param>
         public virtual void SetXOffset(int x) { OffsetPosition = new Point(x, GetYOffset()); }
 
@@ -301,6 +315,7 @@ namespace BrailleIO.Interface
         /// E.g. a negative offset should move the content to up and the viewable
         /// region down.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>
         /// the vertical offset
         /// </returns>
@@ -312,6 +327,7 @@ namespace BrailleIO.Interface
         /// E.g. a negative offset should move the content to up and the viewable
         /// region down.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="y">The offset in vertical direction.</param>
         public virtual void SetYOffset(int y) { OffsetPosition = new Point(GetXOffset(), y); }
 
@@ -320,27 +336,31 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Moves the viewBox in vertical direction.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="steps">The steps (pins) to move.</param>
-        /// <returns>The new ViewBox</returns>
+        /// <returns>the new <see cref="OffsetPosition"/></returns>
         public virtual Point MoveVertical(int steps) { return Move(new Point(0, steps)); }
         /// <summary>
         /// Moves the viewBox in horizontal direction.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="steps">The steps (pins) to move.</param>
-        /// <returns>The new ViewBox</returns>
+        /// <returns>the new <see cref="OffsetPosition"/></returns>
         public virtual Point MoveHorizontal(int steps) { return Move(new Point(steps, 0)); }
         /// <summary>
         /// Moves the viewBox in the given directions.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="stepsX">The steps (pins) to move in horizontal direction.</param>
         /// <param name="stepsY">The steps (pins) to move in vertical direction.</param>
-        /// <returns></returns>
+        /// <returns>the new <see cref="OffsetPosition"/></returns>
         public virtual Point Move(int stepsX, int stepsY) { return Move(new Point(stepsX, stepsY)); }
         /// <summary>
         /// Moves the viewBox in the given directions.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="direktions">The steps (pins) to move.</param>
-        /// <returns>The new ViewBox</returns>
+        /// <returns>the new <see cref="OffsetPosition"/></returns>
         public virtual Point Move(Point direktions)
         {
             int maxXOffset = -(Math.Max(ContentWidth - ContentBox.Width, 0));
@@ -355,8 +375,9 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Moves the viewBox to the given position.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="point">Position to which the viewBox should be moved.</param>
-        /// <returns>The new ViewBox</returns>
+        /// <returns>the new <see cref="OffsetPosition"/></returns>
         public virtual Point MoveTo(Point point)
         {
             SetXOffset(Math.Min(point.X, 0));
@@ -370,8 +391,11 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Occurs when a property has changed.
         /// </summary>
+		/// <remarks> </remarks>
         public event EventHandler<BrailleIOPropertyChangedEventArgs> PropertyChanged;
 
+        /// <summary>Fires the property changed event.</summary>
+        /// <param name="propertyName">Name of the property.</param>
         protected virtual void firePropertyChangedEvent(string propertyName)
         {
             //System.Diagnostics.Debug.WriteLine("Property changed : " + propertyName);
@@ -384,12 +408,13 @@ namespace BrailleIO.Interface
         #endregion
 
         #region IViewable
-        
+
         private bool is_visible = true;
-        
+
         /// <summary>
         /// set Visibility of ViewRange
         /// </summary>
+        /// <remarks> </remarks>
         /// <param name="visible">
         /// bool desired visibility
         /// </param>
@@ -403,6 +428,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Determines whether this instance is visible.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>
         ///   <c>true</c> if this instance is visible; otherwise, <c>false</c> if the instance is hidden.
         /// </returns>

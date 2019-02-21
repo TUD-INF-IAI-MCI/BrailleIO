@@ -8,6 +8,7 @@ namespace BrailleIO.Renderer
     /// <summary>
     /// A renderer that translates an image into an bool matrix by applying a threshold on the lighness of a color pixel.
     /// </summary>
+	/// <remarks> </remarks>
     /// <seealso cref="BrailleIO.Renderer.AbstractCachingRendererBase" />
     /// <seealso cref="BrailleIO.Interface.IBrailleIOContentRenderer" />
     public class BrailleIOImageToMatrixRenderer : AbstractCachingRendererBase, IContrastThreshold
@@ -18,6 +19,8 @@ namespace BrailleIO.Renderer
         /// <c>false</c> means the render does not handle panning (offset), returns the whole rendering result
         /// and the combination renderer has to take care about the panning (offsets)
         /// </summary>
+        /// <value>
+        ///   <c>true</c> if the renderer does handle panning by it self; otherwise, <c>false</c>.</value>
         public override bool DoesPanning { get { return true; } }
         /// <summary>
         /// If lightness of a color is lower than this threshold, the pin will be lowered. 
@@ -25,6 +28,7 @@ namespace BrailleIO.Renderer
         /// A low threshold leads darker pins to stay lowered.
         /// Have to be between 0 and 255.
         /// </summary>
+		/// <remarks> </remarks>
         private float Threshold = 210;
         /// <summary>
         /// Resets the threshold.
@@ -33,22 +37,24 @@ namespace BrailleIO.Renderer
         /// A low threshold leads darker pins to stay lowered.
         /// Have to be between 0 and 255.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>the new threshold</returns>
         public float ResetThreshold() { return this.Threshold = 210; }
         /// <summary>
         /// Sets the threshold.
-        /// If lightness of a color is lower than this threshold, the pin will be lowered. 
-        /// A higher threshold leads lighter points to raise pins. 
+        /// If lightness of a color is lower than this threshold, the pin will be lowered.
+        /// A higher threshold leads lighter points to raise pins.
         /// A low threshold leads darker pins to stay lowered.
         /// Have to be between 0 and 255.
         /// </summary>
         /// <param name="threshold">The threshold.</param>
-        /// <returns></returns>
+        /// <returns>the new threshold</returns>
         public float SetThreshold(float threshold) { return this.Threshold = Math.Min(Math.Max(threshold, 0), 255); }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="BrailleIOImageToMatrixRenderer"/> image should be rendered inverted.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         ///   <c>true</c> if invert the image; otherwise, <c>false</c>.
         /// </value>
@@ -57,6 +63,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Renders the image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="img">The image.</param>
         /// <param name="view">The view.</param>
         /// <param name="zoom">The zoom factor.</param>
@@ -66,6 +73,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Renders the image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="img">The image.</param>
         /// <param name="view">The view.</param>
         /// <param name="offset">The offset for translation.</param>
@@ -82,6 +90,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Renders the image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="img">The image.</param>
         /// <param name="view">The view.</param>
         /// <param name="zoom">The zoom factor.</param>
@@ -93,6 +102,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Renders the image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="img">The image.</param>
         /// <param name="view">The view.</param>
         /// <param name="offset">The offset for translation.</param>
@@ -109,6 +119,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Renders the image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="img">The image.</param>
         /// <param name="view">The view.</param>
         /// <param name="zoom">The zoom factor.</param>
@@ -119,6 +130,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Renders the image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="img">The image.</param>
         /// <param name="view">The view.</param>
         /// <param name="offset">The offset for translation.</param>
@@ -132,6 +144,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Renders the image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="img">The image.</param>
         /// <param name="view">The view.</param>
         /// <param name="invert">if set to <c>true</c> the result will be inverted.</param>
@@ -144,6 +157,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Renders the image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="img">The image.</param>
         /// <param name="view">The view.</param>
         /// <param name="offset">The offset for translation.</param>
@@ -162,6 +176,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Renders the image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="img">The image.</param>
         /// <param name="view">The view.</param>
         /// <param name="invert">if set to <c>true</c>  the result will be inverted.</param>
@@ -175,6 +190,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Renders the image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="img">The image.</param>
         /// <param name="view">The view.</param>
         /// <param name="offset">The offset for translation.</param>
@@ -199,6 +215,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Renders the image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="img">The image.</param>
         /// <param name="view">The view.</param>
         /// <param name="invert">if set to <c>true</c>  the result will be inverted.</param>
@@ -211,6 +228,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Renders the image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="img">The image.</param>
         /// <param name="view">The view.</param>
         /// <param name="offset">The offset for translation.</param>
@@ -391,37 +409,13 @@ namespace BrailleIO.Renderer
             }
         }
 
-        #region IBrailleIOContentRenderer
-
-        ///// <summary>
-        ///// Renders a content object into an boolean matrix;
-        ///// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
-        ///// ATTENTION: have to be implemented. check for the
-        ///// </summary>
-        ///// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange" />.</param>
-        ///// <param name="content">The content to render.</param>
-        ///// <param name="callHooks">if set to <c>true</c> [call the pre- and post-rendering hooks].</param>
-        ///// <returns>
-        ///// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
-        ///// and N is the count of columns (which is the width).
-        ///// Positions in the Matrix are of type [i,j]
-        ///// while i is the index of the row (is the y position)
-        ///// and j is the index of the column (is the x position).
-        ///// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
-        ///// </returns>
-        //public override bool[,] RenderMatrix(IViewBoxModel view, object content, bool callHooks = true)
-        //{
-        //    return RenderImage(content as Bitmap, view, Invert, view is IZoomable ? ((IZoomable)view).GetZoom() : 1);
-        //}
-
-        #endregion
-
         #region Override AbstractCachingRendererBase
 
         /// <summary>
         /// Informs the renderer that the content the or view has changed.
         /// You have to call the PrerenderMatrix function manually if you want to have a cached result.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="view">The view.</param>
         /// <param name="content">The content.</param>
         override public void ContentOrViewHasChanged(IViewBoxModel view, object content)
@@ -437,6 +431,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Sets the contrast threshold.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="threshold">The threshold.</param>
         /// <returns>
         /// the new set threshold
@@ -451,6 +446,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets the contrast threshold.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>
         /// the threshold
         /// </returns>
@@ -459,6 +455,11 @@ namespace BrailleIO.Renderer
             return Convert.ToInt32(Threshold);
         }
 
+        /// <summary>the rendering method used from the prerendering and rendering mehods to produce the caching result.</summary>
+        /// <param name="view">The view range</param>
+        /// <param name="content">the content object to render</param>
+        /// <param name="CallHooksOnCacherendering">flag determining if the hooks should be called or not while rendering</param>
+        /// <returns>the rendering result.</returns>
         protected override bool[,] renderMatrix(IViewBoxModel view, object content, bool CallHooksOnCacherendering)
         {
             return RenderImage(content as Bitmap, view, Invert, view is IZoomable ? ((IZoomable)view).GetZoom() : 1);
@@ -470,14 +471,16 @@ namespace BrailleIO.Renderer
     /// <summary>
     /// Class for useful Graphic utilities that are used by the BrailleIo framework.
     /// </summary>
+	/// <remarks> </remarks>
     public static class GraphicUtils
     {
         /// <summary>
         /// Returns if color A the is lighter than color B.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="a">the first color.</param>
         /// <param name="b">the second color.</param>
-        /// <returns></returns>
+        /// <returns><c>true</c> if color a is lighter than b</returns>
         public static bool ColorIsLighterThan(Color a, Color b)
         {
             var ba = GetLightness(a);
@@ -489,6 +492,7 @@ namespace BrailleIO.Renderer
         /// Gets the lightness of a color. Keeping respect to the alpha value of a background of white.
         /// R * 0.3 + B * 0.11 + G * 0.59
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="c">The color.</param>
         /// <returns>a float value between 0 and 255</returns>
         public static float GetLightness(Color c)
@@ -508,10 +512,11 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets the average gray scale of an Image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="m_w">The M_W.</param>
         /// <param name="m_h">The M_H.</param>
         /// <param name="rescaled">The rescaled.</param>
-        /// <returns></returns>
+        /// <returns>the average gray-scale value for the bitmap (between 0 ans 255).</returns>
         public static float GetAverageGrayscale(int m_w, int m_h, Bitmap rescaled)
         {
             // get average
@@ -549,9 +554,9 @@ namespace BrailleIO.Renderer
             return (float)(r + gr + b) / 3;
         }
 
-        private static Object gLock = new Object();
-        private static Pen _p = new Pen(Brushes.LightGray, 0.4F);
-        private static Object pLock = new Object();
+        private static readonly Object gLock = new Object();
+        private static readonly Pen _p = new Pen(Brushes.LightGray, 0.4F);
+        private static readonly Object pLock = new Object();
         private static Pen Stroke
         {
             get
@@ -562,13 +567,14 @@ namespace BrailleIO.Renderer
                 }
             }
         }
-        private static Object graphicsLock = new Object();
+        private static readonly Object graphicsLock = new Object();
         const int pixel = 5;
 
         //paints display!
         /// <summary>
         /// Paints the bool matrix into an BMP image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="m">The matrix.</param>
         /// <param name="filePath">The file path.</param>
         public static void PaintBoolMatrixToImage(bool[,] m, string filePath)
@@ -608,4 +614,5 @@ namespace BrailleIO.Renderer
             }
         }
     }
+
 }

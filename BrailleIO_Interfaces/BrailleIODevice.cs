@@ -5,40 +5,49 @@ namespace BrailleIO
     /// <summary>
     /// A class collecting important features and properties of a specific hardware device.
     /// </summary>
+		/// <remarks> </remarks>
     public class BrailleIODevice
     {
         /// <summary>
         /// Count of pins in horizontal direction (width)
         /// </summary>
+		/// <remarks> </remarks>
         public readonly int DeviceSizeX;
         /// <summary>
         /// Count of pins in vertical direction (height)
         /// </summary>
+		/// <remarks> </remarks>
         public readonly int DeviceSizeY;
         /// <summary>
         /// Name of the device (try to keep it unique)
         /// </summary>
+		/// <remarks> </remarks>
         public readonly String Name;
         /// <summary>
         /// indicates if the device has keys or not
         /// </summary>
+		/// <remarks> </remarks>
         public readonly bool HasKeys;
         /// <summary>
         /// indicates if the device is touch sensitive or not
         /// </summary>
+		/// <remarks> </remarks>
         public readonly bool HasTouch;
         /// <summary>
         /// rate for refreshing the display in Hz = count/sec
         /// </summary>
+		/// <remarks> </remarks>
         public readonly int RefreshRate;
         /// <summary>
         /// String representation for the Type of the adapter 
         /// </summary>
+		/// <remarks> </remarks>
         public readonly string AdapterType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIODevice"/> class.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="size_x">Count of pins in horizontal direction (width)</param>
         /// <param name="size_y">Count of pins in vertical direction (height)</param>
         /// <param name="device_name">Name of the device (try to keep it unique)</param>
@@ -59,6 +68,7 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIODevice"/> class.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="size_x">Count of pins in horizontal direction (width)</param>
         /// <param name="size_y">Count of pins in vertical direction (height)</param>
         /// <param name="device_name">Name of the device (try to keep it unique)</param>
@@ -79,6 +89,7 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIODevice"/> class.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="size_x">Count of pins in horizontal direction (width)</param>
         /// <param name="size_y">Count of pins in vertical direction (height)</param>
         /// <param name="device_name">Name of the device (try to keep it unique)</param>
@@ -99,6 +110,7 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIODevice"/> class.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="size_x">Count of pins in horizontal direction (width)</param>
         /// <param name="size_y">Count of pins in vertical direction (height)</param>
         /// <param name="device_name">Name of the device (try to keep it unique)</param>

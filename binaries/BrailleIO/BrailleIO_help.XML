@@ -8,17 +8,18 @@
             <summary>
             Basic abstract <see cref="T:BrailleIO.Interface.IBrailleIOAdapterManager"/> implementation to handle all generic adapters.
             </summary>
+            <remarks> </remarks>
             <seealso cref="T:BrailleIO.Interface.IBrailleIOAdapterManager" />
         </member>
         <member name="P:BrailleIO.AbstractBrailleIOAdapterManagerBase.ActiveAdapter">
-            <summary>
-            initialize all supported devices and wait for connection.
-            </summary>
+            <summary>initialize all supported devices and wait for connection.</summary>
+            <value>The active adapter.</value>
         </member>
         <member name="P:BrailleIO.AbstractBrailleIOAdapterManagerBase.Adapters">
             <summary>
             Gets the adapters.
             </summary>
+            <remarks> </remarks>
             <value>
             The adapters.
             </value>
@@ -27,22 +28,26 @@
             <summary>
             The BrailleIOMediator
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.AbstractBrailleIOAdapterManagerBase.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:BrailleIO.AbstractBrailleIOAdapterManagerBase"/> class.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.AbstractBrailleIOAdapterManagerBase.#ctor(BrailleIO.BrailleIOMediator@)">
             <summary>
             Initializes a new instance of the <see cref="T:BrailleIO.AbstractBrailleIOAdapterManagerBase"/> class.
             </summary>
+            <remarks> </remarks>
             <param name="io">The <see cref="T:BrailleIO.BrailleIOMediator"/> this manager is related to.</param>
         </member>
         <member name="M:BrailleIO.AbstractBrailleIOAdapterManagerBase.AddAdapter(BrailleIO.Interface.IBrailleIOAdapter)">
             <summary>
             Adds a new adapter to the manager.
             </summary>
+            <remarks> </remarks>
             <param name="adapter">The adapter.</param>
             <returns>True if the adapter could be added to the manager otherwise false. It also returns false if the adapter is already added.</returns>
         </member>
@@ -50,6 +55,7 @@
             <summary>
             Removes a new adapter from the manager.
             </summary>
+            <remarks> </remarks>
             <param name="adapter">The adapter.</param>
             <returns>True if the adapter could be removed from the manager otherwise false.</returns>
         </member>
@@ -57,56 +63,64 @@
             <summary>
             Gets the adapters.
             </summary>
-            <returns></returns>
+            <remarks> </remarks>
+            <returns>array of currently registered adapters (hardware abstraction)</returns>
         </member>
         <member name="M:BrailleIO.AbstractBrailleIOAdapterManagerBase.Synchronize(System.Boolean[0:,0:])">
-            <summary>
-            Synchronizes the specified matrix.
-            </summary>
+            <summary>Synchronizes the specified matrix.</summary>
             <param name="matrix">The matrix.</param>
-            <returns></returns>
+            <returns>
+              <c>true</c> if the matrix could been displayed successfully on the output device</returns>
         </member>
         <member name="E:BrailleIO.AbstractBrailleIOAdapterManagerBase.NewAdapterRegistered">
             <summary>
             Occurs when a new adapter was registered.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="E:BrailleIO.AbstractBrailleIOAdapterManagerBase.AdapterRemoved">
             <summary>
             Occurs when an adapter was removed.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="E:BrailleIO.AbstractBrailleIOAdapterManagerBase.ActiveAdapterChanged">
             <summary>
             Occurs when the active adapter changed.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.AbstractBrailleIOAdapterManagerBase.fire_NewAdapterRegistered(BrailleIO.Interface.IBrailleIOAdapter)">
             <summary>
             Fires the new adapter registered event.
             </summary>
+            <remarks> </remarks>
             <param name="adapter">The adapter.</param>
         </member>
         <member name="M:BrailleIO.AbstractBrailleIOAdapterManagerBase.fire_AdapterRemoved(BrailleIO.Interface.IBrailleIOAdapter)">
             <summary>
             Fires the adapter removed event.
             </summary>
+            <remarks> </remarks>
             <param name="adapter">The adapter.</param>
         </member>
         <member name="M:BrailleIO.AbstractBrailleIOAdapterManagerBase.fire_ActiveAdapterChanged">
             <summary>
             Fires the active adapter changed event.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.AbstractBrailleIOAdapterManagerBase.Dispose">
             <summary>
             Disposes this element and disconnects and disposes all registered adapters.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="T:BrailleIO.BasicBrailleIOAdapterManager">
             <summary>
             Basic generic adapter manager for handling hardware or software adapters as in- and output for the <see cref="T:BrailleIO.BrailleIOMediator"/>
             </summary>
+            <remarks> </remarks>
             <seealso cref="T:BrailleIO.AbstractBrailleIOAdapterManagerBase" />
         </member>
         <member name="T:BrailleIO.BrailleIOMediator">
@@ -116,60 +130,73 @@
             It gives you access to the hardware via the <see cref="T:BrailleIO.Interface.IBrailleIOAdapterManager"/> AdapterManager.
             The GUI/TUI components are available through several methods. 
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="F:BrailleIO.BrailleIOMediator.instance">
             <summary>
             The singleton instance
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="F:BrailleIO.BrailleIOMediator._timer">
             <summary>
             Timer to enable a continuous refresh rate
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="P:BrailleIO.BrailleIOMediator.RenderingTimer">
-            <summary>
-            Timer to enable a continuous refresh rate
-            </summary>
+            <summary>Timer to enable a continuous refresh rate</summary>
+            <value>The rendering timer.</value>
         </member>
         <member name="F:BrailleIO.BrailleIOMediator.views">
             <summary>
             views are either Screens (combined ViewRanges) or simply ViewRanges
             Screens should be more comfortable to use for the developer
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="F:BrailleIO.BrailleIOMediator.pins_locked">
             <summary>
             Flag to determine it the resulting matrix is changeable or not
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="P:BrailleIO.BrailleIOMediator.Matrix">
             <summary>
              matrix to be displayed on device
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="F:BrailleIO.BrailleIOMediator._adapterManager">
             <summary>
             The Adapter Manager that knows and handle the connected devices for the output
             </summary>
+            <remarks> </remarks>
+        </member>
+        <member name="P:BrailleIO.BrailleIOMediator.AdapterManager">
+            <summary>Gets or sets the adapter manager.</summary>
+            <value>The adapter manager.</value>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.Finalize">
             <summary>
             Finalizes an instance of the <see cref="T:BrailleIO.BrailleIOMediator"/> class.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="F:BrailleIO.BrailleIOMediator.syncRoot">
             <summary>
             lock object so the instance can not been build twice.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="P:BrailleIO.BrailleIOMediator.Instance">
             <summary>
-            Central instance for the BrailleIO Framework. 
+            Central instance for the BrailleIO Framework.
             It connects the hardware abstraction layers and the GUI/TUI components.
             It gives you access to the hardware via the <see cref="T:BrailleIO.Interface.IBrailleIOAdapterManager"/> AdapterManager.
-            The GUI/TUI components are available through several methods. 
+            The GUI/TUI components are available through several methods.
             </summary>
+            <value>The singleton instance.</value>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.RefreshDisplay(System.Boolean)">
             <summary>
@@ -177,6 +204,7 @@
             To enable a sending, the pins have to be unlocked (still rendering or maybe locked by the user)
             and at an Adapter has to be active.
             </summary>
+            <remarks> </remarks>
             <param name="rerender">if set to <c>true</c> the mediator will force a rendering of the content.</param>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.RenderDisplay">
@@ -186,12 +214,14 @@
             The matrix will not been sent until the refresh timer is elapsed or the
             <see cref="M:BrailleIO.BrailleIOMediator.RefreshDisplay(System.Boolean)" /> Method was called.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.refreshDisplayEvent(System.Object,System.Timers.ElapsedEventArgs)">
             <summary>
             Event handler for the refresh timer elapsed event.
             Refreshes the display.
             </summary>
+            <remarks> </remarks>
             <param name="source">The source.</param>
             <param name="e">The <see cref="T:System.Timers.ElapsedEventArgs"/> instance containing the event data.</param>
         </member>
@@ -200,21 +230,25 @@
             helping stack that helps to determine if a rendering is necessary.
             Collects all render calls and the rendering thread can decide if to render or not.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="F:BrailleIO.BrailleIOMediator.renderingTread">
             <summary>
             separate thread for building the resulting matrix
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.renderDisplay">
             <summary>
             Builds the resulting matrix that will be send to the adapters by calling the renderer for each view range.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.isRenderingNecessary">
             <summary>
             Determines whether [is rendering necessary].
             </summary>
+            <remarks> </remarks>
             <returns>
               <c>true</c> if [is rendering necessary]; otherwise, <c>false</c>.
             </returns>
@@ -223,6 +257,7 @@
             <summary>
             draw a ViewRange to this.matrix
             </summary>
+            <remarks> </remarks>
             <param name="vr">ViewRange</param>
             <param name="matrix">The matrix to render in.</param>
             <returns></returns>
@@ -234,6 +269,7 @@
             changed content by the renderers and submit it to the 
             adapters.
             </summary>
+            <remarks> </remarks>
             <value>
             The rendering timer interval.
             </value>
@@ -246,6 +282,7 @@
             anyway for refreshing them.
             The minimal refresh frequency is RenderingTimerInterval (ms) * MaxTicksToSynchronize.
             </summary>
+            <remarks> </remarks>
             <value>
             The maximum ticks before starting a synchronization anyway.
             </value>
@@ -255,6 +292,7 @@
             <summary>
             get current display-matrix.
             </summary>
+            <remarks> </remarks>
             <returns>bool[,] matrix</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.ArePinsLocked">
@@ -262,23 +300,27 @@
             check if pins are locked. This indicates that a rendering is still going on 
             or the rendering is disabled by the user by locking the set matrix.
             </summary>
+            <remarks> </remarks>
             <returns>bool pins_locked</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.LockPins">
             <summary>
             Locks the pins. Stops renderers to do there work
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.UnlockPins">
             <summary>
             Unlocks the pins. Enables renderers to refresh the matrix that is send to the devices
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.ShowView(System.String)">
             <summary>
             show a view.
             will be displayed with all other visible views at next display update.
             </summary>
+            <remarks> </remarks>
             <param name="name">
             name of view
             </param>
@@ -288,6 +330,7 @@
             hide a view.
             hidden views still exist but will not show on display
             </summary>
+            <remarks> </remarks>
             <param name="name">
             name of view
             </param>
@@ -297,6 +340,7 @@
             hide a view.
             hidden views still exist but will not show on display
             </summary>
+            <remarks> </remarks>
             <param name="name">name of view</param>
             <param name="updateOldViewStates">if set to <c>true</c> [update old view states].</param>
             <exception cref="T:System.ArgumentException">View '" + name + "' is unknown;name</exception>
@@ -305,6 +349,7 @@
             <summary>
             Add a ViewRange or a Screen to list
             </summary>
+            <remarks> </remarks>
             <param name="name">
             name of view
             </param>
@@ -316,17 +361,15 @@
             </returns>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.RemoveView(System.String)">
-            <summary>
-            remove view
-            </summary>
-            <param name="name">
-            name of view
-            </param>
+            <summary>remove view</summary>
+            <param name="name">name of view</param>
+            <returns><c>true</c> if the view was successfully removed; otherwise, <c>false</c>.</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.RenameView(System.String,System.String)">
             <summary>
             rename a view
             </summary>
+            <remarks> </remarks>
             <param name="from">
             old name
             </param>
@@ -338,6 +381,7 @@
             <summary>
             checks if Instance has a specific view
             </summary>
+            <remarks> </remarks>
             <param name="name">
             name of View
             </param>
@@ -346,28 +390,30 @@
             </returns>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.GetView(System.String)">
-            <summary>
-            get View by name
-            </summary>
+            <summary>get View by name</summary>
             <param name="name">Screen or ViewRange or null</param>
-            <returns></returns>
+            <returns>The view if exist or <c>null</c>.</returns>
+            <remarks></remarks>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.GetViews">
             <summary>
             Gets a list of all available top-level views.
             </summary>
+            <remarks> </remarks>
             <returns>list of all available top-level views. Could be <see cref="T:BrailleIO.BrailleIOScreen"/> or <see cref="T:BrailleIO.BrailleIOViewRange"/></returns>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.GetActiveViews">
             <summary>
             Gets the active views.Can be a <see cref="T:BrailleIO.BrailleIOViewRange"/> or <see cref="T:BrailleIO.BrailleIOScreen"/>
             </summary>
+            <remarks> </remarks>
             <returns>List of currently active views</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.GetViewAtPosition(System.Int32,System.Int32)">
             <summary>
             Gets the view at a position.
             </summary>
+            <remarks> </remarks>
             <param name="x">The horizontal position on the device.</param>
             <param name="y">The vertical position on the device.</param>
             <returns>The topmost view range that containing the point or <c>null</c></returns>
@@ -376,6 +422,7 @@
             <summary>
             checks if there are any views yet
             </summary>
+            <remarks> </remarks>
             <returns>
             bool 
             </returns>
@@ -384,6 +431,7 @@
             <summary>
             count of available top-level views e.g. screens in a multi screen setting
             </summary>
+            <remarks> </remarks>
             <returns>
             int views.count
             </returns>
@@ -392,62 +440,78 @@
             <summary>
             get device Width from active adapter
             </summary>
+            <remarks> </remarks>
             <returns>int Width of device</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.GetDeviceSizeY">
             <summary>
             get device Height from active adapter
             </summary>
+            <remarks> </remarks>
             <returns>int Height of device</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.Recalibrate">
             <summary>
             Forces the current active adapter devices to recalibrate.
             </summary>
+            <remarks> </remarks>
             <returns><c>true</c> if the adapter is successfully recalibrated</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.RecalibrateAll">
             <summary>
             Forces all connected adapter devices to recalibrate.
             </summary>
+            <remarks> </remarks>
             <returns><c>true</c> if all adapter are successfully recalibrated</returns>
         </member>
         <member name="E:BrailleIO.BrailleIOMediator.VisibleViewsChanged">
             <summary>
             Occurs when the visibility of view changed.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="E:BrailleIO.BrailleIOMediator.AdapterManagerChanged">
             <summary>
             Occurs when the adapter manager was changed.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="E:BrailleIO.BrailleIOMediator.ActiveAdapterChanged">
             <summary>
             Occurs when the active(main) adapter was changed.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.BrailleIOMediator.Dispose">
             <summary>
             Does not dispose this singleton because it cant be destroyed! 
             But it disposes the related Adapter manager and so on if they are disposable.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="T:BrailleIO.VisibilityChangedEventArgs">
             <summary>
             Event arguments for a visibility changed event in the list of visible views.
             </summary>
+            <remarks> </remarks>
             <seealso cref="T:System.EventArgs" />
         </member>
         <member name="F:BrailleIO.VisibilityChangedEventArgs.VisibleViews">
             <summary>
             list of all visible views
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="F:BrailleIO.VisibilityChangedEventArgs.PreviouslyVisibleViews">
             <summary>
             List of previously visible views
             </summary>
+            <remarks> </remarks>
+        </member>
+        <member name="M:BrailleIO.VisibilityChangedEventArgs.#ctor(System.Collections.Generic.List{BrailleIO.Interface.AbstractViewBoxModelBase},System.Collections.Generic.List{BrailleIO.Interface.AbstractViewBoxModelBase})">
+            <summary>Initializes a new instance of the <see cref="T:BrailleIO.VisibilityChangedEventArgs"/> class.</summary>
+            <param name="vvs">The VVS.</param>
+            <param name="pvvs">The PVVS.</param>
         </member>
         <member name="T:BrailleIO.BrailleIOScreen">
             <summary>
@@ -456,16 +520,19 @@
             But only one Screen can be visible at the same time.
             Width this container you can build multi screen applications
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.BrailleIOScreen.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:BrailleIO.BrailleIOScreen"/> class.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.BrailleIOScreen.#ctor(System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:BrailleIO.BrailleIOScreen"/> class.
             </summary>
+            <remarks> </remarks>
             <param name="name">The name of the screen. Should be unique. Can be used to find the screen (view) 
             in the list of all available screen of the <see cref="T:BrailleIO.BrailleIOMediator"/> instance.</param>
         </member>
@@ -474,6 +541,7 @@
             Returns an ordered list of the added view ranges.
             The order is from the earliest added to the latest added but width respect of the set zOrder from the lowest to the highest.
             </summary>
+            <remarks> </remarks>
             <returns>Returns an ordered list of the added view ranges.
             The order is from the earliest added to the latest added but width respect of the set zOrder from the lowest to the highest.</returns>
         </member>
@@ -481,12 +549,14 @@
             <summary>
             add ViewRange to screen
             </summary>
+            <remarks> </remarks>
             <param name="_view_range">ViewRange</param>
         </member>
         <member name="M:BrailleIO.BrailleIOScreen.AddViewRange(System.String,BrailleIO.BrailleIOViewRange)">
             <summary>
             add ViewRange to screen
             </summary>
+            <remarks> </remarks>
             <param name="name">
             name of ViewRange
             </param>
@@ -498,6 +568,7 @@
             <summary>
             remove ViewRange
             </summary>
+            <remarks> </remarks>
             <param name="name">
             name of ViewRange
             </param>
@@ -506,6 +577,7 @@
             <summary>
             rename ViewRange
             </summary>
+            <remarks> </remarks>
             <param name="from">
             old name of ViewRange
             </param>
@@ -517,6 +589,7 @@
             <summary>
             get All ViewRanges in Screen
             </summary>
+            <remarks> </remarks>
             <returns>
             OrderedDictionary&lt;ViewRange&gt;
             </returns>
@@ -525,6 +598,7 @@
             <summary>
             Gets the view range width a specific name.
             </summary>
+            <remarks> </remarks>
             <param name="name">The name of the viewRange to search for.</param>
             <returns>the view range or <c>null</c></returns>
         </member>
@@ -532,6 +606,7 @@
             <summary>
             has specific ViewRange?
             </summary>
+            <remarks> </remarks>
             <param name="name">
             name of ViewRange
             </param>
@@ -543,20 +618,21 @@
             <summary>
             Gets the visible view range at a position.
             </summary>
+            <remarks> </remarks>
             <param name="x">The horizontal position on the device.</param>
             <param name="y">The vertical position on the device.</param>
-            <returns></returns>
+            <returns>The view range at the requested pin-position or <c>null</c>.</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOScreen.IsEmpty">
-            <summary>
-            has any ViewRanges?
-            </summary>
-            <returns></returns>
+            <summary>has any ViewRanges?</summary>
+            <returns>
+              <c>true</c> if this there are no <see cref="T:BrailleIO.BrailleIOViewRange"/> inside; otherwise, <c>false</c>.</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOScreen.Count">
             <summary>
             amount of ViewRanges
             </summary>
+            <remarks> </remarks>
             <returns>
             int count
             </returns>
@@ -565,28 +641,293 @@
             <summary>
             A Dictionary that can be sorted
             </summary>
+            <remarks> </remarks>
             <typeparam name="TKey">The type of the key.</typeparam>
             <typeparam name="TValue">The type of the value.</typeparam>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.#ctor(System.Collections.Generic.IComparer{System.Collections.Generic.KeyValuePair{`0,`1}})">
+            <summary>Initializes a new instance of the <see cref="T:BrailleIO.OrderedConcurentDictionary`2"/> class.</summary>
+            <param name="comparer">The used comparer for sorting.</param>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.GetSortedValues">
+            <summary>Gets the sorted values.</summary>
+            <returns>List of sorted values</returns>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.ContainsKey(`0)">
+            <summary>Ermittelt, ob das <see cref="T:System.Collections.Generic.IDictionary`2"/> ein Element mit dem angegebenen Schlüssel enthält.</summary>
+            <param name="key">Der im <see cref="T:System.Collections.Generic.IDictionary`2"/> zu suchende Schlüssel.</param>
+            <returns>
+              <span class="keyword">
+                <span class="languageSpecificText">
+                  <span class="cs">true</span>
+                  <span class="vb">True</span>
+                  <span class="cpp">true</span>
+                </span>
+              </span>
+              <span class="nu">
+                <span class="keyword">true</span> (<span class="keyword">True</span> in Visual Basic)</span>, wenn das <see cref="T:System.Collections.Generic.IDictionary`2"/> ein Element mit dem Schlüssel enthält, andernfalls <span class="keyword"><span class="languageSpecificText"><span class="cs">false</span><span class="vb">False</span><span class="cpp">false</span></span></span><span class="nu"><span class="keyword">false</span> (<span class="keyword">False</span> in Visual Basic)</span>.
+            </returns>
+        </member>
+        <member name="P:BrailleIO.OrderedConcurentDictionary`2.Keys">
+            <summary>Ruft eine <see cref="T:System.Collections.Generic.ICollection`1"/> ab, die die Schlüssel des <see cref="T:System.Collections.Generic.IDictionary`2"/> enthält.</summary>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.Remove(`0)">
+            <summary>Entfernt das Element mit dem angegebenen Schlüssel aus dem <see cref="T:System.Collections.Generic.IDictionary`2"/>.</summary>
+            <param name="key">Der Schlüssel des zu entfernenden Elements.</param>
+            <returns>
+              <span class="keyword">
+                <span class="languageSpecificText">
+                  <span class="cs">true</span>
+                  <span class="vb">True</span>
+                  <span class="cpp">true</span>
+                </span>
+              </span>
+              <span class="nu">
+                <span class="keyword">true</span> (<span class="keyword">True</span> in Visual Basic)</span>, wenn das Element erfolgreich entfernt wurde, andernfalls <span class="keyword"><span class="languageSpecificText"><span class="cs">false</span><span class="vb">False</span><span class="cpp">false</span></span></span><span class="nu"><span class="keyword">false</span> (<span class="keyword">False</span> in Visual Basic)</span>.
+            Diese Methode gibt auch dann <span class="keyword"><span class="languageSpecificText"><span class="cs">false</span><span class="vb">False</span><span class="cpp">false</span></span></span><span class="nu"><span class="keyword">false</span> (<span class="keyword">False</span> in Visual Basic)</span> zurück, wenn <paramref name="key" /> nicht im ursprünglichen <see cref="T:System.Collections.Generic.IDictionary`2"/> gefunden wurde.
+            </returns>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.TryGetValue(`0,`1@)">
+            <summary>Ruft den dem angegebenen Schlüssel zugeordneten Wert ab.</summary>
+            <param name="key">Der Schlüssel, dessen Wert abgerufen werden soll.</param>
+            <param name="value">
+            Wenn diese Methode zurückgegeben wird, enthält sie den dem angegebenen Schlüssel zugeordneten Wert, wenn der Schlüssel gefunden wird, andernfalls enthält sie den Standardwert für den Typ des <paramref name="value" />-Parameters.
+            Dieser Parameter wird nicht initialisiert übergeben.
+            </param>
+            <returns>
+              <span class="keyword">
+                <span class="languageSpecificText">
+                  <span class="cs">true</span>
+                  <span class="vb">True</span>
+                  <span class="cpp">true</span>
+                </span>
+              </span>
+              <span class="nu">
+                <span class="keyword">true</span> (<span class="keyword">True</span> in Visual Basic)</span>, wenn das Objekt, das <see cref="T:System.Collections.Generic.IDictionary`2"/> implementiert, ein Element mit dem angegebenen Schlüssel enthält, andernfalls <span class="keyword"><span class="languageSpecificText"><span class="cs">false</span><span class="vb">False</span><span class="cpp">false</span></span></span><span class="nu"><span class="keyword">false</span> (<span class="keyword">False</span> in Visual Basic)</span>.
+            </returns>
+        </member>
+        <member name="P:BrailleIO.OrderedConcurentDictionary`2.Values">
+            <summary>Ruft eine <see cref="T:System.Collections.Generic.ICollection`1"/> ab, die die Werte im <see cref="T:System.Collections.Generic.IDictionary`2"/> enthält.</summary>
+        </member>
+        <member name="P:BrailleIO.OrderedConcurentDictionary`2.Item(`0)">
+            <summary>Gets or sets the <see cref="!:TValue"/> with the specified key.</summary>
+            <param name="key">The key.</param>
+            <value>The <see cref="!:TValue"/>.</value>
+            <returns>the value to the requested key</returns>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.Add(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>Fügt der <see cref="T:System.Collections.Generic.ICollection`1"/> ein Element hinzu.</summary>
+            <param name="item">Das Objekt, das <see cref="T:System.Collections.Generic.ICollection`1"/> hinzugefügt werden soll.</param>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.Clear">
+            <summary>Entfernt alle Elemente aus <see cref="T:System.Collections.Generic.ICollection`1"/>.</summary>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.Contains(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>Ermittelt, ob die <see cref="T:System.Collections.Generic.ICollection`1"/> einen bestimmten Wert enthält.</summary>
+            <param name="item">Das im <see cref="T:System.Collections.Generic.ICollection`1"/> zu suchende Objekt.</param>
+            <returns>
+              <span class="keyword">
+                <span class="languageSpecificText">
+                  <span class="cs">true</span>
+                  <span class="vb">True</span>
+                  <span class="cpp">true</span>
+                </span>
+              </span>
+              <span class="nu">
+                <span class="keyword">true</span> (<span class="keyword">True</span> in Visual Basic)</span>, wenn das <paramref name="item" /> in der <see cref="T:System.Collections.Generic.ICollection`1"/> gefunden wird, andernfalls <span class="keyword"><span class="languageSpecificText"><span class="cs">false</span><span class="vb">False</span><span class="cpp">false</span></span></span><span class="nu"><span class="keyword">false</span> (<span class="keyword">False</span> in Visual Basic)</span>.
+            </returns>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.CopyTo(System.Collections.Generic.KeyValuePair{`0,`1}[],System.Int32)">
+            <summary>
+            Kopiert die Elemente der <see cref="T:System.Collections.Generic.ICollection`1"/> in ein <see cref="T:System.Array"/>, beginnend bei einem bestimmten <see cref="T:System.Array"/>-Index.
+            </summary>
+            <param name="array">
+            Das eindimensionale <see cref="T:System.Array"/>, das das Ziel der aus der <see cref="T:System.Collections.Generic.ICollection`1"/> kopierten Elemente ist.
+            Für das <see cref="T:System.Array"/> muss eine nullbasierte Indizierung verwendet werden.
+            </param>
+            <param name="arrayIndex">Der nullbasierte Index im <paramref name="array" />, bei dem der Kopiervorgang beginnt.</param>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="P:BrailleIO.OrderedConcurentDictionary`2.Count">
+            <summary>Ruft die Anzahl der Elemente ab, die in <see cref="T:System.Collections.Generic.ICollection`1"/> enthalten sind.</summary>
+        </member>
+        <member name="P:BrailleIO.OrderedConcurentDictionary`2.IsReadOnly">
+            <summary>Ruft einen Wert ab, der angibt, ob das <see cref="T:System.Collections.Generic.ICollection`1"/> schreibgeschützt ist.</summary>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.Remove(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>Entfernt das erste Vorkommen eines angegebenen Objekts aus der <see cref="T:System.Collections.Generic.ICollection`1"/>.</summary>
+            <param name="item">Das aus der <see cref="T:System.Collections.Generic.ICollection`1"/> zu entfernende Objekt.</param>
+            <returns>
+              <span class="keyword">
+                <span class="languageSpecificText">
+                  <span class="cs">true</span>
+                  <span class="vb">True</span>
+                  <span class="cpp">true</span>
+                </span>
+              </span>
+              <span class="nu">
+                <span class="keyword">true</span> (<span class="keyword">True</span> in Visual Basic)</span>, wenn <paramref name="item" /> erfolgreich aus der <see cref="T:System.Collections.Generic.ICollection`1"/> entfernt wurde, andernfalls <span class="keyword"><span class="languageSpecificText"><span class="cs">false</span><span class="vb">False</span><span class="cpp">false</span></span></span><span class="nu"><span class="keyword">false</span> (<span class="keyword">False</span> in Visual Basic)</span>.
+            Diese Methode gibt auch dann <span class="keyword"><span class="languageSpecificText"><span class="cs">false</span><span class="vb">False</span><span class="cpp">false</span></span></span><span class="nu"><span class="keyword">false</span> (<span class="keyword">False</span> in Visual Basic)</span> zurück, wenn <paramref name="item" /> nicht in der ursprünglichen <see cref="T:System.Collections.Generic.ICollection`1"/> gefunden wurde.
+            </returns>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.GetEnumerator">
+            <summary>Gibt einen Enumerator zurück, der die Auflistung durchläuft.</summary>
+            <returns>Ein Enumerator, der zum Durchlaufen der Auflistung verwendet werden kann.</returns>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.System#Collections#IEnumerable#GetEnumerator">
+            <summary>Gibt einen Enumerator zurück, der eine Auflistung durchläuft.</summary>
+            <returns>Ein <see cref="T:System.Collections.IEnumerator"/>-Objekt, das zum Durchlaufen der Auflistung verwendet werden kann.</returns>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.Add(System.Object,System.Object)">
+            <summary>Fügt dem <see cref="T:System.Collections.IDictionary"/>-Objekt ein Element mit dem angegebenen Schlüssel und Wert hinzu.</summary>
+            <param name="key">Das <see cref="T:System.Object"/>, das als Schlüssel für das hinzuzufügende Element verwendet werden soll.</param>
+            <param name="value">Das <see cref="T:System.Object"/>, das als Wert für das hinzuzufügende Element verwendet werden soll.</param>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.Add(`0,`1)">
+            <summary>Fügt der <see cref="T:System.Collections.Generic.IDictionary`2"/>-Schnittstelle ein Element mit dem angegebenen Schlüssel und Wert hinzu.</summary>
+            <param name="key">Das Objekt, das als Schlüssel des hinzuzufügenden Elements verwendet werden soll.</param>
+            <param name="value">Das Objekt, das als Wert des hinzuzufügenden Elements verwendet werden soll.</param>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.Contains(System.Object)">
+            <summary>Ermittelt, ob das <see cref="T:System.Collections.IDictionary"/>-Objekt ein Element mit dem angegebenen Schlüssel enthält.</summary>
+            <param name="key">Der im <see cref="T:System.Collections.IDictionary"/>-Objekt zu suchende Schlüssel.</param>
+            <returns>
+              <span class="keyword">
+                <span class="languageSpecificText">
+                  <span class="cs">true</span>
+                  <span class="vb">True</span>
+                  <span class="cpp">true</span>
+                </span>
+              </span>
+              <span class="nu">
+                <span class="keyword">true</span> (<span class="keyword">True</span> in Visual Basic)</span>, wenn das <see cref="T:System.Collections.IDictionary"/> ein Element mit dem Schlüssel enthält, andernfalls <span class="keyword"><span class="languageSpecificText"><span class="cs">false</span><span class="vb">False</span><span class="cpp">false</span></span></span><span class="nu"><span class="keyword">false</span> (<span class="keyword">False</span> in Visual Basic)</span>.
+            </returns>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.System#Collections#IDictionary#GetEnumerator">
+            <summary>Gibt ein <see cref="T:System.Collections.IDictionaryEnumerator"/>-Objekt für das <see cref="T:System.Collections.IDictionary"/>-Objekt zurück.</summary>
+            <returns>Ein <see cref="T:System.Collections.IDictionaryEnumerator"/>-Objekt für das <see cref="T:System.Collections.IDictionary"/>-Objekt.</returns>
+        </member>
+        <member name="P:BrailleIO.OrderedConcurentDictionary`2.IsFixedSize">
+            <summary>Ruft einen Wert ab, der angibt, ob das <see cref="T:System.Collections.IDictionary"/>-Objekt eine feste Größe hat.</summary>
+        </member>
+        <member name="P:BrailleIO.OrderedConcurentDictionary`2.System#Collections#IDictionary#Keys">
+            <summary>Ruft eine <see cref="T:System.Collections.Generic.ICollection`1"/> ab, die die Schlüssel des <see cref="T:System.Collections.Generic.IDictionary`2"/> enthält.</summary>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.Remove(System.Object)">
+            <summary>Entfernt das Element mit dem angegebenen Schlüssel aus dem <see cref="T:System.Collections.IDictionary"/>-Objekt.</summary>
+            <param name="key">Der Schlüssel des zu entfernenden Elements.</param>
+        </member>
+        <member name="P:BrailleIO.OrderedConcurentDictionary`2.System#Collections#IDictionary#Values">
+            <summary>Ruft eine <see cref="T:System.Collections.Generic.ICollection`1"/> ab, die die Werte im <see cref="T:System.Collections.Generic.IDictionary`2"/> enthält.</summary>
+        </member>
+        <member name="P:BrailleIO.OrderedConcurentDictionary`2.Item(System.Object)">
+            <summary>Gets or sets the <see cref="T:System.Object"/> with the specified key.</summary>
+            <param name="key">The key.</param>
+            <value>The <see cref="T:System.Object"/>.</value>
+            <returns>the value related to the given key</returns>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.CopyTo(System.Array,System.Int32)">
+            <summary>
+            Kopiert die Elemente der <see cref="T:System.Collections.ICollection"/> in ein <see cref="T:System.Array"/>, beginnend bei einem bestimmten <see cref="T:System.Array"/>-Index.
+            </summary>
+            <param name="array">
+            Das eindimensionale <see cref="T:System.Array"/>, das das Ziel der aus der <see cref="T:System.Collections.ICollection"/> kopierten Elemente ist.
+            Für das <see cref="T:System.Array"/> muss eine nullbasierte Indizierung verwendet werden.
+            </param>
+            <param name="index">Der nullbasierte Index im <paramref name="array" />, bei dem der Kopiervorgang beginnt.</param>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="P:BrailleIO.OrderedConcurentDictionary`2.IsSynchronized">
+            <summary>Ruft einen Wert ab, der angibt, ob der Zugriff auf die <see cref="T:System.Collections.ICollection"/> synchronisiert (threadsicher) ist.</summary>
+        </member>
+        <member name="P:BrailleIO.OrderedConcurentDictionary`2.SyncRoot">
+            <summary>Ruft ein Objekt ab, mit dem der Zugriff auf <see cref="T:System.Collections.ICollection"/> synchronisiert werden kann.</summary>
+        </member>
+        <member name="M:BrailleIO.OrderedConcurentDictionary`2.Compare(System.Collections.Generic.KeyValuePair{`0,`1},System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>Performs a case-sensitive comparison of two objects of the same type and returns a value indicating whether one is less than, equal to, or greater than the other.</summary>
+            <param name="x">The first object to compare.</param>
+            <param name="y">The second object to compare.</param>
+            <returns>
+            A signed integer that indicates the relative values of
+            <paramref name="x" />
+            and
+            <paramref name="y" />
+            , as shown in the following table.
+            Value
+            Meaning
+            Less than zero
+            <paramref name="x" /> is less than <paramref name="y" />.
+            Zero
+            <paramref name="x" /> equals <paramref name="y" />.
+            Greater than zero
+            <paramref name="x" /> is greater than <paramref name="y" />.
+            </returns>
         </member>
         <member name="T:BrailleIO.BrailleIOViewRangeComparer">
             <summary>
             Comparer for <see cref="T:BrailleIO.BrailleIOViewRange"/> width respect to their adding time stamp and their zIndex.
             </summary>
+            <remarks> </remarks>
+        </member>
+        <member name="M:BrailleIO.BrailleIOViewRangeComparer.Compare(System.Collections.Generic.KeyValuePair{System.String,BrailleIO.BrailleIOViewRange},System.Collections.Generic.KeyValuePair{System.String,BrailleIO.BrailleIOViewRange})">
+            <summary>
+            Performs a case-sensitive comparison of two objects of the same type and returns a value indicating whether one is less than, equal to, or greater than the other.
+            </summary>
+            <param name="x">The first object to compare.</param>
+            <param name="y">The second object to compare.</param>
+            <returns>
+            A signed integer that indicates the relative values of 
+            <paramref name="x" />
+            and 
+            <paramref name="y" />
+            , as shown in the following table.
+            Value
+            Meaning
+            Less than zero
+            <paramref name="x" /> is less than <paramref name="y" />.
+            Zero
+            <paramref name="x" /> equals <paramref name="y" />.
+            Greater than zero
+            <paramref name="x" /> is greater than <paramref name="y" />.
+            </returns>
+        </member>
+        <member name="M:BrailleIO.BrailleIOViewRangeComparer.Compare(System.Collections.Generic.KeyValuePair{System.String,System.Object},System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+            <summary>Performs a case-sensitive comparison of two objects of the same type and returns a value indicating whether one is less than, equal to, or greater than the other.</summary>
+            <param name="x">The first object to compare.</param>
+            <param name="y">The second object to compare.</param>
+            <returns>
+            A signed integer that indicates the relative values of
+            <paramref name="x" />
+            and
+            <paramref name="y" />
+            , as shown in the following table.
+            Value
+            Meaning
+            Less than zero
+            <paramref name="x" /> is less than <paramref name="y" />.
+            Zero
+            <paramref name="x" /> equals <paramref name="y" />.
+            Greater than zero
+            <paramref name="x" /> is greater than <paramref name="y" />.
+            </returns>
         </member>
         <member name="T:BrailleIO.BrailleIOViewRange">
             <summary>
             Basic structure to hold content that should been displayed on an output device
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="F:BrailleIO.BrailleIOViewRange.MAX_ZOOM_LEVEL">
             <summary>
             The maximal zoom level that can be applied.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="P:BrailleIO.BrailleIOViewRange.InvertImage">
             <summary>
             Gets or sets a value indicating whether the image should be inverted or not.
             </summary>
+            <remarks> </remarks>
             <value>
               <c>true</c> if [invert the image]; otherwise, <c>false</c>.
             </value>
@@ -595,6 +936,7 @@
             <summary>
             Gets or sets the parent <see cref="T:BrailleIO.BrailleIOScreen"/>.
             </summary>
+            <remarks> </remarks>
             <value>
             The parent Screen.
             </value>
@@ -603,12 +945,14 @@
             <summary>
             Gets or sets a flag indicating whether this <see cref="T:BrailleIO.BrailleIOViewRange"/> should be re-rendered because of the content was changed.
             </summary>
+            <remarks> </remarks>
             <value><c>true</c> if the renderer should re-render the content; otherwise, <c>false</c>.</value>
         </member>
         <member name="P:BrailleIO.BrailleIOViewRange.ContentRender">
             <summary>
             Gets the currently used render for the specific content.
             </summary>
+            <remarks> </remarks>
             <value>
             The content render.
             </value>
@@ -617,11 +961,13 @@
             <summary>
             Updates the size of the content.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Drawing.Bitmap)">
             <summary>
             Initializes a new instance of the <see cref="T:BrailleIO.BrailleIOViewRange"/> class.
             </summary>
+            <remarks> </remarks>
             <param name="left">The left position inside the parent Screen.</param>
             <param name="top">The top position inside the parent screen.</param>
             <param name="width">The overall width.</param>
@@ -632,6 +978,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:BrailleIO.BrailleIOViewRange" /> class.
             </summary>
+            <remarks> </remarks>
             <param name="left">The left position inside the parent Screen.</param>
             <param name="top">The top position inside the parent screen.</param>
             <param name="width">The overall width.</param>
@@ -642,6 +989,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:BrailleIO.BrailleIOViewRange" /> class.
             </summary>
+            <remarks> </remarks>
             <param name="left">The left position inside the parent Screen.</param>
             <param name="top">The top position inside the parent screen.</param>
             <param name="width">The overall width.</param>
@@ -651,6 +999,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:BrailleIO.BrailleIOViewRange" /> class.
             </summary>
+            <remarks> </remarks>
             <param name="left">The left position inside the parent Screen.</param>
             <param name="top">The top position inside the parent screen.</param>
             <param name="width">The overall width.</param>
@@ -658,49 +1007,46 @@
             <param name="matrix">The content matrix.</param>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.SetParent(BrailleIO.BrailleIOScreen)">
-            <summary>
-            Sets the parent Screen.
-            </summary>
+            <summary>Sets the parent Screen.</summary>
             <param name="parent">The parent.</param>
-            <returns></returns>
+            <returns><c>true</c> if the parent was changed successfully; otherwise, <c>false</c>.</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.SetMatrix(System.Boolean[0:,0:])">
             <summary>
             set matrix 
             </summary>
+            <remarks> </remarks>
             <param name="matrix">
             bool[,] matrix
             </param>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.GetMatrix">
-            <summary>
-            </summary>
-            <returns>
-            bool[,] matrix
-            </returns>
+            <summary>Gets the matrix.</summary>
+            <returns>the <c>bool</c> matrix set as content if set; otherwise, <c>null</c>.</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.SetBitmap(System.Drawing.Bitmap)">
             <summary>
             Sets the bitmap that should be rendered.
             </summary>
+            <remarks> </remarks>
             <param name="img">The image.</param>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.SetBitmap(System.Drawing.Image)">
             <summary>
             Sets the bitmap that should be rendered.
             </summary>
+            <remarks> </remarks>
             <param name="img">The content image.</param>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.GetImage">
-            <summary>
-            Gets the image to render.
-            </summary>
-            <returns></returns>
+            <summary>Gets the image to render.</summary>
+            <returns>The image set as content if set; otherwise; <c>null</c>.</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.IsMatrix">
             <summary>
             Determines whether this instance should render a matrix.
             </summary>
+            <remarks> </remarks>
             <returns>
             	<c>true</c> if this instance renders a matrix; otherwise, <c>false</c>.
             </returns>
@@ -709,6 +1055,7 @@
             <summary>
             Determines whether this instance should render an image.
             </summary>
+            <remarks> </remarks>
             <returns>
             	<c>true</c> if this instance renders an image; otherwise, <c>false</c>.
             </returns>
@@ -717,39 +1064,39 @@
             <summary>
             Determines whether this instance should render a text.
             </summary>
+            <remarks> </remarks>
             <returns>
             	<c>true</c> if this instance renders a text; otherwise, <c>false</c>.
             </returns>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.GetText">
-            <summary>
-            Gets the text to render.
-            </summary>
-            <returns></returns>
+            <summary>Gets the text to render.</summary>
+            <returns>The text content if set; otherwise, <c>null</c></returns>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.SetText(System.String)">
             <summary>
             Sets the text that should be rendered.
             </summary>
+            <remarks> </remarks>
             <param name="text">The text.</param>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.SetOtherContent(System.Object,BrailleIO.Interface.IBrailleIOContentRenderer)">
             <summary>
             Sets an generic content and a related renderer for this type.
             </summary>
+            <remarks> </remarks>
             <param name="content">The content.</param>
             <param name="renderer">The renderer - can not be null.</param>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.GetOtherContent">
-            <summary>
-            Gets the content that is not of the standard types.
-            </summary>
-            <returns></returns>
+            <summary>Gets the content that is not of the standard types.</summary>
+            <returns>The non-standard content object if set; otherwise, <c>null</c>.</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.IsOther">
             <summary>
             Determines whether this instance has a special type of content that can not been rendered with one of the standard renderer.
             </summary>
+            <remarks> </remarks>
             <returns>
             	<c>true</c> if this instance has an specialized content type other; otherwise, <c>false</c>.
             </returns>
@@ -758,18 +1105,21 @@
             <summary>
             Gets the actual zoom-level.
             </summary>
+            <remarks> </remarks>
             <returns>Zoom value as ratio</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.SetZoom(System.Double)">
             <summary>
             Sets the actual zoom.
             </summary>
+            <remarks> </remarks>
             <param name="zoom">The zoom value as ratio.</param>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.SetZoom(System.Double,System.Boolean)">
             <summary>
             Sets the actual zoom.
             </summary>
+            <remarks> </remarks>
             <param name="zoom">The zoom value as ratio.</param>
             <param name="rerender">if set to <c>true</c> to force a rerendering and an update of the content size.</param>
             <exception cref="T:System.ArgumentException">The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than " + MAX_ZOOM_LEVEL + ". - zoom</exception>
@@ -782,52 +1132,59 @@
             A low threshold leads darker pins to stay lowered.
             Threshold has to be between 0 and 255.
             </summary>
+            <remarks> </remarks>
             <param name="threshold">The threshold.</param>
             <returns>the new threshold</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.GetContrastThreshold">
             <summary>
             Gets the contrast for image contrast rastering.
-            If lightness of a color is lower than this threshold, the pin will be lowered. 
-            A higher threshold leads lighter points to raise pins. 
+            If lightness of a color is lower than this threshold, the pin will be lowered.
+            A higher threshold leads lighter points to raise pins.
             A low threshold leads darker pins to stay lowered.
             Have to be between 0 and 255.
             </summary>
-            <returns></returns>
+            <returns>the set threshold</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.SetZIndex(System.Int32)">
             <summary>
             Sets the z-index of the view range. A lager z-index overlays a smaller.
             </summary>
+            <remarks> </remarks>
             <param name="zIndex">the z-index of the viewRange.</param>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.GetZIndex">
             <summary>
             Gets the z-index of the view range. A lager z-index overlays a smaller.
             </summary>
+            <remarks> </remarks>
             <returns>the z-index of the viewRange.</returns>
         </member>
         <member name="M:BrailleIO.BrailleIOViewRange.GetContent">
             <summary>
             Get the Generic content
             </summary>
+            <remarks> </remarks>
             <returns>the untyped content of this view range</returns>
         </member>
         <member name="E:BrailleIO.BrailleIOViewRange.RendererChanged">
             <summary>
             Occurs when the renderer was changed.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="E:BrailleIO.BrailleIOViewRange.ContentChanged">
             <summary>
             Occurs when the content has been changed.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="P:BrailleIO.BrailleIOViewRange.ViewBox">
             <summary>
             Rectangle given dimensions and position of the whole view range or screen 
             including the ContentBox, margin, padding and border (see BoxModel).
             </summary>
+            <remarks> </remarks>
             <value>ViewBox of this view (position and size)</value>
         </member>
         <member name="P:BrailleIO.BrailleIOViewRange.ContentBox">
@@ -858,7 +1215,8 @@
             │╚═════════════════════════════════════════════════╝│
             └───────────────────────────────────────────────────┘
             </summary>
-            <value></value>
+            <remarks> </remarks>
+            <value>the available space for the content</value>
         </member>
         <member name="P:BrailleIO.BrailleIOViewRange.OffsetPosition">
             <summary>
@@ -873,6 +1231,7 @@
             content to the left - which is a pan to the right - and a positive value 
             will move the content to the right.
             </summary>
+            <remarks> </remarks>
             <value>
             The offset position.
             </value>
@@ -883,6 +1242,7 @@
             Attention: a <c>true</c> does not mean that the point is in the content. 
             It can be on a spacing or the border.
             </summary>
+            <remarks> </remarks>
             <param name="x">The horizontal position on the display.</param>
             <param name="y">The vertical position on the display.</param>
             <returns><c>true</c> if this view contain the point; otherwise <c>false</c>.</returns>
@@ -893,6 +1253,7 @@
             Attention: a <c>true</c> does not mean that the point is in the content. 
             It can be on a spacing or the border.
             </summary>
+            <remarks> </remarks>
             <param name="x">The horizontal position on the display.</param>
             <param name="y">The vertical position on the display.</param>
             <returns><c>true</c> if this view contain the point; otherwise <c>false</c>.</returns>
@@ -901,6 +1262,7 @@
             <summary>
             Chef if the contents contains the point.
             </summary>
+            <remarks> </remarks>
             <param name="x">The x position to check.</param>
             <param name="y">The y position to check.</param>
             <returns><c>true</c> if the point is inside the content area; otherwise, <c>false</c>.</returns>
@@ -909,6 +1271,7 @@
             <summary>
             Chef if the contents contains the point.
             </summary>
+            <remarks> </remarks>
             <param name="x">The x position to check.</param>
             <param name="y">The y position to check.</param>
             <returns><c>true</c> if the point is inside the content area; otherwise, <c>false</c>.</returns>
@@ -918,6 +1281,7 @@
             Translates the device position into a position inside the content with respect to 
             ViewRange-, ContenBox- and Offset-Position.
             </summary>
+            <remarks> </remarks>
             <param name="x">The horizontal position on the device.</param>
             <param name="y">The vertical position on the device.</param>
             <returns>A point with the position inside the content if possible; otherwise a point with the coordinates -1,-1.</returns>
@@ -927,6 +1291,7 @@
             Translates the device position into a position inside the content with respect to 
             ViewRange-, ContenBox- and Offset-Position.
             </summary>
+            <remarks> </remarks>
             <param name="x">The horizontal position on the device.</param>
             <param name="y">The vertical position on the device.</param>
             <returns>A point with the position inside the content if possible; otherwise a point with the coordinates -1,-1.</returns>
@@ -936,6 +1301,7 @@
             Translates the device position into a position inside the content with respect to 
             ViewRange-, ContenBox- and Offset-Position.
             </summary>
+            <remarks> </remarks>
             <param name="x">The horizontal position on the device.</param>
             <param name="y">The vertical position on the device.</param>
             <returns>A point with the position inside the content if possible; otherwise a point with the coordinates -1,-1.</returns>
@@ -944,6 +1310,7 @@
             <summary>
             Gets or sets the border.
             </summary>
+            <remarks> </remarks>
             <value>
             The border.
             </value>
@@ -952,6 +1319,7 @@
             <summary>
             Gets or sets the padding. The padding is the inner space between the border and the content.
             </summary>
+            <remarks> </remarks>
             <value>
             The padding.
             </value>
@@ -960,6 +1328,7 @@
             <summary>
             Gets or sets the margin. The margin is the outer space around an area. Space between the objects and the border.
             </summary>
+            <remarks> </remarks>
             <value>
             The margin.
             </value>
@@ -968,12 +1337,14 @@
             <summary>
             render the border defined for an <see cref="T:BrailleIO.Interface.AbstractViewBorderBase"/> view range
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.Renderer.BrailleIOBorderRenderer.RenderMatrix(BrailleIO.Interface.AbstractViewBorderBase,System.Boolean[0:,0:])">
             <summary>
             Renders a content object into an boolean matrix;
             while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
             </summary>
+            <remarks> </remarks>
             <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="T:BrailleIO.BrailleIOViewRange"/>.</param>
             <param name="contentMatrix">The content to render.</param>
             <returns>
@@ -988,6 +1359,7 @@
             <summary>
             Draws the horizontal line.
             </summary>
+            <remarks> </remarks>
             <param name="width">The width.</param>
             <param name="contentMatrix">The content matrix.</param>
             <param name="xOffset">The x offset.</param>
@@ -997,6 +1369,7 @@
             <summary>
             A renderer that translates an image into an bool matrix by applying a threshold on the lighness of a color pixel.
             </summary>
+            <remarks> </remarks>
             <seealso cref="T:BrailleIO.Renderer.AbstractCachingRendererBase" />
             <seealso cref="T:BrailleIO.Interface.IBrailleIOContentRenderer" />
         </member>
@@ -1007,6 +1380,8 @@
             <c>false</c> means the render does not handle panning (offset), returns the whole rendering result
             and the combination renderer has to take care about the panning (offsets)
             </summary>
+            <value>
+              <c>true</c> if the renderer does handle panning by it self; otherwise, <c>false</c>.</value>
         </member>
         <member name="F:BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.Threshold">
             <summary>
@@ -1015,6 +1390,7 @@
             A low threshold leads darker pins to stay lowered.
             Have to be between 0 and 255.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.ResetThreshold">
             <summary>
@@ -1024,23 +1400,25 @@
             A low threshold leads darker pins to stay lowered.
             Have to be between 0 and 255.
             </summary>
+            <remarks> </remarks>
             <returns>the new threshold</returns>
         </member>
         <member name="M:BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.SetThreshold(System.Single)">
             <summary>
             Sets the threshold.
-            If lightness of a color is lower than this threshold, the pin will be lowered. 
-            A higher threshold leads lighter points to raise pins. 
+            If lightness of a color is lower than this threshold, the pin will be lowered.
+            A higher threshold leads lighter points to raise pins.
             A low threshold leads darker pins to stay lowered.
             Have to be between 0 and 255.
             </summary>
             <param name="threshold">The threshold.</param>
-            <returns></returns>
+            <returns>the new threshold</returns>
         </member>
         <member name="P:BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.Invert">
             <summary>
             Gets or sets a value indicating whether this <see cref="T:BrailleIO.Renderer.BrailleIOImageToMatrixRenderer"/> image should be rendered inverted.
             </summary>
+            <remarks> </remarks>
             <value>
               <c>true</c> if invert the image; otherwise, <c>false</c>.
             </value>
@@ -1049,6 +1427,7 @@
             <summary>
             Renders the image.
             </summary>
+            <remarks> </remarks>
             <param name="img">The image.</param>
             <param name="view">The view.</param>
             <param name="zoom">The zoom factor.</param>
@@ -1059,6 +1438,7 @@
             <summary>
             Renders the image.
             </summary>
+            <remarks> </remarks>
             <param name="img">The image.</param>
             <param name="view">The view.</param>
             <param name="offset">The offset for translation.</param>
@@ -1072,6 +1452,7 @@
             <summary>
             Renders the image.
             </summary>
+            <remarks> </remarks>
             <param name="img">The image.</param>
             <param name="view">The view.</param>
             <param name="zoom">The zoom factor.</param>
@@ -1084,6 +1465,7 @@
             <summary>
             Renders the image.
             </summary>
+            <remarks> </remarks>
             <param name="img">The image.</param>
             <param name="view">The view.</param>
             <param name="offset">The offset for translation.</param>
@@ -1097,6 +1479,7 @@
             <summary>
             Renders the image.
             </summary>
+            <remarks> </remarks>
             <param name="img">The image.</param>
             <param name="view">The view.</param>
             <param name="zoom">The zoom factor.</param>
@@ -1108,6 +1491,7 @@
             <summary>
             Renders the image.
             </summary>
+            <remarks> </remarks>
             <param name="img">The image.</param>
             <param name="view">The view.</param>
             <param name="offset">The offset for translation.</param>
@@ -1120,6 +1504,7 @@
             <summary>
             Renders the image.
             </summary>
+            <remarks> </remarks>
             <param name="img">The image.</param>
             <param name="view">The view.</param>
             <param name="invert">if set to <c>true</c> the result will be inverted.</param>
@@ -1133,6 +1518,7 @@
             <summary>
             Renders the image.
             </summary>
+            <remarks> </remarks>
             <param name="img">The image.</param>
             <param name="view">The view.</param>
             <param name="offset">The offset for translation.</param>
@@ -1148,6 +1534,7 @@
             <summary>
             Renders the image.
             </summary>
+            <remarks> </remarks>
             <param name="img">The image.</param>
             <param name="view">The view.</param>
             <param name="invert">if set to <c>true</c>  the result will be inverted.</param>
@@ -1162,6 +1549,7 @@
             <summary>
             Renders the image.
             </summary>
+            <remarks> </remarks>
             <param name="img">The image.</param>
             <param name="view">The view.</param>
             <param name="offset">The offset for translation.</param>
@@ -1177,6 +1565,7 @@
             <summary>
             Renders the image.
             </summary>
+            <remarks> </remarks>
             <param name="img">The image.</param>
             <param name="view">The view.</param>
             <param name="invert">if set to <c>true</c>  the result will be inverted.</param>
@@ -1189,6 +1578,7 @@
             <summary>
             Renders the image.
             </summary>
+            <remarks> </remarks>
             <param name="img">The image.</param>
             <param name="view">The view.</param>
             <param name="offset">The offset for translation.</param>
@@ -1209,6 +1599,7 @@
             Informs the renderer that the content the or view has changed.
             You have to call the PrerenderMatrix function manually if you want to have a cached result.
             </summary>
+            <remarks> </remarks>
             <param name="view">The view.</param>
             <param name="content">The content.</param>
         </member>
@@ -1216,6 +1607,7 @@
             <summary>
             Sets the contrast threshold.
             </summary>
+            <remarks> </remarks>
             <param name="threshold">The threshold.</param>
             <returns>
             the new set threshold
@@ -1226,28 +1618,39 @@
             <summary>
             Gets the contrast threshold.
             </summary>
+            <remarks> </remarks>
             <returns>
             the threshold
             </returns>
+        </member>
+        <member name="M:BrailleIO.Renderer.BrailleIOImageToMatrixRenderer.renderMatrix(BrailleIO.Interface.IViewBoxModel,System.Object,System.Boolean)">
+            <summary>the rendering method used from the prerendering and rendering mehods to produce the caching result.</summary>
+            <param name="view">The view range</param>
+            <param name="content">the content object to render</param>
+            <param name="CallHooksOnCacherendering">flag determining if the hooks should be called or not while rendering</param>
+            <returns>the rendering result.</returns>
         </member>
         <member name="T:BrailleIO.Renderer.GraphicUtils">
             <summary>
             Class for useful Graphic utilities that are used by the BrailleIo framework.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.Renderer.GraphicUtils.ColorIsLighterThan(System.Drawing.Color,System.Drawing.Color)">
             <summary>
             Returns if color A the is lighter than color B.
             </summary>
+            <remarks> </remarks>
             <param name="a">the first color.</param>
             <param name="b">the second color.</param>
-            <returns></returns>
+            <returns><c>true</c> if color a is lighter than b</returns>
         </member>
         <member name="M:BrailleIO.Renderer.GraphicUtils.GetLightness(System.Drawing.Color)">
             <summary>
             Gets the lightness of a color. Keeping respect to the alpha value of a background of white.
             R * 0.3 + B * 0.11 + G * 0.59
             </summary>
+            <remarks> </remarks>
             <param name="c">The color.</param>
             <returns>a float value between 0 and 255</returns>
         </member>
@@ -1255,15 +1658,17 @@
             <summary>
             Gets the average gray scale of an Image.
             </summary>
+            <remarks> </remarks>
             <param name="m_w">The M_W.</param>
             <param name="m_h">The M_H.</param>
             <param name="rescaled">The rescaled.</param>
-            <returns></returns>
+            <returns>the average gray-scale value for the bitmap (between 0 ans 255).</returns>
         </member>
         <member name="M:BrailleIO.Renderer.GraphicUtils.PaintBoolMatrixToImage(System.Boolean[0:,0:],System.String)">
             <summary>
             Paints the bool matrix into an BMP image.
             </summary>
+            <remarks> </remarks>
             <param name="m">The matrix.</param>
             <param name="filePath">The file path.</param>
         </member>
@@ -1272,22 +1677,22 @@
             renders scroll bars
             TODO: unfinished for vertical scroll bars (very small)
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.Renderer.BrailleIOScrollbarRenderer.DrawScrollbars(BrailleIO.Interface.IViewBoxModel,System.Boolean[0:,0:]@,System.Int32,System.Int32,System.Boolean)">
-            <summary>
-            Draws scrollbars in the viewMatrix.
-            </summary>
+            <summary>Draws scrollbars in the viewMatrix.</summary>
             <param name="view">The view.</param>
             <param name="viewMatrix">The view matrix.</param>
             <param name="xOffset">The x offset.</param>
             <param name="yOffset">The y offset.</param>
             <param name="paintArrows">if set to <c>true</c> [paint arrows].</param>
-            <returns></returns>
+            <returns><c>true</c></returns>
         </member>
         <member name="T:BrailleIO.Renderer.BrailleIOViewMatixRenderer">
             <summary>
             Place a content-matrix in a matrix that fits in a given view with aware of the BoxModel.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="M:BrailleIO.Renderer.BrailleIOViewMatixRenderer.RenderMatrix(BrailleIO.Interface.IViewBoxModel,System.Boolean[0:,0:])">
             <summary>
@@ -1298,6 +1703,7 @@
             If the content-matrix is smaller than the view, the rest is set to false.
             This renderer takes also care about the panning, which is set in the view if they is IPannable.
             </summary>
+            <remarks> </remarks>
             <param name="view">The view witch holds the BoxModel. If the view is IPannable than the offset is also considered.</param>
             <param name="contentMatrix">The content matrix. Holds the content that should be placed in the view.</param>
             <returns>a bool[view.ViewBox.Width,view.ViewBox.Height] matrix holding the content with aware of the views' BoxModel.</returns>
@@ -1311,6 +1717,7 @@
             If the content-matrix is smaller than the view, the rest is set to false.
             This renderer takes also care about the panning, which is set in the view if they is IPannable.
             </summary>
+            <remarks> </remarks>
             <param name="view">The view with holds the BoxModel. If the view is IPannable than the offset is also considered.</param>
             <param name="contentMatrix">The content matrix. Holds the content that should be placed in the view.</param>
             <param name="handlePanning">Handle the panning of the content matrix or not</param>
@@ -1321,6 +1728,7 @@
             Renders a content object into an boolean matrix;
             while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
             </summary>
+            <remarks> </remarks>
             <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="T:BrailleIO.BrailleIOViewRange"/>.</param>
             <param name="content">The content to render.</param>
             <returns>
@@ -1336,17 +1744,20 @@
             <summary>
               Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="P:BrailleIO.Properties.Resources.ResourceManager">
             <summary>
               Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
             </summary>
+            <remarks> </remarks>
         </member>
         <member name="P:BrailleIO.Properties.Resources.Culture">
             <summary>
               Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
               Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
             </summary>
+            <remarks> </remarks>
         </member>
     </members>
 </doc>

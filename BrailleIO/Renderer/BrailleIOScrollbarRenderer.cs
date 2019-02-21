@@ -7,17 +7,16 @@ namespace BrailleIO.Renderer
     /// renders scroll bars
     /// TODO: unfinished for vertical scroll bars (very small)
     /// </summary>
+		/// <remarks> </remarks>
     public static class BrailleIOScrollbarRenderer
     {
-        /// <summary>
-        /// Draws scrollbars in the viewMatrix.
-        /// </summary>
+        /// <summary>Draws scrollbars in the viewMatrix.</summary>
         /// <param name="view">The view.</param>
         /// <param name="viewMatrix">The view matrix.</param>
         /// <param name="xOffset">The x offset.</param>
         /// <param name="yOffset">The y offset.</param>
         /// <param name="paintArrows">if set to <c>true</c> [paint arrows].</param>
-        /// <returns></returns>
+        /// <returns><c>true</c></returns>
         public static bool DrawScrollbars(IViewBoxModel view, ref bool[,] viewMatrix, int xOffset, int yOffset, bool paintArrows = false)
         {
             AbstractViewBoxModelBase vb = view as AbstractViewBoxModelBase;

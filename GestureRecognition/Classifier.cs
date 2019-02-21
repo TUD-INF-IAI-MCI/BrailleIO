@@ -5,11 +5,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+/// <summary>
+/// Namespace for Gesture recognition classifiers
+/// </summary>
 namespace Gestures.Recognition.Classifier
 {
     /// <summary>
     /// 
     /// </summary>
+		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     /// <seealso cref="Gestures.Recognition.Interfaces.IClassificationResult" />
     public class ClassificationResult : IClassificationResult
@@ -71,6 +75,7 @@ namespace Gestures.Recognition.Classifier
     /// <summary>
     /// 
     /// </summary>
+		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     /// <seealso cref="Gestures.Recognition.Classifier.ClassificationResult" />
     public class OnlineClassificationResult : ClassificationResult

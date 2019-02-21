@@ -15,6 +15,7 @@ namespace BrailleIO_ShowOff.Properties {
     /// <summary>
     ///   Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
     /// </summary>
+		/// <remarks> </remarks>
     // Diese Klasse wurde von der StronglyTypedResourceBuilder automatisch generiert
     // -Klasse über ein Tool wie ResGen oder Visual Studio automatisch generiert.
     // Um einen Member hinzuzufügen oder zu entfernen, bearbeiten Sie die .ResX-Datei und führen dann ResGen
@@ -35,6 +36,7 @@ namespace BrailleIO_ShowOff.Properties {
         /// <summary>
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
+		/// <remarks> </remarks>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
@@ -50,6 +52,7 @@ namespace BrailleIO_ShowOff.Properties {
         ///   Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
+		/// <remarks> </remarks>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Globalization.CultureInfo Culture {
             get {
@@ -63,6 +66,7 @@ namespace BrailleIO_ShowOff.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+		/// <remarks> </remarks>
         internal static System.Drawing.Bitmap base_error {
             get {
                 object obj = ResourceManager.GetObject("base_error", resourceCulture);
@@ -73,6 +77,7 @@ namespace BrailleIO_ShowOff.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+		/// <remarks> </remarks>
         internal static System.Drawing.Bitmap overlay_error {
             get {
                 object obj = ResourceManager.GetObject("overlay_error", resourceCulture);
@@ -83,6 +88,7 @@ namespace BrailleIO_ShowOff.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+		/// <remarks> </remarks>
         internal static System.Drawing.Bitmap pin_error {
             get {
                 object obj = ResourceManager.GetObject("pin_error", resourceCulture);
@@ -93,6 +99,7 @@ namespace BrailleIO_ShowOff.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+		/// <remarks> </remarks>
         internal static System.Drawing.Bitmap touch_error {
             get {
                 object obj = ResourceManager.GetObject("touch_error", resourceCulture);

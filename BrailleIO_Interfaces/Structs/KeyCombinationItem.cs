@@ -7,12 +7,12 @@ namespace BrailleIO.Structs
     /// <summary>
     /// Bundle of information for a key combination
     /// </summary>
+		/// <remarks> </remarks>
     public struct KeyCombinationItem
     {
         BrailleIO_DeviceButton _pressedGeneralKeys;
-        /// <summary>
-        /// Enum flag of all currently pressed general buttons
-        /// </summary>
+        /// <summary>Enum flag of all currently pressed general buttons</summary>
+        /// <value>The pressed general keys.</value>
         public BrailleIO_DeviceButton PressedGeneralKeys
         {
             get { return _pressedGeneralKeys; }
@@ -20,9 +20,8 @@ namespace BrailleIO.Structs
         }
 
         BrailleIO_DeviceButton _releasedGeneralKeys;
-        /// <summary>
-        /// Enum flag of all released general buttons
-        /// </summary>
+        /// <summary>Enum flag of all released general buttons</summary>
+        /// <value>The released general keys.</value>
         public BrailleIO_DeviceButton ReleasedGeneralKeys
         {
             get { return _releasedGeneralKeys; }
@@ -30,9 +29,8 @@ namespace BrailleIO.Structs
         }
 
         BrailleIO_BrailleKeyboardButton _pressedKeyboardKeys;
-        /// <summary>
-        /// Enum flag of all currently pressed Braille-keyboard buttons
-        /// </summary>
+        /// <summary>Enum flag of all currently pressed Braille-keyboard buttons</summary>
+        /// <value>The pressed keyboard keys.</value>
         public BrailleIO_BrailleKeyboardButton PressedKeyboardKeys
         {
             get { return _pressedKeyboardKeys; }
@@ -40,9 +38,8 @@ namespace BrailleIO.Structs
         }
 
         BrailleIO_BrailleKeyboardButton _releasedKeyboardKeys;
-        /// <summary>
-        /// Enum flag of all released Braille-keyboard buttons
-        /// </summary>
+        /// <summary>Enum flag of all released Braille-keyboard buttons</summary>
+        /// <value>The released keyboard keys.</value>
         public BrailleIO_BrailleKeyboardButton ReleasedKeyboardKeys
         {
             get { return _releasedKeyboardKeys; }
@@ -50,9 +47,8 @@ namespace BrailleIO.Structs
         }
 
         BrailleIO_AdditionalButton[] _pressedAdditionalKeys;
-        /// <summary>
-        /// List of enum flag of all currently pressed additional button sets
-        /// </summary>
+        /// <summary>List of enum flag of all currently pressed additional button sets</summary>
+        /// <value>The pressed additional keys.</value>
         public BrailleIO_AdditionalButton[] PressedAdditionalKeys
         {
             get { return _pressedAdditionalKeys; }
@@ -60,9 +56,8 @@ namespace BrailleIO.Structs
         }
 
         BrailleIO_AdditionalButton[] _releasedAdditionalKeys;
-        /// <summary>
-        /// List of enum flag of all released additional button sets
-        /// </summary>
+        /// <summary>List of enum flag of all released additional button sets</summary>
+        /// <value>The released additional keys.</value>
         public BrailleIO_AdditionalButton[] ReleasedAdditionalKeys
         {
             get { return _releasedAdditionalKeys; }
@@ -72,6 +67,7 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyCombinationItem" /> struct.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="pressedGeneralKeys">The pressed general keys.</param>
         /// <param name="releasedGeneralKeys">The released general keys.</param>
         /// <param name="pressedKeyboardKeys">The pressed keyboard keys.</param>
@@ -106,6 +102,7 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Determines whether some currently pressed buttons are detected or not.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns><c>true</c> if some pressed buttons are registered; otherwise, <c>false</c>.</returns>
         public bool AreButtonsPressed()
         {
@@ -138,6 +135,7 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Determines whether some released buttons are detected or not.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns><c>true</c> if some released buttons are registered; otherwise, <c>false</c>.</returns>
         public bool AreButtonsReleased()
         {
@@ -171,6 +169,7 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Returns a comma separated list of all currently pressed buttons.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>String of currently pressed buttons.</returns>
         public string PressedButtonsToString()
         {
@@ -227,6 +226,7 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Returns a comma separated list of all released buttons.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>String of released buttons.</returns>
         public string ReleasedButtonsToString()
         {
@@ -300,6 +300,7 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>

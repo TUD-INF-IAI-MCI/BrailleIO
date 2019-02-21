@@ -20,6 +20,7 @@ namespace Gestures.InOut
     /// <summary>
     /// Provides methods for loading and storing gesture templates.
     /// </summary>
+		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     public class StandardTemplateLoader : ILoadGestureTemplates
     {

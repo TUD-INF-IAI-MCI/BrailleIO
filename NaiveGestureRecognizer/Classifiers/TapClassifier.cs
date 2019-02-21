@@ -7,6 +7,9 @@ using Gestures.Recognition.Classifier;
 
 namespace Gestures.Recognition.Classifier
 {
+    /// <summary>
+    /// Classifier to identify simple tab gestures.
+    /// </summary>
     public class TapClassifier : IClassify
     {
     
@@ -14,6 +17,10 @@ namespace Gestures.Recognition.Classifier
 
         #region IClassify Members
 
+        /// <summary>Classifies the specified frames.</summary>
+        /// <param name="frames">The frames.</param>
+        /// <param name="trajectories">The trajectories.</param>
+        /// <returns>The classification result or <c>null</c></returns>
         public IClassificationResult Classify(IList<Frame> frames, IDictionary<int, IList<Sample>> trajectories)
         {
             int result;
@@ -35,6 +42,7 @@ namespace Gestures.Recognition.Classifier
         /// <summary>
         /// Checks for tap gestures.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param className="inputData">The input data .</param>
         /// <returns>Number of Taps detected, -1 if no tap gesture could be recognized.</returns>F:\Material\Gesture_Source\Gesten\Classifiers\DTWClassifier.cs
         private int CheckForTapGestures2(TrackedGesture inputData, ref Vertex tapedPos)
@@ -105,6 +113,7 @@ namespace Gestures.Recognition.Classifier
         /// <summary>
         /// Checks for tap gestures.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param className="clusteredSamples">The clustered samples.</param>
         /// <returns>Number of Taps detected, -1 if no tap gesture could be recognized.</returns>
         private int CheckForTapGestures(IList<Sample> inputData, out IVertex tappedPos)
@@ -187,6 +196,10 @@ namespace Gestures.Recognition.Classifier
         #region IClassify Members
 
 
+        /// <summary>Notifies the on input.</summary>
+        /// <param name="trajectories">The trajectories.</param>
+        /// <returns>The empty string</returns>
+        /// <remarks>always returns the empty string</remarks>
         public String NotifyOnInput(IDictionary<int, IList<Sample>> trajectories)
         {
             return String.Empty;

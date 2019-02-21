@@ -5,11 +5,13 @@
         /// <summary>
         /// Erforderliche Designervariable.
         /// </summary>
+		/// <remarks> </remarks>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Verwendete Ressourcen bereinigen.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
         protected override void Dispose(bool disposing)
         {
@@ -27,6 +29,7 @@
         /// Erforderliche Methode für die Designerunterstützung.
         /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
         /// </summary>
+		/// <remarks> </remarks>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShowOff));
@@ -973,6 +976,7 @@
         private System.Windows.Forms.PictureBox pictureBoxMatrix;
         private System.Windows.Forms.PictureBox pictureBox_overAllOverlay;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_Messages;
+        /// <summary>The main menu strip</summary>
         public System.Windows.Forms.MenuStrip menuStripMain;
         private System.Windows.Forms.Label descLabelK;
         private System.Windows.Forms.Label DescLabelK1;

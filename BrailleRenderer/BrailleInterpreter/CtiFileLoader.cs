@@ -9,6 +9,7 @@ namespace BrailleIO.Renderer.BrailleInterpreter
     /// Class for loading an interpreting braille translation tables 
     /// based on the definitions of the 'liblouis' project [https://github.com/liblouis]. 
     /// </summary>
+		/// <remarks> </remarks>
     class CtiFileLoader
     {
         private Dictionary<String, String> charToDotsList = new Dictionary<String, String>();
@@ -19,6 +20,7 @@ namespace BrailleIO.Renderer.BrailleInterpreter
         /// dot pattern as a sorted string of raised Braille dots e.g. '1245'.
         /// The key is the char to translate e.g. 'g', the value is the corresponding Braille dot pattern e.g. '1245'.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>The char to dots list.</value>
         public Dictionary<String, String> CharToDotsList { get { return charToDotsList; } }
         /// <summary>
@@ -26,6 +28,7 @@ namespace BrailleIO.Renderer.BrailleInterpreter
         /// as a sorted string of raised Braille dots e.g. '1245' to a character
         /// The key is the  Braille dot pattern e.g. '1245' and the value is the corresponding character e.g. 'g'.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>The dots to char list.</value>
         public Dictionary<String, String> DotsToCharList { get { return dotsToCharList; } }
 
@@ -37,6 +40,7 @@ namespace BrailleIO.Renderer.BrailleInterpreter
         /// You can load as much files as you want.
         /// Double mappings of dot pattern will be overwritten by the last loaded definition.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="path">The path to the translation table file to load.</param>
         /// <param name="suppressWarnings">if set to <c>true</c> warnings in the translation table loadings will be suppressed.</param>
         /// <returns>
@@ -81,6 +85,7 @@ namespace BrailleIO.Renderer.BrailleInterpreter
         /// You can load as much files as you want.
         /// Double mappings of dot pattern will be overwritten by the last loaded definition.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="table">The translation table file as byte array e.g. when the file is loaded from the Recourses.</param>
         /// <param name="suppressWarnings">if set to <c>true</c> warnings in the translation table loadings will be suppressed.</param>
         /// <returns>
@@ -181,6 +186,7 @@ namespace BrailleIO.Renderer.BrailleInterpreter
         /// <summary>
         /// Gets the char from unicode hexadecimal string.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="characterCode">The character code e.g. '\x2800'.</param>
         /// <returns>the current available unicode character if available e.g. ' '</returns>
         public static string GetCharFromUnicodeHex(String characterCode)
@@ -212,6 +218,7 @@ namespace BrailleIO.Renderer.BrailleInterpreter
         /// <summary>
         /// try to parse a char from unicode int.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="number">The number code e.g. 10241.</param>
         /// <returns>the char of the given value e.g. ' '</returns>
         public static string GetCharFromUnicodeInt(int number)
@@ -228,6 +235,7 @@ namespace BrailleIO.Renderer.BrailleInterpreter
         /// <summary>
         /// Resets this instance and clears the internal lists.
         /// </summary>
+		/// <remarks> </remarks>
         public void Reset()
         {
             charToDotsList.Clear();

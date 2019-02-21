@@ -4,6 +4,7 @@ namespace Gestures.Geometrie.Vertex
 
     /// <summary>
     /// </summary>
+		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     /// <seealso cref="Gestures.Geometrie.Vertex.Vertex" />
     public class Sample : Vertex

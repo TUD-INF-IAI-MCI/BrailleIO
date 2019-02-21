@@ -6,6 +6,7 @@ namespace BrailleIO.Interface
     /// <summary>
     /// Utils for some working with the interface definitions
     /// </summary>
+		/// <remarks> </remarks>
     public static class Utils
     {
         #region DeviceButtons
@@ -13,6 +14,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets the 'up' state value for a certain device button.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="button">The button.</param>
         /// <returns>the enum value for the 'up' state of the button.</returns>
         public static BrailleIO_DeviceButtonStates GetUpStateForDeviceButton(BrailleIO_DeviceButton button)
@@ -30,6 +32,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets the 'down' state value for a certain device button.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="button">The button.</param>
         /// <returns>the enum value for the 'down' state of the button</returns>
         public static BrailleIO_DeviceButtonStates GetDownStateForDeviceButton(BrailleIO_DeviceButton button)
@@ -49,7 +52,7 @@ namespace BrailleIO.Interface
         /// </summary>
         /// <param name="states">The states.</param>
         /// <returns>List of buttons contained in that state flag</returns>
-        /// <remarks>DEPRECATED! use flag stuff instead <see cref="GetDeviceButtonFlagsOfState"/></remarks>
+        /// <remarks>DEPRECATED! use flag stuff instead</remarks>
         public static List<BrailleIO_DeviceButton> GetDeviceButtonsOfStates(BrailleIO_DeviceButtonStates states)
         {
             List<BrailleIO_DeviceButton> result = new List<BrailleIO_DeviceButton>();
@@ -67,6 +70,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets the device button for one certain button state.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="state">The state.</param>
         /// <returns>the button related to this state</returns>
         public static BrailleIO_DeviceButton GetDeviceButtonFlagsOfState(BrailleIO_DeviceButtonStates state)
@@ -84,6 +88,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets all released device buttons.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="state">The state.</param>
         /// <returns>Flag of all released device buttons</returns>
         public static BrailleIO_DeviceButton GetAllUpDeviceButtons(BrailleIO_DeviceButtonStates state)
@@ -100,6 +105,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets all pressed device buttons.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="state">The state.</param>
         /// <returns>Flag of all pressed device buttons</returns>
         public static BrailleIO_DeviceButton GetAllDownDeviceButtons(BrailleIO_DeviceButtonStates state)
@@ -120,6 +126,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets the 'up' state value for a certain Braille keyboard button.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="button">The button.</param>
         /// <returns>the enum value for the 'up' state of the button.</returns>
         public static BrailleIO_BrailleKeyboardButtonStates GetUpStateForDeviceButton(BrailleIO_BrailleKeyboardButton button)
@@ -137,6 +144,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets the 'down' state value for a certain Braille keyboard button.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="button">The button.</param>
         /// <returns>the enum value for the 'down' state of the button</returns>
         public static BrailleIO_BrailleKeyboardButtonStates GetDownStateForDeviceButton(BrailleIO_BrailleKeyboardButton button)
@@ -154,6 +162,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets the device button for one Braille keyboard button state.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="state">The state.</param>
         /// <returns>the button related to this state</returns>
         public static BrailleIO_BrailleKeyboardButton GetDeviceButtonFlagsOfState(BrailleIO_BrailleKeyboardButtonStates state)
@@ -172,6 +181,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets all released Braille keyboard buttons.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="state">The state.</param>
         /// <returns>Flag of all released Braille keyboard buttons</returns>
         public static BrailleIO_BrailleKeyboardButton GetAllUpBrailleKeyboardButtons(BrailleIO_BrailleKeyboardButtonStates state)
@@ -188,6 +198,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets all pressed Braille keyboard buttons.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="state">The state.</param>
         /// <returns>Flag of all pressed Braille keyboard buttons</returns>
         public static BrailleIO_BrailleKeyboardButton GetAllDownBrailleKeyboardButtons(BrailleIO_BrailleKeyboardButtonStates state)
@@ -208,6 +219,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets the 'up' state value for a certain additional device button.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="button">The button.</param>
         /// <returns>the enum value for the 'up' state of the button.</returns>
         public static BrailleIO_AdditionalButtonStates GetUpStateForDeviceButton(BrailleIO_AdditionalButton button)
@@ -225,6 +237,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets the 'down' state value for a certain additional device button.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="button">The button.</param>
         /// <returns>the enum value for the 'down' state of the button</returns>
         public static BrailleIO_AdditionalButtonStates GetDownStateForDeviceButton(BrailleIO_AdditionalButton button)
@@ -242,6 +255,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets the additional device button for one certain button state.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="state">The state.</param>
         /// <returns>the button related to this state</returns>
         public static BrailleIO_AdditionalButton GetDeviceButtonFlagsOfState(BrailleIO_AdditionalButtonStates state)
@@ -259,6 +273,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets all released additional device buttons.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="state">The state.</param>
         /// <returns>Flag of all released additional device buttons</returns>
         public static BrailleIO_AdditionalButton GetAllUpAdditionalButtons(BrailleIO_AdditionalButtonStates state)
@@ -275,6 +290,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets all pressed additional device buttons.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="state">The state.</param>
         /// <returns>Flag of all pressed additional device buttons</returns>
         public static BrailleIO_AdditionalButton GetAllDownAdditionalButtons(BrailleIO_AdditionalButtonStates state)
@@ -291,6 +307,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Combines two collections of additional buttons.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="dict1">The first collection.</param>
         /// <param name="dict2">The second collection.</param>
         /// <returns>A collection containing all buttons from both additional button collections.</returns>
@@ -323,6 +340,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Combines two collections of additional buttons.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="arr">An array of additional buttons.</param>
         /// <param name="dict">A dictionary of additional buttons.</param>
         /// <returns>An combined array of additional buttons.</returns>
@@ -355,6 +373,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Combines two collections of additional buttons.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="arr1">The first array of additional buttons.</param>
         /// <param name="arr2">The second array of additional buttons.</param>
         /// <returns>An combined array of additional buttons.</returns>

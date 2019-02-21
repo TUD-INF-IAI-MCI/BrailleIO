@@ -1,15 +1,11 @@
-﻿using System;
-using System.Drawing;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using BrailleIO.Renderer;
+﻿using BrailleIO.Interface;
 using BrailleIO.Structs;
+using System;
 using System.Collections.Concurrent;
-using System.Threading;
-using System.Collections;
 using System.Collections.Generic;
-using BrailleIO.Interface;
-using System.Threading.Tasks;
+using System.Drawing;
+using System.Threading;
+using System.Windows.Forms;
 
 
 namespace BrailleIO
@@ -18,13 +14,16 @@ namespace BrailleIO
     {
         #region Members
         volatile bool _run = true;
+        /// <summary>The stack for touch matrices to paint</summary>
         internal readonly ConcurrentStack<double[,]> touchStack = new ConcurrentStack<double[,]>();
+        /// <summary>The stack for detailed touches to paint</summary>
         internal readonly ConcurrentStack<List<Touch>> detailedTouchStack = new ConcurrentStack<List<Touch>>();
 
         BrailleIOMediator io;
         /// <summary>
         /// Gets the show off adapter. This is the <see cref="IBrailleIOAdapter"/> implementation simulating a hardware in- output adapter.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// The show off adapter.
         /// </value>
@@ -35,6 +34,7 @@ namespace BrailleIO
         /// <summary>
         /// Important function! Call this if you don't rum the ShowOffAdapter out of an windows form application.
         /// </summary>
+		/// <remarks> </remarks>
         public void InitForm()
         {
             if (!this.IsDisposed && !this.Disposing)
@@ -55,6 +55,7 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="ShowOff" /> class.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="_showOffAdapter">The related show off adapter to this GUI.</param>
         public ShowOff(BrailleIOAdapter_ShowOff _showOffAdapter) : this()
         {
@@ -64,6 +65,7 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="ShowOff"/> class.
         /// </summary>
+		/// <remarks> </remarks>
         public ShowOff()
         {
             InitForm();
@@ -112,24 +114,25 @@ namespace BrailleIO
         /// <summary>
         /// Initializes the BrailleIO framework. Build a new BrailleIOAdapter_ShowOff, and add it to the IBrailleIOAdapterManager.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="adapterManager">The adapter manager to use for managing devices.</param>
-        /// <param name="setAsActiveAdapter">if set to <c>true</c> [set this as active adapter].</param>
+        /// <param name="setAsActiveAdapter">if set to <c>true</c> set this adapter as active adapter.</param>
         /// <returns>
         /// The created BrailleIOAdapter_ShowOff, that was build with this instance
         /// </returns>
         public AbstractBrailleIOAdapterBase InitializeBrailleIO(IBrailleIOAdapterManager adapterManager, bool setAsActiveAdapter = false)
         {
-            ShowOffAdapter = new BrailleIOAdapter_ShowOff(adapterManager, this);
-            ShowOffAdapter.Synch = true;
-
+            ShowOffAdapter = new BrailleIOAdapter_ShowOff(adapterManager, this)
+            {
+                Synch = true
+            };
             adapterManager.AddAdapter(ShowOffAdapter);
 
             return ShowOffAdapter;
         }
 
-        /// <summary>
-        /// Initializes the BrailleIO framework. Build a new BrailleIOAdapter_ShowOff, and add it to the global IBrailleIOAdapterManager.
-        /// </summary>
+        /// <summary>Initializes the BrailleIO framework. Build a new BrailleIOAdapter_ShowOff, and add it to the global IBrailleIOAdapterManager.</summary>
+        /// <param name="setAsActiveAdapter">if set to <c>true</c> set this adapter as active adapter.</param>
         /// <returns>The created BrailleIOAdapter_ShowOff, that was build with this instance</returns>
         public AbstractBrailleIOAdapterBase InitializeBrailleIO(bool setAsActiveAdapter = false)
         {
@@ -149,6 +152,7 @@ namespace BrailleIO
         /// <summary>
         /// creates a new <see cref="BrailleIOAdapter_ShowOff" /> and returns it
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="manager">the corresponding adapter manager</param>
         /// <returns>
         /// a new "BrailleIOAdapter_ShowOff adapter
@@ -164,16 +168,14 @@ namespace BrailleIO
 
         #region Touch Image Overlay
 
-        /// <summary>
-        /// Paints the touch matrix over the matrix image.
-        /// </summary>
+        /// <summary>Paints the touch matrix over the matrix image.</summary>
         /// <param name="touchMatrix">The touch matrix.</param>
-        /// <param name="detailedTouches">The detailed touches.</param>
         public void PaintTouchMatrix(double[,] touchMatrix) { PaintTouchMatrix(touchMatrix, null); }
 
         /// <summary>
         /// Paints the touch matrix over the matrix image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="touchMatrix">The touch matrix.</param>
         /// <param name="detailedTouches">The detailed touches.</param>
         public void PaintTouchMatrix(double[,] touchMatrix, List<Touch> detailedTouches = null)
@@ -185,7 +187,7 @@ namespace BrailleIO
                 {
                     touchMatrixDrawerThread.Start();
                 }
-                catch (ThreadStateException){ }
+                catch (ThreadStateException) { }
             }
         }
 
@@ -196,9 +198,11 @@ namespace BrailleIO
             {
                 if (_tmd == null)
                 {
-                    _tmd = new Thread(paintTouchMatrix);
-                    _tmd.Name = "ShowOff touch monitor paint";
-                    _tmd.Priority = ThreadPriority.BelowNormal;
+                    _tmd = new Thread(paintTouchMatrix)
+                    {
+                        Name = "ShowOff touch monitor paint",
+                        Priority = ThreadPriority.BelowNormal
+                    };
                 }
                 return _tmd;
             }
@@ -298,6 +302,7 @@ namespace BrailleIO
         /// - so beware to use a transparent background when using this 
         /// overlay functionality.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="image">The image to be displayed as an overlay.</param>
         /// <returns><c>true</c> if the image could been set, otherwise <c>false</c></returns>
         public bool SetPictureOverlay(Image image)
@@ -351,6 +356,7 @@ namespace BrailleIO
         /// <summary>
         /// Resets the picture overlay to an invisible overlay.
         /// </summary>
+		/// <remarks> </remarks>
         public void ResetPictureOverlay()
         {
             if (!this.IsDisposed && !this.Disposing)
@@ -399,6 +405,7 @@ namespace BrailleIO
         /// <summary>
         /// Gets the current overlay image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>the current set overlay image or <c>null</c></returns>
         public Image GetPictureOverlay()
         {
@@ -428,6 +435,7 @@ namespace BrailleIO
         /// <summary>
         /// Gets the size of the picture overlay image.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>The size of the overlay image.</value>
         public Size PictureOverlaySize
         {
@@ -460,6 +468,7 @@ namespace BrailleIO
         /// <summary>
         /// Sets the text in the status bar.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="text">The text to display in the status bar.</param>
         public void SetStatusText(string text)
         {
@@ -496,6 +505,7 @@ namespace BrailleIO
         /// <summary>
         /// Resets the text in the status bar.
         /// </summary>
+		/// <remarks> </remarks>
         public void ResetStatusText()
         {
             if (!this.IsDisposed && !this.Disposing)
@@ -538,6 +548,7 @@ namespace BrailleIO
         /// <summary>
         /// Shows the menu strip.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns><c>true</c> if the menu strip is visible.</returns>
         public bool ShowMenuStrip()
         {
@@ -560,6 +571,7 @@ namespace BrailleIO
         /// <summary>
         /// Hides the menu strip.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns><c>true</c> if the menu strip is not visible.</returns>
         public bool HideMenuStrip()
         {
@@ -579,12 +591,11 @@ namespace BrailleIO
             return false;
         }
 
-        /// <summary>
-        /// Adds a menu item to the main menu strip.
-        /// </summary>
+        /// <summary>Adds a menu item to the main menu strip.</summary>
         /// <param name="item">The item to add.</param>
         /// <param name="setAsMdiWindowListItem">if set to <c>true</c> the item will be registered as the MDI window list item.</param>
-        /// <returns></returns>
+        /// <returns><c>true</c> if the menu item was added successfully.</returns>
+        /// <remarks></remarks>
         public bool AddMenuItem(ToolStripItem item, bool setAsMdiWindowListItem = false)
         {
             if (!this.IsDisposed && !this.Disposing)
@@ -618,6 +629,7 @@ namespace BrailleIO
         /// <summary>
         /// Removes a certain menu item from the main menu strip.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="item">The item to remove.</param>
         /// <returns><c>true</c> if the item was removed.</returns>
         public bool RemoveMenuItem(ToolStripItem item)
@@ -658,6 +670,7 @@ namespace BrailleIO
         /// <summary>
         /// Gets the title of the window.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>the title of the window</returns>
         public String GetTitle()
         {
@@ -679,6 +692,7 @@ namespace BrailleIO
         /// <summary>
         /// Sets the title of the window.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="title">The new title.</param>
         /// <returns><c>true</c> if the title was changed</returns>
         public bool SetTitle(String title)
@@ -709,8 +723,10 @@ namespace BrailleIO
                 ContextMenu mnuContextMenu = new ContextMenu();
                 this.ContextMenu = mnuContextMenu;
                 //add menu item
-                MenuItem mnuItemReset = new MenuItem();
-                mnuItemReset.Text = "&Reset Monitor";
+                MenuItem mnuItemReset = new MenuItem
+                {
+                    Text = "&Reset Monitor"
+                };
                 mnuContextMenu.MenuItems.Add(mnuItemReset);
 
                 mnuItemReset.Click += new EventHandler(mnuItemReset_Click);

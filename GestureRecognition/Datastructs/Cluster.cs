@@ -6,6 +6,7 @@ namespace GestureRecognition
     /// <summary>
     /// Class for a complex cluster.
     /// </summary>
+		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     public class Cluster
     {
@@ -16,6 +17,7 @@ namespace GestureRecognition
         /// <summary>
         /// Initializes a new instance of the <see cref="Cluster"/> class.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="num">The numeric value.</param>
         public Cluster(int num)
             : base()
@@ -27,6 +29,7 @@ namespace GestureRecognition
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// The identifier.
         /// </value>
@@ -34,6 +37,7 @@ namespace GestureRecognition
         /// <summary>
         /// Gets or sets the mean value.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// The mean.
         /// </value>
@@ -42,6 +46,7 @@ namespace GestureRecognition
         /// <summary>
         /// Gets the cluster set.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// The cluster set.
         /// </value>
@@ -52,6 +57,7 @@ namespace GestureRecognition
         /// <summary>
         /// Adds the specified element to the cluster set.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="element">The id of the element to add.</param>
         public void Add(int element)
         {
@@ -64,6 +70,7 @@ namespace GestureRecognition
         /// <summary>
         /// Removes the specified element from the cluster set.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="element">The id of the element to remove.</param>
         public void Remove(int element)
         {
@@ -76,6 +83,7 @@ namespace GestureRecognition
         /// <summary>
         /// Merges the specified target into the cluster set.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="target">The target that should be merged into the cluster set.</param>
         public void Merge(Cluster target)
         {
@@ -88,6 +96,7 @@ namespace GestureRecognition
         /// <summary>
         /// Differences the specified target. Removes all elements of the target from the cluster set.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="target">The target that should be removed from the cluster set.</param>
         public void Diff(Cluster target)
         {

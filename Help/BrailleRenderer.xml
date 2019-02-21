@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>BrailleRenderer</name>
+  </assembly>
+  <members>
+    <member name="T:BrailleIO.Renderer.BrailleRendererPartType">
+      <summary>
+            Enum to specify the RenderElements
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.BrailleRendererPartType.NONE">
+      <summary>
+            nothing
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.BrailleRendererPartType.UNKNOWN">
+      <summary>
+            unknown
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.BrailleRendererPartType.DOCUMENT">
+      <summary>
+            The basic document
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.BrailleRendererPartType.PAGE">
+      <summary>
+            A page
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.BrailleRendererPartType.PARAGRAPH">
+      <summary>
+            A paragraph
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.BrailleRendererPartType.LINE">
+      <summary>
+            A line of text inside a paragraph
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.BrailleRendererPartType.WORD">
+      <summary>
+            A word
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.BrailleRendererPartType.WORD_PART">
+      <summary>
+            The part of a word - if it is divided
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.BrailleRendererPartType.CHAR">
+      <summary>
+            a character
+            </summary>
+    </member>
+    <member name="T:BrailleIO.Renderer.MatrixBrailleRenderer">
+      <summary>
+            Renders a String object into a dot pattern using a braille renderer. 
+            </summary>
+    </member>
+    <member name="M:BrailleIO.Renderer.MatrixBrailleRenderer.#ctor(BrailleIO.Renderer.BrailleInterpreter.IBrailleInterpreter,BrailleIO.Renderer.RenderingProperties)">
+      <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.Renderer.MatrixBrailleRenderer" /> class.
+            </summary>
+      <param name="brailleInterpreter">The braille interpreter. Interprets characters and turn them into dott patterns.</param>
+      <param name="renderingProperties">The rendering properties to indiviualize the rendering result.</param>
+    </member>
+    <member name="M:BrailleIO.Renderer.MatrixBrailleRenderer.#ctor(BrailleIO.Renderer.RenderingProperties,BrailleIO.Renderer.BrailleInterpreter.IBrailleInterpreter)">
+      <summary>Initializes a new instance of the <see cref="T:BrailleIO.Renderer.MatrixBrailleRenderer" /> class.</summary>
+      <param name="renderingProperties">The rendering properties.</param>
+      <param name="_brailleInterpreter">the Braille interpreter to use</param>
+    </member>
+    <member name="F:BrailleIO.Renderer.MatrixBrailleRenderer.BRAILLE_CHAR_HEIGHT">
+      <summary>
+            predefined height for one Braille cell (without spacing)
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.MatrixBrailleRenderer.BRAILLE_CHAR_WIDTH">
+      <summary>
+            predefined with of one Braille cell (without spacing)
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.MatrixBrailleRenderer.BrailleInterpreter">
+      <summary>
+            Interprets dots as Characters and vise versa
+            </summary>
+    </member>
+    <member name="M:BrailleIO.Renderer.MatrixBrailleRenderer.EstimateNeedOfScrollBar(System.String,System.Int32,System.Int32)">
+      <summary>
+            Tries to estimates the need for scroll bar.
+            </summary>
+      <param name="content">The content to render.</param>
+      <param name="width">The available width for the result.</param>
+      <param name="height">The available height for the result.</param>
+      <returns>
+        <c>true</c> if the given space is not enough and vertical scrollbars are needed, otherwise <c>false</c>.</returns>
+    </member>
+    <member name="M:BrailleIO.Renderer.MatrixBrailleRenderer.GetAllContentInArea(System.Int32,System.Int32,System.Int32,System.Int32)">
+      <summary>
+            Get all Objects inside (or at least partial) the given area.
+            </summary>
+      <param name="left">Left border of the region to test (X).</param>
+      <param name="right">Right border of the region to test (X + width).</param>
+      <param name="top">Top border of the region to test (Y).</param>
+      <param name="bottom">Bottom border of the region to test (Y + heigh).</param>
+      <returns>
+            A list of elements inside or at least partial inside the requested area.
+            </returns>
+    </member>
+    <member name="M:BrailleIO.Renderer.MatrixBrailleRenderer.GetAllRenderElements">
+      <summary>
+            Get a list of the rendered element structures.
+            </summary>
+      <returns>A copy of the rendered elememt list</returns>
+    </member>
+    <member name="M:BrailleIO.Renderer.MatrixBrailleRenderer.GetContentAtPosition(System.Int32,System.Int32)">
+      <summary>Return the first found RenderElement</summary>
+      <param name="x">The x position in the content matrix.</param>
+      <param name="y">The y position in the content matrix.</param>
+      <returns>An object at the requester position in the content or <c>null</c></returns>
+    </member>
+    <member name="M:BrailleIO.Renderer.MatrixBrailleRenderer.GetLinesOfString(System.String)">
+      <summary>
+            Gets the lines of string. Which means to split the given String into his paragraphs.
+            </summary>
+      <param name="text">The text to split hat his 'line change characters'.</param>
+      <returns>An array of separated lines/paragraphs.</returns>
+    </member>
+    <member name="M:BrailleIO.Renderer.MatrixBrailleRenderer.GetWordsOfString(System.String)">
+      <summary>
+            Split the given String into word by searching for 'spacing characters'.
+            </summary>
+      <param name="text">The text to split into words.</param>
+      <returns>An array of separated words without space characters.</returns>
+    </member>
+    <member name="F:BrailleIO.Renderer.MatrixBrailleRenderer.INTER_CHAR_WIDTH">
+      <summary>
+            predefined space between two adjacent Braille cells in one line
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.MatrixBrailleRenderer.INTER_LINE_HEIGHT">
+      <summary>
+            predefined spacing between two adjacent lines.
+            </summary>
+    </member>
+    <member name="P:BrailleIO.Renderer.MatrixBrailleRenderer.RenderingProperties">
+      <summary>
+            Gets or sets the rendering properties.
+            </summary>
+    </member>
+    <member name="M:BrailleIO.Renderer.MatrixBrailleRenderer.renderMatrix(BrailleIO.Interface.IViewBoxModel,System.Object,System.Boolean)">
+      <summary>the rendering method used from the prerendering and rendering methods to produce the caching result.</summary>
+      <param name="view">The view range</param>
+      <param name="content">the content object to render</param>
+      <param name="CallHooksOnCacherendering">flag determining if the hooks should be called or not while rendering</param>
+      <returns>the rendering result.</returns>
+    </member>
+    <member name="M:BrailleIO.Renderer.MatrixBrailleRenderer.RenderMatrix(BrailleIO.Interface.IViewBoxModel,System.Object,System.Boolean)">
+      <summary>
+            Renders a content object into an boolean matrix;
+            while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
+            </summary>
+      <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a BrailleIOViewRange/&gt;.</param>
+      <param name="content">The content to render.</param>
+      <param name="callHooks">if set to <c>true</c> [call the pre- and post-rendering hooks].</param>
+      <returns>
+            A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
+            and N is the count of columns (which is the width).
+            Positions in the Matrix are of type [i,j]
+            while i is the index of the row (is the y position)
+            and j is the index of the column (is the x position).
+            In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
+            </returns>
+    </member>
+    <member name="M:BrailleIO.Renderer.MatrixBrailleRenderer.RenderMatrix(System.Int32,System.Object,System.Boolean)">
+      <summary>Renders the matrix.</summary>
+      <param name="width">The width.</param>
+      <param name="content">The content.</param>
+      <param name="scrollbars">if set to <c>true</c> [scrollbars] will be rendered.</param>
+      <returns>the rendered text in a 2D bool matrix</returns>
+    </member>
+    <member name="P:BrailleIO.Renderer.MatrixBrailleRenderer.stdBrlIntrprtr">
+      <summary>Gets the standard Braille-interpreter.</summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.MatrixBrailleRenderer.SynchLock">
+      <summary>
+            The locking object for synchronous usage.
+            </summary>
+    </member>
+    <member name="T:BrailleIO.Renderer.RenderingProperties">
+      <summary>
+            Specifies how the renderer handles some special objects and properties
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.RenderingProperties.NONE">
+      <summary>
+            No special rendering 
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.RenderingProperties.IGNORE_LAST_LINESPACE">
+      <summary>
+            The last line space should be ignored. Normally after each line 
+            a spacing line is rendered. To remove this spacing line from 
+            the last line activate this flag.
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.RenderingProperties.RETURN_REAL_WIDTH">
+      <summary>
+            Return the matrix with the real used width instead of the given width.
+            will maybe reduce the returned matrix in number of columns.
+            </summary>
+    </member>
+    <member name="F:BrailleIO.Renderer.RenderingProperties.ADD_SPACE_FOR_SCROLLBARS">
+      <summary>
+            Adds some free space on the right side of the returned matrix to place scrollbars.
+            Should not combined with <see cref="F:BrailleIO.Renderer.RenderingProperties.RETURN_REAL_WIDTH" />.
+            </summary>
+    </member>
+    <member name="T:BrailleIO.Renderer.BrailleInterpreter.CtiFileLoader">
+      <summary>
+            Class for loading an interpreting braille translation tables 
+            based on the definitions of the 'liblouis' project [https://github.com/liblouis]. 
+            </summary>
+    </member>
+    <member name="M:BrailleIO.Renderer.BrailleInterpreter.CtiFileLoader.#ctor">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>BrailleIO.Renderer.BrailleInterpreter.CtiFileLoader</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="P:BrailleIO.Renderer.BrailleInterpreter.CtiFileLoader.CharToDotsList">
+      <summary>
+            Gets the char to dots list. A dictionary which contains a mapping from chars to a 
+            dot pattern as a sorted string of raised Braille dots e.g. '1245'.
+            The key is the char to translate e.g. 'g', the value is the corresponding Braille dot pattern e.g. '1245'.
+            </summary>
+    </member>
+    <member name="P:BrailleIO.Renderer.BrailleInterpreter.CtiFileLoader.DotsToCharList">
+      <summary>
+            Gets the dots to char list. A dictionary which contains a mapping from dot pattern 
+            as a sorted string of raised Braille dots e.g. '1245' to a character
+            The key is the  Braille dot pattern e.g. '1245' and the value is the corresponding character e.g. 'g'.
+            </summary>
+    </member>
+    <member name="M:BrailleIO.Renderer.BrailleInterpreter.CtiFileLoader.GetCharFromUnicodeHex(System.String)">
+      <summary>
+            Gets the char from unicode hexadecimal string.
+            </summary>
+      <param name="characterCode">The character code e.g. '\x2800'.</param>
+      <returns>the current available unicode character if available e.g. ' '</returns>
+    </member>
+    <member name="M:BrailleIO.Renderer.BrailleInterpreter.CtiFileLoader.GetCharFromUnicodeInt(System.Int32)">
+      <summary>
+            try to parse a char from unicode int.
+            </summary>
+      <param name="number">The number code e.g. 10241.</param>
+      <returns>the char of the given value e.g. ' '</returns>
+    </member>
+    <member name="M:BrailleIO.Renderer.BrailleInterpreter.CtiFileLoader.LoadFile(System.Byte[],System.Boolean)">
+      <summary>
+            Loads a Braille translation table file.
+            Based on the translation definitions of the 'liblouis' project [https://github.com/liblouis]
+            You can load as much files as you want.
+            Double mappings of dot pattern will be overwritten by the last loaded definition.
+            </summary>
+      <param name="table">The translation table file as byte array e.g. when the file is loaded from the Recourses.</param>
+      <param name="suppressWarnings">if set to <c>true</c> warnings in the translation table loadings will be suppressed.</param>
+      <returns>
+        <c>true</c> if the file could be loaded and translated into mapping contradictories.
+            </returns>
+      <exception cref="T:System.ArgumentException">Table file Stream is not valid</exception>
+    </member>
+    <member name="M:BrailleIO.Renderer.BrailleInterpreter.CtiFileLoader.LoadFile(System.String,System.Boolean)">
+      <summary>
+            Loads a Braille translation table file.
+            Based on the translation definitions of the 'liblouis' project [https://github.com/liblouis]
+            You can load as much files as you want.
+            Double mappings of dot pattern will be overwritten by the last loaded definition.
+            </summary>
+      <param name="path">The path to the translation table file to load.</param>
+      <param name="suppressWarnings">if set to <c>true</c> warnings in the translation table loadings will be suppressed.</param>
+      <returns>
+        <c>true</c> if the file could be loaded and translated into mapping contradictories.
+            </returns>
+      <exception cref="T:System.ArgumentException">Table file ' + path + ' does not exist!</exception>
+    </member>
+    <member name="M:BrailleIO.Renderer.BrailleInterpreter.CtiFileLoader.Reset">
+      <summary>
+            Resets this instance and clears the internal lists.
+            </summary>
+    </member>
+    <member name="T:BrailleIO.Renderer.BrailleInterpreter.SimpleBrailleInterpreter">
+      <summary>
+            This is a basic Braille renderer. It converts a given Unicode sign into an dot pattern.
+            The translation is defined in simple translation table files. default the Eurobraille table with
+            German letters is loaded.
+            </summary>
+    </member>
+    <member name="M:BrailleIO.Renderer.BrailleInterpreter.SimpleBrailleInterpreter.#ctor(System.String)">
+      <summary>
+            Initializes a new instance of the <see cref="T:BrailleIO.Renderer.BrailleInterpreter.SimpleBrailleInterpreter" /> class.
+            The BrailleInteroreter can translate strings into Braille dot pattern.
+            </summary>
+      <param name="tablePath">The table path, that should be used to translate.</param>
+    </member>
+    <member name="M:BrailleIO.Renderer.BrailleInterpreter.SimpleBrailleInterpreter.ConvertDotPatternStringToIntList(System.String)">
+      <summary>
+            Converts the dot string (e.g. 1278) to a list of integer.
+            </summary>
+      <param name="dotPattern">The dot pattern as String.</param>
+      <returns>a List of integer indicating the raised dots as a position in a Braille cell.
+                1 4
+                2 5
+                3 6
+                7 8
+            </returns>
+    </member>
+    <member name="M:BrailleIO.Renderer.BrailleInterpreter.SimpleBrailleInterpreter.GetCharFromDots(System.Collections.Generic.List{System.Int32})">
+      <summary>
+            Gets the char from a dot pattern. Only one-cell patterns can be interpreted.
+            </summary>
+      <param name="dots">The dot pattern to interpret as a list of raised pin-positions
+            inside a Braille cell . E.g. 2,3,4,5,7 will become a 'T'</param>
+      <returns>
+            The correlated character to the requested dot pattern for one Braille cell.
+            </returns>
+    </member>
+    <member name="M:BrailleIO.Renderer.BrailleInterpreter.SimpleBrailleInterpreter.GetDotsFromChar(System.Char)">
+      <summary>
+            Converts a character (e.g. T) to a list of integer (e.g. 2,3,4,5,7) that
+            indicates the positions of raised pins in a Braille cell.
+            </summary>
+      <param name="c">The character to interpret.</param>
+      <returns>
+            a List of integer indicating the raised dots as a position in a Braille cell.
+            1 4
+            2 5
+            3 6
+            7 8
+            </returns>
+    </member>
+    <member name="M:BrailleIO.Renderer.BrailleInterpreter.SimpleBrailleInterpreter.GetDotsFromString(System.String)">
+      <summary>
+            Gets the dot pattern lists from string.
+            </summary>
+      <param name="text">The text to convert.</param>
+      <returns>
+            A list of interpreted characters. Each child list of this list
+            stands for one Braille cell.
+            The Braille cell is given as a sublist, containing a list of
+            raised pin positions inside a Braille cell.
+            </returns>
+    </member>
+    <member name="M:BrailleIO.Renderer.BrailleInterpreter.SimpleBrailleInterpreter.GetStringFormDots(System.Collections.Generic.List{System.Collections.Generic.List{System.Int32}})">
+      <summary>
+            Gets the string form a list of dot patterns.
+            Each sublist stands for one Braille cell.
+            </summary>
+      <param name="dots">The dot patterns to interpret.
+            Each sublist is one Braille cell. The Sublist is a list of raised
+            pin positions inside one Braille cell.</param>
+      <returns>
+            A string of interpreted Braille dot patterns.
+            </returns>
+    </member>
+  </members>
+</doc>

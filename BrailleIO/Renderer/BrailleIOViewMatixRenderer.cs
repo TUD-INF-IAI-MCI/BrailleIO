@@ -7,6 +7,7 @@ namespace BrailleIO.Renderer
     /// <summary>
     /// Place a content-matrix in a matrix that fits in a given view with aware of the BoxModel.
     /// </summary>
+		/// <remarks> </remarks>
     public class BrailleIOViewMatixRenderer : BrailleIOHookableRendererBase, IBrailleIORendererInterfaces
     {
         /// <summary>
@@ -17,6 +18,7 @@ namespace BrailleIO.Renderer
         /// If the content-matrix is smaller than the view, the rest is set to false.
         /// This renderer takes also care about the panning, which is set in the view if they is IPannable.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="view">The view witch holds the BoxModel. If the view is IPannable than the offset is also considered.</param>
         /// <param name="contentMatrix">The content matrix. Holds the content that should be placed in the view.</param>
         /// <returns>a bool[view.ViewBox.Width,view.ViewBox.Height] matrix holding the content with aware of the views' BoxModel.</returns>
@@ -30,6 +32,7 @@ namespace BrailleIO.Renderer
         /// If the content-matrix is smaller than the view, the rest is set to false.
         /// This renderer takes also care about the panning, which is set in the view if they is IPannable.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="view">The view with holds the BoxModel. If the view is IPannable than the offset is also considered.</param>
         /// <param name="contentMatrix">The content matrix. Holds the content that should be placed in the view.</param>
         /// <param name="handlePanning">Handle the panning of the content matrix or not</param>
@@ -105,6 +108,7 @@ namespace BrailleIO.Renderer
         /// Renders a content object into an boolean matrix;
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange"/>.</param>
         /// <param name="content">The content to render.</param>
         /// <returns>

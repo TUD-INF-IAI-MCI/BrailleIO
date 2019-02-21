@@ -8,6 +8,7 @@ namespace BrailleIO
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
+		/// <remarks> </remarks>
         [STAThread]
         static void Main()
         {

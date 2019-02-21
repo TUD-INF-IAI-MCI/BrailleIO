@@ -12,6 +12,7 @@ namespace Gestures.Recognition.Preprocessing
     /// <summary>
     /// 
     /// </summary>
+		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     /// <seealso cref="Gestures.Recognition.Interfaces.ITrackBlobs" />
     public class BlobTracker : ITrackBlobs
@@ -378,6 +379,7 @@ namespace Gestures.Recognition.Preprocessing
     /// <summary>
     /// 
     /// </summary>
+		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     /// <seealso cref="Gestures.Recognition.Interfaces.ITrackBlobs" />
     public class BlobTrackerWin7 : ITrackBlobs

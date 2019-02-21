@@ -107,6 +107,7 @@ namespace BrailleIO
         /// <summary>
         /// Converts a pixel point into a pin
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="p">The mouse point in pixel.</param>
         /// <returns></returns>
         private Point getPinForPoint(Point p)
@@ -127,6 +128,7 @@ namespace BrailleIO
         /// <summary>
         /// Converts a pixel point into a pin
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="p">The mouse point in pixel.</param>
         /// <param name="pinX">The pin x.</param>
         /// <param name="pinY">The pin y.</param>
@@ -165,6 +167,7 @@ namespace BrailleIO
         /// <summary>
         /// Builds the touch matrix from a list of points.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="touches">The touches.</param>
         /// <returns></returns>
         private double[,] buildTouchMatrix(List<Touch> touches)
@@ -185,15 +188,18 @@ namespace BrailleIO
         /// <summary>
         /// The radius for an simulated touch in horizontal dimension.
         /// </summary>
+		/// <remarks> </remarks>
         public double TouchSizeRadiusX = 1;
         /// <summary>
         /// The radius for an simulated touch in vertical dimension.
         /// </summary>
+		/// <remarks> </remarks>
         public double TouchSizeRadiusY = 1;
 
         /// <summary>
         /// Handles the ellipse points.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="p">The touch.</param>
         /// <returns>List of touched points</returns>
         private List<Touch> handleEllipsePoints(Point p)
@@ -237,6 +243,7 @@ namespace BrailleIO
         /// if and only if the inequality is satisfied tightly
         /// (i.e., the left hand side evaluates to 1)
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="pointToCheck">The point to check.</param>
         /// <param name="c_x">The center point x.</param>
         /// <param name="c_y">The center point y.</param>

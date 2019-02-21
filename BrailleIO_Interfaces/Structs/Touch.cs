@@ -8,12 +8,12 @@ namespace BrailleIO.Structs
     /// <summary>
     /// A structure for holding informations about touches 
     /// </summary>
+		/// <remarks> </remarks>
     public class Touch
     {
         private int _id = int.MinValue;
-        /// <summary>
-        /// The identifier
-        /// </summary>
+        /// <summary>The identifier</summary>
+        /// <value>The identifier.</value>
         public int ID
         {
             get
@@ -28,10 +28,9 @@ namespace BrailleIO.Structs
         }
 
         private double _x = -1;
-        /// <summary>
-        /// The horizontal position of the center of a 
-        /// touch in relation to the display matrix.
-        /// </summary>
+        /// <summary>The horizontal position of the center of a
+        /// touch in relation to the display matrix.</summary>
+        /// <value>The x.</value>
         public double X
         {
             get { return _x; }
@@ -44,10 +43,9 @@ namespace BrailleIO.Structs
         }
 
         private double _y = -1;
-        /// <summary>
-        /// The vertical position of the center of a 
-        /// touch in relation to the display matrix.
-        /// </summary>
+        /// <summary>The vertical position of the center of a
+        /// touch in relation to the display matrix.</summary>
+        /// <value>The y.</value>
         public double Y
         {
             get { return _y; }
@@ -60,10 +58,9 @@ namespace BrailleIO.Structs
         }
 
         private int _pinX = -1;
-        /// <summary>
-        /// The horizontal pin position of the center of a 
-        /// touch in relation to the display matrix.
-        /// </summary>
+        /// <summary>The horizontal pin position of the center of a
+        /// touch in relation to the display matrix.</summary>
+        /// <value>The pin x.</value>
         public int PinX
         {
             get { return _pinX; }
@@ -75,10 +72,9 @@ namespace BrailleIO.Structs
         }
 
         private int _pinY = -1;
-        /// <summary>
-        /// The vertical position of the center of a 
-        /// touch in relation to the display matrix.
-        /// </summary>
+        /// <summary>The vertical position of the center of a
+        /// touch in relation to the display matrix.</summary>
+        /// <value>The pin y.</value>
         public int PinY
         {
             get { return _pinY; }
@@ -90,9 +86,8 @@ namespace BrailleIO.Structs
         }
 
         private double _intense = 0;
-        /// <summary>
-        /// The intense sensory value of the detected touch between 0 and 1.
-        /// </summary>
+        /// <summary>The intense sensory value of the detected touch between 0 and 1.</summary>
+        /// <value>The intense of the touch.</value>
         public double Intense
         {
             get { return _intense; }
@@ -100,9 +95,8 @@ namespace BrailleIO.Structs
         }
 
         private double _dimX = 0.5;
-        /// <summary>
-        /// The horizontal diameter of the touch.
-        /// </summary>
+        /// <summary>The horizontal diameter of the touch.</summary>
+        /// <value>The horizontal diameter.</value>
         public double DimX
         {
             get { return _dimX; }
@@ -110,9 +104,8 @@ namespace BrailleIO.Structs
         }
 
         private double _dimY = 0.5;
-        /// <summary>
-        /// The vertical diameter of the touch.
-        /// </summary>
+        /// <summary>The vertical diameter of the touch.</summary>
+        /// <value>The vertical diameter.</value>
         public double DimY
         {
             get { return _dimY; }
@@ -122,6 +115,7 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Initializes a new instance of the <see cref="Touch"/> class.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="id">The identifier.</param>
         /// <param name="x">The horizontal x position of the touch.</param>
         /// <param name="y">The vertical y position of the touch.</param>
@@ -137,6 +131,7 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Initializes a new instance of the <see cref="Touch" /> struct.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="x">The horizontal position of the center of a
         /// touch in relation to the display matrix.</param>
         /// <param name="y">The vertical position of the center of a
@@ -154,6 +149,7 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Initializes a new instance of the <see cref="Touch"/> struct.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="x">
         /// The horizontal position of the center of a 
         /// touch in relation to the display matrix.
@@ -179,6 +175,7 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
@@ -190,6 +187,7 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
         /// <returns>
         ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
@@ -205,6 +203,7 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Returns a hash code for this instance.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
         /// </returns>

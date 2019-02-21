@@ -1,21 +1,18 @@
-﻿using System;
+﻿using BrailleIO.Interface;
+using BrailleIO.Structs;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using BrailleIO.Interface;
-using BrailleIO.Structs;
 namespace BrailleIO
 {
     /// <summary>
     /// Driver to emulate an real hardware driver that is responsible for sending the bool matrix to the hardware device
     /// </summary>
+    /// <remarks> </remarks>
     public class MockDriver
     {
         IBrailleIOShowOffMonitor _mon = null;
-        /// <summary>
-        /// The Windows Forms Application that should display the matrix. It is the Emulation of the presenting hardware.
-        /// </summary>
+        /// <summary>The Windows Forms Application that should display the matrix. It is the Emulation of the presenting hardware.</summary>
+        /// <value>The monitor.</value>
         public IBrailleIOShowOffMonitor Monitor
         {
             get
@@ -29,15 +26,18 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="MockDriver"/> class. This is a simple wrapper for the software adapter itself connected to this GUI.
         /// </summary>
+		/// <remarks> </remarks>
         public MockDriver() { }
         /// <summary>
         /// Initializes a new instance of the <see cref="MockDriver"/> class. This is a simple wrapper for the software adapter itself connected to this GUI.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="gui">The GUI.</param>
         public MockDriver(ShowOff gui) { Monitor = gui; }
         /// <summary>
         /// Sends the Matrix to the windows forms application to display
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="m">The m.</param>
         public void SetMatrix(bool[,] m)
         {
@@ -51,16 +51,19 @@ namespace BrailleIO
     /// It enables Developers to emulate a real pin matrix device or can be used 
     /// as debug monitor for displaying inputs on a real connected BrailleDis device.
     /// </summary>
+    /// <remarks> </remarks>
     public class BrailleIOAdapter_ShowOff : AbstractBrailleIOAdapterBase
     {
         /// <summary>
         /// The driver emulator that send the matrix to the windows forms application
         /// </summary>
+		/// <remarks> </remarks>
         public MockDriver driver = new MockDriver();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIOAdapter_ShowOff"/> class.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="manager">The IBrailleIOAdapterManager the device hase to be registerd to.</param>
         /// <param name="gui">The ShowOff windows forms application that is used as displaying or user interaction GUI.</param>
         public BrailleIOAdapter_ShowOff(IBrailleIOAdapterManager manager, ShowOff gui)
@@ -80,9 +83,10 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIOAdapter_ShowOff"/> class.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="manager">The IBrailleIOAdapterManager the device has to be registered to.</param>
         public BrailleIOAdapter_ShowOff(IBrailleIOAdapterManager manager)
-            : this(manager,  new ShowOff())
+            : this(manager, new ShowOff())
         {
         }
 
@@ -91,6 +95,7 @@ namespace BrailleIO
         /// That means the Adapter try to sent the given Matrix to the real hardware 
         /// device as an output.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="m">The matrix.</param>
         public override void Synchronize(bool[,] m)
         {
@@ -100,6 +105,7 @@ namespace BrailleIO
         /// <summary>
         /// Connects this instance.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>
         ///   <c>true</c> if connected successfully; otherwise, <c>false</c>.
         /// </returns>
@@ -116,6 +122,7 @@ namespace BrailleIO
         /// <summary>
         /// Disconnects this instance.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>
         ///   <c>true</c> if disconnected successfully; otherwise, <c>false</c>.
         /// </returns>
@@ -128,11 +135,20 @@ namespace BrailleIO
             return false;
         }
 
+        /// <summary>fires the initialized event</summary>
+        /// <param name="device">The device.</param>
         internal void sendAttached(BrailleIODevice device)
         {
             fireInitialized(new BrailleIO_Initialized_EventArgs(device));
         }
 
+        /// <summary>Fires the keys state changed event.</summary>
+        /// <param name="states">The states.</param>
+        /// <param name="keyboardCode">The keyboard code.</param>
+        /// <param name="additionalKeyCode">The additional key code.</param>
+        /// <param name="pressedKeys">The pressed keys.</param>
+        /// <param name="releasedKeys">The released keys.</param>
+        /// <param name="timeStampTickCount">The time stamp.</param>
         internal void firekeyStateChangedEvent(BrailleIO_DeviceButtonStates states,
             BrailleIO_BrailleKeyboardButtonStates keyboardCode,
             BrailleIO_AdditionalButtonStates[] additionalKeyCode,
@@ -140,14 +156,20 @@ namespace BrailleIO
             List<string> releasedKeys,
             int timeStampTickCount)
         {
-            OrderedDictionary raw = new OrderedDictionary();
-            raw.Add("pressedKeys", pressedKeys);
-            raw.Add("releasedKeys", releasedKeys);
-            raw.Add("timeStampTickCount", timeStampTickCount);
+            OrderedDictionary raw = new OrderedDictionary
+            {
+                { "pressedKeys", pressedKeys },
+                { "releasedKeys", releasedKeys },
+                { "timeStampTickCount", timeStampTickCount }
+            };
             fireKeyStateChanged(states, ref raw, keyboardCode, additionalKeyCode);
             //fireKeyStateChanged(states, ref raw);
         }
 
+        /// <summary>Fire the touches values changed event.</summary>
+        /// <param name="touches">The touches.</param>
+        /// <param name="timeStampTickCount">The time stamp.</param>
+        /// <param name="detailedTouches">The detailed touches.</param>
         internal void firetouchValuesChangedEvent(
             double[,] touches,
             int timeStampTickCount, List<Touch> detailedTouches)
@@ -156,11 +178,5 @@ namespace BrailleIO
             fireTouchValuesChanged(touches, timeStampTickCount, ref raw, detailedTouches);
         }
 
-        ///// <summary>
-        ///// Starts the touch evaluation.
-        ///// </summary>
-        //public void StartTouch()
-        //{
-        //}
     }
 }

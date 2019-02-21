@@ -10,6 +10,7 @@ namespace BrailleIO
     /// <summary>
     /// A software adapter simulating a Metec BarilleDis 7200.
     /// </summary>
+		/// <remarks> </remarks>
     /// <seealso cref="System.Windows.Forms.Form" />
     /// <seealso cref="BrailleIO.IBrailleIOShowOffMonitor" />
     public partial class ShowOff : Form, IBrailleIOShowOffMonitor
@@ -398,6 +399,7 @@ namespace BrailleIO
         /// <summary>
         /// determines if the CTR-key is pressed or not
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         ///   <c>true</c> if CTR-Key is pressed; otherwise, <c>false</c>.
         /// </value>
@@ -455,6 +457,13 @@ namespace BrailleIO
         volatile List<String> _pressedButtons = new List<String>();
         volatile List<String> _releasedButtons = new List<String>();
 
+        /// <summary>Fires the key state change event.</summary>
+        /// <param name="states">The states.</param>
+        /// <param name="keyboardCode">The keyboard code.</param>
+        /// <param name="additionalKeyCode">The additional key code.</param>
+        /// <param name="pressedKeys">The pressed keys.</param>
+        /// <param name="releasedKeys">The released keys.</param>
+        /// <param name="timeStampTickCount">The time stamp tick count.</param>
         internal void fireKeyStateChangeEvent(BrailleIO_DeviceButtonStates states,
             BrailleIO_BrailleKeyboardButtonStates keyboardCode,
             BrailleIO_AdditionalButtonStates[] additionalKeyCode,
@@ -583,6 +592,7 @@ namespace BrailleIO
         /// <summary>
         /// Marks the button as pressed.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="pressedButtons">The pressed buttons.</param>
         public void MarkButtonAsPressed(List<String> pressedButtons)
         {
@@ -597,6 +607,10 @@ namespace BrailleIO
                 }
         }
 
+        /// <summary>Marks the button as pressed.</summary>
+        /// <param name="pressedGeneralKeys">newly pressed general keys</param>
+        /// <param name="pressedBrailleKeyboardKeys">newly pressed Braille-keyboard keys</param>
+        /// <param name="pressedAdditionalKeys">the newly pressed additional keys</param>
         public void MarkButtonAsPressed(BrailleIO_DeviceButton pressedGeneralKeys,
             BrailleIO_BrailleKeyboardButton pressedBrailleKeyboardKeys = BrailleIO_BrailleKeyboardButton.None,
             BrailleIO_AdditionalButton[] pressedAdditionalKeys = null)
@@ -632,6 +646,7 @@ namespace BrailleIO
         /// <summary>
         /// Reset the buttons to normal mode.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="releasedButtons">The released buttons.</param>
         public void UnmarkButtons(List<String> releasedButtons)
         {
@@ -653,6 +668,10 @@ namespace BrailleIO
         }
 
 
+        /// <summary>Unmarks the buttons.</summary>
+        /// <param name="releasedGeneralKeys">The released general keys.</param>
+        /// <param name="releasedBrailleKeyboardKeys">The released braille keyboard keys.</param>
+        /// <param name="releasedAdditionalKeys">The released additional keys.</param>
         public void UnmarkButtons(BrailleIO_DeviceButton releasedGeneralKeys,
             BrailleIO_BrailleKeyboardButton releasedBrailleKeyboardKeys = BrailleIO_BrailleKeyboardButton.None,
             BrailleIO_AdditionalButton[] releasedAdditionalKeys = null)

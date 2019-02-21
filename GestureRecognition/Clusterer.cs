@@ -6,6 +6,7 @@ namespace GestureRecognition
     /// <summary>
     /// Clusters sensor data.
     /// </summary>
+		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     public class Clusterer
     {
@@ -24,6 +25,7 @@ namespace GestureRecognition
         /// <summary>
         /// Initializes a new instance of the <see cref="Clusterer"/> class.
         /// </summary>
+		/// <remarks> </remarks>
         public Clusterer(int size)
         {
             currentClusterSet = new Dictionary<int, Cluster>();
@@ -132,6 +134,7 @@ namespace GestureRecognition
         /// <summary>
         /// Clusters the sensor data in the braille display representation regarding to some specified threshold.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="sensorMatrix">The sensor data matrix.</param>
         /// <param name="threshold">The threshold.</param>
         /// <returns></returns>

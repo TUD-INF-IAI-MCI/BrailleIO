@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>NaiveGestureRecognizer</name>
+  </assembly>
+  <members>
+    <member name="T:Gestures.Recognition.Classifier.MultitouchClassifier">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>T:Gestures.Recognition.Classifier.MultitouchClassifier</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="M:Gestures.Recognition.Classifier.MultitouchClassifier.#ctor">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>Gestures.Recognition.Classifier.MultitouchClassifier</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="M:Gestures.Recognition.Classifier.MultitouchClassifier.Classify(System.Collections.Generic.IList{Gestures.Recognition.GestureData.Frame},System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>M:Gestures.Recognition.Classifier.MultitouchClassifier.Classify(System.Collections.Generic.IList{Gestures.Recognition.GestureData.Frame},System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})</parameter>
+          </include>
+        </markup>
+      </summary>
+      <param name="frames">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>frames</parameter>
+            <parameter>M:Gestures.Recognition.Classifier.MultitouchClassifier.Classify(System.Collections.Generic.IList{Gestures.Recognition.GestureData.Frame},System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="trajectories">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>trajectories</parameter>
+            <parameter>M:Gestures.Recognition.Classifier.MultitouchClassifier.Classify(System.Collections.Generic.IList{Gestures.Recognition.GestureData.Frame},System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})</parameter>
+          </include>
+        </markup>
+      </param>
+      <returns>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>returns</parameter>
+            <parameter>M:Gestures.Recognition.Classifier.MultitouchClassifier.Classify(System.Collections.Generic.IList{Gestures.Recognition.GestureData.Frame},System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})</parameter>
+          </include>
+        </markup>
+      </returns>
+    </member>
+    <member name="M:Gestures.Recognition.Classifier.MultitouchClassifier.NotifyOnInput(System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>M:Gestures.Recognition.Classifier.MultitouchClassifier.NotifyOnInput(System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})</parameter>
+          </include>
+        </markup>
+      </summary>
+      <param name="trajectories">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>trajectories</parameter>
+            <parameter>M:Gestures.Recognition.Classifier.MultitouchClassifier.NotifyOnInput(System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})</parameter>
+          </include>
+        </markup>
+      </param>
+      <returns>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>returns</parameter>
+            <parameter>M:Gestures.Recognition.Classifier.MultitouchClassifier.NotifyOnInput(System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})</parameter>
+          </include>
+        </markup>
+      </returns>
+    </member>
+    <member name="T:Gestures.Recognition.Classifier.TapClassifier">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>T:Gestures.Recognition.Classifier.TapClassifier</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="M:Gestures.Recognition.Classifier.TapClassifier.#ctor">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>Gestures.Recognition.Classifier.TapClassifier</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="M:Gestures.Recognition.Classifier.TapClassifier.Classify(System.Collections.Generic.IList{Gestures.Recognition.GestureData.Frame},System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>M:Gestures.Recognition.Classifier.TapClassifier.Classify(System.Collections.Generic.IList{Gestures.Recognition.GestureData.Frame},System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})</parameter>
+          </include>
+        </markup>
+      </summary>
+      <param name="frames">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>frames</parameter>
+            <parameter>M:Gestures.Recognition.Classifier.TapClassifier.Classify(System.Collections.Generic.IList{Gestures.Recognition.GestureData.Frame},System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="trajectories">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>trajectories</parameter>
+            <parameter>M:Gestures.Recognition.Classifier.TapClassifier.Classify(System.Collections.Generic.IList{Gestures.Recognition.GestureData.Frame},System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})</parameter>
+          </include>
+        </markup>
+      </param>
+      <returns>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>returns</parameter>
+            <parameter>M:Gestures.Recognition.Classifier.TapClassifier.Classify(System.Collections.Generic.IList{Gestures.Recognition.GestureData.Frame},System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})</parameter>
+          </include>
+        </markup>
+      </returns>
+    </member>
+    <member name="M:Gestures.Recognition.Classifier.TapClassifier.NotifyOnInput(System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>M:Gestures.Recognition.Classifier.TapClassifier.NotifyOnInput(System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})</parameter>
+          </include>
+        </markup>
+      </summary>
+      <param name="trajectories">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>trajectories</parameter>
+            <parameter>M:Gestures.Recognition.Classifier.TapClassifier.NotifyOnInput(System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})</parameter>
+          </include>
+        </markup>
+      </param>
+      <returns>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>returns</parameter>
+            <parameter>M:Gestures.Recognition.Classifier.TapClassifier.NotifyOnInput(System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IList{Gestures.Geometrie.Vertex.Sample}})</parameter>
+          </include>
+        </markup>
+      </returns>
+    </member>
+  </members>
+</doc>

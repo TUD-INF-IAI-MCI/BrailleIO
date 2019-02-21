@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BrailleIO.Structs;
+﻿using BrailleIO.Structs;
 
 namespace BrailleIO.Interface
 {
@@ -11,11 +7,13 @@ namespace BrailleIO.Interface
     /// Enables the direct usage of the reimplemented interface <seealso cref="IViewPadding"/>
     /// Enables the direct usage of the reimplemented interface <seealso cref="IViewMargin"/>
     /// </summary>
+    /// <remarks> </remarks>
     public abstract class AbstractViewPaddingBase : AbstractViewMarginBase, IViewPadding
     {
         /// <summary>
         /// Sets the padding.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="box">The padding box model.</param>
         public virtual void SetPadding(BoxModel box)
         {
@@ -25,11 +23,13 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Sets all paddings.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="width">The padding in all direction.</param>
         public virtual void SetPadding(uint width) { SetPadding(new BoxModel(width)); }
         /// <summary>
         /// Sets the paddings.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="top">The top padding.</param>
         /// <param name="right">The right padding.</param>
         /// <param name="bottom">The bottom padding.</param>
@@ -38,6 +38,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Sets the paddings.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="top">The top padding.</param>
         /// <param name="horizontal">The horizontal paddings (left + right).</param>
         /// <param name="bottom">The bottom padding.</param>
@@ -45,6 +46,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Sets the horizontal and vertical paddings.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="vertical">The vertical paddings (top + bottom).</param>
         /// <param name="horizontal">The horizontal paddings (left + right).</param>
         public virtual void SetPadding(uint vertical, uint horizontal) { SetPadding(new BoxModel(vertical, horizontal)); }
@@ -53,6 +55,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets or sets a value indicating whether this instance has a padding.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// 	<c>true</c> if this instance has a padding; otherwise, <c>false</c>.
         /// </value>
@@ -60,6 +63,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets or sets the padding. The padding is the inner space between the border and the content.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>The padding.</value>
         public virtual BoxModel Padding { get; set; }
     }

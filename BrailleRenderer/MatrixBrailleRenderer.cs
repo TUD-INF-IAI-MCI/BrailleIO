@@ -11,6 +11,7 @@ namespace BrailleIO.Renderer
     /// <summary>
     /// Renders a String object into a dot pattern using a braille renderer. 
     /// </summary>
+		/// <remarks> </remarks>
     /// <seealso cref="BrailleIO.Renderer.AbstractCachingRendererBase" />
     /// <seealso cref="BrailleIO.Interface.IBrailleIOContentRenderer" />
     public partial class MatrixBrailleRenderer : AbstractCachingRendererBase, IBrailleIOContentRenderer
@@ -20,21 +21,26 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// The locking object for synchronous usage.
         /// </summary>
+		/// <remarks> </remarks>
         public readonly Object SynchLock = new Object();
 
         /// <summary>
         /// Interprets dots as Characters and vise versa
         /// </summary>
+		/// <remarks> </remarks>
         public readonly IBrailleInterpreter BrailleInterpreter;
 
         /// <summary>
         /// Gets or sets the rendering properties.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>The rendering properties.</value>
         public RenderingProperties RenderingProperties { get; set; }
 
 
         private static IBrailleInterpreter _bIntrprtr = null;
+        /// <summary>Gets the standard Braille-interpreter.</summary>
+        /// <value>The standard Braille interpreter.</value>
         protected static IBrailleInterpreter stdBrlIntrprtr
         {
             get
@@ -48,16 +54,16 @@ namespace BrailleIO.Renderer
 
         #region Constructor
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MatrixBrailleRenderer"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="MatrixBrailleRenderer"/> class.</summary>
         /// <param name="renderingProperties">The rendering properties.</param>
+        /// <param name="_brailleInterpreter">the Braille interpreter to use</param>
         public MatrixBrailleRenderer(RenderingProperties renderingProperties = RenderingProperties.NONE, IBrailleInterpreter _brailleInterpreter = null)
             : this(_brailleInterpreter == null ? stdBrlIntrprtr : _brailleInterpreter, renderingProperties) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MatrixBrailleRenderer"/> class.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="brailleInterpreter">The braille interpreter. Interprets characters and turn them into dott patterns.</param>
         /// <param name="renderingProperties">The rendering properties to indiviualize the rendering result.</param>
         public MatrixBrailleRenderer(IBrailleInterpreter brailleInterpreter, RenderingProperties renderingProperties = RenderingProperties.NONE)
@@ -74,6 +80,7 @@ namespace BrailleIO.Renderer
         /// Renders a content object into an boolean matrix;
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a BrailleIOViewRange/&gt;.</param>
         /// <param name="content">The content to render.</param>
         /// <param name="callHooks">if set to <c>true</c> [call the pre- and post-rendering hooks].</param>
@@ -114,13 +121,11 @@ namespace BrailleIO.Renderer
             return new bool[1, 1];
         }
 
-        /// <summary>
-        /// Renders the matrix.
-        /// </summary>
+        /// <summary>Renders the matrix.</summary>
         /// <param name="width">The width.</param>
         /// <param name="content">The content.</param>
         /// <param name="scrollbars">if set to <c>true</c> [scrollbars] will be rendered.</param>
-        /// <returns></returns>
+        /// <returns>the rendered text in a 2D bool matrix</returns>
         public bool[,] RenderMatrix(int width, object content, bool scrollbars = false)
         {
             lock (_rendererLock)
@@ -172,6 +177,11 @@ namespace BrailleIO.Renderer
             }
         }
 
+        /// <summary>the rendering method used from the prerendering and rendering methods to produce the caching result.</summary>
+        /// <param name="view">The view range</param>
+        /// <param name="content">the content object to render</param>
+        /// <param name="CallHooksOnCacherendering">flag determining if the hooks should be called or not while rendering</param>
+        /// <returns>the rendering result.</returns>
         protected override bool[,] renderMatrix(IViewBoxModel view, object content, bool CallHooksOnCacherendering)
         {
             return RenderMatrix(view, content, CallHooksOnCacherendering);
@@ -185,6 +195,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Split the given String into word by searching for 'spacing characters'.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="text">The text to split into words.</param>
         /// <returns>An array of separated words without space characters.</returns>
         public static string[] GetWordsOfString(string text)
@@ -197,6 +208,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets the lines of string. Which means to split the given String into his paragraphs.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="text">The text to split hat his 'line change characters'.</param>
         /// <returns>An array of separated lines/paragraphs.</returns>
         public static string[] GetLinesOfString(string text)
@@ -207,6 +219,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets the Braille interpretation for the string.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="text">The text to convert into Braille.</param>
         /// <returns>The Braille dot patterns for the string. 
         /// The result is a list of Braille-character dot patterns. 
@@ -224,19 +237,23 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// predefined with of one Braille cell (without spacing)
         /// </summary>
+		/// <remarks> </remarks>
         public const int BRAILLE_CHAR_WIDTH = 2;
         /// <summary>
         /// predefined height for one Braille cell (without spacing)
         /// </summary>
+		/// <remarks> </remarks>
         public const int BRAILLE_CHAR_HEIGHT = 4;
 
         /// <summary>
         /// predefined space between two adjacent Braille cells in one line
         /// </summary>
+		/// <remarks> </remarks>
         public const int INTER_CHAR_WIDTH = 1;
         /// <summary>
         /// predefined spacing between two adjacent lines.
         /// </summary>
+		/// <remarks> </remarks>
         public const int INTER_LINE_HEIGHT = 1;
 
         #region Lenght Calculations
@@ -244,6 +261,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Tries to estimates the need for scroll bar.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="content">The content to render.</param>
         /// <param name="width">The available width for the result.</param>
         /// <param name="height">The available height for the result.</param>
@@ -262,6 +280,7 @@ namespace BrailleIO.Renderer
         /// Gets the minimal width consumed by an rendered string including inter character
         /// space without inter character space at the end of the String.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="brailleChars">The braille chars.</param>
         /// <returns>the minimum width consumed by the string</returns>
         static int getMinWidthOfString(List<List<int>> brailleChars)
@@ -273,6 +292,7 @@ namespace BrailleIO.Renderer
         /// Gets the max width consumed by an rendered string including inter character
         /// space and inter character space at the end of the String.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="brailleChars">The braille chars.</param>
         /// <returns>the maximum width consumed by the string including separating space at the end of the string</returns>
         static int getMaxWidthOfString(List<List<int>> brailleChars)
@@ -283,6 +303,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets the max count of chars that would fit into the given width.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="width">The width.</param>
         /// <returns>the number of chars that would fit</returns>
         static int getMaxCountOfChars(int width)
@@ -294,6 +315,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets the max count of chars that would fit into the given width.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="height">The height.</param>
         /// <returns>
         /// the number of chars that would fit
@@ -307,6 +329,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Checks if a word fits into an available width.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="brailleChars">The braille chars.</param>
         /// <param name="availableWidth">Available width.</param>
         /// <returns><c>true</c> if the word fits with his minimal lenght into the available space. Otherwise <c>false</c>.</returns>
@@ -323,6 +346,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Renders a paragraph.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="text">The text to render.</param>
         /// <param name="width">The available width.</param>
         /// <param name="maxUsedWidth">Maximum width of the used.</param>
@@ -343,8 +367,10 @@ namespace BrailleIO.Renderer
                 peX = peY = peW = peH;
                 peY = yOffset + lines.Count * (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
                 peX = width - availableWidth;
-                RenderElement pe = new RenderElement(peX, peY, peW, peH, text);
-                pe.Type = BrailleRendererPartType.PARAGRAPH;
+                RenderElement pe = new RenderElement(peX, peY, peW, peH, text)
+                {
+                    Type = BrailleRendererPartType.PARAGRAPH
+                };
 
 
                 foreach (var word in words)
@@ -355,8 +381,10 @@ namespace BrailleIO.Renderer
                     eX = eY = eW = eH;
                     eY = yOffset + lines.Count * (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
                     eX = width - availableWidth;
-                    RenderElement e = new RenderElement(eX, eY, eW, eH, word);
-                    e.Type = BrailleRendererPartType.WORD;
+                    RenderElement e = new RenderElement(eX, eY, eW, eH, word)
+                    {
+                        Type = BrailleRendererPartType.WORD
+                    };
 
                     #endregion
 
@@ -452,6 +480,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Splits one word over several lines if it is to long to fit in one line.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="dots">The dot patterns of the word.
         /// (List of characters) List [
         /// (List of raised pins in one Braille cell) List [dot pattern]
@@ -512,6 +541,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Saves the current line to the lines list and opens a new line
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="lines">The list of filled lines.
         /// (List of lines) List [
         ///     (List of characters) List [
@@ -544,6 +574,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Converts the interpreted Lines into a bool matrix.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="lines">The lines containing dot patterns.
         /// (List of lines) List [
         ///     (List of characters) List [
@@ -593,6 +624,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Adds the dots of a char dot pattern to a matrix.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="m">The matrix to fill.</param>
         /// <param name="brailleChar">The braille char to add. 
         /// (List of raised pins in one Braille cell) List [dot pattern]</param>
@@ -625,6 +657,7 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Tries the get pin position of a Braille dot e.g. the dot 5 has the position x=1 y=1
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="dot">The dot.</param>
         /// <param name="x">The returning x position of this dot.</param>
         /// <param name="y">The returning y position of this dot.</param>
@@ -677,28 +710,33 @@ namespace BrailleIO.Renderer
     /// <summary>
     /// Specifies how the renderer handles some special objects and properties
     /// </summary>
+		/// <remarks> </remarks>
     [Flags]
     public enum RenderingProperties
     {
         /// <summary>
         /// No special rendering 
         /// </summary>
+		/// <remarks> </remarks>
         NONE = 0,
         /// <summary>
         /// The last line space should be ignored. Normally after each line 
         /// a spacing line is rendered. To remove this spacing line from 
         /// the last line activate this flag.
         /// </summary>
+		/// <remarks> </remarks>
         IGNORE_LAST_LINESPACE = 1,
         /// <summary>
         /// Return the matrix with the real used width instead of the given width.
         /// will maybe reduce the returned matrix in number of columns.
         /// </summary>
+		/// <remarks> </remarks>
         RETURN_REAL_WIDTH = 2,
         /// <summary>
         /// Adds some free space on the right side of the returned matrix to place scrollbars.
         /// Should not combined with <see cref="RenderingProperties.RETURN_REAL_WIDTH"/>.
         /// </summary>
+		/// <remarks> </remarks>
         ADD_SPACE_FOR_SCROLLBARS = 4,
     }
 

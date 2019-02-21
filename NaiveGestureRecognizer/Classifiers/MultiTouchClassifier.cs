@@ -1,25 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BrailleIO.Structs;
 using Gestures.Geometrie.Vertex;
 using Gestures.Recognition.GestureData;
 using Gestures.Recognition.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
-using Gestures.Recognition.Classifier;
-using BrailleIO.Structs;
 
 namespace Gestures.Recognition.Classifier
 {
     /// <summary>
     /// A classifier to be used by a GestureRecognizer instance.
+    /// IS able to classify multi touch gestures such as line, circle, semi-circle, pinch and drag
     /// </summary>
+	/// <remarks> </remarks>
     public class MultitouchClassifier : IClassify
     {
-
-
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="MultitouchClassifier"/> class.
         /// </summary>
+		/// <remarks> </remarks>
         public MultitouchClassifier()
             : base()
         {
@@ -28,6 +28,10 @@ namespace Gestures.Recognition.Classifier
 
         #region IClassify<TrackedGesture> Members
 
+        /// <summary>Classifies the specified frames.</summary>
+        /// <param name="frames">The frames.</param>
+        /// <param name="trajectories">The trajectories.</param>
+        /// <returns>The classification result or <c>null</c></returns>
         public IClassificationResult Classify(IList<Frame> frames, IDictionary<int, IList<Sample>> trajectories)
         {
             IClassificationResult result = null;
@@ -60,46 +64,14 @@ namespace Gestures.Recognition.Classifier
             return result;
         }
 
+        /// <summary>Notifies the on input.</summary>
+        /// <param name="trajectories">The trajectories.</param>
+        /// <returns>the empty string</returns>
+        /// <remarks>Always returns the empty String</remarks>
         public String NotifyOnInput(IDictionary<int, IList<Sample>> trajectories)
         {
             return String.Empty;
         }
-
-        ///// <summary>
-        ///// Classifies the specified input data.
-        ///// </summary>
-        ///// <param name="inputData">The input data.</param>
-        ///// <returns>a classification result containing name and parameter of the recognized gesture if
-        ///// recognition succeeds, null otherwise.</returns>
-        //public IClassificationResult Classify(IList<Frame> frames)
-        //{
-        //    IClassificationResult result = null;
-        //    //RecognizePinchGesture(inputData);
-        //    if (frames.Count == 0) { return result; }
-        //    //if (result == null)
-        //    //{
-        //    //    result = RecognizeSemiPinchGesture(frames);
-        //    //}
-        //    if (result == null)
-        //    {
-        //        result = RecognizeBlurryPinchGesture(frames);
-        //    }
-        //    if (result == null)
-        //    {
-        //        result = RecognizeBlurryLineGesture(frames);
-        //    }
-        //    if (result == null)
-        //    {
-        //        result = RecognizeBlurryCircleGesture(frames);
-        //    }
-        //    if (result == null)
-        //    {
-        //        // result = RecognizeXFingerDragging(frames, 3);
-        //    }
-        //    System.Diagnostics.Debug.WriteLine("recognized: " + (result == null ? "nothing" :
-        //        result.ToString()));
-        //    return result;
-        //}
 
         #endregion
 
@@ -237,7 +209,7 @@ namespace Gestures.Recognition.Classifier
                 new ClassificationResult(
                     (semi2 || semi1) ? "one finger pinch" : "pinch",
                     0.8, new Sample[]{
-                    semi1 ? startNode1 : (semi2 ? startNode2 : 
+                    semi1 ? startNode1 : (semi2 ? startNode2 :
                     new Sample(startNode2.TimeStamp,
                         (startNode1[0] + startNode2[0])/2,
                         (startNode1[1] + startNode2[1])/2))},
@@ -302,14 +274,14 @@ namespace Gestures.Recognition.Classifier
                 result = new ClassificationResult(
                     "line",
                     0.9,
-                    new Sample[] { 
-                        new Sample(DateTime.Now, startPoint), 
-                        new Sample(DateTime.Now, endPoint) 
+                    new Sample[] {
+                        new Sample(DateTime.Now, startPoint),
+                        new Sample(DateTime.Now, endPoint)
                     },
                     new Dictionary<String, Object>(){
                         {"FirstTouch", startPoint},
                         {"LastTouch", endPoint},
-                        {"angle", GetAngle(startPoint, endPoint)}                    
+                        {"angle", GetAngle(startPoint, endPoint)}
                     });
             }
             return result;
@@ -553,13 +525,13 @@ namespace Gestures.Recognition.Classifier
             }
             end = GetCentre(temp);
 
-            return new ClassificationResult("drag", 
-                0.95, 
-                new Vertex[] { (Vertex)start, (Vertex)end },
-                new Dictionary<String, Object>() { 
+            return new ClassificationResult("drag",
+                0.95,
+                new Vertex[] { start, end },
+                new Dictionary<String, Object>() {
                 {"FirstTouch", start},
                 {"LastTouch", end},
-                { "contacts", finger } 
+                { "contacts", finger }
                 });
         }
 

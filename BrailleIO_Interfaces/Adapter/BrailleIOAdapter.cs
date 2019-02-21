@@ -5,11 +5,17 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Basic Braille I/O namespace.
+/// BrailleIO is a API/framework with hardware abstraction of tactile 2D pin-matrix displays and 
+/// basic implementations for standard problem when building software for tactile interfaces.
+/// </summary>
 namespace BrailleIO
 {
     /// <summary>
     /// Abstract implementation for basic functions a real Hardware modeling device Adapter has to implement
     /// </summary>
+	/// <remarks> </remarks>
     public abstract class AbstractBrailleIOAdapterBase : IBrailleIOAdapter2, ITouchDataAdapter, IDisposable
     {
         #region Members
@@ -17,6 +23,7 @@ namespace BrailleIO
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="AbstractBrailleIOAdapterBase"/> is synchronize.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value><c>true</c> if synchronize; otherwise, <c>false</c>.</value>
         public virtual bool Synch
         {
@@ -29,6 +36,7 @@ namespace BrailleIO
         /// This means no more synchronization should be possible. 
         /// The last pin state stays as set until the lock is released and Synchronize(bool[,] matrix) is called.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value><c>true</c> if [lock pins]; otherwise, <c>false</c>.</value>
         public virtual bool LockPins
         {
@@ -41,6 +49,7 @@ namespace BrailleIO
         /// Gets or sets the device.
         /// The device gives access to specific properties of the modeled hardware device.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>The device.</value>
         public virtual BrailleIODevice Device
         {
@@ -51,36 +60,48 @@ namespace BrailleIO
         /// <summary>
         /// Creates an dummy device width dimensions of a Metec BrailleDis device.
         /// </summary>
-        /// <returns></returns>
+		/// <remarks> </remarks>
+        /// <returns>An standard abstract adapter with 10 dpi and a display size of 120 x 60 pins.</returns>
         protected virtual BrailleIODevice createDevice()
         {
             return new BrailleIODevice(120, 60, "UNKNOWN", true, true, 10, this.GetType().ToString());
         }
 
+        /// <summary>
+        /// Gets or sets the horizontal resolution of the pin matrix for this device.
+        /// </summary>
+		/// <remarks> </remarks>
         protected float _dpiX = 10;
         /// <summary>
         /// Gets or sets the horizontal resolution of the pin matrix for this device.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>The horizontal device resolution in dpi.</value>
         public virtual float DpiX
         {
             get { return _dpiX; }
         }
 
+        /// <summary>
+        /// Gets or sets the vertical resolution of the pin matrix for this device.
+        /// </summary>
+		/// <remarks> </remarks>
         protected float _dpiY = 10;
         /// <summary>
         /// Gets or sets the vertical resolution of the pin matrix for this device.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>The vertical device resolution in dpi.</value>
         public virtual float DpiY
         {
             get { return _dpiY; }
         }
 
-        protected bool _connected = false;
+        bool _connected = false;
         /// <summary>
         /// Gets a value indicating whether this <see cref="AbstractBrailleIOAdapterBase"/> is connected or not.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value><c>true</c> if connected; otherwise, <c>false</c>.</value>
         public virtual bool Connected
         {
@@ -95,6 +116,7 @@ namespace BrailleIO
         /// <summary>
         /// The adapter manager this adapter is registered in.
         /// </summary>
+		/// <remarks> </remarks>
         protected IBrailleIOAdapterManager manager = null;
 
         #region ButtonStates
@@ -102,6 +124,7 @@ namespace BrailleIO
         /// <summary>
         /// Gets all currently pressed device buttons.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// The currently pressed device buttons.
         /// </value>
@@ -110,6 +133,7 @@ namespace BrailleIO
         /// <summary>
         /// Gets all currently pressed braille keyboard buttons.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// The currently pressed braille keyboard buttons.
         /// </value>
@@ -118,6 +142,7 @@ namespace BrailleIO
         /// <summary>
         /// Gets all currently pressed additional buttons.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// The currently pressed additional buttons.
         /// </value>
@@ -132,6 +157,7 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractBrailleIOAdapterBase"/> class.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="manager">The manager.</param>
         public AbstractBrailleIOAdapterBase(IBrailleIOAdapterManager manager)
         {
@@ -146,6 +172,7 @@ namespace BrailleIO
         /// <summary>
         /// Connects this instance.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns><c>true</c> if connected successfully; otherwise, <c>false</c>.</returns>
         public virtual bool Connect()
         {
@@ -160,6 +187,7 @@ namespace BrailleIO
         /// <summary>
         /// Disconnects this instance.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns><c>true</c> if disconnected successfully; otherwise, <c>false</c>.</returns>
         public virtual bool Disconnect()
         {
@@ -170,55 +198,75 @@ namespace BrailleIO
         }
 
         #region on before event handlers
+        /// <summary>Raises the <see cref="E:BrailleIOKeyPressedEventHandler"/> event.</summary>
+        /// <param name="e">The <see cref="BrailleIO_KeyPressed_EventArgs"/> instance containing the event data.</param>
         internal virtual void OnBrailleIO_KeyPressed_EventHandler(BrailleIO_KeyPressed_EventArgs e) { keyPressed(this, e); }
+        /// <summary>Raises the <see cref="E:BrailleIOKeyStateChangedEventHandler"/> event.</summary>
+        /// <param name="e">The <see cref="BrailleIO_KeyStateChanged_EventArgs"/> instance containing the event data.</param>
         internal virtual void OnBrailleIO_KeyStateChanged_EventHandler(BrailleIO_KeyStateChanged_EventArgs e) { keyStateChanged(this, e); }
+        /// <summary>Raises the <see cref="E:BrailleIOTouchValuesChangedEventHandler"/> event.</summary>
+        /// <param name="e">The <see cref="BrailleIO_TouchValuesChanged_EventArgs"/> instance containing the event data.</param>
         internal virtual void OnBrailleIO_TouchValuesChanged_EventHandler(BrailleIO_TouchValuesChanged_EventArgs e) { touchValuesChanged(this, e); }
+        /// <summary>Raises the <see cref="E:BrailleIOPinStateChangedEventHandler"/> event.</summary>
+        /// <param name="e">The <see cref="BrailleIO_PinStateChanged_EventArgs"/> instance containing the event data.</param>
         internal virtual void OnBrailleIO_PinStateChanged_EventHandler(BrailleIO_PinStateChanged_EventArgs e) { pinStateChanged(this, e); }
+        /// <summary>Raises the <see cref="E:BrailleIOErrorOccuredEventHandler"/> event.</summary>
+        /// <param name="e">The <see cref="BrailleIO_ErrorOccured_EventArgs"/> instance containing the event data.</param>
         internal virtual void OnBrailleIO_ErrorOccured_EventHandler(BrailleIO_ErrorOccured_EventArgs e) { errorOccurred(this, e); }
         #endregion
 
         #region Event Handling
 
-        ///// <summary>
-        ///// Occurs when a key was pressed.
-        ///// </summary>
+        /// <summary>
+        /// Occurs when a key was pressed.
+        /// </summary>
+		/// <remarks> </remarks>
         public virtual event EventHandler<BrailleIO_KeyPressed_EventArgs> keyPressed;
         /// <summary>
         /// Occurs when the state of a key has changed. This can be a pressed or a released
         /// </summary>
+		/// <remarks> </remarks>
         public virtual event EventHandler<BrailleIO_KeyStateChanged_EventArgs> keyStateChanged;
         /// <summary>
         /// Occurs when the device was successfully initialized.
         /// </summary>
+		/// <remarks> </remarks>
         public virtual event EventHandler<BrailleIO_Initialized_EventArgs> initialized;
         /// <summary>
         /// Occurs when the device was closed.
         /// </summary>
+		/// <remarks> </remarks>
         public virtual event EventHandler<BrailleIO_Initialized_EventArgs> closed;
         /// <summary>
         /// Occurs when some properties of the input changes.
         /// </summary>
+		/// <remarks> </remarks>
         public virtual event EventHandler<BrailleIO_InputChanged_EventArgs> inputChanged;
         /// <summary>
         /// Occurs when some touch values had changed.
         /// </summary>
+		/// <remarks> </remarks>
         public virtual event EventHandler<BrailleIO_TouchValuesChanged_EventArgs> touchValuesChanged;
         /// <summary>
         /// Occurs when  some pin states had changed.
         /// </summary>
+		/// <remarks> </remarks>
         public virtual event EventHandler<BrailleIO_PinStateChanged_EventArgs> pinStateChanged;
         /// <summary>
         /// Occurs when an error has occurred.
         /// </summary>
+		/// <remarks> </remarks>
         public virtual event EventHandler<BrailleIO_ErrorOccured_EventArgs> errorOccurred;
         /// <summary>
         /// Occurs when a key combination was released.
         /// </summary>
+		/// <remarks> </remarks>
         public virtual event EventHandler<BrailleIO_KeyCombinationReleased_EventArgs> keyCombinationReleased;
 
         /// <summary>
         /// Fires an initialized event.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="e">The <see cref="BrailleIO.Interface.BrailleIO_Initialized_EventArgs"/> instance containing the event data.</param>
         protected virtual void fireInitialized(BrailleIO_Initialized_EventArgs e = null)
         {
@@ -236,6 +284,7 @@ namespace BrailleIO
         /// <summary>
         /// Fires an initialized event.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="e">The <see cref="BrailleIO.Interface.BrailleIO_Initialized_EventArgs"/> instance containing the event data.</param>
         protected virtual void fireClosed(BrailleIO_Initialized_EventArgs e = null)
         {
@@ -249,6 +298,11 @@ namespace BrailleIO
             }
         }
 
+        /// <summary>Fires the key pressed event.</summary>
+        /// <param name="keyCode">The key code.</param>
+        /// <param name="raw">The raw hardware data.</param>
+        /// <param name="keyboardButtonStates">The current pressed keyboard button states.</param>
+        /// <param name="additionalButtonStates">The current pressed additional button states.</param>
         protected virtual void fireKeyPressed(
             BrailleIO_DeviceButtonStates keyCode,
             ref OrderedDictionary raw,
@@ -273,6 +327,7 @@ namespace BrailleIO
         /// <summary>
         /// Fires a key state changed event.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="keyCode">The key code.</param>
         /// <param name="raw">The raw.</param>
         /// <param name="keyboardCode">optional combined Braille keyboard button states.</param>
@@ -349,8 +404,12 @@ namespace BrailleIO
 
         #region Button Helper Functions
 
-        private object _syncLock = new Object();
+        private readonly object _syncLock = new Object();
 
+        /// <summary>Updates the list of pressed additional buttons.</summary>
+        /// <param name="additionalKeyCode">The additional key code.</param>
+        /// <param name="pressedAdBs">The pressed addition buttons.</param>
+        /// <param name="releasedAdBs">The released additional buttons.</param>
         protected virtual void updatePressedAdditionalButtons(
             BrailleIO_AdditionalButtonStates[] additionalKeyCode,
             out Dictionary<int, BrailleIO_AdditionalButton> pressedAdBs,
@@ -386,6 +445,10 @@ namespace BrailleIO
             }
         }
 
+        /// <summary>Updates the list of pressed keyboard buttons.</summary>
+        /// <param name="keyboardCode">The keyboard code.</param>
+        /// <param name="pressedKbB">The pressed keyboard buttons.</param>
+        /// <param name="releasedKbB">The released keyboard buttons.</param>
         protected virtual void updatePressedKeyboardButtons(
             BrailleIO_BrailleKeyboardButtonStates keyboardCode,
             out BrailleIO_BrailleKeyboardButton pressedKbB,
@@ -406,6 +469,10 @@ namespace BrailleIO
             }
         }
 
+        /// <summary>Updates the list of pressed device buttons.</summary>
+        /// <param name="keyCode">The key code.</param>
+        /// <param name="pressedDB">The pressed device buttons.</param>
+        /// <param name="releasedDB">The released device buttons.</param>
         protected virtual void updatePressedDeviceButtons(BrailleIO_DeviceButtonStates keyCode,
             out BrailleIO_DeviceButton pressedDB,
             out BrailleIO_DeviceButton releasedDB)
@@ -428,11 +495,10 @@ namespace BrailleIO
         #region Key Combination Interpreter
 
         private double _keyCombinationTimerInterval = 300;
-        /// <summary>
-        /// The time interval for collecting key released events to combine them as one 
+        /// <summary>The time interval for collecting key released events to combine them as one
         /// key combination in milliseconds.
-        /// After this timespan the released keys are sent as a key combination.
-        /// </summary>
+        /// After this timespan the released keys are sent as a key combination.</summary>
+        /// <value>The key combination timeout.</value>
         public double KeyCombinationTimeout
         {
             get { return _keyCombinationTimerInterval; }
@@ -443,6 +509,7 @@ namespace BrailleIO
         /// <summary>
         /// A placeholder for a global collection of button states.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// The key combination collector.
         /// </value>
@@ -468,6 +535,7 @@ namespace BrailleIO
         /// <summary>
         /// Gets or sets the key combination timer collection.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// The key combination timer.
         /// </value>
@@ -489,6 +557,7 @@ namespace BrailleIO
         /// <summary>
         /// Checks if a key combination was released.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="pressed">The pressed general buttons.</param>
         /// <param name="released">The released general buttons.</param>
         /// <param name="pressedKbB">The pressed Braille keyboard buttons.</param>
@@ -600,6 +669,7 @@ namespace BrailleIO
         /// <summary>
         /// Fires an input changed event.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="touches">The touches.</param>
         /// <param name="timestamp">The timestamp.</param>
         /// <param name="raw">The raw.</param>
@@ -616,6 +686,7 @@ namespace BrailleIO
         /// <summary>
         /// Fires the key combination released event.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="keyCombination">The key combination container item.</param>
         protected virtual void fireKeyCombinationReleased(
             KeyCombinationItem keyCombination
@@ -637,6 +708,7 @@ namespace BrailleIO
         /// <summary>
         /// Fires a touch values changed event.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="touches">The touches.</param>
         /// <param name="timestamp">The timestamp.</param>
         /// <param name="raw">The raw.</param>
@@ -645,6 +717,7 @@ namespace BrailleIO
         /// <summary>
         /// Fires a touch values changed event.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="touches">The touches.</param>
         /// <param name="timestamp">The timestamp.</param>
         /// <param name="raw">The raw.</param>
@@ -670,6 +743,7 @@ namespace BrailleIO
         /// <summary>
         /// Fires an error occurred event.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="errorCode">The error code.</param>
         /// <param name="raw">The raw.</param>
         public virtual void fireErrorOccured(ErrorCode errorCode, ref OrderedDictionary raw)
@@ -689,6 +763,7 @@ namespace BrailleIO
         /// That means the Adapter try to sent the given Matrix to the real hardware 
         /// device as an output.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="matrix">The matrix.</param>
         public virtual void Synchronize(bool[,] matrix)
         {
@@ -701,6 +776,7 @@ namespace BrailleIO
         /// Recalibrate the Touch detection Adapter with the specified threshold.
         /// //FIXME: BAD-HACK function to find bad detectors. Make this real working
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="threshold">The threshold.</param>
         /// <returns><c>true</c> if the devices touch abilities could be recalibrated</returns>
         public virtual bool Recalibrate(double threshold)
@@ -774,6 +850,7 @@ namespace BrailleIO
         /// This matrix will be subtracted from the incoming touch matrix to correct the 
         /// sensory data.
         /// </summary>
+		/// <remarks> </remarks>
         /// <value>
         /// The touch correction matrix.
         /// </value>
@@ -833,6 +910,7 @@ namespace BrailleIO
         /// <summary>
         /// returns a matrix full of raised pins.
         /// </summary>
+		/// <remarks> </remarks>
         /// <returns>a matrix full of raised pins in the dimension of the device.</returns>
         public bool[,] GetFullSetMatrix()
         {
@@ -855,9 +933,8 @@ namespace BrailleIO
         #region ITouchDataAdapter
 
         double[,] _currentTouchMatrix = null;
-        /// <summary>
-        /// cached touch data matrix
-        /// </summary>
+        /// <summary>cached touch data matrix</summary>
+        /// <value>The current touch matrix.</value>
         protected double[,] currentTouchMatrix
         {
             get { return _currentTouchMatrix; }
@@ -865,9 +942,8 @@ namespace BrailleIO
         }
 
         List<Touch> _currentTouches = null;
-        /// <summary>
-        /// cached list of detailed touches
-        /// </summary>
+        /// <summary>cached list of detailed touches</summary>
+        /// <value>The current touches.</value>
         protected List<Touch> currentTouches
         {
             get { return _currentTouches; }
@@ -875,9 +951,7 @@ namespace BrailleIO
         }
 
         DateTime _lastTouchUpdate = DateTime.Now;
-        /// <summary>
-        /// Lifetime, defining how long the cached Touch data should be valid.
-        /// </summary>
+        /// <summary>Lifetime, defining how long the cached Touch data should be valid.</summary>
         public TimeSpan ValidTouchLifetime = new TimeSpan(0, 1, 0);
 
         /// <summary>return the current touch data matrix</summary>
@@ -963,6 +1037,7 @@ namespace BrailleIO
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
+		/// <remarks> </remarks>
         public void Dispose()
         {
             try

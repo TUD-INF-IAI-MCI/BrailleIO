@@ -12,6 +12,7 @@ namespace Gestures.Geometrie.Vertex
 
     /// <summary>
     /// </summary>
+		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     /// <seealso cref="Gestures.Geometrie.Vertex.IVertex" />
     [System.Xml.Serialization.XmlRoot("Vertex")]
@@ -191,6 +192,7 @@ namespace Gestures.Geometrie.Vertex
 
     /// <summary>
     /// </summary>
+		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     public static class MetricDistances
     {

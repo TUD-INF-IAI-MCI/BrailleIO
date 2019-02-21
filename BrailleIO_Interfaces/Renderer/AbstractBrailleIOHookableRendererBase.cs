@@ -5,6 +5,7 @@ namespace BrailleIO.Interface
     /// <summary>
     /// Abstract basis class for a renderer that enables hooking
     /// </summary>
+		/// <remarks> </remarks>
     public abstract class BrailleIOHookableRendererBase : IBrailleIOHookableRenderer
     {
         #region Member
@@ -12,6 +13,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// The hooks that should be called when rendering the content.
         /// </summary>
+		/// <remarks> </remarks>
         protected readonly ConcurrentDictionary<int, IBailleIORendererHook> hooks = new ConcurrentDictionary<int, IBailleIORendererHook>();
 
         #endregion
@@ -21,6 +23,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Register a hook.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="hook">The hook.</param>
         public virtual void RegisterHook(IBailleIORendererHook hook)
         {
@@ -33,6 +36,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Unregisters a hook.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="hook">The hook.</param>
         public virtual void UnregisterHook(IBailleIORendererHook hook)
         {
@@ -47,6 +51,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Calls all registered pre-renderer hooks.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="view">The view.</param>
         /// <param name="content">The content.</param>
         /// <param name="additionalParams">The additional parameters.</param>
@@ -72,6 +77,7 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Calls all registered post-renderer hooks.
         /// </summary>
+		/// <remarks> </remarks>
         /// <param name="view">The view.</param>
         /// <param name="content">The content.</param>
         /// <param name="result">The result.</param>
