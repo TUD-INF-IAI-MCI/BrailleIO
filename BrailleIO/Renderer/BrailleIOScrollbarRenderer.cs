@@ -7,7 +7,6 @@ namespace BrailleIO.Renderer
     /// renders scroll bars
     /// TODO: unfinished for vertical scroll bars (very small)
     /// </summary>
-		/// <remarks> </remarks>
     public static class BrailleIOScrollbarRenderer
     {
         /// <summary>Draws scrollbars in the viewMatrix.</summary>

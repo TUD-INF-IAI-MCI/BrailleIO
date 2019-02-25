@@ -15,7 +15,6 @@ namespace BrailleIO.Renderer.Properties {
     /// <summary>
     ///   Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
     /// </summary>
-		/// <remarks> </remarks>
     // Diese Klasse wurde von der StronglyTypedResourceBuilder automatisch generiert
     // -Klasse über ein Tool wie ResGen oder Visual Studio automatisch generiert.
     // Um einen Member hinzuzufügen oder zu entfernen, bearbeiten Sie die .ResX-Datei und führen dann ResGen
@@ -36,7 +35,6 @@ namespace BrailleIO.Renderer.Properties {
         /// <summary>
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
-		/// <remarks> </remarks>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
@@ -52,7 +50,6 @@ namespace BrailleIO.Renderer.Properties {
         ///   Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
-		/// <remarks> </remarks>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Globalization.CultureInfo Culture {
             get {
@@ -66,7 +63,6 @@ namespace BrailleIO.Renderer.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-		/// <remarks> </remarks>
         internal static byte[] de_chardefs8 {
             get {
                 object obj = ResourceManager.GetObject("de_chardefs8", resourceCulture);
@@ -77,7 +73,6 @@ namespace BrailleIO.Renderer.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-		/// <remarks> </remarks>
         internal static byte[] digits6DotsPlusDot6 {
             get {
                 object obj = ResourceManager.GetObject("digits6DotsPlusDot6", resourceCulture);
@@ -88,7 +83,6 @@ namespace BrailleIO.Renderer.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-		/// <remarks> </remarks>
         internal static byte[] unicode {
             get {
                 object obj = ResourceManager.GetObject("unicode", resourceCulture);

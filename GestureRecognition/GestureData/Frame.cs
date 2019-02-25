@@ -7,14 +7,12 @@ namespace Gestures.Recognition.GestureData
     /// <summary>
     /// Touch contact on the surface, i.e. closed area or cluster of sensor values.
     /// </summary>
-		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     public class _Touch
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Touch"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="id">The identifier.</param>
         /// <param name="x">The horizontal x position of the touch.</param>
         /// <param name="y">The vertical y position of the touch.</param>
@@ -33,39 +31,32 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// The identifier
         /// </summary>
-		/// <remarks> </remarks>
         public int ID;
         /// <summary>
         /// horizontal position
         /// </summary>
-		/// <remarks> </remarks>
         public double X;
         /// <summary>
         /// vertical position
         /// </summary>
-		/// <remarks> </remarks>
         public double Y;
         /// <summary>
         /// horizontal diameter
         /// </summary>
-		/// <remarks> </remarks>
         public double DimX;
         /// <summary>
         /// vertical diameter
         /// </summary>
-		/// <remarks> </remarks>
         public double DimY;
         /// <summary>
         /// The sensory intense data value
         /// </summary>
-		/// <remarks> </remarks>
         public double Intense;
     }
 
     /// <summary>
     /// A sample of the sensor data, i.e. all current touches during one sampling step.
     /// </summary>
-		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     public class Frame : IEnumerable<Touch>
     {
@@ -74,7 +65,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Initializes a new instance of the <see cref="Frame"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="timeStamp">The time stamp.</param>
         public Frame(DateTime timeStamp)
         {
@@ -84,7 +74,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Initializes a new instance of the <see cref="Frame"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="timeStamp">The time stamp.</param>
         /// <param name="touches">The list of touches inside this frame.</param>
         public Frame(DateTime timeStamp, params Touch[] touches)
@@ -99,7 +88,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Initializes a new instance of the <see cref="Frame"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="timeStamp">The time stamp.</param>
         /// <param name="touches">The matrix of touch-sensory data values.</param>
         public Frame(DateTime timeStamp, double[,] touches)
@@ -125,14 +113,12 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Initializes a new instance of the <see cref="Frame"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="sampleSet">The matrix of touch-sensory data values.</param>
         public Frame(double[,] sampleSet) : this(sampleSet, DateTime.Now){}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Frame"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="sampleSet">The matrix of touch-sensory data values.</param>
         /// <param name="timestamp">The time stamp.</param>
         public Frame(double[,] sampleSet, DateTime timestamp)
@@ -171,7 +157,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Adds a touch to the frame.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="touch">The touch.</param>
         public void AddTouch(Touch touch)
         {
@@ -189,7 +174,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Gets the count of touches inside this frame.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The count of touches.
         /// </value>
@@ -197,7 +181,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Gets the <see cref="Touch"/> at the specified index.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The <see cref="Touch"/>.
         /// </value>
@@ -207,7 +190,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Gets or sets the time stamp.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The time stamp.
         /// </value>
@@ -215,7 +197,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Gets the specific touch.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="id">The identifier.</param>
         /// <returns>the requested touch or null</returns>
         public Touch GetTouch(int id)
@@ -233,7 +214,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
         /// </returns>

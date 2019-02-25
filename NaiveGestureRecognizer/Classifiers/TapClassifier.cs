@@ -42,7 +42,6 @@ namespace Gestures.Recognition.Classifier
         /// <summary>
         /// Checks for tap gestures.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param className="inputData">The input data .</param>
         /// <returns>Number of Taps detected, -1 if no tap gesture could be recognized.</returns>F:\Material\Gesture_Source\Gesten\Classifiers\DTWClassifier.cs
         private int CheckForTapGestures2(TrackedGesture inputData, ref Vertex tapedPos)
@@ -113,7 +112,6 @@ namespace Gestures.Recognition.Classifier
         /// <summary>
         /// Checks for tap gestures.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param className="clusteredSamples">The clustered samples.</param>
         /// <returns>Number of Taps detected, -1 if no tap gesture could be recognized.</returns>
         private int CheckForTapGestures(IList<Sample> inputData, out IVertex tappedPos)

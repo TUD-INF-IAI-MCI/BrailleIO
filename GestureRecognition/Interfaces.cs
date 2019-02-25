@@ -6,20 +6,17 @@ using System.Collections.Generic;
 /// <summary>
 /// 
 /// </summary>
-		/// <remarks> </remarks>
 /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
 namespace Gestures.Recognition.Interfaces
 {
     /// <summary>
     /// Provides Property to lock on for synchronization purposes.
     /// </summary>
-		/// <remarks> </remarks>
     public interface ISynchronizable
     {
         /// <summary>
         /// Gets the synchronization lock.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>The synchronization lock.</value>
         Object SynchLock { get; }
     }
@@ -28,7 +25,6 @@ namespace Gestures.Recognition.Interfaces
     /// <summary>
     /// Holds result of a gestures classification, i.e. name and additional parameters.
     /// </summary>
-		/// <remarks> </remarks>
     public interface IClassificationResult
     {
         String Name { get; }
@@ -79,7 +75,6 @@ namespace Gestures.Recognition.Interfaces
         /// <summary>
         /// Gets or sets the probability threshold for directly accepting a classification result.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The probability threshold. Must be in range of 0 - 1.0.
         /// </value>
@@ -91,7 +86,6 @@ namespace Gestures.Recognition.Interfaces
         /// <summary>
         /// Finishes the evaluation and clears the related blob tracker if set.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="_clear">if set to <c>true</c> the blob tracker is cleared.</param>
         /// <returns>A recognized gesture or <c>Null</c></returns>
         IClassificationResult FinishEvaluation(bool _clear);

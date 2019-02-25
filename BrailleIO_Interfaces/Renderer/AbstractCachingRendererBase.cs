@@ -23,7 +23,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets or sets a value indicating whether [call hooks on rendering for caching].
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// <c>true</c> if [call hooks on rendering for caching]; otherwise, <c>false</c>.
         /// </value>
@@ -32,30 +31,25 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// The cached rendered result matrix
         /// </summary>
-		/// <remarks> </remarks>
         protected bool[,] _cachedMatrix;
 
         /// <summary>
         /// The last view used for rendering.
         /// </summary>
-		/// <remarks> </remarks>
         protected String lastView;
         /// <summary>
         /// The last content
         /// </summary>
-		/// <remarks> </remarks>
         protected object lastContent;
 
         /// <summary>
         /// The rendering wait timeout in ms for checking if it is currently rendering.
         /// </summary>
-		/// <remarks> </remarks>
         protected int renderingWaitTimeout = 5;
 
         /// <summary>
         /// The maximum attempts for waiting for completing the rendering.
         /// </summary>
-		/// <remarks> </remarks>
         protected int maxRenderingWaitTrys = 10;
 
         #endregion
@@ -66,7 +60,6 @@ namespace BrailleIO.Renderer
         /// Gets or sets a value indicating whether content changed or not to check if a new rendering is necessary.
         /// You have to call the PrerenderMatrix function manually if you want to have a cached result.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         ///   <c>true</c> if [content has changed]; otherwise, <c>false</c>.
         /// </value>
@@ -75,7 +68,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets the time stamp for the last content rendering.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The last time stamp of content rendering rendered.
         /// </value>
@@ -84,7 +76,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets a value indicating whether this instance is currently rendering.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// <c>true</c> if this instance is currently rendering; otherwise, <c>false</c>.
         /// </value>
@@ -94,7 +85,6 @@ namespace BrailleIO.Renderer
         /// Informs the renderer that the content the or view has changed.
         /// You have to call the PrerenderMatrix function manually if you want to have a cached result.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="view">The view.</param>
         /// <param name="content">The content.</param>
         public virtual void ContentOrViewHasChanged(IViewBoxModel view, object content)
@@ -132,7 +122,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// the rendering method used from the prerendering and rendering methods to produce the caching result.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="view">The view range</param>
         /// <param name="content">the content object to render</param>
         /// <param name="CallHooksOnCacherendering">flag determining if the hooks should be called or not while rendering</param>
@@ -143,7 +132,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets the previously rendered and cached matrix.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         /// The cached rendering result
         /// </returns>
@@ -163,7 +151,6 @@ namespace BrailleIO.Renderer
         /// Renders a content object into an boolean matrix;
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a BrailleIOViewRange.</param>
         /// <param name="matrix">The content to render.</param>
         /// <returns>
@@ -183,7 +170,6 @@ namespace BrailleIO.Renderer
         /// Renders a content object into an boolean matrix;
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a BrailleIOViewRange.</param>
         /// <param name="content">The content to render.</param>
         /// <returns>
@@ -228,7 +214,6 @@ namespace BrailleIO.Renderer
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// ATTENTION: have to be implemented. check for the 
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a BrailleIOViewRange.</param>
         /// <param name="content">The content to render.</param>
         /// <param name="callHooks">if set to <c>true</c> [call the pre- and post-rendering hooks].</param>
@@ -264,7 +249,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Determines if the two <see cref="IViewBoxModel"/> are equal or not.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="a">One IViewBoxModel</param>
         /// <param name="b">Another IViewBoxModel</param>
         /// <returns><c>true</c> if both IViewBoxModels are equal; otherwise, <c>false</c>.</returns>

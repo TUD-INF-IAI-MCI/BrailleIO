@@ -11,13 +11,11 @@ namespace BrailleIO.Interface
     /// <summary>
     /// Interface for objects which can toggle their activation status
     /// </summary>
-		/// <remarks> </remarks>
     public interface IActivatable
     {
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="IActivatable"/> is active or not.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         ///   <c>true</c> if active; otherwise, <c>false</c>.
         /// </value>

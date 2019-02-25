@@ -14,7 +14,6 @@ namespace BrailleIO
     /// But only one Screen can be visible at the same time.
     /// Width this container you can build multi screen applications
     /// </summary>
-		/// <remarks> </remarks>
     public class BrailleIOScreen : AbstractViewBoxModelBase
     {
         #region Members
@@ -28,7 +27,6 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIOScreen"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         public BrailleIOScreen()
         {
 
@@ -36,7 +34,6 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIOScreen"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="name">The name of the screen. Should be unique. Can be used to find the screen (view) 
         /// in the list of all available screen of the <see cref="BrailleIOMediator"/> instance.</param>
         public BrailleIOScreen(String name) { Name = name; }
@@ -46,7 +43,6 @@ namespace BrailleIO
         /// Returns an ordered list of the added view ranges.
         /// The order is from the earliest added to the latest added but width respect of the set zOrder from the lowest to the highest.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>Returns an ordered list of the added view ranges.
         /// The order is from the earliest added to the latest added but width respect of the set zOrder from the lowest to the highest.</returns>
         public List<KeyValuePair<String, BrailleIOViewRange>> GetOrderedViewRanges()
@@ -57,7 +53,6 @@ namespace BrailleIO
         /// <summary>
         /// add ViewRange to screen
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="_view_range">ViewRange</param>
         public void AddViewRange(BrailleIOViewRange _view_range)
         {
@@ -70,7 +65,6 @@ namespace BrailleIO
         /// <summary>
         /// add ViewRange to screen
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="name">
         /// name of ViewRange
         /// </param>
@@ -103,7 +97,6 @@ namespace BrailleIO
         /// <summary>
         /// remove ViewRange
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="name">
         /// name of ViewRange
         /// </param>
@@ -116,7 +109,6 @@ namespace BrailleIO
         /// <summary>
         /// rename ViewRange
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="from">
         /// old name of ViewRange
         /// </param>
@@ -132,7 +124,6 @@ namespace BrailleIO
         /// <summary>
         /// get All ViewRanges in Screen
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         /// OrderedDictionary&lt;ViewRange&gt;
         /// </returns>
@@ -158,7 +149,6 @@ namespace BrailleIO
         /// <summary>
         /// Gets the view range width a specific name.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="name">The name of the viewRange to search for.</param>
         /// <returns>the view range or <c>null</c></returns>
         public BrailleIOViewRange GetViewRange(String name)
@@ -172,7 +162,6 @@ namespace BrailleIO
         /// <summary>
         /// has specific ViewRange?
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="name">
         /// name of ViewRange
         /// </param>
@@ -187,7 +176,6 @@ namespace BrailleIO
         /// <summary>
         /// Gets the visible view range at a position.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The horizontal position on the device.</param>
         /// <param name="y">The vertical position on the device.</param>
         /// <returns>The view range at the requested pin-position or <c>null</c>.</returns>
@@ -227,7 +215,6 @@ namespace BrailleIO
         /// <summary>
         /// amount of ViewRanges
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         /// int count
         /// </returns>
@@ -240,7 +227,6 @@ namespace BrailleIO
     /// <summary>
     /// A Dictionary that can be sorted
     /// </summary>
-		/// <remarks> </remarks>
     /// <typeparam name="TKey">The type of the key.</typeparam>
     /// <typeparam name="TValue">The type of the value.</typeparam>
     class OrderedConcurentDictionary<TKey, TValue> : IDictionary<TKey, TValue>,

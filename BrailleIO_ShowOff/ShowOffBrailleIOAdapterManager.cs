@@ -5,7 +5,6 @@ namespace BrailleIO
     /// <summary>
     /// Basic ApadapterManager automatically sets up a ShowOffAdaper and provide it as a global monitor field.
     /// </summary>
-		/// <remarks> </remarks>
     /// <seealso cref="BrailleIO.AbstractBrailleIOAdapterManagerBase" />
     public class ShowOffBrailleIOAdapterManager : AbstractBrailleIOAdapterManagerBase
     {
@@ -14,7 +13,6 @@ namespace BrailleIO
         /// <summary>
         /// Gets the automatically instantiated monitor component.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The monitor.
         /// </value>
@@ -25,14 +23,12 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="ShowOffBrailleIOAdapterManager"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         public ShowOffBrailleIOAdapterManager()
             : base()
         { init(); }
         /// <summary>
         /// Initializes a new instance of the <see cref="ShowOffBrailleIOAdapterManager"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="io">The <see cref="BrailleIOMediator"/> this relates to.</param>
         public ShowOffBrailleIOAdapterManager(ref BrailleIOMediator io)
             : base(ref io)

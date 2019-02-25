@@ -7,14 +7,12 @@ namespace BrailleIO.Renderer
     /// Interface for renderer allowing for returning a complex object from a position inside the rendered output.
     /// Back-tracking to the source object from the rendering result.
     /// </summary>
-		/// <remarks> </remarks>
     public interface ITouchableRenderer
     {
 
         /// <summary>
         /// Gets the Object at position x,y in the content.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The x position in the content matrix.</param>
         /// <param name="y">The y position in the content matrix.</param>
         /// <returns>An object at the requester position in the content or <c>null</c></returns>
@@ -23,7 +21,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Get all Objects inside (or at least partial) the given area.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="left">Left border of the region to test (X).</param>
         /// <param name="right">Right border of the region to test (X + width).</param>
         /// <param name="top">Top border of the region to test (Y).</param>

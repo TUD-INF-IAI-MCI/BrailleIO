@@ -10,7 +10,6 @@ namespace BrailleIO
     /// <summary>
     /// Basic structure to hold content that should been displayed on an output device
     /// </summary>
-		/// <remarks> </remarks>
     public class BrailleIOViewRange : AbstractViewBoxModelBase, IContrastThreshold, IZoomable, IBrailleIOContentChangedEventSupplier
     {
         #region Members
@@ -62,14 +61,12 @@ namespace BrailleIO
         /// <summary>
         /// The maximal zoom level that can be applied.
         /// </summary>
-		/// <remarks> </remarks>
         public double MAX_ZOOM_LEVEL = 5;
 
         private bool _invert_image = false;
         /// <summary>
         /// Gets or sets a value indicating whether the image should be inverted or not.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         ///   <c>true</c> if [invert the image]; otherwise, <c>false</c>.
         /// </value>
@@ -88,7 +85,6 @@ namespace BrailleIO
         /// <summary>
         /// Gets or sets the parent <see cref="BrailleIOScreen"/>.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The parent Screen.
         /// </value>
@@ -108,7 +104,6 @@ namespace BrailleIO
         /// <summary>
         /// Gets or sets a flag indicating whether this <see cref="BrailleIOViewRange"/> should be re-rendered because of the content was changed.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value><c>true</c> if the renderer should re-render the content; otherwise, <c>false</c>.</value>
         public bool Render
         {
@@ -137,7 +132,6 @@ namespace BrailleIO
         /// <summary>
         /// Gets the currently used render for the specific content.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The content render.
         /// </value>
@@ -155,7 +149,6 @@ namespace BrailleIO
         /// <summary>
         /// Updates the size of the content.
         /// </summary>
-		/// <remarks> </remarks>
         public void UpdateContentSize()
         {
             if (Render)
@@ -182,7 +175,6 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIOViewRange"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="left">The left position inside the parent Screen.</param>
         /// <param name="top">The top position inside the parent screen.</param>
         /// <param name="width">The overall width.</param>
@@ -200,7 +192,6 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIOViewRange" /> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="left">The left position inside the parent Screen.</param>
         /// <param name="top">The top position inside the parent screen.</param>
         /// <param name="width">The overall width.</param>
@@ -218,7 +209,6 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIOViewRange" /> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="left">The left position inside the parent Screen.</param>
         /// <param name="top">The top position inside the parent screen.</param>
         /// <param name="width">The overall width.</param>
@@ -229,7 +219,6 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIOViewRange" /> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="left">The left position inside the parent Screen.</param>
         /// <param name="top">The top position inside the parent screen.</param>
         /// <param name="width">The overall width.</param>
@@ -264,7 +253,6 @@ namespace BrailleIO
         /// <summary>
         /// set matrix 
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="matrix">
         /// bool[,] matrix
         /// </param>
@@ -309,7 +297,6 @@ namespace BrailleIO
         /// <summary>
         /// Sets the bitmap that should be rendered.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="img">The image.</param>
         [HandleProcessCorruptedStateExceptions]
         public void SetBitmap(Bitmap img)
@@ -354,7 +341,6 @@ namespace BrailleIO
         /// <summary>
         /// Sets the bitmap that should be rendered.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="img">The content image.</param>
         public void SetBitmap(Image img)
         {
@@ -409,7 +395,6 @@ namespace BrailleIO
         /// <summary>
         /// Determines whether this instance should render a matrix.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         /// 	<c>true</c> if this instance renders a matrix; otherwise, <c>false</c>.
         /// </returns>
@@ -421,7 +406,6 @@ namespace BrailleIO
         /// <summary>
         /// Determines whether this instance should render an image.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         /// 	<c>true</c> if this instance renders an image; otherwise, <c>false</c>.
         /// </returns>
@@ -433,7 +417,6 @@ namespace BrailleIO
         /// <summary>
         /// Determines whether this instance should render a text.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         /// 	<c>true</c> if this instance renders a text; otherwise, <c>false</c>.
         /// </returns>
@@ -463,7 +446,6 @@ namespace BrailleIO
         /// <summary>
         /// Sets the text that should be rendered.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="text">The text.</param>
         public void SetText(string text)
         {
@@ -488,7 +470,6 @@ namespace BrailleIO
         /// <summary>
         /// Sets an generic content and a related renderer for this type.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="content">The content.</param>
         /// <param name="renderer">The renderer - can not be null.</param>
         public void SetOtherContent(Object content, IBrailleIOContentRenderer renderer)
@@ -537,7 +518,6 @@ namespace BrailleIO
         /// <summary>
         /// Determines whether this instance has a special type of content that can not been rendered with one of the standard renderer.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         /// 	<c>true</c> if this instance has an specialized content type other; otherwise, <c>false</c>.
         /// </returns>
@@ -549,7 +529,6 @@ namespace BrailleIO
         /// <summary>
         /// Gets the actual zoom-level.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>Zoom value as ratio</returns>
         public double GetZoom()
         {
@@ -569,14 +548,12 @@ namespace BrailleIO
         /// <summary>
         /// Sets the actual zoom.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="zoom">The zoom value as ratio.</param>
         public void SetZoom(double zoom) { SetZoom(zoom, true); }
 
         /// <summary>
         /// Sets the actual zoom.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="zoom">The zoom value as ratio.</param>
         /// <param name="rerender">if set to <c>true</c> to force a rerendering and an update of the content size.</param>
         /// <exception cref="System.ArgumentException">The zoom level is with a value of " + zoom + "to high. The zoom level should not be more than " + MAX_ZOOM_LEVEL + ". - zoom</exception>
@@ -600,7 +577,6 @@ namespace BrailleIO
         /// A low threshold leads darker pins to stay lowered.
         /// Threshold has to be between 0 and 255.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="threshold">The threshold.</param>
         /// <returns>the new threshold</returns>
         public int SetContrastThreshold(int threshold)
@@ -622,7 +598,6 @@ namespace BrailleIO
         /// <summary>
         /// Sets the z-index of the view range. A lager z-index overlays a smaller.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="zIndex">the z-index of the viewRange.</param>
         public void SetZIndex(int zIndex)
         {
@@ -632,14 +607,12 @@ namespace BrailleIO
         /// <summary>
         /// Gets the z-index of the view range. A lager z-index overlays a smaller.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>the z-index of the viewRange.</returns>
         public int GetZIndex() { return this.zIndex; }
 
         /// <summary>
         /// Get the Generic content
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>the untyped content of this view range</returns>
         public Object GetContent()
         {
@@ -666,7 +639,6 @@ namespace BrailleIO
         /// <summary>
         /// Occurs when the renderer was changed.
         /// </summary>
-		/// <remarks> </remarks>
         public event EventHandler<EventArgs> RendererChanged;
 
         private void fireRendererChanged()
@@ -683,7 +655,6 @@ namespace BrailleIO
         /// <summary>
         /// Occurs when the content has been changed.
         /// </summary>
-		/// <remarks> </remarks>
         public event EventHandler<EventArgs> ContentChanged;
 
         private void fireContentChangedEvent()
@@ -711,7 +682,6 @@ namespace BrailleIO
         /// Rectangle given dimensions and position of the whole view range or screen 
         /// including the ContentBox, margin, padding and border (see BoxModel).
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>ViewBox of this view (position and size)</value>
         public override Rectangle ViewBox
         {
@@ -750,7 +720,6 @@ namespace BrailleIO
         /// │╚═════════════════════════════════════════════════╝│
         /// └───────────────────────────────────────────────────┘
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>the available space for the content</value>
         public override Rectangle ContentBox
         {
@@ -774,7 +743,6 @@ namespace BrailleIO
         /// content to the left - which is a pan to the right - and a positive value 
         /// will move the content to the right.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The offset position.
         /// </value>
@@ -797,7 +765,6 @@ namespace BrailleIO
         /// Attention: a <c>true</c> does not mean that the point is in the content. 
         /// It can be on a spacing or the border.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The horizontal position on the display.</param>
         /// <param name="y">The vertical position on the display.</param>
         /// <returns><c>true</c> if this view contain the point; otherwise <c>false</c>.</returns>
@@ -807,7 +774,6 @@ namespace BrailleIO
         /// Attention: a <c>true</c> does not mean that the point is in the content. 
         /// It can be on a spacing or the border.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The horizontal position on the display.</param>
         /// <param name="y">The vertical position on the display.</param>
         /// <returns><c>true</c> if this view contain the point; otherwise <c>false</c>.</returns>
@@ -824,7 +790,6 @@ namespace BrailleIO
         /// <summary>
         /// Chef if the contents contains the point.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The x position to check.</param>
         /// <param name="y">The y position to check.</param>
         /// <returns><c>true</c> if the point is inside the content area; otherwise, <c>false</c>.</returns>
@@ -832,7 +797,6 @@ namespace BrailleIO
         /// <summary>
         /// Chef if the contents contains the point.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The x position to check.</param>
         /// <param name="y">The y position to check.</param>
         /// <returns><c>true</c> if the point is inside the content area; otherwise, <c>false</c>.</returns>
@@ -855,7 +819,6 @@ namespace BrailleIO
         /// Translates the device position into a position inside the content with respect to 
         /// ViewRange-, ContenBox- and Offset-Position.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The horizontal position on the device.</param>
         /// <param name="y">The vertical position on the device.</param>
         /// <returns>A point with the position inside the content if possible; otherwise a point with the coordinates -1,-1.</returns>
@@ -871,7 +834,6 @@ namespace BrailleIO
         /// Translates the device position into a position inside the content with respect to 
         /// ViewRange-, ContenBox- and Offset-Position.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The horizontal position on the device.</param>
         /// <param name="y">The vertical position on the device.</param>
         /// <returns>A point with the position inside the content if possible; otherwise a point with the coordinates -1,-1.</returns>
@@ -880,7 +842,6 @@ namespace BrailleIO
         /// Translates the device position into a position inside the content with respect to 
         /// ViewRange-, ContenBox- and Offset-Position.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The horizontal position on the device.</param>
         /// <param name="y">The vertical position on the device.</param>
         /// <returns>A point with the position inside the content if possible; otherwise a point with the coordinates -1,-1.</returns>
@@ -906,7 +867,6 @@ namespace BrailleIO
         /// <summary>
         /// Gets or sets the border.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The border.
         /// </value>
@@ -927,7 +887,6 @@ namespace BrailleIO
         /// <summary>
         /// Gets or sets the padding. The padding is the inner space between the border and the content.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The padding.
         /// </value>
@@ -948,7 +907,6 @@ namespace BrailleIO
         /// <summary>
         /// Gets or sets the margin. The margin is the outer space around an area. Space between the objects and the border.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The margin.
         /// </value>

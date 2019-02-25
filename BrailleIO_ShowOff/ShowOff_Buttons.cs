@@ -10,7 +10,6 @@ namespace BrailleIO
     /// <summary>
     /// A software adapter simulating a Metec BarilleDis 7200.
     /// </summary>
-		/// <remarks> </remarks>
     /// <seealso cref="System.Windows.Forms.Form" />
     /// <seealso cref="BrailleIO.IBrailleIOShowOffMonitor" />
     public partial class ShowOff : Form, IBrailleIOShowOffMonitor
@@ -399,7 +398,6 @@ namespace BrailleIO
         /// <summary>
         /// determines if the CTR-key is pressed or not
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         ///   <c>true</c> if CTR-Key is pressed; otherwise, <c>false</c>.
         /// </value>
@@ -592,7 +590,6 @@ namespace BrailleIO
         /// <summary>
         /// Marks the button as pressed.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="pressedButtons">The pressed buttons.</param>
         public void MarkButtonAsPressed(List<String> pressedButtons)
         {
@@ -646,7 +643,6 @@ namespace BrailleIO
         /// <summary>
         /// Reset the buttons to normal mode.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="releasedButtons">The released buttons.</param>
         public void UnmarkButtons(List<String> releasedButtons)
         {

@@ -19,7 +19,6 @@ namespace Gestures.Recognition.Classifier
         /// <summary>
         /// Initializes a new instance of the <see cref="MultitouchClassifier"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         public MultitouchClassifier()
             : base()
         {

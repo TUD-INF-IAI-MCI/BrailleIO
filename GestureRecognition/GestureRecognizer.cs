@@ -9,7 +9,6 @@ namespace Gestures.Recognition
     /// <summary>
     /// A gesture recognizer that supports multi-touch on a touch display.
     /// </summary>
-		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     public class GestureRecognizer : IRecognizeGestures, IRecordTemplates, ILoadGestureTemplates
     {
@@ -25,7 +24,6 @@ namespace Gestures.Recognition
         /// <summary>
         /// Initializes a new instance of the <see cref="GestureRecognizer"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="blobTracker">Module used for blob tracking.</param>
         public GestureRecognizer(ITrackBlobs blobTracker)
         {
@@ -40,7 +38,6 @@ namespace Gestures.Recognition
         /// <summary>
         /// Gets the synchronization lock object.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>The synchronization lock object.</value>
         public virtual object SynchLock { get { return synchLock; } }
         #endregion
@@ -51,7 +48,6 @@ namespace Gestures.Recognition
         /// <summary>
         /// Gets or sets the probability threshold for directly accepting a classification result.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The probability threshold.
         /// </value>
@@ -73,8 +69,7 @@ namespace Gestures.Recognition
 
         /// <summary>
         /// Starts the evaluation of gesture input.
-        /// </summary>
-		/// <remarks> </remarks>               
+        /// </summary>               
         public virtual void StartEvaluation()
         {
             if (RecordingMode) { return; }
@@ -214,7 +209,6 @@ namespace Gestures.Recognition
         /// <summary>
         /// Initializes templates set with XML templates given at specified tempFileName.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param className="xmlTemplatePath">The XML gestureTemplate tempFileName.</param>
         public virtual void LoadTemplates(string xmlTemplatePath)
         {
@@ -297,7 +291,6 @@ namespace Gestures.Recognition
         /// <summary>
         /// Gets a value indicating whether recognizer actually is classifying.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value><c>true</c> if [recognition mode]; otherwise, <c>false</c>.</value>
         protected virtual bool RecognitionMode { get; set; }
 

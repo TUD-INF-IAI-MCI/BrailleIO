@@ -6,7 +6,6 @@ namespace BrailleIO.Renderer.Structs
     /// <summary>
     /// Element that represent a rendered Element an can be used for collision testings, building tree structures and other stuff
     /// </summary>
-		/// <remarks> </remarks>
     public struct RenderElement
     {
         #region  Members
@@ -17,7 +16,6 @@ namespace BrailleIO.Renderer.Structs
         /// List of sub elements if the element consists of sub parts 
         /// e.g. if the element is slitted over several lines.
         /// </summary>
-		/// <remarks> </remarks>
         private LinkedList<RenderElement> Subparts;
 
         private string _displayName;
@@ -30,13 +28,11 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// The value of the object that was rendered
         /// </summary>
-		/// <remarks> </remarks>
         private Object Value;
 
         /// <summary>
         /// Parent. Must be an Object to set it <c>null</c>
         /// </summary>
-		/// <remarks> </remarks>
         private Object Parent;
 
         #endregion
@@ -47,7 +43,6 @@ namespace BrailleIO.Renderer.Structs
         /// Gets or sets the optional display name. 
         /// Will returned by calling the toString() method. 
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The display name.
         /// </value>
@@ -74,7 +69,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Can be used to specify the type of this element, e.g. for the different sub elements.
         /// </summary>
-		/// <remarks> </remarks>
         public Object Type;
 
         #endregion
@@ -86,7 +80,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Initializes a new instance of the <see cref="RenderElement"/> struct.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The horizontal start position of the elemnt's bounding box.</param>
         /// <param name="y">The vertical start position of the elemnt's bounding box.</param>
         /// <param name="width">The width of the elemnt's bounding box.</param>
@@ -111,7 +104,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Initializes a new instance of the <see cref="RenderElement"/> struct.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The horizontal start position of the elemnt's bounding box.</param>
         /// <param name="y">The vertical start position of the elemnt's bounding box.</param>
         /// <param name="width">The width of the elemnt's bounding box.</param>
@@ -125,7 +117,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Initializes a new instance of the <see cref="RenderElement"/> struct.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The horizontal start position of the elemnt's bounding box.</param>
         /// <param name="y">The vertical start position of the elemnt's bounding box.</param>
         /// <param name="width">The width of the elemnt's bounding box.</param>
@@ -138,7 +129,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Initializes a new instance of the <see cref="RenderElement"/> struct.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The horizontal start position of the elemnt's bounding box.</param>
         /// <param name="y">The vertical start position of the elemnt's bounding box.</param>
         /// <param name="width">The width of the elemnt's bounding box.</param>
@@ -151,7 +141,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Initializes a new instance of the <see cref="RenderElement"/> struct.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The horizontal start position of the elemnt's bounding box.</param>
         /// <param name="y">The vertical start position of the elemnt's bounding box.</param>
         /// <param name="width">The width of the elemnt's bounding box.</param>
@@ -168,7 +157,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Check if the element contains a requested point
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">horizontal point position</param>
         /// <param name="y">vertical point position</param>
         /// <returns><c>true</c> if the requested point is contained in the bounding box or in one bounding boxes of the subparts</returns>
@@ -189,7 +177,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Determines if this elements bounding box is completely inside the given region.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="left">Left border of the region to test (X).</param>
         /// <param name="right">Right border of the region to test (X + width).</param>
         /// <param name="top">Top border of the region to test (Y).</param>
@@ -206,7 +193,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Determines if this elements bounding box is at least partly inside the given region.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="left">Left border of the region to test (X).</param>
         /// <param name="right">Right border of the region to test (X + width).</param>
         /// <param name="top">Top border of the region to test (Y).</param>
@@ -250,7 +236,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Get the subparts at a specific point.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The horizontal position of the point.</param>
         /// <param name="y">The vertical position of the point.</param>
         /// <returns>a list of sub elements containing this point.</returns>
@@ -279,7 +264,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Determine if this element has subparts registered.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns><c>true</c> it some subparts are registered for this elment, otherwise <c>false</c>.</returns>
         public bool HasSubParts()
         {
@@ -289,7 +273,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Get a copy of the list of subparts.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>Copy of the subpart linked list.</returns>
         public LinkedList<RenderElement> GetSubParts()
         {
@@ -299,7 +282,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Adds a new subpart at the end of the list.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="subPart">The new Subpart to add.</param>
         public void AddSubPart(RenderElement subPart)
         {
@@ -314,7 +296,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Adds a subpart after a specific one.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="subPart">The element to add.</param>
         /// <param name="previousSibling">An element to add this after. 
         /// If the element does not exist or is not inserted in the list, 
@@ -340,7 +321,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Adds a subpart before a specific one.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="subPart">The element to add.</param>
         /// <param name="nextSibling">An element to add after this. 
         /// If the element does not exist or is not inserted in the list, 
@@ -366,7 +346,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Removes a subpart from the list of subparts.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="subPart">the subpart to remove</param>
         /// <returns><c>true</c> if the list of suparts does not contain 
         /// the element anymore.</returns>
@@ -389,7 +368,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Check if the SubPart List contains the requested Element
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="needle">The element to search for.</param>
         /// <param name="subPart">The found linked Element as output parameter or <c>null</c></param>
         /// <returns><c>true</c> if the element is in the sub part list, otherwise <c>false</c></returns>
@@ -411,7 +389,6 @@ namespace BrailleIO.Renderer.Structs
         /// Update the bounding box of this element depending 
         /// on the bounding boxes of all subparts.
         /// </summary>
-		/// <remarks> </remarks>
         private void updateBoundingBox()
         {
             if (Subparts != null && Subparts.Count > 0)
@@ -443,7 +420,6 @@ namespace BrailleIO.Renderer.Structs
         /// Update the current bounding box of this
         /// element with the given element's bounding box
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="newElement">the new element which bounding box
         /// should be included in this element's bounding box.</param>
         private void updateBoundingBox(RenderElement newElement)
@@ -473,7 +449,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Determines whether this instance is empty.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         ///   <c>true</c> if this instance is empty; otherwise, <c>false</c>.
         /// </returns>
@@ -485,7 +460,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Gets the value object the rendering result is based on.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>An object that is transformed into the bool matrix by a renderer.</returns>
         public Object GetValue()
         {
@@ -501,7 +475,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Determines whether this instance has a parent.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         /// 	<c>true</c> if this instance has parent; otherwise, <c>false</c>.
         /// </returns>
@@ -513,7 +486,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Get the parent if one was set.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>The parent element as (a <see cref="RenderElement"/>) if one was set, otherwise <c>null</c></returns>
         public Object GetParent()
         {
@@ -525,7 +497,6 @@ namespace BrailleIO.Renderer.Structs
         /// This does not register this element to the parent's subpart list - you have to do this manually!
         /// This function is called when this element is added to another <see cref="RenderElement"/> subpart list.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="parent"></param>
         public void SetParent(RenderElement parent)
         {
@@ -541,7 +512,6 @@ namespace BrailleIO.Renderer.Structs
         /// Does not remove this element from the deleted parent's subpart list - you have to do this manually!
         /// This function is called when this element is removed from another <see cref="RenderElement"/> subpart list.
         /// </summary>
-		/// <remarks> </remarks>
         public void DeleteParent()
         {
             Parent = null;
@@ -554,7 +524,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
@@ -567,7 +536,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
         /// <returns>
         ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
@@ -586,7 +554,6 @@ namespace BrailleIO.Renderer.Structs
         /// <summary>
         /// Returns a hash code for this instance.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
         /// </returns>

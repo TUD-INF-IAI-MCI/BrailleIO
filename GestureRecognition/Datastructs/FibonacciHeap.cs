@@ -6,7 +6,6 @@ namespace Gestures.Geometrie.FibonacciHeap
 {
     /// <summary>
     /// </summary>
-		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     public class FibonacciHeap
     {

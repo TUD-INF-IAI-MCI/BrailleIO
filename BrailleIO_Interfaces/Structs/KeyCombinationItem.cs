@@ -7,7 +7,6 @@ namespace BrailleIO.Structs
     /// <summary>
     /// Bundle of information for a key combination
     /// </summary>
-		/// <remarks> </remarks>
     public struct KeyCombinationItem
     {
         BrailleIO_DeviceButton _pressedGeneralKeys;
@@ -67,7 +66,6 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyCombinationItem" /> struct.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="pressedGeneralKeys">The pressed general keys.</param>
         /// <param name="releasedGeneralKeys">The released general keys.</param>
         /// <param name="pressedKeyboardKeys">The pressed keyboard keys.</param>
@@ -102,7 +100,6 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Determines whether some currently pressed buttons are detected or not.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns><c>true</c> if some pressed buttons are registered; otherwise, <c>false</c>.</returns>
         public bool AreButtonsPressed()
         {
@@ -135,7 +132,6 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Determines whether some released buttons are detected or not.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns><c>true</c> if some released buttons are registered; otherwise, <c>false</c>.</returns>
         public bool AreButtonsReleased()
         {
@@ -169,7 +165,6 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Returns a comma separated list of all currently pressed buttons.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>String of currently pressed buttons.</returns>
         public string PressedButtonsToString()
         {
@@ -226,7 +221,6 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Returns a comma separated list of all released buttons.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>String of released buttons.</returns>
         public string ReleasedButtonsToString()
         {
@@ -300,7 +294,6 @@ namespace BrailleIO.Structs
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>

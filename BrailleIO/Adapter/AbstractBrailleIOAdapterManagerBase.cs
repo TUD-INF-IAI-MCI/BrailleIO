@@ -8,7 +8,6 @@ namespace BrailleIO
     /// <summary>
     /// Basic abstract <see cref="IBrailleIOAdapterManager"/> implementation to handle all generic adapters.
     /// </summary>
-		/// <remarks> </remarks>
     /// <seealso cref="BrailleIO.Interface.IBrailleIOAdapterManager" />
     abstract public class AbstractBrailleIOAdapterManagerBase : IBrailleIOAdapterManager, IDisposable
     {
@@ -25,7 +24,6 @@ namespace BrailleIO
         /// <summary>
         /// Gets the adapters.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The adapters.
         /// </value>
@@ -41,19 +39,16 @@ namespace BrailleIO
         /// <summary>
         /// The BrailleIOMediator
         /// </summary>
-		/// <remarks> </remarks>
         protected BrailleIOMediator io;
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractBrailleIOAdapterManagerBase"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         public AbstractBrailleIOAdapterManagerBase()
         { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractBrailleIOAdapterManagerBase"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="io">The <see cref="BrailleIOMediator"/> this manager is related to.</param>
         public AbstractBrailleIOAdapterManagerBase(ref BrailleIOMediator io)
             : this()
@@ -64,7 +59,6 @@ namespace BrailleIO
         /// <summary>
         /// Adds a new adapter to the manager.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="adapter">The adapter.</param>
         /// <returns>True if the adapter could be added to the manager otherwise false. It also returns false if the adapter is already added.</returns>
         public virtual bool AddAdapter(IBrailleIOAdapter adapter)
@@ -82,7 +76,6 @@ namespace BrailleIO
         /// <summary>
         /// Removes a new adapter from the manager.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="adapter">The adapter.</param>
         /// <returns>True if the adapter could be removed from the manager otherwise false.</returns>
         public virtual bool RemoveAdapter(IBrailleIOAdapter adapter)
@@ -103,7 +96,6 @@ namespace BrailleIO
         /// <summary>
         /// Gets the adapters.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>array of currently registered adapters (hardware abstraction)</returns>
         public virtual IBrailleIOAdapter[] GetAdapters()
         {
@@ -163,23 +155,19 @@ namespace BrailleIO
         /// <summary>
         /// Occurs when a new adapter was registered.
         /// </summary>
-		/// <remarks> </remarks>
         public event EventHandler<IBrailleIOAdapterEventArgs> NewAdapterRegistered;
         /// <summary>
         /// Occurs when an adapter was removed.
         /// </summary>
-		/// <remarks> </remarks>
         public event EventHandler<IBrailleIOAdapterEventArgs> AdapterRemoved;
         /// <summary>
         /// Occurs when the active adapter changed.
         /// </summary>
-		/// <remarks> </remarks>
         public event EventHandler<IBrailleIOAdapterEventArgs> ActiveAdapterChanged;
 
         /// <summary>
         /// Fires the new adapter registered event.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="adapter">The adapter.</param>
         protected virtual void fire_NewAdapterRegistered(IBrailleIOAdapter adapter)
         {
@@ -196,7 +184,6 @@ namespace BrailleIO
         /// <summary>
         /// Fires the adapter removed event.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="adapter">The adapter.</param>
         protected virtual void fire_AdapterRemoved(IBrailleIOAdapter adapter)
         {
@@ -213,7 +200,6 @@ namespace BrailleIO
         /// <summary>
         /// Fires the active adapter changed event.
         /// </summary>
-		/// <remarks> </remarks>
         protected virtual void fire_ActiveAdapterChanged()
         {
             if (ActiveAdapterChanged != null)
@@ -231,7 +217,6 @@ namespace BrailleIO
         /// <summary>
         /// Disposes this element and disconnects and disposes all registered adapters.
         /// </summary>
-		/// <remarks> </remarks>
         public void Dispose()
         {
             try
@@ -258,7 +243,6 @@ namespace BrailleIO
     /// <summary>
     /// Basic generic adapter manager for handling hardware or software adapters as in- and output for the <see cref="BrailleIOMediator"/>
     /// </summary>
-		/// <remarks> </remarks>
     /// <seealso cref="BrailleIO.AbstractBrailleIOAdapterManagerBase" />
     public class BasicBrailleIOAdapterManager : AbstractBrailleIOAdapterManagerBase { }
 }

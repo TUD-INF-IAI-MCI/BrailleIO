@@ -9,13 +9,11 @@ namespace BrailleIO.Interface
     /// <summary>
     /// Enables an implementing instance to indicate the possibilities for panning operation 
     /// </summary>
-		/// <remarks> </remarks>
     public interface IPannable
     {
         /// <summary>
         /// Gets or sets a value indicating whether to show some scrollbars.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value><c>true</c> if to show scrollbars; otherwise, <c>false</c>.</value>
         bool ShowScrollbars { get; set; }
         /// <summary>
@@ -24,7 +22,6 @@ namespace BrailleIO.Interface
         /// E.g. a negative offset should move the content to the left and the viewable 
         /// region to the right.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>the horizontal offset</returns>
         int GetXOffset();
         /// <summary>
@@ -33,7 +30,6 @@ namespace BrailleIO.Interface
         /// E.g. a negative offset should move the content to the left and the viewable 
         /// region to the right.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">The offset in horizontal direction.</param>
         void SetXOffset(int x);
         /// <summary>
@@ -42,7 +38,6 @@ namespace BrailleIO.Interface
         /// E.g. a negative offset should move the content to up and the viewable 
         /// region down.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>the vertical offset</returns>
         int GetYOffset();
         /// <summary>
@@ -51,14 +46,12 @@ namespace BrailleIO.Interface
         /// E.g. a negative offset should move the content to up and the viewable
         /// region down.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="y">The offset in vertical direction.</param>
         void SetYOffset(int y);
         /// <summary>
         /// Move the content in both direction simultaneous. 
         /// So the vertical and horizontal offset will been set at the same time.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="p">The offsets in vertical and horizontal direction to move.</param>
         /// <returns>the new point</returns>
         Point Move(Point p);

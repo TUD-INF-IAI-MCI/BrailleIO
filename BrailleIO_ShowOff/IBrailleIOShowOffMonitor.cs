@@ -26,7 +26,6 @@ namespace BrailleIO
         /// <summary>
         /// creates a new <see cref="BrailleIOAdapter_ShowOff"/> and returns it
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="manager">the corresponding adapter manager</param>
         /// <returns>a new "BrailleIOAdapter_ShowOff adapter</returns>
         AbstractBrailleIOAdapterBase GetAdapter(IBrailleIOAdapterManager manager);
@@ -34,14 +33,12 @@ namespace BrailleIO
         /// <summary>
         /// Paints the touch matrix over the matrix image.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="touchMatrix">The touch matrix.</param>
         void PaintTouchMatrix(double[,] touchMatrix);
 
         /// <summary>
         /// Paints the touch matrix over the matrix image.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="touchMatrix">The touch matrix.</param>
         /// <param name="detailedTouches">The detailed touches.</param>
         void PaintTouchMatrix(double[,] touchMatrix, List<BrailleIO.Structs.Touch> detailedTouches);
@@ -51,7 +48,6 @@ namespace BrailleIO
         /// - so beware to use a transparent background when using this 
         /// overlay functionality.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="image">The image to be displayed as an overlay.</param>
         /// <returns><c>true</c> if the image could been set, otherwise <c>false</c></returns>
         bool SetPictureOverlay(Image image);
@@ -66,7 +62,6 @@ namespace BrailleIO
         /// <summary>
         /// Gets the size of the picture overlay image.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>The size of the overlay image.</value>
         Size PictureOverlaySize { get; }
 
@@ -74,20 +69,17 @@ namespace BrailleIO
         /// <summary>
         /// Sets the text in the status bar.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="text">The text to display in the status bar.</param>
         void SetStatusText(string text);
 
         /// <summary>
         /// Resets the text in the status bar.
         /// </summary>
-		/// <remarks> </remarks>
         void ResetStatusText();
 
         /// <summary>
         /// Marks the button as pressed.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="pressedButtons">The pressed proprietary buttons.</param>
         void MarkButtonAsPressed(List<String> pressedButtons);
         /// <summary>Marks the button as pressed.</summary>
@@ -100,13 +92,11 @@ namespace BrailleIO
         /// <summary>
         /// Reset the buttons to normal mode.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="releasedButtons">The released proprietary buttons.</param>
         void UnmarkButtons(List<String> releasedButtons);
         /// <summary>
         /// Reset the buttons to normal mode.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="pressedGeneralKeys">newly pressed general keys</param>
         /// <param name="pressedBrailleKeyboardKeys">newly pressed Braille-keyboard keys</param>
         /// <param name="pressedAdditionalKeys">the newly pressed additional keys</param>
@@ -115,14 +105,12 @@ namespace BrailleIO
         /// <summary>
         /// Paints the specified matrix to the GUI.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="m">The pin matrix.</param>
         void Paint(bool[,] m);
 
         /// <summary>
         /// Occurs when this instance was disposed.
         /// </summary>
-		/// <remarks> </remarks>
         event EventHandler Disposed;
     }
 }

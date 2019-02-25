@@ -21,7 +21,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets or sets the pixels of the bitmap.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The pixels.
         /// </value>
@@ -29,7 +28,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets the color depth.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The depth.
         /// </value>
@@ -37,7 +35,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets the width of the bitmap.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The width.
         /// </value>
@@ -45,7 +42,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets the height of the bitmap.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The height.
         /// </value>
@@ -54,7 +50,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Initializes a new instance of the <see cref="LockBitmap"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="source">The source bitmap.</param>
         public LockBitmap(Bitmap source)
         {
@@ -64,7 +59,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Lock bitmap data
         /// </summary>
-		/// <remarks> </remarks>
         public void LockBits()
         {
             try
@@ -109,7 +103,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Unlock bitmap data
         /// </summary>
-		/// <remarks> </remarks>
         void unlockBits()
         {
             try
@@ -126,7 +119,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Get the color of the specified pixel
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">x position</param>
         /// <param name="y">y position</param>
         /// <returns>the color of the pixel</returns>
@@ -170,7 +162,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Set the color of the specified pixel
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="x">the x position</param>
         /// <param name="y">the y position</param>
         /// <param name="color">the new color of the pixel</param>
@@ -205,7 +196,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Dispose this instance.
         /// </summary>
-		/// <remarks> </remarks>
         public void Dispose()
         {
             unlockBits();

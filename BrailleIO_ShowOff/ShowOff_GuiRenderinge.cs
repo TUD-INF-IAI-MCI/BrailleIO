@@ -24,7 +24,6 @@ namespace BrailleIO
         /// <summary>
         /// Factor for pins to pixels
         /// </summary>
-		/// <remarks> </remarks>
         const int pixelFactor = 5;
 
         #endregion
@@ -32,19 +31,16 @@ namespace BrailleIO
         /// <summary>
         /// Stack for incoming pin matrix stats to display on the 'device'
         /// </summary>
-		/// <remarks> </remarks>
         internal readonly ConcurrentStack<bool[,]> MartixStack = new ConcurrentStack<bool[,]>();
 
         /// <summary>
         /// Image of the device dot matrix and the touch module matrix - basement layer
         /// </summary>
-		/// <remarks> </remarks>
         Bitmap _baseImg;
 
         /// <summary>
         /// a which init a new paint of the pin state matrix
         /// </summary>
-		/// <remarks> </remarks>
         readonly static System.Timers.Timer renderTimer = new System.Timers.Timer(50);
 
         private readonly Object _renderLock = new Object();
@@ -122,7 +118,6 @@ namespace BrailleIO
         /// <summary>
         /// Invokes the picture box image change.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="picBox">The picture box.</param>
         /// <param name="im">The image to show.</param>
         /// <returns></returns>
@@ -164,7 +159,6 @@ namespace BrailleIO
         /// <summary>
         /// Invokes the getter  for the image of a picture box.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="picBox">The picture box.</param>
         /// <returns>the image of the picture box or <c>null</c></returns>
         private Image invokeGetImageOfPictureBox(PictureBox picBox)
@@ -193,7 +187,6 @@ namespace BrailleIO
         /// <summary>
         /// Handles the Elapsed event of the renderTimer control.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.Timers.ElapsedEventArgs"/> instance containing the event data.</param>
         void renderTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -255,7 +248,6 @@ namespace BrailleIO
         /// <summary>
         /// Generates a base image of this virtual pin matrix.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="Width">The width.</param>
         /// <param name="height">The height.</param>
         /// <returns>Basic Bitmap structure for an empty dot pattern simulating a pin-matrix surface.</returns>
@@ -298,7 +290,6 @@ namespace BrailleIO
         /// <summary>
         /// Paints the specified matrix to the GUI.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="m">The pin matrix.</param>
         public new void Paint(bool[,] m)
         {
@@ -312,7 +303,6 @@ namespace BrailleIO
         /// <summary>
         /// Renders the pin matrix to an image.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="m">The martix to render.</param>
         /// <returns>a Bitmap of the matrix to render</returns>
         private Bitmap getPinMatrixImage(bool[,] m)
@@ -379,7 +369,6 @@ namespace BrailleIO
         /// <summary>
         /// Gets a image representing the touched pins.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns></returns>
         private Bitmap getTouchImage()
         {
@@ -527,13 +516,11 @@ namespace BrailleIO
         /// <summary>
         /// The show screenshot menu configuration key to search for in the app.config file.
         /// </summary>
-		/// <remarks> </remarks>
         internal const String SHOW_SCREENSHOT_MNU_CONFIG_KEY = "ShowOff_ShowScreenshotMenu";
         /// <summary>
         /// Shows the screenshot menu if the corresponding key <see cref="SHOW_SCREENSHOT_MNU_CONFIG_KEY"/> 
         /// was set to <c>true</c> in the app.config of the current running application.
         /// </summary>
-		/// <remarks> </remarks>
         internal void showScreenshotMenuFromConfig()
         {
             try
@@ -554,7 +541,6 @@ namespace BrailleIO
         /// <summary>
         /// Shows the menu for storing screen shots of the current rendered matrix.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="strip">The strip.</param>
         /// <returns><c>true</c> if the screen shot menu could be added.</returns>
         public bool ShowScreenshotMenu(MenuStrip strip = null)
@@ -622,7 +608,6 @@ namespace BrailleIO
         /// <summary>
         /// Exports the tactile matrix.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="filePath">The file path.</param>
         /// <param name="m">The matrix.</param>
         /// <param name="format">The image format for storing - default is PNG.</param>
@@ -704,7 +689,6 @@ namespace BrailleIO
         /// <summary>
         /// Paints the bool matrix into an BMP image.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="m">The matrix.</param>
         /// <param name="filePath">The file path.</param>
         public static void PaintBoolMatrixToImage(bool[,] m, string filePath)

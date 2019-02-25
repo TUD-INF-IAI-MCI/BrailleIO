@@ -9,14 +9,12 @@ namespace BrailleIO.Renderer
     /// <summary>
     /// Interface for caching rendering results.
     /// </summary>
-		/// <remarks> </remarks>
     public interface ICacheingRenderer
     {
 
         /// <summary>
         /// Gets or sets a value indicating whether content changed or not to check if a new rendering is necessary.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         ///   <c>true</c> if [content has changed]; otherwise, <c>false</c>.
         /// </value>
@@ -24,7 +22,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets the time stamp for the last content rendering.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// The last time stamp of content rendering rendered.
         /// </value>
@@ -32,7 +29,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets a value indicating whether this instance is currently rendering.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// <c>true</c> if this instance is currently rendering; otherwise, <c>false</c>.
         /// </value>
@@ -41,7 +37,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Informs the renderer that the content the or view has changed.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="view">The view.</param>
         /// <param name="content">The content.</param>
         void ContentOrViewHasChanged(IViewBoxModel view, object content);
@@ -54,7 +49,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Gets the previously rendered and cached matrix.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>The cached rendering result</returns>
         bool[,] GetCachedMatrix();
 

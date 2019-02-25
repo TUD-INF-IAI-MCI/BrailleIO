@@ -9,7 +9,6 @@ namespace Gestures.Recognition.GestureData
     /// <summary>
     /// Single multitouch gesture, consisting of several <see cref="GestureToken"/>.
     /// </summary>
-		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     [Serializable]
     [XmlRoot(ElementName = "Gesture", IsNullable = true)]
@@ -23,7 +22,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Initializes a new instance of the <see cref="Gesture"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         public Gesture()
             : this(null)
         {
@@ -32,7 +30,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Initializes a new instance of the <see cref="Gesture"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="token">Array of gestures tokens.</param>
         public Gesture(GestureToken[] token)            
         {
@@ -45,7 +42,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Gets the <see cref="GestureToken"/> at the specified index.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value></value>
         [XmlIgnore]
         public GestureToken this[int index]
@@ -56,7 +52,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Gets the number of the gestures tokens.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>The number of tokens.</value>
         [XmlAttribute("TokenCount")]
         public int Count { get { return token.Length; } }
@@ -64,7 +59,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Gets or sets the tokens the gesture consists of.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>The tokens.</value>
         [XmlArray("Tokens")]
         [XmlArrayItem("Token", Type = typeof(GestureToken), IsNullable = true)]        
@@ -130,7 +124,6 @@ namespace Gestures.Recognition.GestureData
     /// <summary>
     /// Gesture gestureTemplate, actual a gesture with className.
     /// </summary>
-		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     [XmlRoot(ElementName = "GestureTemplate", IsNullable = false)]
     [XmlType("GestureTemplate")]
@@ -140,7 +133,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Initializes a new instance of the <see cref="GestureTemplate"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         public GestureTemplate()
             : base()
         {
@@ -149,7 +141,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Initializes a new instance of the <see cref="GestureTemplate"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="token">Array of gestures tokens.</param>
         public GestureTemplate(GestureToken[] token)
             : base(token)
@@ -159,7 +150,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Initializes a new instance of the <see cref="GestureTemplate"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="className">Name of the class.</param>
         /// <param name="token">Array of gestures tokens.</param>
         public GestureTemplate(String className, GestureToken[] token)
@@ -171,7 +161,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Initializes a new instance of the <see cref="GestureTemplate"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="className">Name of the class.</param>
         /// <param name="gesture">A gestures instance belonging to specified gesture class.</param>
         public GestureTemplate(String className, Gesture gesture)
@@ -184,7 +173,6 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Gets or sets the name of the gestures corresponding class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>The name of the class.</value>
         [System.Xml.Serialization.XmlAttribute()]
         public String ClassName{get;set;}
@@ -192,14 +180,12 @@ namespace Gestures.Recognition.GestureData
         /// <summary>
         /// Internal number to distinguish templates within same classes.
         /// </summary>
-		/// <remarks> </remarks>
         public int TemplateNumber { get; set; }
     }
 
 
     /// <summary>
     /// </summary>
-		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     /// <seealso cref="Gestures.Recognition.GestureData.Gesture" />
     public class TrackedGesture : Gesture

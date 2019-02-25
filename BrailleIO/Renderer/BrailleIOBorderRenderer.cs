@@ -6,14 +6,12 @@ namespace BrailleIO.Renderer
     /// <summary>
     /// render the border defined for an <see cref="AbstractViewBorderBase"/> view range
     /// </summary>
-		/// <remarks> </remarks>
     public static class BrailleIOBorderRenderer
     {
         /// <summary>
         /// Renders a content object into an boolean matrix;
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a <see cref="BrailleIOViewRange"/>.</param>
         /// <param name="contentMatrix">The content to render.</param>
         /// <returns>
@@ -79,7 +77,6 @@ namespace BrailleIO.Renderer
         /// <summary>
         /// Draws the horizontal line.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="width">The width.</param>
         /// <param name="contentMatrix">The content matrix.</param>
         /// <param name="xOffset">The x offset.</param>

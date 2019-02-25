@@ -12,7 +12,6 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Sets the margin.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="box">The margin box model.</param>
         public virtual void SetMargin(BoxModel box)
         {
@@ -23,13 +22,11 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Sets all margins.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="width">The margin in all direction.</param>
         public virtual void SetMargin(uint width) { SetMargin(new BoxModel(width)); }
         /// <summary>
         /// Sets the margins.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="top">The top margin.</param>
         /// <param name="right">The right margin.</param>
         /// <param name="bottom">The bottom margin.</param>
@@ -38,7 +35,6 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Sets the margins.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="top">The top margin.</param>
         /// <param name="horizontal">The horizontal margins (left + right).</param>
         /// <param name="bottom">The bottom margin.</param>
@@ -46,7 +42,6 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Sets the horizontal and vertical margins.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="vertical">The vertical margins (top + bottom).</param>
         /// <param name="horizontal">The horizontal margins (left + right).</param>
         public virtual void SetMargin(uint vertical, uint horizontal) { SetMargin(new BoxModel(vertical, horizontal)); }
@@ -55,7 +50,6 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets or sets a value indicating whether this instance has a margin.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// 	<c>true</c> if this instance has a margin; otherwise, <c>false</c>.
         /// </value>
@@ -63,7 +57,6 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets or sets the margin. The margin is the outer space around an area. Space between the objects and the border.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>The margin.</value>
         public virtual BoxModel Margin { get; set; }
     }

@@ -11,7 +11,6 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Occurs when a property has changed.
         /// </summary>
-		/// <remarks> </remarks>
         event EventHandler<BrailleIOPropertyChangedEventArgs> PropertyChanged;
     }
 
@@ -25,13 +24,11 @@ namespace BrailleIO.Interface
         /// <summary>
         /// The name of the changed property
         /// </summary>
-		/// <remarks> </remarks>
         public readonly String PropertyName = String.Empty;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIOPropertyChangedEventArgs"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="propertyName">Name of the property that has changed.</param>
         public BrailleIOPropertyChangedEventArgs(string propertyName)
         {

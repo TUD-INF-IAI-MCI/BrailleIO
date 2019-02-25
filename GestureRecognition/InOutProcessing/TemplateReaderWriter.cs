@@ -13,7 +13,6 @@ namespace Gestures.InOut
     /// <summary>
     /// 
     /// </summary>
-		/// <remarks> </remarks>
     /// <author>Dr. rer. nat. Michael Schmidt - Techniche Universität Dresden 2014.</author>
     /// <seealso cref="Gestures.InOut.ITemplateReaderWriter" />
     public class TemplateReaderWriter : ITemplateReaderWriter

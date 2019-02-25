@@ -14,7 +14,6 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Sets the border.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="box">The border box model.</param>
         public virtual void SetBorder(BoxModel box)
         {
@@ -24,13 +23,11 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Sets all border.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="width">The border in all direction.</param>
         public virtual void SetBorder(uint width) { SetBorder(new BoxModel(width)); }
         /// <summary>
         /// Sets the border.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="top">The top border.</param>
         /// <param name="right">The right border.</param>
         /// <param name="bottom">The bottom border.</param>
@@ -39,7 +36,6 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Sets the border.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="top">The top border.</param>
         /// <param name="horizontal">The horizontal border (left + right).</param>
         /// <param name="bottom">The bottom border.</param>
@@ -47,7 +43,6 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Sets the horizontal and vertical border.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="vertical">The vertical border (top + bottom).</param>
         /// <param name="horizontal">The horizontal border (left + right).</param>
         public virtual void SetBorder(uint vertical, uint horizontal) { SetBorder(new BoxModel(vertical, horizontal)); }
@@ -56,7 +51,6 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets or sets a value indicating whether this instance has a border.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>
         /// 	<c>true</c> if this instance has a border; otherwise, <c>false</c>.
         /// </value>
@@ -64,7 +58,6 @@ namespace BrailleIO.Interface
         /// <summary>
         /// Gets or sets the border.
         /// </summary>
-		/// <remarks> </remarks>
         /// <value>The border.</value>
         public virtual BoxModel Border { get; set; }
     }

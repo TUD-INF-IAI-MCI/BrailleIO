@@ -4,7 +4,6 @@ namespace BrailleIO.Interface
     /// <summary>
     /// Interface a renderer component have to implement to transform a specific content object into a bool matrix.
     /// </summary>
-		/// <remarks> </remarks>
     /// <seealso cref="BrailleIO.Interface.IBrailleIOContentRenderer" />
     public interface IBrailleIORendererInterfaces : IBrailleIOContentRenderer
     {
@@ -12,7 +11,6 @@ namespace BrailleIO.Interface
         /// Renders a content object into an boolean matrix;
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a BrailleIOViewRange.</param>
         /// <param name="matrix">The content to render.</param>
         /// <returns>
@@ -29,14 +27,12 @@ namespace BrailleIO.Interface
     /// Generic interface for a renderer for content of a BrailleIOViewRange has to implement. 
     /// Then the instance can be added as a content renderer.
     /// </summary>
-		/// <remarks> </remarks>
     public interface IBrailleIOContentRenderer
     {
         /// <summary>
         /// Renders a content object into an boolean matrix;
         /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a IBrailleIOViewRange.</param>
         /// <param name="content">The content to render.</param>
         /// <returns>
@@ -54,7 +50,6 @@ namespace BrailleIO.Interface
     /// Generic interface for providing information if an renderer does 
     /// panning handling by its own or not.
     /// </summary>
-		/// <remarks> </remarks>
     /// <seealso cref="BrailleIO.Interface.IBrailleIORendererInterfaces"/>
     public interface IBrailleIOPanningRendererInterfaces : IBrailleIORendererInterfaces
     {
@@ -75,19 +70,16 @@ namespace BrailleIO.Interface
     /// <summary>
     /// Interface that a renderer has to implement if he wants to allow hooking
     /// </summary>
-		/// <remarks> </remarks>
     public interface IBrailleIOHookableRenderer
     {
         /// <summary>
         /// Register a hook.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="hook">The hook.</param>
         void RegisterHook(IBailleIORendererHook hook);
         /// <summary>
         /// Unregisters a hook.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="hook">The hook.</param>
         void UnregisterHook(IBailleIORendererHook hook);
     }
@@ -95,13 +87,11 @@ namespace BrailleIO.Interface
     /// <summary>
     /// Interface a renderer hook has to implement
     /// </summary>
-		/// <remarks> </remarks>
     public interface IBailleIORendererHook
     {
         /// <summary>
         /// This hook function is called by an IBrailleIOHookableRenderer before he starts his rendering.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="view">The view.</param>
         /// <param name="content">The content.</param>
         /// <param name="additionalParams">Additional parameters.</param>
@@ -109,7 +99,6 @@ namespace BrailleIO.Interface
         /// <summary>
         /// This hook function is called by an IBrailleIOHookableRenderer after he has done his rendering before returning the result.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="view">The view.</param>
         /// <param name="content">The content.</param>
         /// <param name="result">The result matrix, may be manipulated. Addressed in [y, x] notation.</param>

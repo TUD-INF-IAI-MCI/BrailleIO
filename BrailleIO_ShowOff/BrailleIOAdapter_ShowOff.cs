@@ -26,18 +26,15 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="MockDriver"/> class. This is a simple wrapper for the software adapter itself connected to this GUI.
         /// </summary>
-		/// <remarks> </remarks>
         public MockDriver() { }
         /// <summary>
         /// Initializes a new instance of the <see cref="MockDriver"/> class. This is a simple wrapper for the software adapter itself connected to this GUI.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="gui">The GUI.</param>
         public MockDriver(ShowOff gui) { Monitor = gui; }
         /// <summary>
         /// Sends the Matrix to the windows forms application to display
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="m">The m.</param>
         public void SetMatrix(bool[,] m)
         {
@@ -57,13 +54,11 @@ namespace BrailleIO
         /// <summary>
         /// The driver emulator that send the matrix to the windows forms application
         /// </summary>
-		/// <remarks> </remarks>
         public MockDriver driver = new MockDriver();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIOAdapter_ShowOff"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="manager">The IBrailleIOAdapterManager the device hase to be registerd to.</param>
         /// <param name="gui">The ShowOff windows forms application that is used as displaying or user interaction GUI.</param>
         public BrailleIOAdapter_ShowOff(IBrailleIOAdapterManager manager, ShowOff gui)
@@ -83,7 +78,6 @@ namespace BrailleIO
         /// <summary>
         /// Initializes a new instance of the <see cref="BrailleIOAdapter_ShowOff"/> class.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="manager">The IBrailleIOAdapterManager the device has to be registered to.</param>
         public BrailleIOAdapter_ShowOff(IBrailleIOAdapterManager manager)
             : this(manager, new ShowOff())
@@ -95,7 +89,6 @@ namespace BrailleIO
         /// That means the Adapter try to sent the given Matrix to the real hardware 
         /// device as an output.
         /// </summary>
-		/// <remarks> </remarks>
         /// <param name="m">The matrix.</param>
         public override void Synchronize(bool[,] m)
         {
@@ -105,7 +98,6 @@ namespace BrailleIO
         /// <summary>
         /// Connects this instance.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         ///   <c>true</c> if connected successfully; otherwise, <c>false</c>.
         /// </returns>
@@ -122,7 +114,6 @@ namespace BrailleIO
         /// <summary>
         /// Disconnects this instance.
         /// </summary>
-		/// <remarks> </remarks>
         /// <returns>
         ///   <c>true</c> if disconnected successfully; otherwise, <c>false</c>.
         /// </returns>
