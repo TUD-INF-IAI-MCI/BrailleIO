@@ -484,5 +484,41 @@ namespace BrailleIO.Interface
 
         #endregion
 
+        #region Bool Matrix Handling
+
+        /// <summary>
+        /// Adds a matrix into another.
+        /// </summary>
+        /// <param name="m">The matrix to add the matrix content in.</param>
+        /// <param name="sub">The sub-matrix to add.</param>
+        /// <param name="iOffset">The start row to place the matrix (first dimension).</param>
+        /// <param name="jOffset">The start column to place the matrix (second dimension).</param>
+        public static void AddSubmatrix(ref bool[,] m, bool[,] sub, int iOffset, int jOffset)
+        {
+            if (m != null && sub != null && m.GetLength(0) > 0 && m.GetLength(1) > 0 && sub.GetLength(0) > 0 && sub.GetLength(1) > 0)
+            {
+                for (int i = 0; i < sub.GetLength(0); i++)
+                {
+                    int i2 = i + iOffset;
+                    if (i2 < 0) { continue; } // FIXME: calculate the first valid i
+                    if (i2 < m.GetLength(0))
+                    {
+                        for (int j = 0; j < sub.GetLength(1); j++)
+                        {
+                            int j2 = j + jOffset;
+                            if (j2 < 0) { continue; } // FIXME: calculate the fist valid j
+                            if (j2 < m.GetLength(1))
+                            {
+                                m[i2, j2] = sub[i, j];
+                            }
+                            else break;
+                        }
+                    }
+                    else break;
+                }
+            }
+        }
+
+        #endregion
     }
 }

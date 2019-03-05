@@ -189,10 +189,13 @@ namespace BrailleIO.Renderer
                             // split text into paragraphs/lines
                             string[] paragraphs = GetLinesOfString(text);
 
-                            foreach (var p in paragraphs)
+                            // foreach (var p in paragraphs)
+                            int l = paragraphs.Length - 1;
+                            for (int i = 0; i < paragraphs.Length; i++)
                             {
+                                var p = paragraphs[i];
                                 int offset = lines.Count * (BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT);
-                                List<List<List<int>>> paragraphLines = renderParagraph(p, width, ref maxUsedWidth, offset);
+                                List<List<List<int>>> paragraphLines = renderParagraph(p, width, ref maxUsedWidth, offset, i == l);
                                 lines.AddRange(paragraphLines);
                             }
 
@@ -358,8 +361,9 @@ namespace BrailleIO.Renderer
         /// <param name="width">The available width.</param>
         /// <param name="maxUsedWidth">Maximum width of the used.</param>
         /// <param name="yOffset">The y offset.</param>
+        /// <param name="isLast">if set to <c>true</c> if this is the last paragraph to render.</param>
         /// <returns></returns>
-        private List<List<List<int>>> renderParagraph(string text, int width, ref int maxUsedWidth, int yOffset = 0)
+        private List<List<List<int>>> renderParagraph(string text, int width, ref int maxUsedWidth, int yOffset = 0, bool isLast = false)
         {
             List<List<List<int>>> lines = new List<List<List<int>>>();
             if (width > 0)
@@ -464,8 +468,6 @@ namespace BrailleIO.Renderer
 
                         e.Width = minWidth + (availableWidth > INTER_CHAR_WIDTH ? INTER_CHAR_WIDTH : 0);
                         e.Height = BRAILLE_CHAR_HEIGHT + INTER_LINE_HEIGHT;
-
-
                     }
 
                     #region Rendering Element
@@ -478,6 +480,13 @@ namespace BrailleIO.Renderer
 
                 // update the maxUsed Width
                 maxUsedWidth = Math.Max(maxUsedWidth, (width - availableWidth));
+
+                if (isLast && RenderingProperties.HasFlag(RenderingProperties.IGNORE_LAST_LINESPACE))
+                {
+                    pe.Height -= 1;
+                    // TODO: find the last line of subparts and decrease them as well
+                }
+
                 elements.AddLast(pe);
             }
 

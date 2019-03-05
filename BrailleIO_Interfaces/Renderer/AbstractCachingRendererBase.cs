@@ -184,16 +184,7 @@ namespace BrailleIO.Renderer
         {
             callAllPreHooks(ref view, ref content, null);
 
-
-            string viewString = viewToString(view);
-            if (!viewString.Equals(lastView))// !ViewBoxModelEquals(lastView, view))
-            {
-                contentOrViewHasChanged(viewString, content);
-            }
-            else if (!lastContent.Equals(content))
-            {
-                ContentOrViewHasChanged(view, content);
-            }
+            ContentChanged = DidContentOrViewHaveChanged(view, content);
 
             if (ContentChanged)
             {
@@ -205,7 +196,33 @@ namespace BrailleIO.Renderer
             bool[,] output = (GetCachedMatrix() != null) ? GetCachedMatrix().Clone() as bool[,] : new bool[0, 0];
             callAllPostHooks(view, content, ref output, null);
 
+
+            view.ContentHeight = output.GetLength(0);
+            view.ContentWidth = output.GetLength(1);
+
             return output;
+        }
+        
+        /// <summary>
+        /// Determine if the content or some important variables of the view have changed or not.
+        /// </summary>
+        /// <param name="view">The view the content is presented in.</param>
+        /// <param name="content">The content to render.</param>
+        /// <returns><c>true</c> if some important variables has been changed since the last rendering; otherwise, <c>false</c>.</returns>
+        protected virtual bool DidContentOrViewHaveChanged(IViewBoxModel view, object content)
+        {
+            string viewString = viewToString(view);
+            if (!viewString.Equals(lastView))// !ViewBoxModelEquals(lastView, view))
+            {
+                contentOrViewHasChanged(viewString, content);
+                return true;
+            }
+            else if (!lastContent.Equals(content))
+            {
+                ContentOrViewHasChanged(view, content);
+                return true;
+            }
+            return false;
         }
 
 

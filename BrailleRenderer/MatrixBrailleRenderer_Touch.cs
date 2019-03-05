@@ -28,8 +28,6 @@ namespace BrailleIO.Renderer
             elements.Clear();
         }
 
-        //TODO: lock this against rendering
-
         private readonly Object _rendererLock = new Object();
         /// <summary>
         /// Get a list of the rendered element structures.

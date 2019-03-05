@@ -441,6 +441,26 @@ namespace BrailleIO.Renderer.Structs
             Y = Math.Min(Y, newElement.Y);
         }
 
+        /// <summary>
+        /// Shifts the element in vertical and/or horizontal direction.
+        /// </summary>
+        /// <param name="x">The horizontal position change (x).</param>
+        /// <param name="y">The vertical position change (y).</param>
+        public void ShiftElement(int x, int y)
+        {
+            // set the x and y values
+            X += x;
+            Y += y;
+
+            if (HasSubParts())
+            {
+                foreach (var item in Subparts)
+                {
+                    item.ShiftElement(x, y);
+                }
+            }
+        }
+
         #endregion
 
         #region Value
@@ -543,7 +563,7 @@ namespace BrailleIO.Renderer.Structs
         public override bool Equals(object obj)
         {
             return obj is RenderElement
-                && ((RenderElement)obj).GetValue().Equals(this.Value)
+                && ((((RenderElement)obj).GetValue() != null && ((RenderElement)obj).GetValue().Equals(this.Value)) || this.Value == null)
                 && ((RenderElement)obj).X == X
                 && ((RenderElement)obj).Y == Y
                 && ((RenderElement)obj).Width == Width
