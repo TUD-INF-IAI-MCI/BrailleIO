@@ -408,6 +408,43 @@ namespace BrailleIO.Renderer
             PrerenderMatrix(view, content);
         }
 
+        /// <summary>
+        /// Renders a content object into an boolean matrix;
+        /// while <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
+        /// </summary>
+        /// <param name="view">The frame to render in. This gives access to the space to render and other parameters. Normally this is a BrailleIOViewRange.</param>
+        /// <param name="content">The content to render.</param>
+        /// <returns>
+        /// A two dimensional boolean M x N matrix (bool[M,N]) where M is the count of rows (this is height)
+        /// and N is the count of columns (which is the width).
+        /// Positions in the Matrix are of type [i,j]
+        /// while i is the index of the row (is the y position)
+        /// and j is the index of the column (is the x position).
+        /// In the matrix <c>true</c> values indicating raised pins and <c>false</c> values indicating lowered pins
+        /// </returns>
+        override public bool[,] RenderMatrix(IViewBoxModel view, object content)
+        {
+            callAllPreHooks(ref view, ref content, null);
+
+            ContentChanged = DidContentOrViewHaveChanged(view, content);
+
+            if (ContentChanged)
+            {
+                _cachedMatrix = renderMatrix(view, content, CallHooksOnCacherendering);
+                LastRendered = DateTime.Now;
+                ContentChanged = false;
+            }
+
+            bool[,] output = (GetCachedMatrix() != null) ? GetCachedMatrix().Clone() as bool[,] : new bool[0, 0];
+            callAllPostHooks(view, content, ref output, null);
+
+            return output;
+        }
+
+
+
+
+
         #endregion
 
         #region IContrastThreshold

@@ -215,14 +215,12 @@ namespace BrailleIO.Renderer
             if (!viewString.Equals(lastView))// !ViewBoxModelEquals(lastView, view))
             {
                 contentOrViewHasChanged(viewString, content);
-                return true;
             }
             else if (!lastContent.Equals(content))
             {
                 ContentOrViewHasChanged(view, content);
-                return true;
             }
-            return false;
+            return ContentChanged;
         }
 
 
