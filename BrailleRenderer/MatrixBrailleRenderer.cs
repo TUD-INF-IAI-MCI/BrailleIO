@@ -18,6 +18,15 @@ namespace BrailleIO.Renderer
         #region Members
 
         /// <summary>
+        /// A static global default braille interpreter which is used if no special 
+        /// Braille interpreter is defined when calling the constructor. 
+        /// This one is global and static to save recourses when loading the Braille translation tables.
+        /// </summary>
+        /// <remarks>Set this before calling the first constructor to change it globally for all 
+        /// Braille renderer. If set to <c>null</c>, a new <see cref="SimpleBrailleInterpreter"/> is used.</remarks>
+        public static IBrailleInterpreter GlobalDefaultBrailleInterpreter = new SimpleBrailleInterpreter();
+
+        /// <summary>
         /// The locking object for synchronous usage.
         /// </summary>
         public readonly Object SynchLock = new Object();
@@ -41,7 +50,10 @@ namespace BrailleIO.Renderer
         {
             get
             {
-                if (_bIntrprtr == null) _bIntrprtr = new SimpleBrailleInterpreter();
+                if (_bIntrprtr == null)
+                    _bIntrprtr = GlobalDefaultBrailleInterpreter != null ? 
+                        GlobalDefaultBrailleInterpreter : 
+                        GlobalDefaultBrailleInterpreter = new SimpleBrailleInterpreter();
                 return _bIntrprtr;
             }
         }
