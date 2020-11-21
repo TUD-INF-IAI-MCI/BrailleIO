@@ -14,3 +14,7 @@ BrailleIOExample/bin/
 BrailleIOExample/obj/
 *.log
 *.suo
+BrailleIO_Dialog/bin/
+BrailleIO_Dialog/obj/
+BrailleIO_Dialog2Forms/bin/
+BrailleIO_Dialog2Forms/obj/

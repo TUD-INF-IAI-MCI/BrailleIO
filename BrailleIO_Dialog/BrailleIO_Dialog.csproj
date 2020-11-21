@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C3B946F4-E4D9-4683-A15E-7ED7905EB5E1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BrailleIO.Dialogs</RootNamespace>
+    <AssemblyName>BrailleIO_Dialog</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Data Structure\Dialog.cs" />
+    <Compile Include="Data Structure\DialogEntry.cs" />
+    <Compile Include="Data Structure\EditField\EditField_DialogEntry.cs" />
+    <Compile Include="Data Structure\EditField\EditField_EventManager.cs" />
+    <Compile Include="Data Structure\EditField\EditField_InputBox.cs" />
+    <Compile Include="Data Structure\EditField\EditField_InputManager.cs" />
+    <Compile Include="Data Structure\EditField\EditField_Validator.cs" />
+    <Compile Include="Data Structure\EditField\IEditField_EventManager.cs" />
+    <Compile Include="Data Structure\EditField\IEditField_InputManager.cs" />
+    <Compile Include="Data Structure\EditField\IEditField_Validator.cs" />
+    <Compile Include="Data Structure\Group_DialogEntry.cs" />
+    <Compile Include="Data Structure\Interface\AbstractIIteratableBase.cs" />
+    <Compile Include="Data Structure\Interface\IDialogComponent.cs" />
+    <Compile Include="Data Structure\Interface\IIteratable.cs" />
+    <Compile Include="Data Structure\Question_Dialog.cs" />
+    <Compile Include="Data Structure\RadioButton_DialogEntry.cs" />
+    <Compile Include="Data Structure\SelfRenderingDialogEntry.cs" />
+    <Compile Include="DialogEntryFactory.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Rendering\BreadcrumbRenderer.cs" />
+    <Compile Include="Rendering\DialogEntryRenderer.cs" />
+    <Compile Include="Rendering\DialogRenderer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rendering\DummyViewBox.cs" />
+    <Compile Include="Rendering\EditField\EditFieldRenderer.cs" />
+    <Compile Include="Rendering\EditField\EditField_BoxProperties.cs" />
+    <Compile Include="Rendering\EditField\EditField_BoxRenderer.cs" />
+    <Compile Include="Rendering\EditField\EditField_CursorRenderer.cs" />
+    <Compile Include="Rendering\EditField\EditField_TextRenderer.cs" />
+    <Compile Include="Rendering\HelpTextRenderer.cs" />
+    <Compile Include="Rendering\TactonRenderer.cs" />
+    <Compile Include="TactonLoader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\OOo Draw Extension\Tangram_Lector_Workstation\Submodules\Tangram_InteractionManger\Submodules\DotNet_LanguageLocalization\LanguageLocalization.csproj">
+      <Project>{f5ba9f00-fdbe-4329-9155-4cb3eadbc772}</Project>
+      <Name>LanguageLocalization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrailleIO\BrailleIO.csproj">
+      <Project>{623e618c-f034-473e-a5af-280b20a5ba8f}</Project>
+      <Name>BrailleIO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OOo Draw Extension\Tangram_Lector_Workstation\Submodules\Tangram_InteractionManger\Submodules\BrailleIO\BrailleIO_Interfaces\BrailleIO_Interfaces.csproj">
+      <Project>{168ec2f2-7e4a-493a-ab4a-9fb1b45dab64}</Project>
+      <Name>BrailleIO_Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OOo Draw Extension\Tangram_Lector_Workstation\Submodules\Tangram_InteractionManger\Submodules\BrailleIO\BrailleRenderer\BrailleRenderer.csproj">
+      <Project>{fc472e01-7c5a-4982-9825-59589aaadccb}</Project>
+      <Name>BrailleRenderer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Language.xml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Tactons\dialogActive.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tactons\dialogSubmenu.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tactons\tactons.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
